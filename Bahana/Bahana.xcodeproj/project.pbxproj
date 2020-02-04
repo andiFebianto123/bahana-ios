@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3EEAAED73B249DE305A0FBF5 /* Pods_Bahana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 514ED3B16B7529AD889E8B31 /* Pods_Bahana.framework */; };
 		BC067DB323E7085500605FAA /* BestRatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC067DB223E7085500605FAA /* BestRatePresenter.swift */; };
+		BC081C3623E7E75D00FC7763 /* SearchablePushRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC081C3523E7E75D00FC7763 /* SearchablePushRow.swift */; };
 		BC298D2723E5D713004C8749 /* RegisterTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC298D2623E5D713004C8749 /* RegisterTabBarViewController.swift */; };
 		BC472B5B23E3E1F300FA2A6F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B5A23E3E1F300FA2A6F /* RegisterViewController.swift */; };
 		BC472B5D23E3E32800FA2A6F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B5C23E3E32800FA2A6F /* ProfileViewController.swift */; };
@@ -20,7 +21,6 @@
 		BC472B6B23E42B7000FA2A6F /* sharedCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B6A23E42B7000FA2A6F /* sharedCode.swift */; };
 		BC472B6E23E4358A00FA2A6F /* Bank.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B6D23E4358A00FA2A6F /* Bank.swift */; };
 		BC472B7023E437D200FA2A6F /* BankBranch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B6F23E437D200FA2A6F /* BankBranch.swift */; };
-		BC472B7223E4387F00FA2A6F /* OptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B7123E4387F00FA2A6F /* OptionViewController.swift */; };
 		BC472B7423E44ACC00FA2A6F /* TermsAndConditionsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B7323E44ACB00FA2A6F /* TermsAndConditionsPresenter.swift */; };
 		BC81C13923E15D3A004DBBD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81C13823E15D3A004DBBD3 /* AppDelegate.swift */; };
 		BC81C13B23E15D3A004DBBD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81C13A23E15D3A004DBBD3 /* SceneDelegate.swift */; };
@@ -38,6 +38,7 @@
 		24ADD201419B79B4CE7BEBD0 /* Pods-Bahana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bahana.debug.xcconfig"; path = "Target Support Files/Pods-Bahana/Pods-Bahana.debug.xcconfig"; sourceTree = "<group>"; };
 		514ED3B16B7529AD889E8B31 /* Pods_Bahana.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bahana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC067DB223E7085500605FAA /* BestRatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestRatePresenter.swift; sourceTree = "<group>"; };
+		BC081C3523E7E75D00FC7763 /* SearchablePushRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchablePushRow.swift; sourceTree = "<group>"; };
 		BC298D2623E5D713004C8749 /* RegisterTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTabBarViewController.swift; sourceTree = "<group>"; };
 		BC472B5A23E3E1F300FA2A6F /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		BC472B5C23E3E32800FA2A6F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -49,7 +50,6 @@
 		BC472B6A23E42B7000FA2A6F /* sharedCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sharedCode.swift; sourceTree = "<group>"; };
 		BC472B6D23E4358A00FA2A6F /* Bank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bank.swift; sourceTree = "<group>"; };
 		BC472B6F23E437D200FA2A6F /* BankBranch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankBranch.swift; sourceTree = "<group>"; };
-		BC472B7123E4387F00FA2A6F /* OptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionViewController.swift; sourceTree = "<group>"; };
 		BC472B7323E44ACB00FA2A6F /* TermsAndConditionsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsPresenter.swift; sourceTree = "<group>"; };
 		BC81C13523E15D3A004DBBD3 /* Bahana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bahana.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC81C13823E15D3A004DBBD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +76,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC081C3723E7F22500FC7763 /* EurekaCustom */ = {
+			isa = PBXGroup;
+			children = (
+				BC081C3523E7E75D00FC7763 /* SearchablePushRow.swift */,
+			);
+			path = EurekaCustom;
+			sourceTree = "<group>";
+		};
 		BC472B6C23E4357900FA2A6F /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +122,7 @@
 				BC81C14323E15D3C004DBBD3 /* LaunchScreen.storyboard */,
 				BC81C14623E15D3C004DBBD3 /* Info.plist */,
 				BC472B6A23E42B7000FA2A6F /* sharedCode.swift */,
+				BC081C3723E7F22500FC7763 /* EurekaCustom */,
 				BC472B6C23E4357900FA2A6F /* Model */,
 				BCE40BF523E2A1D600034744 /* Auth */,
 				BC81C14C23E15D72004DBBD3 /* Auction */,
@@ -144,7 +153,6 @@
 				BC067DB223E7085500605FAA /* BestRatePresenter.swift */,
 				BC472B6023E3E3A900FA2A6F /* TermsAndConditionsViewController.swift */,
 				BC472B7323E44ACB00FA2A6F /* TermsAndConditionsPresenter.swift */,
-				BC472B7123E4387F00FA2A6F /* OptionViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -292,13 +300,13 @@
 				BC472B5B23E3E1F300FA2A6F /* RegisterViewController.swift in Sources */,
 				BC067DB323E7085500605FAA /* BestRatePresenter.swift in Sources */,
 				BC472B5F23E3E35100FA2A6F /* BestRateViewController.swift in Sources */,
+				BC081C3623E7E75D00FC7763 /* SearchablePushRow.swift in Sources */,
 				BC81C13D23E15D3A004DBBD3 /* ViewController.swift in Sources */,
 				BC81C13923E15D3A004DBBD3 /* AppDelegate.swift in Sources */,
 				BC472B6B23E42B7000FA2A6F /* sharedCode.swift in Sources */,
 				BC472B6623E3FCB800FA2A6F /* RegisterStepCollectionViewCell.swift in Sources */,
 				BC472B7023E437D200FA2A6F /* BankBranch.swift in Sources */,
 				BC472B6E23E4358A00FA2A6F /* Bank.swift in Sources */,
-				BC472B7223E4387F00FA2A6F /* OptionViewController.swift in Sources */,
 				BC472B6923E4292B00FA2A6F /* ProfilePresenter.swift in Sources */,
 				BC81C13B23E15D3A004DBBD3 /* SceneDelegate.swift in Sources */,
 			);

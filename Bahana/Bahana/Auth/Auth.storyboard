@@ -388,51 +388,10 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="9DP-Vc-X5o"/>
                     <navigationItem key="navigationItem" id="sBD-Hd-VaM"/>
-                    <connections>
-                        <segue destination="ICV-tr-9lk" kind="show" identifier="showOption" id="Dz6-i3-phc"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="294-Xl-pAP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3635" y="-1268"/>
-        </scene>
-        <!--Option View Controller-->
-        <scene sceneID="0AW-4C-SUo">
-            <objects>
-                <viewController id="ICV-tr-9lk" customClass="OptionViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8by-By-rUc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="598"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="a90-zH-Jyb">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="xAs-So-PID">
-                                <rect key="frame" x="0.0" y="56" width="414" height="542"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="9lK-ki-g1P" firstAttribute="bottom" secondItem="xAs-So-PID" secondAttribute="bottom" id="5Tp-Ax-ocU"/>
-                            <constraint firstItem="xAs-So-PID" firstAttribute="top" secondItem="a90-zH-Jyb" secondAttribute="bottom" id="8rq-TG-pcU"/>
-                            <constraint firstItem="xAs-So-PID" firstAttribute="trailing" secondItem="9lK-ki-g1P" secondAttribute="trailing" id="A1j-pB-G9B"/>
-                            <constraint firstItem="xAs-So-PID" firstAttribute="leading" secondItem="9lK-ki-g1P" secondAttribute="leading" id="Clq-FS-Iin"/>
-                            <constraint firstItem="a90-zH-Jyb" firstAttribute="trailing" secondItem="9lK-ki-g1P" secondAttribute="trailing" id="Ldd-np-grK"/>
-                            <constraint firstItem="a90-zH-Jyb" firstAttribute="leading" secondItem="9lK-ki-g1P" secondAttribute="leading" id="cCe-Da-wWU"/>
-                            <constraint firstItem="a90-zH-Jyb" firstAttribute="top" secondItem="9lK-ki-g1P" secondAttribute="top" id="v0N-ae-HUj"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="9lK-ki-g1P"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="wYt-to-guX"/>
-                    <connections>
-                        <outlet property="tableView" destination="xAs-So-PID" id="6Jr-f0-FQQ"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uSc-k0-BPI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4904" y="-1268"/>
         </scene>
         <!--Register Tab Bar View Controller-->
         <scene sceneID="GnW-qt-7G4">

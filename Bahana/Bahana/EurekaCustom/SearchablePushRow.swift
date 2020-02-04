@@ -25,7 +25,8 @@ open class _SearchSelectorViewController<Row: SelectableRowType, OptionsRow: Opt
 
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
-            navigationItem.hidesSearchBarWhenScrolling = true
+            //navigationItem.hidesSearchBarWhenScrolling = true
+            navigationItem.hidesSearchBarWhenScrolling = false
         } else {
             tableView.tableHeaderView = searchController.searchBar
         }
@@ -73,7 +74,7 @@ open class _SearchSelectorViewController<Row: SelectableRowType, OptionsRow: Opt
 open class SearchSelectorViewController<OptionsRow: OptionsProviderRow>: _SearchSelectorViewController<ListCheckRow<OptionsRow.OptionsProviderType.Option>, OptionsRow> where OptionsRow.OptionsProviderType.Option: SearchableItem {
 }
 
-open class _SearchablePushRow<Cell: CellType> : SelectorRow<Cell> where Cell: BaseCell, Cell.Value : SearchableItem {
+public class _SearchablePushRow<Cell: CellType> : SelectorRow<Cell> where Cell: BaseCell, Cell.Value : SearchableItem {
     public required init(tag: String?) {
         super.init(tag: tag)
         presentationMode = .show(controllerProvider: ControllerProvider.callback { return SearchSelectorViewController<SelectorRow<Cell>> { _ in } }, onDismiss: { vc in

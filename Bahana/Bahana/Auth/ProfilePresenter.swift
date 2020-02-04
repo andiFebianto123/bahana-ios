@@ -32,19 +32,17 @@ class ProfilePresenter {
                 let result = JSON(response.result.value!)
                 var banks = [Bank]()
                 for res in result.arrayValue {
-                    let bank = Bank(id: res["id"].intValue, name: res["bank_name"].stringValue)
+                    let bank = Bank.init(id: String(res["id"].intValue), name: res["bank_name"].stringValue, code: res["bank_code"].stringValue)
                     banks.append(bank)
                 }
                 self.delegate?.setBanks(banks)
             case .failure(let error):
                 self.delegate?.getDataFail()
-            default:
-                break
             }
         }
     }
     
-    func getBankBranch(_ id: Int) {
+    func getBankBranch(_ id: String) {
         Alamofire.request(WEB_API_URL + "api/v1/bank/\(id)/branch").responseJSON { response in
             switch response.result {
             case .success:
@@ -53,18 +51,16 @@ class ProfilePresenter {
                 for res in result.arrayValue {
                     if res["issuers"].arrayValue.count > 0 {
                         let firstIssuer = res["issuers"][0].arrayValue.first
-                        let branch = BankBranch(id: res["id"].intValue, name: firstIssuer!["description"].stringValue)
+                        let branch = BankBranch.init(id: String(res["id"].intValue), name: res["description"].stringValue, code: res["branch_code"].stringValue)
                         branchs.append(branch)
                     } else {
-                        let branch = BankBranch(id: res["id"].intValue, name: res["bank_name"].stringValue)
+                        let branch = BankBranch.init(id: String(res["id"].intValue), name: res["branch_name"].stringValue, code: res["branch_code"].stringValue)
                         branchs.append(branch)
                     }
                 }
                 self.delegate?.setBankBranchs(branchs)
             case .failure(let error):
                 self.delegate?.getDataFail()
-            default:
-                break
             }
         }
     }
@@ -132,8 +128,6 @@ class ProfilePresenter {
                 self.delegate?.setOptions(options)
             case .failure(let error):
                 self.delegate?.getDataFail()
-            default:
-                break
             }
         }
     }

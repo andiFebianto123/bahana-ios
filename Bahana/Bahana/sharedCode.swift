@@ -11,6 +11,21 @@ import Foundation
 let WEB_API_URL = "http://localhost:8000/"
 //let WEB_API_URL = "http://192.168.0.100:8000/"
 
+func saveProfileForm(array: [String:String]) {
+    for arr in array {
+        //array.k
+        //UserDefaults.standard.set(value, forKey: key)
+    }
+}
+
+func getProfileForm(key: String) -> String {
+    if let val = UserDefaults.standard.object(forKey: key) {
+        return val as! String
+    } else {
+        return ""
+    }
+}
+
 extension String {
     var htmlToAttributedString: NSAttributedString? {
         guard let data = data(using: .utf8) else { return NSAttributedString() }

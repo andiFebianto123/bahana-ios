@@ -40,8 +40,6 @@ class BestRatePresenter {
                 self.delegate?.setOptions(options)
             case .failure(let error):
                 self.delegate?.getDataFail()
-            default:
-                break
             }
         }
     }
