@@ -19,6 +19,16 @@ class TermsAndConditionsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let config = WKWebViewConfiguration()
+        let js = test()
+        let script = WKUserScript(source: js, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+        
+        config.userContentController.addUserScript(script)
+        //config.userContentController.add(self, name: "clickListener")
+        
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
+        
         presenter = TermsAndConditionsPresenter(delegate: self)
         presenter.getTC()
     }
@@ -34,6 +44,19 @@ class TermsAndConditionsViewController: UIViewController {
     }
     */
 
+    func test() -> String {
+        return "hello world"
+    }
+}
+
+extension TermsAndConditionsViewController: WKNavigationDelegate {
+    func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation!) {
+        //
+    }
+}
+
+extension TermsAndConditionsViewController: WKUIDelegate {
+    
 }
 
 extension TermsAndConditionsViewController: TermsAndConditionsDelegate {

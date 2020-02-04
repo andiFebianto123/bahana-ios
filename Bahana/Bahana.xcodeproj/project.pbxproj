@@ -11,6 +11,7 @@
 		BC067DB323E7085500605FAA /* BestRatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC067DB223E7085500605FAA /* BestRatePresenter.swift */; };
 		BC081C3623E7E75D00FC7763 /* SearchablePushRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC081C3523E7E75D00FC7763 /* SearchablePushRow.swift */; };
 		BC298D2723E5D713004C8749 /* RegisterTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC298D2623E5D713004C8749 /* RegisterTabBarViewController.swift */; };
+		BC2F94F923E93AFD00323DB4 /* RegisterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2F94F823E93AFD00323DB4 /* RegisterPresenter.swift */; };
 		BC472B5B23E3E1F300FA2A6F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B5A23E3E1F300FA2A6F /* RegisterViewController.swift */; };
 		BC472B5D23E3E32800FA2A6F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B5C23E3E32800FA2A6F /* ProfileViewController.swift */; };
 		BC472B5F23E3E35100FA2A6F /* BestRateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B5E23E3E35100FA2A6F /* BestRateViewController.swift */; };
@@ -40,6 +41,7 @@
 		BC067DB223E7085500605FAA /* BestRatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestRatePresenter.swift; sourceTree = "<group>"; };
 		BC081C3523E7E75D00FC7763 /* SearchablePushRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchablePushRow.swift; sourceTree = "<group>"; };
 		BC298D2623E5D713004C8749 /* RegisterTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTabBarViewController.swift; sourceTree = "<group>"; };
+		BC2F94F823E93AFD00323DB4 /* RegisterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPresenter.swift; sourceTree = "<group>"; };
 		BC472B5A23E3E1F300FA2A6F /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		BC472B5C23E3E32800FA2A6F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BC472B5E23E3E35100FA2A6F /* BestRateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestRateViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				BCE40BF623E2AAB200034744 /* Auth.storyboard */,
 				BCE40BF823E2AE2F00034744 /* LoginViewController.swift */,
 				BC472B5A23E3E1F300FA2A6F /* RegisterViewController.swift */,
+				BC2F94F823E93AFD00323DB4 /* RegisterPresenter.swift */,
 				BC298D2623E5D713004C8749 /* RegisterTabBarViewController.swift */,
 				BC472B6423E3FCB800FA2A6F /* RegisterStepCollectionViewCell.swift */,
 				BC472B6523E3FCB800FA2A6F /* RegisterStepCollectionViewCell.xib */,
@@ -305,6 +308,7 @@
 				BC81C13923E15D3A004DBBD3 /* AppDelegate.swift in Sources */,
 				BC472B6B23E42B7000FA2A6F /* sharedCode.swift in Sources */,
 				BC472B6623E3FCB800FA2A6F /* RegisterStepCollectionViewCell.swift in Sources */,
+				BC2F94F923E93AFD00323DB4 /* RegisterPresenter.swift in Sources */,
 				BC472B7023E437D200FA2A6F /* BankBranch.swift in Sources */,
 				BC472B6E23E4358A00FA2A6F /* Bank.swift in Sources */,
 				BC472B6923E4292B00FA2A6F /* ProfilePresenter.swift in Sources */,

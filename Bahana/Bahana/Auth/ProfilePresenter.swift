@@ -50,8 +50,8 @@ class ProfilePresenter {
                 var branchs = [BankBranch]()
                 for res in result.arrayValue {
                     if res["issuers"].arrayValue.count > 0 {
-                        let firstIssuer = res["issuers"][0].arrayValue.first
-                        let branch = BankBranch.init(id: String(res["id"].intValue), name: res["description"].stringValue, code: res["branch_code"].stringValue)
+                        let firstIssuer = res["issuers"].arrayValue.first
+                        let branch = BankBranch.init(id: String(res["id"].intValue), name: firstIssuer!["description"].stringValue, code: res["branch_code"].stringValue)
                         branchs.append(branch)
                     } else {
                         let branch = BankBranch.init(id: String(res["id"].intValue), name: res["branch_name"].stringValue, code: res["branch_code"].stringValue)
@@ -73,7 +73,6 @@ class ProfilePresenter {
                 var options = [String:[String]]()
                 // Bank Type
                 options["bank_type"] = [String]()
-                options["bank_type"]?.append("")
                 for bt in result["bank_type"].arrayValue {
                     options["bank_type"]?.append(bt.stringValue)
                 }
@@ -86,28 +85,24 @@ class ProfilePresenter {
                 
                 // Book
                 options["book"] = [String]()
-                options["book"]?.append("")
                 for b in result["buku"].arrayValue {
                     options["book"]?.append(b.stringValue)
                 }
                 
                 // Sharia
                 options["sharia"] = [String]()
-                options["sharia"]?.append("")
                 for s in result["sharia"].arrayValue {
                     options["sharia"]?.append(s.stringValue)
                 }
                 
                 // Interest day count convertion
                 options["interest_day_count_convertion"] = [String]()
-                options["interest_day_count_convertion"]?.append("")
                 for idcc in result["interest_day_count_convertion"].arrayValue {
                     options["interest_day_count_convertion"]?.append(idcc.stringValue)
                 }
                 
                 // End date
                 options["end_date"] = [String]()
-                options["end_date"]?.append("")
                 for ed in result["end_date"].arrayValue {
                     options["end_date"]?.append(ed.stringValue)
                 }
@@ -120,7 +115,6 @@ class ProfilePresenter {
                 
                 // Holiday interest
                 options["holiday_interest"] = [String]()
-                options["holiday_interest"]?.append("")
                 for hi in result["holiday_interest"].arrayValue {
                     options["holiday_interest"]?.append(hi.stringValue)
                 }
