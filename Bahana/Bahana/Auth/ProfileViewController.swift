@@ -372,53 +372,73 @@ class ProfileViewController: FormViewController {
     }
     
     @objc func save(notification:Notification) {
-        form.cleanValidationErrors()
-        errors = [String]()
-        let formData = form.values()
-        
-        let validateForm = form.validate()
-        
-        // Manual Validation
-        // Phone - Number only
-        if formData["phone"]! != nil {
-            if Int(formData["phone"] as! String) == nil {
-                errors.append("Phone must be number")
+        if let data = notification.userInfo as? [String: Int] {
+            let idx = data["idx"]!
+            if idx == 0 {
+                form.cleanValidationErrors()
+                errors = [String]()
+                let formData = form.values()
+                
+                //let validateForm = form.validate()
+                
+                // Manual Validation
+                // Phone - Number only
+                if formData["phone"]! != nil {
+                    if Int(formData["phone"] as! String) == nil {
+                        errors.append("Phone must be number")
+                    }
+                }
+                
+                //if(validateForm.count == 0) {
+                if errors.count == 0 {
+                    var bankVal = String()
+                    if formData["bank"]! != nil {
+                        let bank = formData["bank"] as! Bank
+                        bankVal = "\(bank.id)"
+                    }
+                    
+                    var bankBranchVal = String()
+                    if formData["bank_branch"]! != nil {
+                        let bankBranch = formData["bank_branch"] as! BankBranch
+                        bankBranchVal = "\(bankBranch.id)"
+                    }
+                    
+                    let data: [String: String] = [
+                        "name": formData["name"]! != nil ? formData["name"] as! String : "",
+                        "email": formData["email"]! != nil ? formData["email"] as! String : "",
+                        "phone": formData["phone"]! != nil ? formData["phone"] as! String : "",
+                        "pic_alternative": formData["pic_alternative"]! != nil ? formData["pic_alternative"] as! String : "",
+                        "phone_alternative": formData["phone_alternative"]! != nil ? formData["phone_alternative"] as! String : "",
+                        "bank": bankVal,
+                        "bank_name": bankVal == "1" ? (formData["bank_name"]! != nil ? formData["bank_name"] as! String : "") : "",
+                        "bank_branch": bankBranchVal,
+                        "bank_branch_name": bankBranchVal == "1" ? (formData["bank_branch_name"]! != nil ? formData["bank_branch_name"] as! String : "") : "",
+                        "bank_branch_address": formData["bank_branch_address"]! != nil ? formData["bank_branch_address"] as! String : "",
+                        "bank_type": formData["bank_type"]! != nil ? formData["bank_type"] as! String : "",
+                        "foreign_exchange": formData["foreign_exchange"]! != nil ? formData["foreign_exchange"] as! String : "",
+                        "book": formData["book"]! != nil ? formData["book"] as! String : "",
+                        "sharia": formData["sharia"]! != nil ? formData["sharia"] as! String : "",
+                        "interest_day_count_convertion": formData["interest_day_count_convertion"]! != nil ? formData["interest_day_count_convertion"] as! String : "",
+                        "end_date": formData["end_date"]! != nil ? formData["end_date"] as! String : "",
+                        "return_to_start_date": formData["return_to_start_date"]! != nil ? formData["return_to_start_date"] as! String : "",
+                        "holiday_interest": formData["holiday_interest"]! != nil ? formData["holiday_interest"] as! String : "",
+                        "password": formData["password"]! != nil ? formData["password"] as! String : "",
+                        "password_confirmation": formData["password_confirmation"]! != nil ? formData["password_confirmation"] as! String : "",
+                    ]
+                    
+                    setLocalData(data)
+                    NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["step": 1])
+                    
+                } else {
+                    var msg = String()
+                    for error in errors {
+                        msg += "\(error)\n"
+                    }
+                    
+                    showValidationAlert(title: "Informasi", message: msg)
+                }
+                //NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 0])
             }
-        }
-        
-        //if(validateForm.count == 0) {
-        if errors.count == 0 {
-            let data: [String: String] = [
-                "name": formData["name"] != nil ? formData["name"] as! String : "",
-                "email": formData["email"] != nil ? formData["email"] as! String : "",
-                "phone": formData["phone"] != nil ? formData["phone"] as! String : "",
-                "pic_alternative": formData["pic_alternative"] != nil ? formData["pic_alternative"] as! String : "",
-                "phone_alternative": formData["phone_alternative"] != nil ? formData["phone_alternative"] as! String : "",
-                "bank": formData["bank"] != nil ? formData["bank"] as! String : "",
-                "bank_name": formData["bank_name"] != nil ? formData["bank_name"] as! String : "",
-                "bank_branch": formData["bank_branch"] != nil ? formData["bank_branch"] as! String : "",
-                "bank_branch_name": formData["bank_branch_name"] != nil ? formData["bank_branch_name"] as! String : "",
-                "bank_branch_address": formData["bank_branch_address"] != nil ? formData["bank_branch_address"] as! String : "",
-                "bank_type": formData["bank_type"] != nil ? formData["bank_type"] as! String : "",
-                "foreign_exchange": formData["foreign_exchange"] != nil ? formData["foreign_exchange"] as! String : "",
-                "book": formData["book"] != nil ? formData["book"] as! String : "",
-                "sharia": formData["sharia"] != nil ? formData["sharia"] as! String : "",
-                "interest_day_count_convertion": formData["interest_day_count_convertion"] != nil ? formData["interest_day_count_convertion"] as! String : "",
-                "end_date": formData["end_date"] != nil ? formData["end_date"] as! String : "",
-                "return_to_start_date": formData["return_to_start_date"] != nil ? formData["return_to_start_date"] as! String : "",
-                "holiday_interest": formData["holiday_interest"] != nil ? formData["holiday_interest"] as! String : "",
-                "password": formData["password"] != nil ? formData["password"] as! String : "",
-                "password_confirmation": formData["password_confirmation"] != nil ? formData["password_confirmation"] as! String : "",
-            ]
-            saveProfileForm(data)
-            NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["step": 1])
-        } else {
-            var msg = String()
-            for error in errors {
-                msg += "\(error)\n"
-            }
-            
-            showValidationAlert(title: "Error", message: msg)
         }
     }
 }
@@ -441,6 +461,6 @@ extension ProfileViewController: ProfileDelegate {
     }
     
     func getDataFail() {
-        showConnectionAlert(title: "Error", message: "Gagal memproses data dari server")
+        showConnectionAlert(title: "Informasi", message: "Gagal memproses data dari server")
     }
 }

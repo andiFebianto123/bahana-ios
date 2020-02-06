@@ -7,23 +7,33 @@
 //
 
 import Foundation
+import Alamofire
 
 let WEB_API_URL = "http://localhost:8000/"
 //let WEB_API_URL = "http://192.168.0.100:8000/"
 
-func saveProfileForm(_ data: [String:String]) {
-    for arr in data {
-        //array.k
-        //UserDefaults.standard.set(value, forKey: key)
+func setLocalData(_ data: [String:String]) {
+    data.forEach {
+        UserDefaults.standard.set($1, forKey: $0)
     }
 }
 
-func getProfileForm(key: String) -> String {
+func getLocalData(key: String) -> String {
     if let val = UserDefaults.standard.object(forKey: key) {
         return val as! String
     } else {
         return ""
     }
+}
+
+func getAuthHeaders() -> HTTPHeaders {
+    let token = getLocalData(key: "access_token")
+    let headers: HTTPHeaders = [
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "application/json",
+        "Authorization": "Bearer \(token)"
+    ]
+    return headers
 }
 
 extension String {

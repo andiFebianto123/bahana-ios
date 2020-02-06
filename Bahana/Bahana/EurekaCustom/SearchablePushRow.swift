@@ -19,7 +19,7 @@ open class _SearchSelectorViewController<Row: SelectableRowType, OptionsRow: Opt
         super.viewDidLoad()
         
         searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
 
         definesPresentationContext = true
 
