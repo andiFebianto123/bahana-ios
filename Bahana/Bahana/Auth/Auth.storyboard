@@ -438,7 +438,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ctx-Wg-8GJ">
-                                <rect key="frame" x="0.0" y="44" width="414" height="559"/>
+                                <rect key="frame" x="20" y="64" width="374" height="519"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -448,10 +448,10 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Ctx-Wg-8GJ" firstAttribute="leading" secondItem="yoO-F7-vtU" secondAttribute="leading" id="1cA-rG-pab"/>
-                            <constraint firstItem="Ctx-Wg-8GJ" firstAttribute="top" secondItem="yoO-F7-vtU" secondAttribute="top" id="99k-6X-jGC"/>
-                            <constraint firstItem="yoO-F7-vtU" firstAttribute="bottom" secondItem="Ctx-Wg-8GJ" secondAttribute="bottom" id="X6X-zf-2q9"/>
-                            <constraint firstItem="yoO-F7-vtU" firstAttribute="trailing" secondItem="Ctx-Wg-8GJ" secondAttribute="trailing" id="kGx-Kf-8jP"/>
+                            <constraint firstItem="Ctx-Wg-8GJ" firstAttribute="leading" secondItem="yoO-F7-vtU" secondAttribute="leading" constant="20" id="1cA-rG-pab"/>
+                            <constraint firstItem="Ctx-Wg-8GJ" firstAttribute="top" secondItem="yoO-F7-vtU" secondAttribute="top" constant="20" id="99k-6X-jGC"/>
+                            <constraint firstItem="yoO-F7-vtU" firstAttribute="bottom" secondItem="Ctx-Wg-8GJ" secondAttribute="bottom" constant="20" id="X6X-zf-2q9"/>
+                            <constraint firstItem="yoO-F7-vtU" firstAttribute="trailing" secondItem="Ctx-Wg-8GJ" secondAttribute="trailing" constant="20" id="kGx-Kf-8jP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="yoO-F7-vtU"/>
                     </view>

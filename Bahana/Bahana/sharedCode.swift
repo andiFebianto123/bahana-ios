@@ -11,8 +11,8 @@ import Foundation
 let WEB_API_URL = "http://localhost:8000/"
 //let WEB_API_URL = "http://192.168.0.100:8000/"
 
-func saveProfileForm(array: [String:String]) {
-    for arr in array {
+func saveProfileForm(_ data: [String:String]) {
+    for arr in data {
         //array.k
         //UserDefaults.standard.set(value, forKey: key)
     }

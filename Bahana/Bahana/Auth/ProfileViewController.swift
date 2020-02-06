@@ -19,6 +19,8 @@ class ProfileViewController: FormViewController {
     
     var spinner = UIActivityIndicatorView(style: .large)
     
+    var errors = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,6 +35,8 @@ class ProfileViewController: FormViewController {
         
         presenter = ProfilePresenter(delegate: self)
         presenter.getBank()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(save(notification:)), name: Notification.Name("RegisterNext"), object: nil)
     }
     
     func showLoading(_ isShow: Bool) {
@@ -54,6 +58,12 @@ class ProfileViewController: FormViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    func showValidationAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func loadForm() {
         form
         +++ Section("DATA PRIBADI")
@@ -66,33 +76,60 @@ class ProfileViewController: FormViewController {
         }.cellUpdate { cell, row in
             //cell.titleLabel?.attributedText = self.requiredField("Nama Lengkap")
             //cell.titleLabel?.sizeToFit()
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
-        <<< TextRow() {
+        <<< EmailRow() {
             $0.title = "Alamat Email"
             $0.tag = "email"
-            $0.placeholder = "Alamat Email"
             $0.add(rule: RuleRequired())
+            $0.add(rule: RuleEmail())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
-        <<< TextRow() {
+        <<< PhoneRow() {
             $0.title = "Nomor Telepon"
             $0.tag = "phone"
-            $0.placeholder = "Nomor Telepon"
             $0.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< TextRow() {
             $0.title = "PIC Alternatif"
             $0.tag = "pic_alternative"
-            $0.placeholder = "PIC Alternatif"
             $0.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
-        <<< TextRow() {
+        <<< PhoneRow() {
             $0.title = "Telepon Alternatif"
             $0.tag = "phone_alternative"
-            $0.placeholder = "Telepon Alternatif"
             $0.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         +++ Section("INFORMASI BANK")
-        <<< SearchablePushRow<Bank> {
+        <<< SearchablePushRow<Bank>("bank") {
             $0.title = "Bank"
             $0.tag = "bank"
             $0.options = banks
@@ -104,86 +141,202 @@ class ProfileViewController: FormViewController {
         }.onChange { row in
             // Get bank branchs after bank choosed
             self.presenter.getBankBranch((row.value?.id)!)
-            self.isBankEmpty()
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
-        <<< SearchablePushRow<BankBranch> {
+        <<< TextRow() {
+            $0.title = "Nama Bank Baru"
+            $0.tag = "bank_name"
+            $0.hidden = .function(["bank"], { form -> Bool in
+                if form.rowBy(tag: "bank")?.baseValue != nil {
+                    let bank = form.rowBy(tag: "bank")?.baseValue as! Bank
+                    if bank.id != "1" {
+                        return true
+                    } else {
+                        return false
+                    }
+                } else {
+                    return true
+                }
+            })
+        }
+        <<< SearchablePushRow<BankBranch>("bank_branch") {
             $0.title = "Cabang"
             $0.tag = "bank_branch"
             $0.selectorTitle = "Choose branch"
             $0.displayValueFor = { value in
                 return value?.name
             }
+            $0.disabled = .function(["bank"], { form -> Bool in
+                if form.rowBy(tag: "bank")?.baseValue != nil {
+                    return false
+                } else {
+                    return true
+                }
+            })
             $0.add(rule: RuleRequired())
         }.onCellSelection { cell, row in
             row.options = self.branchs
-            self.save()
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
+        }
+        <<< TextRow() {
+            $0.title = "Nama Cabang Baru"
+            $0.tag = "bank_branch_name"
+            $0.hidden = .function(["bank_branch"], { form -> Bool in
+                if form.rowBy(tag: "bank_branch")?.baseValue != nil {
+                    let branch = form.rowBy(tag: "bank_branch")?.baseValue as! BankBranch
+                    if branch.id != "1" {
+                        return true
+                    } else {
+                        return false
+                    }
+                } else {
+                    return true
+                }
+            })
         }
         <<< TextRow() {
             $0.title = "Alamat Cabang"
             $0.tag = "bank_branch_address"
-            $0.placeholder = "Alamat Cabang"
             $0.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< AlertRow<String>() { row in
             row.title = "Tipe Bank"
             row.tag = "bank_type"
             row.options = self.options["bank_type"]
             row.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< AlertRow<String>() { row in
             row.title = "Devisa"
             row.tag = "foreign_exchange"
             row.options = self.options["foreign_exchange"]
             row.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< AlertRow<String>() { row in
             row.title = "Buku"
             row.tag = "book"
             row.options = self.options["book"]
             row.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< AlertRow<String>() { row in
             row.title = "Syariah"
             row.tag = "sharia"
             row.options = self.options["sharia"]
             row.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< AlertRow<String>() { row in
             row.title = "Konversi Bunga Harian"
             row.tag = "interest_day_count_convertion"
             row.options = self.options["interest_day_count_convertion"]
             row.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< AlertRow<String>() { row in
             row.title = "Tanggal Akhir"
             row.tag = "end_date"
             row.options = self.options["end_date"]
             row.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< AlertRow<String>() { row in
             row.title = "Kembali Tanggal Awal"
             row.tag = "return_to_start_date"
             row.options = self.options["return_to_start_date"]
             row.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< AlertRow<String>() { row in
             row.title = "Bunga hari libur"
             row.tag = "holiday_interest"
             row.options = self.options["holiday_interest"]
             row.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         +++ Section("SANDI")
-        <<< PasswordRow() {
+        <<< PasswordRow("password") {
             $0.title = "Sandi"
             $0.tag = "password"
-            $0.placeholder = "Sandi"
             $0.add(rule: RuleRequired())
+            $0.add(rule: RuleMinLength(minLength: 6))
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< PasswordRow() {
             $0.title = "Konfirmasi Sandi"
             $0.tag = "password_confirmation"
             $0.placeholder = ""
             $0.add(rule: RuleRequired())
+            $0.add(rule: RuleMinLength(minLength: 6))
+            $0.add(rule: RuleEqualsToRow(form: form, tag: "password"))
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
     }
     
@@ -210,21 +363,41 @@ class ProfileViewController: FormViewController {
         return mutableAttributedString
     }
     
-    func isBankEmpty() {
-        print(form.rowBy(tag: "bank")?.baseValue)
+    func isBankEmpty() -> Bool {
+        if form.rowBy(tag: "bank")?.baseValue == nil {
+            return true
+        } else {
+            return false
+        }
     }
     
-    func save() {
+    @objc func save(notification:Notification) {
+        form.cleanValidationErrors()
+        errors = [String]()
         let formData = form.values()
-        if(form.validate().count == 0) {
+        
+        let validateForm = form.validate()
+        
+        // Manual Validation
+        // Phone - Number only
+        if formData["phone"]! != nil {
+            if Int(formData["phone"] as! String) == nil {
+                errors.append("Phone must be number")
+            }
+        }
+        
+        //if(validateForm.count == 0) {
+        if errors.count == 0 {
             let data: [String: String] = [
                 "name": formData["name"] != nil ? formData["name"] as! String : "",
                 "email": formData["email"] != nil ? formData["email"] as! String : "",
                 "phone": formData["phone"] != nil ? formData["phone"] as! String : "",
                 "pic_alternative": formData["pic_alternative"] != nil ? formData["pic_alternative"] as! String : "",
-                "phone_alternative": formData["phone_alternative"] != nil ? formData["pic_alternative"] as! String : "",
+                "phone_alternative": formData["phone_alternative"] != nil ? formData["phone_alternative"] as! String : "",
                 "bank": formData["bank"] != nil ? formData["bank"] as! String : "",
+                "bank_name": formData["bank_name"] != nil ? formData["bank_name"] as! String : "",
                 "bank_branch": formData["bank_branch"] != nil ? formData["bank_branch"] as! String : "",
+                "bank_branch_name": formData["bank_branch_name"] != nil ? formData["bank_branch_name"] as! String : "",
                 "bank_branch_address": formData["bank_branch_address"] != nil ? formData["bank_branch_address"] as! String : "",
                 "bank_type": formData["bank_type"] != nil ? formData["bank_type"] as! String : "",
                 "foreign_exchange": formData["foreign_exchange"] != nil ? formData["foreign_exchange"] as! String : "",
@@ -237,6 +410,15 @@ class ProfileViewController: FormViewController {
                 "password": formData["password"] != nil ? formData["password"] as! String : "",
                 "password_confirmation": formData["password_confirmation"] != nil ? formData["password_confirmation"] as! String : "",
             ]
+            saveProfileForm(data)
+            NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["step": 1])
+        } else {
+            var msg = String()
+            for error in errors {
+                msg += "\(error)\n"
+            }
+            
+            showValidationAlert(title: "Error", message: msg)
         }
     }
 }

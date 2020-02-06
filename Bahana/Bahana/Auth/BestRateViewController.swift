@@ -16,6 +16,8 @@ class BestRateViewController: FormViewController {
     
     var spinner = UIActivityIndicatorView(style: .large)
     
+    var errors = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -57,22 +59,48 @@ class BestRateViewController: FormViewController {
         +++ Section("PENEMPATAN IDR")
         <<< AlertRow<String>() { row in
             row.title = "Polis Break"
+            row.tag = "idr_breakable_policy"
             row.options = self.options["breakable_policy"]
+            row.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< TextAreaRow() {
             $0.title = "Catatan Polis"
+            $0.tag = "idr_breakable_policy_notes"
             $0.placeholder = "Catatan Polis"
         }
         <<< TextRow() {
             $0.title = "Nomor Rekening"
+            $0.tag = "idr_account_number"
             $0.placeholder = "Nomor Rekening"
+            $0.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< TextRow() {
             $0.title = "A/n Rekening"
+            $0.tag = "idr_account_name"
             $0.placeholder = "A/n Rekening"
+            $0.add(rule: RuleRequired())
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< DecimalRow() {
             $0.title = "Best Rate 1 Bulan (%)"
+            $0.tag = "idr_month_rate_1"
             $0.placeholder = "Best Rate 1 Bulan (%)"
             $0.formatter = DecimalFormatter()
             $0.useFormatterDuringInput = true
@@ -81,6 +109,7 @@ class BestRateViewController: FormViewController {
         }
         <<< DecimalRow() {
             $0.title = "Best Rate 3 Bulan (%)"
+            $0.tag = "idr_month_rate_3"
             $0.placeholder = "Best Rate 3 Bulan (%)"
             $0.formatter = DecimalFormatter()
             $0.useFormatterDuringInput = true
@@ -89,6 +118,7 @@ class BestRateViewController: FormViewController {
         }
         <<< DecimalRow() {
             $0.title = "Best Rate 6 Bulan (%)"
+            $0.tag = "idr_month_rate_6"
             $0.placeholder = "Best Rate 6 Bulan (%)"
             $0.formatter = DecimalFormatter()
             $0.useFormatterDuringInput = true
@@ -98,22 +128,27 @@ class BestRateViewController: FormViewController {
         +++ Section("PENEMPATAN USD")
         <<< AlertRow<String>() { row in
             row.title = "Polis Break"
+            row.tag = "usd_breakable_policy"
             row.options = self.options["breakable_policy"]
         }
         <<< TextAreaRow() {
             $0.title = "Catatan Polis"
+            $0.tag = "usd_breakable_policy_notes"
             $0.placeholder = "Catatan Polis"
         }
         <<< TextRow() {
             $0.title = "Nomor Rekening"
+            $0.tag = "usd_account_number"
             $0.placeholder = "Nomor Rekening"
         }
         <<< TextRow() {
             $0.title = "A/n Rekening"
+            $0.tag = "usd_account_name"
             $0.placeholder = "A/n Rekening"
         }
         <<< DecimalRow() {
             $0.title = "Best Rate 1 Bulan (%)"
+            $0.tag = "usd_month_rate_1"
             $0.placeholder = "Best Rate 1 Bulan (%)"
             $0.formatter = DecimalFormatter()
             $0.useFormatterDuringInput = true
@@ -122,6 +157,7 @@ class BestRateViewController: FormViewController {
         }
         <<< DecimalRow() {
             $0.title = "Best Rate 3 Bulan (%)"
+            $0.tag = "usd_month_rate_3"
             $0.placeholder = "Best Rate 3 Bulan (%)"
             $0.formatter = DecimalFormatter()
             $0.useFormatterDuringInput = true
@@ -130,6 +166,7 @@ class BestRateViewController: FormViewController {
         }
         <<< DecimalRow() {
             $0.title = "Best Rate 6 Bulan (%)"
+            $0.tag = "usd_month_rate_6"
             $0.placeholder = "Best Rate 6 Bulan (%)"
             $0.formatter = DecimalFormatter()
             $0.useFormatterDuringInput = true
@@ -139,22 +176,27 @@ class BestRateViewController: FormViewController {
         +++ Section("PENEMPATAN SYARIAH")
         <<< AlertRow<String>() { row in
             row.title = "Polis Break"
+            row.tag = "sharia_breakable_policy"
             row.options = self.options["breakable_policy"]
         }
         <<< TextAreaRow() {
             $0.title = "Catatan Polis"
+            $0.tag = "sharia_breakable_policy_notes"
             $0.placeholder = "Catatan Polis"
         }
         <<< TextRow() {
             $0.title = "Nomor Rekening"
+            $0.tag = "sharia_account_number"
             $0.placeholder = "Nomor Rekening"
         }
         <<< TextRow() {
             $0.title = "A/n Rekening"
+            $0.tag = "sharia_account_name"
             $0.placeholder = "A/n Rekening"
         }
         <<< DecimalRow() {
             $0.title = "Best Rate 1 Bulan (%)"
+            $0.tag = "sharia_month_rate_1"
             $0.placeholder = "Best Rate 1 Bulan (%)"
             $0.formatter = DecimalFormatter()
             $0.useFormatterDuringInput = true
@@ -163,6 +205,7 @@ class BestRateViewController: FormViewController {
         }
         <<< DecimalRow() {
             $0.title = "Best Rate 3 Bulan (%)"
+            $0.tag = "sharia_month_rate_3"
             $0.placeholder = "Best Rate 3 Bulan (%)"
             $0.formatter = DecimalFormatter()
             $0.useFormatterDuringInput = true
@@ -171,6 +214,7 @@ class BestRateViewController: FormViewController {
         }
         <<< DecimalRow() {
             $0.title = "Best Rate 6 Bulan (%)"
+            $0.tag = "sharia_month_rate_6"
             $0.placeholder = "Best Rate 6 Bulan (%)"
             $0.formatter = DecimalFormatter()
             $0.useFormatterDuringInput = true
@@ -189,6 +233,54 @@ class BestRateViewController: FormViewController {
     }
     */
 
+    func showValidationAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func save() {
+        let formData = form.values()
+        
+        let validateForm = form.validate()
+        
+        //if(form.validate().count == 0) {
+        if errors.count == 0 {
+            let data: [String: String] = [
+                "idr_breakable_policy": formData["idr_breakable_policy"] != nil ? formData["idr_breakable_policy"] as! String : "",
+                "idr_breakable_policy_notes": formData["idr_breakable_policy_notes"] != nil ? formData["idr_breakable_policy_notes"] as! String : "",
+                "idr_account_number": formData["idr_account_number"] != nil ? formData["idr_account_number"] as! String : "",
+                "idr_account_name": formData["idr_account_name"] != nil ? formData["idr_account_name"] as! String : "",
+                "idr_month_rate_1": formData["idr_month_rate_1"] != nil ? formData["idr_month_rate_1"] as! String : "",
+                "idr_month_rate_3": formData["idr_month_rate_3"] != nil ? formData["idr_month_rate_3"] as! String : "",
+                "idr_month_rate_6": formData["idr_month_rate_6"] != nil ? formData["idr_month_rate_6"] as! String : "",
+                "usd_breakable_policy": formData["usd_breakable_policy"] != nil ? formData["usd_breakable_policy"] as! String : "",
+                "usd_breakable_policy_notes": formData["usd_breakable_policy_notes"] != nil ? formData["usd_breakable_policy_notes"] as! String : "",
+                "usd_account_number": formData["usd_account_number"] != nil ? formData["usd_account_number"] as! String : "",
+                "usd_account_name": formData["usd_account_name"] != nil ? formData["usd_account_name"] as! String : "",
+                "usd_month_rate_1": formData["usd_month_rate_1"] != nil ? formData["usd_month_rate_1"] as! String : "",
+                "usd_month_rate_3": formData["usd_month_rate_3"] != nil ? formData["usd_month_rate_3"] as! String : "",
+                "usd_month_rate_6": formData["usd_month_rate_6"] != nil ? formData["usd_month_rate_6"] as! String : "",
+                "sharia_breakable_policy": formData["sharia_breakable_policy"] != nil ? formData["sharia_breakable_policy"] as! String : "",
+                "sharia_breakable_policy_notes": formData["sharia_breakable_policy_notes"] != nil ? formData["sharia_breakable_policy_notes"] as! String : "",
+                "sharia_account_number": formData["sharia_account_number"] != nil ? formData["sharia_account_number"] as! String : "",
+                "sharia_account_name": formData["sharia_account_name"] != nil ? formData["sharia_account_name"] as! String : "",
+                "sharia_month_rate_1": formData["sharia_month_rate_1"] != nil ? formData["sharia_month_rate_1"] as! String : "",
+                "sharia_month_rate_3": formData["sharia_month_rate_3"] != nil ? formData["sharia_month_rate_3"] as! String : "",
+                "sharia_month_rate_6": formData["sharia_month_rate_6"] != nil ? formData["sharia_month_rate_6"] as! String : "",
+            ]
+            
+            saveProfileForm(data)
+            NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["step": 2])
+        } else {
+            var msg = String()
+            for error in errors {
+                msg += "\(error)\n"
+            }
+            
+            showValidationAlert(title: "Error", message: msg)
+        }
+    }
 }
 
 extension BestRateViewController: BestRateDelegate {

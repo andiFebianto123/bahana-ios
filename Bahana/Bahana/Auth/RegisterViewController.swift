@@ -20,6 +20,8 @@ class RegisterViewController: UIViewController {
     
     var currentView = 1
     
+    var presenter: RegisterPresenter!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,12 +40,15 @@ class RegisterViewController: UIViewController {
         let previousTap = UITapGestureRecognizer(target: self, action: #selector(showPrev))
         previousView.addGestureRecognizer(previousTap)
         nextLabel.text = "Next >"
-        let nextTap = UITapGestureRecognizer(target: self, action: #selector(showNext))
+        let nextTap = UITapGestureRecognizer(target: self, action: #selector(validateForm))
         nextView.addGestureRecognizer(nextTap)
         
         loadMainView(step: 1)
         
         NotificationCenter.default.addObserver(self, selector: #selector(back(notification:)), name: Notification.Name("RegisterBack"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showNext(notification:)), name: Notification.Name("RegisterNextValidation"), object: nil)
+        
+        presenter = RegisterPresenter(delegate: self)
     }
     
 
@@ -107,7 +112,11 @@ class RegisterViewController: UIViewController {
         collectionView.reloadData()
     }
     
-    @objc func showNext() {
+    @objc func validateForm() {
+        NotificationCenter.default.post(name: Notification.Name("RegisterNext"), object: nil, userInfo: ["idx": currentView - 1])
+    }
+    
+    @objc func showNext(notification:Notification) {
         currentView += 1
         loadMainView(step: currentView)
         collectionView.reloadData()
@@ -170,3 +179,8 @@ extension RegisterViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension RegisterViewController: RegisterDelegate {
+    func isRegisterSuccess(_ isSuccess: Bool) {
+        //
+    }
+}
