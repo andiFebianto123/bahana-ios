@@ -7,22 +7,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item 2-->
-        <scene sceneID="Ljg-DC-tLq">
-            <objects>
-                <viewController id="s4O-gB-eQN" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="hr8-WK-p3y">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="3rw-KE-iBt"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="t6m-OW-7bl"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="63D-D3-IfW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1476" y="426"/>
-        </scene>
         <!--Auction-->
         <scene sceneID="LSY-82-dcx">
             <objects>
@@ -36,7 +20,7 @@
         <!--Item 1-->
         <scene sceneID="0Wp-zF-mDg">
             <objects>
-                <viewController id="VA3-7B-ZGc" sceneMemberID="viewController">
+                <viewController id="VA3-7B-ZGc" customClass="DashboardViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hFx-mE-Rlg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -60,12 +44,22 @@
                     </tabBar>
                     <connections>
                         <segue destination="VA3-7B-ZGc" kind="relationship" relationship="viewControllers" id="jch-kO-0QL"/>
-                        <segue destination="s4O-gB-eQN" kind="relationship" relationship="viewControllers" id="sUJ-MK-23O"/>
+                        <segue destination="0tJ-J6-CpM" kind="relationship" relationship="viewControllers" id="JQV-U4-XT5"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nFf-sO-pFZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="558" y="102"/>
+        </scene>
+        <!--Auction-->
+        <scene sceneID="45p-yh-ZEb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Auction" id="0tJ-J6-CpM" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="2HO-nR-hJc"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bpf-Qj-3br" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1276" y="250"/>
         </scene>
     </scenes>
 </document>

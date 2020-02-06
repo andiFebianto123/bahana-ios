@@ -19,9 +19,12 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var orLabel: UILabel!
+    @IBOutlet weak var forgotPasswordView: UIView!
     @IBOutlet weak var forgotPasswordLabel: UILabel!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var versionLabel: UILabel!
+    
+    var presenter: LoginPresenter!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +54,8 @@ class LoginViewController: UIViewController {
         submitButton.backgroundColor = UIColor.red
         submitButton.setTitleColor(UIColor.white, for: .normal)
         submitButton.setTitle("MASUK", for: .normal)
+        let fpTap = UITapGestureRecognizer(target: self, action: #selector(goToForgotPassword))
+        forgotPasswordView.addGestureRecognizer(fpTap)
         forgotPasswordLabel.font = UIFont.italicSystemFont(ofSize: 10)
         forgotPasswordLabel.textColor = UIColor.red
         forgotPasswordLabel.text = "LUPA SANDI ANDA?"
@@ -64,6 +69,7 @@ class LoginViewController: UIViewController {
         versionLabel.font = UIFont.systemFont(ofSize: 10)
         versionLabel.text = "VERSI APP - 1.0"
         
+        presenter = LoginPresenter(delegate: self)
     }
     
 
@@ -77,7 +83,31 @@ class LoginViewController: UIViewController {
     }
     */
 
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func loginButtonPressed(_ sender: Any) {
+        presenter.submit(emailField.text!, passwordField.text!)
+    }
+    
     @IBAction func registerButtonPressed(_ sender: Any) {
         performSegue(withIdentifier: "showRegister", sender: self)
+    }
+    
+    @objc func goToForgotPassword() {
+        performSegue(withIdentifier: "showForgotPassword", sender: self)
+    }
+}
+
+extension LoginViewController: LoginDelegate {
+    func isLoginSuccess(_ isSuccess: Bool, _ message: String) {
+        if isSuccess {
+            showAlert(title: "Informasi", message: "OK")
+        } else {
+            showAlert(title: "Informasi", message: message)
+        }
     }
 }

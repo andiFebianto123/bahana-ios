@@ -18,7 +18,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var nextView: UIView!
     @IBOutlet weak var nextLabel: UILabel!
     
-    var currentView = 1
+    var currentViewIdx = 0
     
     var presenter: RegisterPresenter!
     
@@ -36,17 +36,19 @@ class RegisterViewController: UIViewController {
         //bottomNavigationView.layer.borderColor = UIColor.red.cgColor
         //bottomNavigationView.layer.masksToBounds = true
         
-        previousLabel.text = "< Prev"
         let previousTap = UITapGestureRecognizer(target: self, action: #selector(showPrev))
         previousView.addGestureRecognizer(previousTap)
-        nextLabel.text = "Next >"
         let nextTap = UITapGestureRecognizer(target: self, action: #selector(validateForm))
         nextView.addGestureRecognizer(nextTap)
         
-        loadMainView(step: 1)
+        loadMainView(index: 1)
         
+        // Back when form failed to load
         NotificationCenter.default.addObserver(self, selector: #selector(back(notification:)), name: Notification.Name("RegisterBack"), object: nil)
+        // Go to next step
         NotificationCenter.default.addObserver(self, selector: #selector(showNext(notification:)), name: Notification.Name("RegisterNextValidation"), object: nil)
+        // Check if user checked agreement checkbox
+        NotificationCenter.default.addObserver(self, selector: #selector(isAgree(notification:)), name: Notification.Name("RegisterAgreement"), object: nil)
         
         presenter = RegisterPresenter(delegate: self)
     }
@@ -95,31 +97,65 @@ class RegisterViewController: UIViewController {
         }
     }
     
-    func loadMainView(step: Int) {
-        if currentView == 1 {
+    func loadMainView(index: Int) {
+        nextView.isUserInteractionEnabled = true
+        nextLabel.textColor = UIColor.black
+        if currentViewIdx == 0 {
+            nextLabel.text = "Next >"
             previousView.isHidden = true
             nextView.isHidden = false
         } else {
+            previousLabel.text = "< Prev"
+            nextLabel.text = "Next >"
             previousView.isHidden = false
             nextView.isHidden = false
+            if currentViewIdx == 2 {
+                nextLabel.text = "Kirim"
+                nextView.isUserInteractionEnabled = false
+                nextLabel.textColor = UIColor.gray
+            }
         }
-        NotificationCenter.default.post(name: Notification.Name("RegisterTab"), object: nil, userInfo: ["idx": step - 1])
+        // Load view by tab index
+        NotificationCenter.default.post(name: Notification.Name("RegisterTab"), object: nil, userInfo: ["idx": index])
     }
 
     @objc func showPrev() {
-        currentView -= 1
-        loadMainView(step: currentView)
+        currentViewIdx -= 1
+        loadMainView(index: currentViewIdx)
         collectionView.reloadData()
     }
     
     @objc func validateForm() {
-        NotificationCenter.default.post(name: Notification.Name("RegisterNext"), object: nil, userInfo: ["idx": currentView - 1])
+        // Before go to next step, validate form first
+        NotificationCenter.default.post(name: Notification.Name("RegisterNext"), object: nil, userInfo: ["idx": currentViewIdx])
     }
     
     @objc func showNext(notification:Notification) {
-        currentView += 1
-        loadMainView(step: currentView)
-        collectionView.reloadData()
+        if let data = notification.userInfo as? [String: Int] {
+            //let idx = data["idx"]!
+            //if idx == currentViewIdx {
+                currentViewIdx += 1
+                if currentViewIdx < 3 {
+                    loadMainView(index: currentViewIdx)
+                    collectionView.reloadData()
+                } else {
+                    presenter.submit()
+                }
+            //}
+        }
+    }
+    
+    @objc func isAgree(notification:Notification) {
+        if let data = notification.userInfo as? [String: Int] {
+            let isChecked = data["isChecked"]!
+            if isChecked == 1 {
+                nextView.isUserInteractionEnabled = true
+                nextLabel.textColor = UIColor.black
+            } else {
+                nextView.isUserInteractionEnabled = false
+                nextLabel.textColor = UIColor.gray
+            }
+        }
     }
 }
 
@@ -134,7 +170,7 @@ extension RegisterViewController: UICollectionViewDataSource {
         case 0:
             cell.number.text = "1"
             cell.name.text = "Form Registrasi"
-            if currentView >= 1 {
+            if currentViewIdx >= 0 {
                 cell.setActive()
             } else {
                 cell.setInactive()
@@ -142,7 +178,7 @@ extension RegisterViewController: UICollectionViewDataSource {
         case 1:
             cell.number.text = "2"
             cell.name.text = "Best Rate"
-            if currentView >= 2 {
+            if currentViewIdx >= 1 {
                 cell.setActive()
             } else {
                 cell.setInactive()
@@ -150,7 +186,7 @@ extension RegisterViewController: UICollectionViewDataSource {
         case 2:
             cell.number.text = "3"
             cell.name.text = "Syarat & Ketentuan"
-            if currentView == 3 {
+            if currentViewIdx == 2 {
                 cell.setActive()
             } else {
                 cell.setInactive()

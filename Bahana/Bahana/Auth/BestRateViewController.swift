@@ -33,6 +33,8 @@ class BestRateViewController: FormViewController {
         
         presenter = BestRatePresenter(delegate: self)
         presenter.getOptions()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(save(notification:)), name: Notification.Name("RegisterNext"), object: nil)
     }
     
     func showLoading(_ isShow: Bool) {
@@ -221,6 +223,16 @@ class BestRateViewController: FormViewController {
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numberPad
         }
+        
+        //print(getProfileForm(key: "sharia"))
+        switch getLocalData(key: "sharia") {
+        case "Yes Umum":
+            form.sectionBy(tag: "PENEMPATAN IDR")?.hidden = true
+        case "No":
+            form.sectionBy(tag: "PENEMPATAN SYARIAH")?.hidden = true
+        default:
+            break
+        }
     }
     
     /*
@@ -239,46 +251,52 @@ class BestRateViewController: FormViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func save() {
-        let formData = form.values()
-        
-        let validateForm = form.validate()
-        
-        //if(form.validate().count == 0) {
-        if errors.count == 0 {
-            let data: [String: String] = [
-                "idr_breakable_policy": formData["idr_breakable_policy"] != nil ? formData["idr_breakable_policy"] as! String : "",
-                "idr_breakable_policy_notes": formData["idr_breakable_policy_notes"] != nil ? formData["idr_breakable_policy_notes"] as! String : "",
-                "idr_account_number": formData["idr_account_number"] != nil ? formData["idr_account_number"] as! String : "",
-                "idr_account_name": formData["idr_account_name"] != nil ? formData["idr_account_name"] as! String : "",
-                "idr_month_rate_1": formData["idr_month_rate_1"] != nil ? formData["idr_month_rate_1"] as! String : "",
-                "idr_month_rate_3": formData["idr_month_rate_3"] != nil ? formData["idr_month_rate_3"] as! String : "",
-                "idr_month_rate_6": formData["idr_month_rate_6"] != nil ? formData["idr_month_rate_6"] as! String : "",
-                "usd_breakable_policy": formData["usd_breakable_policy"] != nil ? formData["usd_breakable_policy"] as! String : "",
-                "usd_breakable_policy_notes": formData["usd_breakable_policy_notes"] != nil ? formData["usd_breakable_policy_notes"] as! String : "",
-                "usd_account_number": formData["usd_account_number"] != nil ? formData["usd_account_number"] as! String : "",
-                "usd_account_name": formData["usd_account_name"] != nil ? formData["usd_account_name"] as! String : "",
-                "usd_month_rate_1": formData["usd_month_rate_1"] != nil ? formData["usd_month_rate_1"] as! String : "",
-                "usd_month_rate_3": formData["usd_month_rate_3"] != nil ? formData["usd_month_rate_3"] as! String : "",
-                "usd_month_rate_6": formData["usd_month_rate_6"] != nil ? formData["usd_month_rate_6"] as! String : "",
-                "sharia_breakable_policy": formData["sharia_breakable_policy"] != nil ? formData["sharia_breakable_policy"] as! String : "",
-                "sharia_breakable_policy_notes": formData["sharia_breakable_policy_notes"] != nil ? formData["sharia_breakable_policy_notes"] as! String : "",
-                "sharia_account_number": formData["sharia_account_number"] != nil ? formData["sharia_account_number"] as! String : "",
-                "sharia_account_name": formData["sharia_account_name"] != nil ? formData["sharia_account_name"] as! String : "",
-                "sharia_month_rate_1": formData["sharia_month_rate_1"] != nil ? formData["sharia_month_rate_1"] as! String : "",
-                "sharia_month_rate_3": formData["sharia_month_rate_3"] != nil ? formData["sharia_month_rate_3"] as! String : "",
-                "sharia_month_rate_6": formData["sharia_month_rate_6"] != nil ? formData["sharia_month_rate_6"] as! String : "",
-            ]
-            
-            saveProfileForm(data)
-            NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["step": 2])
-        } else {
-            var msg = String()
-            for error in errors {
-                msg += "\(error)\n"
+    @objc func save(notification:Notification) {
+        if let data = notification.userInfo as? [String: Int] {
+            let idx = data["idx"]!
+            if idx == 1 {
+                let formData = form.values()
+                
+                let validateForm = form.validate()
+                
+                //if(form.validate().count == 0) {
+                if errors.count == 0 {
+                    let data: [String: String] = [
+                        "idr_breakable_policy": formData["idr_breakable_policy"]! != nil ? formData["idr_breakable_policy"] as! String : "",
+                        "idr_breakable_policy_notes": formData["idr_breakable_policy_notes"]! != nil ? formData["idr_breakable_policy_notes"] as! String : "",
+                        "idr_account_number": formData["idr_account_number"]! != nil ? formData["idr_account_number"] as! String : "",
+                        "idr_account_name": formData["idr_account_name"]! != nil ? formData["idr_account_name"] as! String : "",
+                        "idr_month_rate_1": formData["idr_month_rate_1"]! != nil ? formData["idr_month_rate_1"] as! String : "",
+                        "idr_month_rate_3": formData["idr_month_rate_3"]! != nil ? formData["idr_month_rate_3"] as! String : "",
+                        "idr_month_rate_6": formData["idr_month_rate_6"]! != nil ? formData["idr_month_rate_6"] as! String : "",
+                        "usd_breakable_policy": formData["usd_breakable_policy"]! != nil ? formData["usd_breakable_policy"] as! String : "",
+                        "usd_breakable_policy_notes": formData["usd_breakable_policy_notes"]! != nil ? formData["usd_breakable_policy_notes"] as! String : "",
+                        "usd_account_number": formData["usd_account_number"]! != nil ? formData["usd_account_number"] as! String : "",
+                        "usd_account_name": formData["usd_account_name"]! != nil ? formData["usd_account_name"] as! String : "",
+                        "usd_month_rate_1": formData["usd_month_rate_1"]! != nil ? formData["usd_month_rate_1"] as! String : "",
+                        "usd_month_rate_3": formData["usd_month_rate_3"]! != nil ? formData["usd_month_rate_3"] as! String : "",
+                        "usd_month_rate_6": formData["usd_month_rate_6"]! != nil ? formData["usd_month_rate_6"] as! String : "",
+                        "sharia_breakable_policy": formData["sharia_breakable_policy"]! != nil ? formData["sharia_breakable_policy"] as! String : "",
+                        "sharia_breakable_policy_notes": formData["sharia_breakable_policy_notes"]! != nil ? formData["sharia_breakable_policy_notes"] as! String : "",
+                        "sharia_account_number": formData["sharia_account_number"]! != nil ? formData["sharia_account_number"] as! String : "",
+                        "sharia_account_name": formData["sharia_account_name"]! != nil ? formData["sharia_account_name"] as! String : "",
+                        "sharia_month_rate_1": formData["sharia_month_rate_1"]! != nil ? formData["sharia_month_rate_1"] as! String : "",
+                        "sharia_month_rate_3": formData["sharia_month_rate_3"]! != nil ? formData["sharia_month_rate_3"] as! String : "",
+                        "sharia_month_rate_6": formData["sharia_month_rate_6"]! != nil ? formData["sharia_month_rate_6"] as! String : "",
+                    ]
+                    
+                    setLocalData(data)
+                    NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["step": 2])
+                } else {
+                    var msg = String()
+                    for error in errors {
+                        msg += "\(error)\n"
+                    }
+                    
+                    showValidationAlert(title: "Error", message: msg)
+                }
+                //NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 1])
             }
-            
-            showValidationAlert(title: "Error", message: msg)
         }
     }
 }
