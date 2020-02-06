@@ -38,6 +38,8 @@
 		BCC95ADA23EADD2D00515773 /* AuctionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD923EADD2D00515773 /* AuctionDetailViewController.swift */; };
 		BCE40BF723E2AAB200034744 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCE40BF623E2AAB200034744 /* Auth.storyboard */; };
 		BCE40BF923E2AE2F00034744 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE40BF823E2AE2F00034744 /* LoginViewController.swift */; };
+		BCF7C59323EBC37B00340C4A /* GeneralTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */; };
+		BCF7C59523EBD57B00340C4A /* AuctionListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF7C59423EBD57B00340C4A /* AuctionListPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +78,8 @@
 		BCC95AD923EADD2D00515773 /* AuctionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailViewController.swift; sourceTree = "<group>"; };
 		BCE40BF623E2AAB200034744 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
 		BCE40BF823E2AE2F00034744 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTabBarViewController.swift; sourceTree = "<group>"; };
+		BCF7C59423EBD57B00340C4A /* AuctionListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +154,7 @@
 			children = (
 				BC81C14D23E15E70004DBBD3 /* Auction.storyboard */,
 				BCC95AD723EADD1C00515773 /* AuctionListViewController.swift */,
+				BCF7C59423EBD57B00340C4A /* AuctionListPresenter.swift */,
 				BCC95AD923EADD2D00515773 /* AuctionDetailViewController.swift */,
 			);
 			path = Auction;
@@ -159,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				BCC95AD423EADBEC00515773 /* DashboardViewController.swift */,
+				BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -343,7 +349,9 @@
 				BCC95ADA23EADD2D00515773 /* AuctionDetailViewController.swift in Sources */,
 				BC472B6E23E4358A00FA2A6F /* Bank.swift in Sources */,
 				BCC95AD523EADBEC00515773 /* DashboardViewController.swift in Sources */,
+				BCF7C59523EBD57B00340C4A /* AuctionListPresenter.swift in Sources */,
 				BC472B6923E4292B00FA2A6F /* ProfilePresenter.swift in Sources */,
+				BCF7C59323EBC37B00340C4A /* GeneralTabBarViewController.swift in Sources */,
 				BC81C13B23E15D3A004DBBD3 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -492,6 +500,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MX2HK2VK86;
 				INFOPLIST_FILE = Bahana/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -511,6 +520,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MX2HK2VK86;
 				INFOPLIST_FILE = Bahana/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

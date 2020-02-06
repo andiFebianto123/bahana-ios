@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="h7t-Wm-Uog">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,40 +12,59 @@
         <scene sceneID="LSY-82-dcx">
             <objects>
                 <viewControllerPlaceholder storyboardName="Auction" id="er5-OW-UFg" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="C7g-yl-4aI"/>
+                    <tabBarItem key="tabBarItem" title="History" id="C7g-yl-4aI"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Sn-gu-GQ6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="815" y="-397"/>
+            <point key="canvasLocation" x="1275" y="371"/>
         </scene>
-        <!--Item 1-->
+        <!--Item-->
+        <scene sceneID="uYl-kb-etn">
+            <objects>
+                <navigationController id="KXN-KJ-RlX" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="dwx-KH-Zgk"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="aKC-6X-576">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="VA3-7B-ZGc" kind="relationship" relationship="rootViewController" id="Xda-Hu-q7Z"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1ur-Ct-Fvx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1852" y="-310"/>
+        </scene>
+        <!--Home-->
         <scene sceneID="0Wp-zF-mDg">
             <objects>
-                <viewController id="VA3-7B-ZGc" customClass="DashboardViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Dashboard" id="VA3-7B-ZGc" customClass="DashboardViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hFx-mE-Rlg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Lcd-Fr-iOW"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" id="LTl-om-65f"/>
+                    <tabBarItem key="tabBarItem" title="Home" id="LTl-om-65f"/>
+                    <navigationItem key="navigationItem" id="LHh-wo-o1j"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Va-HK-Bcx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1476" y="-223"/>
+            <point key="canvasLocation" x="2996" y="-310"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--General Tab Bar View Controller-->
         <scene sceneID="dYC-9x-ppN">
             <objects>
-                <tabBarController id="h7t-Wm-Uog" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="GeneralTabBar" id="h7t-Wm-Uog" customClass="GeneralTabBarViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Myl-jf-ZHk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="VA3-7B-ZGc" kind="relationship" relationship="viewControllers" id="jch-kO-0QL"/>
                         <segue destination="0tJ-J6-CpM" kind="relationship" relationship="viewControllers" id="JQV-U4-XT5"/>
+                        <segue destination="er5-OW-UFg" kind="relationship" relationship="viewControllers" id="Gsh-0x-n94"/>
+                        <segue destination="KXN-KJ-RlX" kind="relationship" relationship="viewControllers" id="jX7-2J-VbM"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nFf-sO-pFZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -55,7 +75,7 @@
         <scene sceneID="45p-yh-ZEb">
             <objects>
                 <viewControllerPlaceholder storyboardName="Auction" id="0tJ-J6-CpM" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="2HO-nR-hJc"/>
+                    <tabBarItem key="tabBarItem" title="Auction" id="2HO-nR-hJc"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpf-Qj-3br" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

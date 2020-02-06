@@ -14,7 +14,7 @@ class BestRateViewController: FormViewController {
     var presenter: BestRatePresenter!
     var options = [String:[String]]()
     
-    var spinner = UIActivityIndicatorView(style: .large)
+    var spinner = UIActivityIndicatorView()
     
     var errors = [String]()
     
@@ -22,6 +22,7 @@ class BestRateViewController: FormViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        spinner.color = .black
         spinner.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(spinner)
         

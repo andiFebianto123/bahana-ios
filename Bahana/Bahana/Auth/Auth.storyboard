@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -213,7 +214,7 @@
                         <outlet property="submitButton" destination="uwU-JT-ik0" id="hMi-Wl-F8o"/>
                         <outlet property="versionLabel" destination="hpq-qV-9Ii" id="AWD-0k-xE2"/>
                         <segue destination="dfR-w1-DJv" kind="show" identifier="showRegister" id="zwF-6Y-Le9"/>
-                        <segue destination="Nlg-Aa-fqs" kind="show" identifier="showForgotPassword" id="nbG-4y-4Z5"/>
+                        <segue destination="Yfm-9K-ADW" kind="show" identifier="showForgotPassword" id="Sna-Zg-Uc4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ryT-vw-r0M" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -237,6 +238,23 @@
             </objects>
             <point key="canvasLocation" x="545" y="-638"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="NBm-QI-Opk">
+            <objects>
+                <navigationController id="Yfm-9K-ADW" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="rWg-nX-CJZ"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YvV-ID-dc0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Nlg-Aa-fqs" kind="relationship" relationship="rootViewController" id="mdX-5h-q9e"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AUt-K1-2hE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-504" y="228"/>
+        </scene>
         <!--Forgot Password View Controller-->
         <scene sceneID="L56-8D-CeE">
             <objects>
@@ -246,7 +264,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JFp-AL-gL1">
-                                <rect key="frame" x="20" y="121" width="374" height="40"/>
+                                <rect key="frame" x="20" y="177" width="374" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="qFm-8r-8Zs"/>
                                 </constraints>
@@ -256,7 +274,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EgM-cZ-LfW">
-                                <rect key="frame" x="20" y="20" width="42" height="21"/>
+                                <rect key="frame" x="20" y="76" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="JDC-sd-GnO"/>
                                 </constraints>
@@ -265,7 +283,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OJJ-qv-UYS">
-                                <rect key="frame" x="20" y="51" width="374" height="40"/>
+                                <rect key="frame" x="20" y="107" width="374" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="pXZ-Dy-YcA"/>
                                 </constraints>

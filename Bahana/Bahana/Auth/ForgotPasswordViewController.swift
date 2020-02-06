@@ -20,11 +20,14 @@ class ForgotPasswordViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setNavigationItems()
+        setupToHideKeyboardOnTapOnView()
+        
         emailLabel.font = UIFont.systemFont(ofSize: 12)
         emailLabel.text = "Email"
         emailField.leftViewMode = .always
         let emailImageView = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
-        emailImageView.image = UIImage(systemName: "person.and.person")
+        //emailImageView.image = UIImage(systemName: "person.and.person")
         emailField.leftView = emailImageView
         emailField.placeholder = "Email"
         submitButton.layer.cornerRadius = 3
@@ -46,6 +49,36 @@ class ForgotPasswordViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func setNavigationItems() {
+        self.navigationController?.navigationBar.barTintColor = UIColor.red
+        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        
+        let label = UILabel()
+        label.text = "LUPA SANDI"
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.white
+        let titleBar = UIBarButtonItem.init(customView: label)
+        //navigationItem.setHidesBackButton(true, animated: false)
+        navigationItem.setLeftBarButton(titleBar, animated: true)
+        
+        let closeButton = UIButton(type: UIButton.ButtonType.custom)
+        //closeButton.setImage(UIImage(named: "icon_back_white"), for: .normal)
+        closeButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        closeButton.setTitle("X", for: .normal)
+        closeButton.setTitleColor(.white, for: .normal)
+        //closeButton.frame = buttonFrame
+        closeButton.addTarget(self, action: #selector(exit), for: .touchUpInside)
+        let closeBarButton = UIBarButtonItem(customView: closeButton)
+        //navigationItem.setHidesBackButton(true, animated: false)
+        
+        navigationItem.rightBarButtonItem = closeBarButton
+    }
+    
+    @objc func exit() {
+        self.dismiss(animated: true, completion: nil)
+    }
     
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

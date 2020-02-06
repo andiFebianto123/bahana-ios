@@ -9,8 +9,8 @@
 import Foundation
 import Alamofire
 
-let WEB_API_URL = "http://localhost:8000/"
-//let WEB_API_URL = "http://192.168.0.100:8000/"
+//let WEB_API_URL = "http://localhost:8000/"
+let WEB_API_URL = "http://192.168.1.25:8000/"
 
 func setLocalData(_ data: [String:String]) {
     data.forEach {
@@ -23,6 +23,14 @@ func getLocalData(key: String) -> String {
         return val as! String
     } else {
         return ""
+    }
+}
+
+func isLoggedIn() -> Bool {
+    if getLocalData(key: "user_id") != "" && getLocalData(key: "access_token") != "" {
+        return true
+    } else {
+        return false
     }
 }
 
@@ -47,5 +55,21 @@ extension String {
     }
     var htmlToString: String {
         return htmlToAttributedString?.string ?? ""
+    }
+}
+
+
+extension UIViewController {
+    func setupToHideKeyboardOnTapOnView() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
+        
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }

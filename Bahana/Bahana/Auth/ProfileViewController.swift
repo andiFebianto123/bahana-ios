@@ -17,13 +17,14 @@ class ProfileViewController: FormViewController {
     var branchs = [BankBranch]()
     var options = [String:[String]]()
     
-    var spinner = UIActivityIndicatorView(style: .large)
+    var spinner = UIActivityIndicatorView()
     
     var errors = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        spinner.color = .black
         spinner.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(spinner)
         

@@ -1,36 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CcQ-eG-e14">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="BJG-j7-dky">
+            <objects>
+                <navigationController id="CcQ-eG-e14" sceneMemberID="viewController">
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="MJl-Oy-Yxi">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="cBH-7s-lRi" kind="relationship" relationship="rootViewController" id="POo-At-J6F"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zj6-yt-cHf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-972" y="11"/>
+        </scene>
         <!--Auction List View Controller-->
         <scene sceneID="qde-xM-IK1">
             <objects>
-                <viewController id="cBH-7s-lRi" customClass="AuctionListViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuctionList" id="cBH-7s-lRi" customClass="AuctionListViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="o2a-X9-ZmP">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bOn-QC-Pe2">
+                                <rect key="frame" x="0.0" y="88" width="414" height="50"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="26X-H0-dRT">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="3Q8-Zr-Duk"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zSg-ie-2HL">
+                                        <rect key="frame" x="60" y="0.0" width="80" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="80" id="S5X-my-NYI"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ic-pw-G90">
+                                        <rect key="frame" x="314" y="0.0" width="100" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="LF8-WS-r0f"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="26X-H0-dRT" firstAttribute="top" secondItem="bOn-QC-Pe2" secondAttribute="top" id="1bM-bS-8bp"/>
+                                    <constraint firstItem="0ic-pw-G90" firstAttribute="top" secondItem="bOn-QC-Pe2" secondAttribute="top" id="6BT-vi-VmR"/>
+                                    <constraint firstAttribute="bottom" secondItem="0ic-pw-G90" secondAttribute="bottom" id="8XB-8p-pLg"/>
+                                    <constraint firstItem="26X-H0-dRT" firstAttribute="leading" secondItem="bOn-QC-Pe2" secondAttribute="leading" id="AUG-ZC-trg"/>
+                                    <constraint firstAttribute="trailing" secondItem="0ic-pw-G90" secondAttribute="trailing" id="Dif-IZ-PGu"/>
+                                    <constraint firstItem="zSg-ie-2HL" firstAttribute="top" secondItem="bOn-QC-Pe2" secondAttribute="top" id="fSO-td-LYy"/>
+                                    <constraint firstAttribute="bottom" secondItem="zSg-ie-2HL" secondAttribute="bottom" id="o8E-Zj-O8r"/>
+                                    <constraint firstAttribute="height" constant="50" id="sIg-5y-ssL"/>
+                                    <constraint firstAttribute="bottom" secondItem="26X-H0-dRT" secondAttribute="bottom" id="sYV-SJ-gX2"/>
+                                    <constraint firstItem="zSg-ie-2HL" firstAttribute="leading" secondItem="26X-H0-dRT" secondAttribute="trailing" id="zAa-Ue-MBa"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FhZ-ZQ-csf">
+                                <rect key="frame" x="0.0" y="138" width="414" height="675"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="FhZ-ZQ-csf" firstAttribute="top" secondItem="bOn-QC-Pe2" secondAttribute="bottom" id="5sQ-Cz-Lsb"/>
+                            <constraint firstItem="FhZ-ZQ-csf" firstAttribute="leading" secondItem="bp7-gi-9Zo" secondAttribute="leading" id="DeU-mH-t72"/>
+                            <constraint firstItem="bOn-QC-Pe2" firstAttribute="leading" secondItem="bp7-gi-9Zo" secondAttribute="leading" id="If5-b9-stP"/>
+                            <constraint firstItem="bp7-gi-9Zo" firstAttribute="trailing" secondItem="FhZ-ZQ-csf" secondAttribute="trailing" id="QcF-3C-8d4"/>
+                            <constraint firstItem="bp7-gi-9Zo" firstAttribute="bottom" secondItem="FhZ-ZQ-csf" secondAttribute="bottom" id="cJx-ky-JgN"/>
+                            <constraint firstItem="bOn-QC-Pe2" firstAttribute="top" secondItem="bp7-gi-9Zo" secondAttribute="top" id="hjX-Yr-Vgp"/>
+                            <constraint firstItem="bp7-gi-9Zo" firstAttribute="trailing" secondItem="bOn-QC-Pe2" secondAttribute="trailing" id="zcq-6C-VgM"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="bp7-gi-9Zo"/>
                     </view>
+                    <navigationItem key="navigationItem" id="ukc-tS-h5H"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="showButton" destination="0ic-pw-G90" id="DoC-P4-207"/>
+                        <outlet property="showButtonWidth" destination="LF8-WS-r0f" id="yUb-bL-XJq"/>
+                        <outlet property="statusTextField" destination="26X-H0-dRT" id="ko0-db-Azr"/>
+                        <outlet property="statusTextFieldWidth" destination="3Q8-Zr-Duk" id="PHu-Ts-xgV"/>
+                        <outlet property="typeTextField" destination="zSg-ie-2HL" id="TDa-gi-0SD"/>
+                        <outlet property="typeTextFieldWidth" destination="S5X-my-NYI" id="c5a-np-4gZ"/>
                         <segue destination="dlU-Ha-LsX" kind="show" identifier="showDetail" id="IVa-B2-juX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7X9-Ja-MEN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="130" y="11"/>
+            <point key="canvasLocation" x="128.98550724637681" y="10.714285714285714"/>
         </scene>
         <!--Auction Detail View Controller-->
         <scene sceneID="RWd-Zv-tWk">
             <objects>
                 <viewController id="dlU-Ha-LsX" customClass="AuctionDetailViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5eZ-2i-Spp">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="1fV-Tq-pgR"/>

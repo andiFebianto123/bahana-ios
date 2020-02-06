@@ -30,6 +30,8 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setupToHideKeyboardOnTapOnView()
+        
         backgroundImageView.image = UIImage(named: "bg")
         languageView.layer.borderWidth = 1
         languageView.layer.borderColor = UIColor.white.cgColor
@@ -41,14 +43,25 @@ class LoginViewController: UIViewController {
         emailLabel.font = UIFont.systemFont(ofSize: 10)
         emailLabel.text = "Email"
         emailField.leftViewMode = .always
+        let emailView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
         let emailImageView = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
-        emailImageView.image = UIImage(systemName: "person.and.person")
-        emailField.leftView = emailImageView
+        //emailImageView.image = UIImage(systemName: "person.and.person")
+        //emailImageView.image?.withTintColor(UIColor.black, renderingMode: .alwaysTemplate)
+        emailImageView.contentMode = .center
+        emailView.addSubview(emailImageView)
+        emailField.leftView = emailView
         emailField.placeholder = "Email"
         passwordLabel.font = UIFont.systemFont(ofSize: 10)
         passwordLabel.text = "Sandi"
         passwordField.placeholder = "Sandi"
         passwordField.isSecureTextEntry = true
+        let passwordView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
+        let passwordImageView = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
+        //passwordImageView.image = UIImage(systemName: "person.and.person")
+        passwordImageView.contentMode = .center
+        passwordView.addSubview(passwordImageView)
+        passwordField.leftViewMode = .always
+        passwordField.leftView = passwordView
         submitButton.layer.cornerRadius = 3
         submitButton.layer.masksToBounds = true
         submitButton.backgroundColor = UIColor.red
@@ -105,7 +118,9 @@ class LoginViewController: UIViewController {
 extension LoginViewController: LoginDelegate {
     func isLoginSuccess(_ isSuccess: Bool, _ message: String) {
         if isSuccess {
-            showAlert(title: "Informasi", message: "OK")
+            let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let homeViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "GeneralTabBar") as UIViewController
+            self.present(homeViewController, animated: true, completion: nil)
         } else {
             showAlert(title: "Informasi", message: message)
         }

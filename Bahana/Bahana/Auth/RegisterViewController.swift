@@ -41,7 +41,7 @@ class RegisterViewController: UIViewController {
         let nextTap = UITapGestureRecognizer(target: self, action: #selector(validateForm))
         nextView.addGestureRecognizer(nextTap)
         
-        loadMainView(index: 1)
+        loadMainView(index: 0)
         
         // Back when form failed to load
         NotificationCenter.default.addObserver(self, selector: #selector(back(notification:)), name: Notification.Name("RegisterBack"), object: nil)
@@ -65,29 +65,39 @@ class RegisterViewController: UIViewController {
     */
     
     func setNavigationItems() {
-        self.navigationController?.navigationBar.isTranslucent = true
+        //self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.barTintColor = UIColor.red
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let label = UILabel()
-        label.text = "Profile"
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.text = "REGISTRASI"
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = UIColor.white
-        navigationItem.titleView = label
-        /*
-        let backButton = UIButton(type: UIButton.ButtonType.custom)
-        backButton.setImage(UIImage(named: "icon_back_white"), for: .normal)
-        backButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        //backButton.frame = buttonFrame
-        backButton.addTarget(self, action: #selector(backButtonPressed(_:)), for: .touchUpInside)
-        let backBarButton = UIBarButtonItem(customView: backButton)
-        navigationItem.setHidesBackButton(true, animated: false)
-        navigationItem.leftBarButtonItem = backBarButton
+        let titleBar = UIBarButtonItem.init(customView: label)
+        //navigationItem.setHidesBackButton(true, animated: false)
+        navigationItem.setLeftBarButton(titleBar, animated: true)
         
-        let saveBarButton = UIBarButtonItem(title: Localize("save"), style: .plain, target: self, action: #selector(saveButtonPressed(_:)))
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        saveBarButton.setTitleTextAttributes(attributes, for: .normal)
+        let closeButton = UIButton(type: UIButton.ButtonType.custom)
+        //closeButton.setImage(UIImage(named: "icon_back_white"), for: .normal)
+        closeButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        closeButton.setTitle("X", for: .normal)
+        closeButton.setTitleColor(.white, for: .normal)
+        //closeButton.frame = buttonFrame
+        closeButton.addTarget(self, action: #selector(showAlertExit), for: .touchUpInside)
+        let closeBarButton = UIBarButtonItem(customView: closeButton)
+        //navigationItem.setHidesBackButton(true, animated: false)
         
-        navigationItem.rightBarButtonItem = saveBarButton*/
+        navigationItem.rightBarButtonItem = closeBarButton
+    }
+    
+    @objc func showAlertExit() {
+        let alert = UIAlertController(title: "Informasi", message: "Apakah anda yakin ingin meninggalkan halaman ini?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func back(notification:Notification) {
