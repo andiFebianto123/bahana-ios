@@ -18,8 +18,10 @@ class GeneralTabBarViewController: UITabBarController {
         let firstViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "Dashboard")
         
         let auctionStoryboard: UIStoryboard = UIStoryboard(name: "Auction", bundle: nil)
-        let secondViewController: UIViewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionList")
-        let thirdViewController: UIViewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionList")
+        let secondViewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionList") as! AuctionListViewController
+        secondViewController.test = "auction"
+        let thirdViewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionList") as! AuctionListViewController
+        thirdViewController.test = "history"
         
         viewControllers = [firstViewController, secondViewController, thirdViewController]
         

@@ -10,14 +10,18 @@ import UIKit
 
 class AuctionListViewController: UIViewController {
 
+    //@IBOutlet weak var navigationItem2: UINavigationItem!
     @IBOutlet weak var statusTextField: UITextField!
     @IBOutlet weak var typeTextField: UITextField!
     @IBOutlet weak var showButton: UIButton!
     @IBOutlet weak var statusTextFieldWidth: NSLayoutConstraint!
     @IBOutlet weak var typeTextFieldWidth: NSLayoutConstraint!
     @IBOutlet weak var showButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var tableView: UITableView!
     
     var presenter: AuctionListPresenter!
+    
+    var test = "auction"
     
     var status = "ALL"
     var type = "ALL"
@@ -27,6 +31,8 @@ class AuctionListViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         setNavigationItems()
+        
+        view.backgroundColor = backgroundColor
         
         let statusTap = UITapGestureRecognizer(target: self, action: #selector(statusFieldTapped))
         statusTextField.addGestureRecognizer(statusTap)
@@ -59,6 +65,13 @@ class AuctionListViewController: UIViewController {
         statusTextFieldWidth.constant = (screenWidth / 2) - (showButtonWidth.constant - 50)
         typeTextFieldWidth.constant = (screenWidth / 2) - (showButtonWidth.constant - 50)
         
+        tableView.register(UINib(nibName: "AuctionListTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColorFromHex(rgbValue: 0xecf0f5)
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
         presenter = AuctionListPresenter(delegate: self)
         getData()
     }
@@ -75,21 +88,25 @@ class AuctionListViewController: UIViewController {
     */
 
     func setNavigationItems() {
-        self.navigationController?.navigationBar.barTintColor = UIColor.red
+        //navigationBar.barTintColor = UIColor.red
+        navigationController?.navigationBar.barTintColor = primaryColor
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let label = UILabel()
-        if tabBarController?.selectedIndex == 1 {
+        if test == "auction" {
             label.text = "AUCTION"
-        } else if tabBarController?.selectedIndex == 2 {
+        } else if test == "history" {
             label.text = "HISTORY"
         }
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = UIColor.white
         let titleBar = UIBarButtonItem.init(customView: label)
+        //navigationItem2.setHidesBackButton(true, animated: false)
+        //navigationItem2.setLeftBarButton(titleBar, animated: true)
         //navigationItem.setHidesBackButton(true, animated: false)
-        navigationItem.setLeftBarButton(titleBar, animated: true)
+        navigationController?.navigationItem.setHidesBackButton(true, animated: false)
+        navigationController?.navigationItem.setLeftBarButton(titleBar, animated: true)
         
         let notificationButton = UIButton(type: UIButton.ButtonType.custom)
         //closeButton.setImage(UIImage(named: "icon_back_white"), for: .normal)
@@ -103,9 +120,9 @@ class AuctionListViewController: UIViewController {
     }
     
     func getData() {
-        if tabBarController?.selectedIndex == 1 {
+        if test == "auction" {
             presenter.getAuction(status, type)
-        } else if tabBarController?.selectedIndex == 2 {
+        } else if test == "history" {
             presenter.getAuctionHistory(status, type)
         }
     }
@@ -149,6 +166,30 @@ class AuctionListViewController: UIViewController {
             break
         }
         self.getData()
+    }
+}
+
+extension AuctionListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
+        
+        return cell
+    }
+    
+    
+}
+
+extension AuctionListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDetail", sender: self)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 180
     }
 }
 

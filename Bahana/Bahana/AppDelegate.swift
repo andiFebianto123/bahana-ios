@@ -16,11 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        if !isLoggedIn() {
+        /*if !isLoggedIn() {
             let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
             let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
             self.window?.rootViewController = loginViewController
-        }
+        }*/
         
         return true
     }

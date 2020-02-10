@@ -20,7 +20,7 @@ class BestRateViewController: FormViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         spinner.color = .black
         spinner.translatesAutoresizingMaskIntoConstraints = false
@@ -257,7 +257,7 @@ class BestRateViewController: FormViewController {
             let idx = data["idx"]!
             if idx == 1 {
                 let formData = form.values()
-                
+                /*
                 let validateForm = form.validate()
                 
                 //if(form.validate().count == 0) {
@@ -295,8 +295,8 @@ class BestRateViewController: FormViewController {
                     }
                     
                     showValidationAlert(title: "Error", message: msg)
-                }
-                //NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 1])
+                }*/
+                NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 2])
             }
         }
     }

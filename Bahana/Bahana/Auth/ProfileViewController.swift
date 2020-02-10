@@ -381,7 +381,7 @@ class ProfileViewController: FormViewController {
                 let formData = form.values()
                 
                 //let validateForm = form.validate()
-                
+                /*
                 // Manual Validation
                 // Phone - Number only
                 if formData["phone"]! != nil {
@@ -428,7 +428,9 @@ class ProfileViewController: FormViewController {
                     ]
                     
                     setLocalData(data)
-                    NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["step": 1])
+                    //NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["step": 1])
+                    NotificationCenter.default.post(name: Notification.Name("RegisterTab"), object: nil, userInfo: ["idx": 1])
+                    
                     
                 } else {
                     var msg = String()
@@ -437,8 +439,8 @@ class ProfileViewController: FormViewController {
                     }
                     
                     showValidationAlert(title: "Informasi", message: msg)
-                }
-                //NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 0])
+                }*/
+                NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 1])
             }
         }
     }
