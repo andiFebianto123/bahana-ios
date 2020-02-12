@@ -14,6 +14,7 @@ let WEB_API_URL = "http://192.168.1.25:8000/"
 
 let primaryColor = UIColorFromHex(rgbValue: 0xd7181f)
 let backgroundColor = UIColorFromHex(rgbValue: 0xeeeeee)
+let titleLabelColor = UIColorFromHex(rgbValue: 0xaeaeae)
 
 func setLocalData(_ data: [String:String]) {
     data.forEach {

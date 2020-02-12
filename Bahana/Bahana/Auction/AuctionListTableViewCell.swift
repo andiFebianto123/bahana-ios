@@ -44,7 +44,7 @@ class AuctionListTableViewCell: UITableViewCell {
         statusLabel.font = UIFont.boldSystemFont(ofSize: 12)
         
         let titleFont = UIFont.boldSystemFont(ofSize: 10)
-        let titleColor = primaryColor
+        let titleColor = titleLabelColor
         let contentFont = UIFont.boldSystemFont(ofSize: 14)
             
         fundNameTitleLabel.font = titleFont

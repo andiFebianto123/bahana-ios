@@ -41,6 +41,7 @@ class AuctionListPresenter {
                         let end_bidding_rm = auct["end_bidding_rm"] != JSON.null ? auct["end_bidding_rm"].stringValue : nil
                         let investment_range_start = auct["investment_range_start"] != JSON.null ? auct["investment_range_start"].doubleValue : nil
                         let investment_range_end = auct["investment_range_end"] != JSON.null ? auct["investment_range_end"].doubleValue : nil
+                        let notes = auct["notes"] != JSON.null ? auct["notes"].stringValue : nil
                         let issue_date = auct["issue_date"] != JSON.null ? auct["issue_date"].stringValue : nil
                         let pic_custodian = auct["pic_custodian"] != JSON.null ? auct["pic_custodian"].stringValue : nil
                         let custodian_bank = auct["custodian_bank"] != JSON.null ? auct["custodian_bank"].stringValue : nil
@@ -52,7 +53,8 @@ class AuctionListPresenter {
                         let status = auct["status"] != JSON.null ? auct["status"].stringValue : nil
                         let period = auct["period"] != JSON.null ? auct["period"].stringValue : nil
                         
-                        var auction = Auction.init(id: id, auction_name: auction_name, start_date: start_date, end_date: end_date, end_bidding_rm: end_bidding_rm, investment_range_start: investment_range_start, investment_range_end: investment_range_end, issue_date: issue_date, pic_custodian: pic_custodian, custodian_bank: custodian_bank, portfolio_short: portfolio_short, portfolio: portfolio, maturity_date: maturity_date, break_maturity_date: break_maturity_date, type: type, status: status, period: period)
+                        let auction = Auction.init(id: id, auction_name: auction_name, start_date: start_date, end_date: end_date, end_bidding_rm: end_bidding_rm, investment_range_start: investment_range_start, investment_range_end: investment_range_end, notes: notes, issue_date: issue_date, pic_custodian: pic_custodian, custodian_bank: custodian_bank, portfolio_short: portfolio_short, portfolio: portfolio, maturity_date: maturity_date, break_maturity_date: break_maturity_date, type: type, status: status, period: period)
+                        auctions.append(auction)
                     }
                     //print(result)
                 }

@@ -10,7 +10,9 @@ import UIKit
 
 class AuctionListViewController: UIViewController {
 
-    //@IBOutlet weak var navigationItem2: UINavigationItem!
+    @IBOutlet weak var navigationView: UIView!
+    
+    @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var statusTextField: UITextField!
     @IBOutlet weak var typeTextField: UITextField!
     @IBOutlet weak var showButton: UIButton!
@@ -88,35 +90,22 @@ class AuctionListViewController: UIViewController {
     */
 
     func setNavigationItems() {
-        //navigationBar.barTintColor = UIColor.red
-        navigationController?.navigationBar.barTintColor = primaryColor
+        navigationView.backgroundColor = primaryColor
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
-        let label = UILabel()
+        navigationTitle.textColor = .white
+        navigationTitle.font = UIFont.systemFont(ofSize: 16)
         if test == "auction" {
-            label.text = "AUCTION"
+            navigationTitle.text = "AUCTION"
         } else if test == "history" {
-            label.text = "HISTORY"
+            navigationTitle.text = "HISTORY"
         }
-        label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.white
-        let titleBar = UIBarButtonItem.init(customView: label)
-        //navigationItem2.setHidesBackButton(true, animated: false)
-        //navigationItem2.setLeftBarButton(titleBar, animated: true)
-        //navigationItem.setHidesBackButton(true, animated: false)
-        navigationController?.navigationItem.setHidesBackButton(true, animated: false)
-        navigationController?.navigationItem.setLeftBarButton(titleBar, animated: true)
         
         let notificationButton = UIButton(type: UIButton.ButtonType.custom)
-        //closeButton.setImage(UIImage(named: "icon_back_white"), for: .normal)
+        //notificationButton.setImage(UIImage(named: "icon_notification"), for: .normal)
         notificationButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        //closeButton.frame = buttonFrame
-        //closeButton.addTarget(self, action: #selector(showAlertExit), for: .touchUpInside)
-        let notificationBarButton = UIBarButtonItem(customView: notificationButton)
-        //navigationItem.setHidesBackButton(true, animated: false)
-        
-        //navigationItem.rightBarButtonItem = notificationBarButton
+        //notificationButton.frame = buttonFrame
+        //notificationButton.addTarget(self, action: #selector(showNotification), for: .touchUpInside)
     }
     
     func getData() {

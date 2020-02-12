@@ -10,6 +10,8 @@ import UIKit
 
 class DashboardViewController: UIViewController {
 
+    @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var completedAuctionView: UIView!
     @IBOutlet weak var completedAuctionTitleLabel: UILabel!
@@ -74,7 +76,6 @@ class DashboardViewController: UIViewController {
         
         setContent()
     }
-    
 
     /*
     // MARK: - Navigation
@@ -87,30 +88,18 @@ class DashboardViewController: UIViewController {
     */
     
     func setNavigationItems() {
-        //self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.barTintColor = primaryColor
+        navigationView.backgroundColor = primaryColor
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
-        let label = UILabel()
-        label.text = "HOME"
-        label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.white
-        navigationItem.title = "aa"
-        let titleBar = UIBarButtonItem.init(customView: label)
-        self.navigationController?.navigationItem.title = "HOME"
-        navigationItem.setHidesBackButton(true, animated: false)
-        navigationItem.setLeftBarButton(titleBar, animated: true)
+        navigationTitle.textColor = .white
+        navigationTitle.font = UIFont.systemFont(ofSize: 16)
+        navigationTitle.text = "HOME"
         
         let notificationButton = UIButton(type: UIButton.ButtonType.custom)
-        //closeButton.setImage(UIImage(named: "icon_back_white"), for: .normal)
+        //notificationButton.setImage(UIImage(named: "icon_notification"), for: .normal)
         notificationButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        //closeButton.frame = buttonFrame
-        //closeButton.addTarget(self, action: #selector(showAlertExit), for: .touchUpInside)
-        let notificationBarButton = UIBarButtonItem(customView: notificationButton)
-        //navigationItem.setHidesBackButton(true, animated: false)
-        
-        //navigationItem.rightBarButtonItem = notificationBarButton
+        //notificationButton.frame = buttonFrame
+        //notificationButton.addTarget(self, action: #selector(showNotification), for: .touchUpInside)
     }
 
     func setContent() {

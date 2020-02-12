@@ -16,6 +16,7 @@ struct Auction {
     var end_bidding_rm: String?
     var investment_range_start: Double?
     var investment_range_end: Double?
+    var notes: String?
     var issue_date: String?
     var pic_custodian: String?
     var custodian_bank: String?
@@ -27,7 +28,7 @@ struct Auction {
     var status: String?
     var period: String?
     
-    init(id:Int?, auction_name: String?, start_date:String?, end_date: String?, end_bidding_rm: String?, investment_range_start: Double?, investment_range_end: Double?, issue_date: String?, pic_custodian: String?, custodian_bank: String?, portfolio_short: String?, portfolio: String?, maturity_date: String?, break_maturity_date: String?, type: String?, status: String?, period: String?) {
+    init(id:Int?, auction_name: String?, start_date:String?, end_date: String?, end_bidding_rm: String?, investment_range_start: Double?, investment_range_end: Double?, notes: String?, issue_date: String?, pic_custodian: String?, custodian_bank: String?, portfolio_short: String?, portfolio: String?, maturity_date: String?, break_maturity_date: String?, type: String?, status: String?, period: String?) {
         self.id = id
         self.auction_name = auction_name
         self.start_date = start_date
@@ -35,6 +36,7 @@ struct Auction {
         self.end_bidding_rm = end_bidding_rm
         self.investment_range_start = investment_range_start
         self.investment_range_end = investment_range_end
+        self.notes = notes
         self.issue_date = issue_date
         self.pic_custodian = pic_custodian
         self.custodian_bank = custodian_bank

@@ -10,6 +10,9 @@ import UIKit
 
 class AuctionDetailViewController: UIViewController {
 
+    @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationBackView: UIView!
+    @IBOutlet weak var navigationBackImageView: UIImageView!
     @IBOutlet weak var statusView: UIView!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var typeLabel: UILabel!
@@ -21,6 +24,8 @@ class AuctionDetailViewController: UIViewController {
     @IBOutlet weak var rateView: UIView!
     @IBOutlet weak var rateStackView: UIStackView!
     @IBOutlet weak var rateViewHeight: NSLayoutConstraint!
+    
+    var auction: Auction!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +48,8 @@ class AuctionDetailViewController: UIViewController {
         portfolioView.layer.shadowRadius = 4
         portfolioView.layer.shadowOpacity = 0.5
         portfolioView.backgroundColor = UIColorFromHex(rgbValue: 0xfee2e1)
+        let testTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
+        portfolioView.addGestureRecognizer(testTap)
         
         setContent()
     }
@@ -60,26 +67,42 @@ class AuctionDetailViewController: UIViewController {
     
     func setNavigationItems() {
         //navigationBar.barTintColor = UIColor.red
-        navigationController?.navigationBar.barTintColor = primaryColor
+        //navigationController?.navigationBar.barTintColor = primaryColor
+        navigationView.backgroundColor = primaryColor
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
-        let label = UILabel()
+        //navigationBackImageView.image = UIImage(systemName: "back")
+        navigationBackView.isHidden = true
+        
+        /*let label = UILabel()
         label.text = "AUCTION DETAIL"
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = UIColor.white
         let titleBar = UIBarButtonItem.init(customView: label)
-        navigationItem.titleView = label
+        navigationItem.titleView = label*/
+        /*
+        let backButton = UIButton()
+        backButton.setTitle("Back", for: .normal)
+        backButton.setTitleColor(.white, for: .normal)
+        let backBar = UIBarButtonItem.init(customView: backButton)
         
         //navigationItem.setHidesBackButton(true, animated: false)
-        //navigationController?.navigationItem.setLeftBarButton(titleBar, animated: true)
+        navigationController?.navigationItem.setLeftBarButton(backBar, animated: true)*/
     }
 
+    @objc func backButtonPressed() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     func setContent() {
         statusLabel.text = "NEC"
         statusView.isHidden = true
         
         typeLabel.text = "NORMAL AUCTION"
+        /*if auction.type == "DIRECT AUCTION" {
+            
+        }*/
         endLabel.text = "Ends Bid in: 1 hour 43 mins"
         setPortfolio("Fund Name", "ABF (RD ABF INDONESIA BOND INDEX FUND)")
         setPortfolio("Investment (BIO)", "IDR 1 - 2.5")
@@ -93,7 +116,7 @@ class AuctionDetailViewController: UIViewController {
         let portfolio = UIView()
         
         let titleFont = UIFont.boldSystemFont(ofSize: 10)
-        let titleColor = primaryColor
+        let titleColor = titleLabelColor
         let contentFont = UIFont.boldSystemFont(ofSize: 14)
         
         let titleLabel = UILabel()
