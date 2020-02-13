@@ -1,32 +1,27 @@
 //
-//  AuctionListViewController.swift
+//  TransactionListViewController.swift
 //  Bahana
 //
-//  Created by Christian Chandra on /2002/05.
+//  Created by Christian Chandra on /2002/12.
 //  Copyright © 2020 Rectmedia. All rights reserved.
 //
 
 import UIKit
 
-class AuctionListViewController: UIViewController {
+class TransactionListViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
-    
     @IBOutlet weak var navigationTitle: UILabel!
-    @IBOutlet weak var statusTextField: UITextField!
-    @IBOutlet weak var typeTextField: UITextField!
-    @IBOutlet weak var showButton: UIButton!
-    @IBOutlet weak var statusTextFieldWidth: NSLayoutConstraint!
-    @IBOutlet weak var typeTextFieldWidth: NSLayoutConstraint!
-    @IBOutlet weak var showButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var filterView: UIView!
+    @IBOutlet weak var filterLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    var presenter: AuctionListPresenter!
+    var presenter: TransactionListPresenter!
     
-    var pageType = "auction"
-    
-    var status = "ALL"
-    var type = "ALL"
+    var status = "All"
+    var issue_date = "Any Time"
+    var maturity_date = "Any Time"
+    var break_date = "None"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,36 +31,11 @@ class AuctionListViewController: UIViewController {
         
         view.backgroundColor = backgroundColor
         
-        let statusTap = UITapGestureRecognizer(target: self, action: #selector(statusFieldTapped))
-        statusTextField.addGestureRecognizer(statusTap)
-        statusTextField.placeholder = "Status"
-        statusTextField.rightViewMode = .always
-        let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 10))
-        let dropdownImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        dropdownImageView.contentMode = .center
-        //dropdownImageView.image = UIImage(systemName: "chevron.down")
-        //dropdownImageView.image?.withTintColor(UIColor.black)
-        dropdownView.addSubview(dropdownImageView)
-        statusTextField.rightView = dropdownView
-        let typeTap = UITapGestureRecognizer(target: self, action: #selector(typeFieldTapped))
-        typeTextField.addGestureRecognizer(typeTap)
-        typeTextField.placeholder = "Type"
-        typeTextField.rightViewMode = .always
-        let dropdownView2 = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 10))
-        let dropdownImageView2 = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
-        dropdownImageView2.contentMode = .center
-        //dropdownImageView2.image = UIImage(systemName: "chevron.down")
-        //dropdownImageView2.image?.withTintColor(UIColor.black)
-        dropdownView2.addSubview(dropdownImageView2)
-        typeTextField.rightView = dropdownView2
-        showButton.setTitle("Show", for: .normal)
-        showButton.setTitleColor(UIColor.white, for: .normal)
-        showButton.backgroundColor = UIColor.black
-        
-        showButtonWidth.constant = 100
-        let screenWidth = UIScreen.main.bounds.width
-        statusTextFieldWidth.constant = (screenWidth / 2) - (showButtonWidth.constant - 50)
-        typeTextFieldWidth.constant = (screenWidth / 2) - (showButtonWidth.constant - 50)
+        filterView.layer.cornerRadius = 3
+        filterView.backgroundColor = UIColorFromHex(rgbValue: 0x3f3f3f)
+        filterLabel.font = UIFont.systemFont(ofSize: 10)
+        filterLabel.textColor = .white
+        filterLabel.text = "FILTER TRANSACTION"
         
         tableView.register(UINib(nibName: "AuctionListTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
@@ -74,7 +44,7 @@ class AuctionListViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-        presenter = AuctionListPresenter(delegate: self)
+        presenter = TransactionListPresenter(delegate: self)
         getData()
     }
     
@@ -95,11 +65,6 @@ class AuctionListViewController: UIViewController {
         
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
-        if pageType == "auction" {
-            navigationTitle.text = "AUCTION"
-        } else if pageType == "history" {
-            navigationTitle.text = "HISTORY"
-        }
         
         let notificationButton = UIButton(type: UIButton.ButtonType.custom)
         //notificationButton.setImage(UIImage(named: "icon_notification"), for: .normal)
@@ -109,25 +74,7 @@ class AuctionListViewController: UIViewController {
     }
     
     func getData() {
-        if pageType == "auction" {
-            presenter.getAuction(status, type)
-        } else if pageType == "history" {
-            presenter.getAuctionHistory(status, type)
-        }
-    }
-    
-    @objc func statusFieldTapped() {
-        let options = [
-            "ALL", "-", "ACC", "REJ", "NEC"
-        ]
-        showOptions("status", options)
-    }
-    
-    @objc func typeFieldTapped() {
-        let options = [
-            "ALL", "AUCTION", "DIRECT AUCTION", "BREAK", "ROLLOVER"
-        ]
-        showOptions("type", options)
+        presenter.getTransaction(status, issue_date)
     }
     
     func showOptions(_ field: String, _ options: [String]) {
@@ -146,11 +93,10 @@ class AuctionListViewController: UIViewController {
     func optionChoosed(_ field: String, _ option: String) {
         switch field {
         case "status":
-            statusTextField.text = option
+            //statusTextField.text = option
             status = option
-        case "type":
-            typeTextField.text = option
-            type = option
+        case "issue_date":
+            print("")
         default:
             break
         }
@@ -158,7 +104,7 @@ class AuctionListViewController: UIViewController {
     }
 }
 
-extension AuctionListViewController: UITableViewDataSource {
+extension TransactionListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
@@ -170,9 +116,10 @@ extension AuctionListViewController: UITableViewDataSource {
     }
 }
 
-extension AuctionListViewController: UITableViewDelegate {
+extension TransactionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "showDetail", sender: self)
+//        performSegue(withIdentifier: "showDetail2", sender: self)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -180,10 +127,11 @@ extension AuctionListViewController: UITableViewDelegate {
     }
 }
 
-extension AuctionListViewController: AuctionListDelegate {
+extension TransactionListViewController: TransactionListDelegate {
     func openLoginPage() {
         let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
         let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
         self.present(loginViewController, animated: true, completion: nil)
     }
+    
 }

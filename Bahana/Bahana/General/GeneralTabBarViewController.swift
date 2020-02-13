@@ -19,18 +19,21 @@ class GeneralTabBarViewController: UITabBarController {
         
         let auctionStoryboard: UIStoryboard = UIStoryboard(name: "Auction", bundle: nil)
         let secondViewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionList") as! AuctionListViewController
-        secondViewController.test = "auction"
+        secondViewController.pageType = "auction"
         let thirdViewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionList") as! AuctionListViewController
-        thirdViewController.test = "history"
+        thirdViewController.pageType = "history"
+        let fourthViewController = auctionStoryboard.instantiateViewController(withIdentifier: "TransactionList") as! TransactionListViewController
         
-        viewControllers = [firstViewController, secondViewController, thirdViewController]
+        viewControllers = [firstViewController, secondViewController, thirdViewController, fourthViewController]
         
-        //tabBar.items![0].image = UIImage(systemName: "home")
+        //tabBar.items![0].image = UIImage(named: "home")
         tabBar.items![0].title = "Home"
-        //tabBar.items![1].image = UIImage(systemName: "compose")
+        //tabBar.items![1].image = UIImage(named: "compose")
         tabBar.items![1].title = "Auction"
-        //tabBar.items![2].image = UIImage(systemName: "history")
+        //tabBar.items![2].image = UIImage(named: "history")
         tabBar.items![2].title = "History"
+        //tabBar.items![3].image = UIImage(named: "transaction")
+        tabBar.items![3].title = "Transaction"
     }
     
 
