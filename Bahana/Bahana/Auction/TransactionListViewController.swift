@@ -18,6 +18,12 @@ class TransactionListViewController: UIViewController {
     
     var presenter: TransactionListPresenter!
     
+    var filterListBackgroundView = UIView()
+    
+    var statusField = UITextField()
+    var issueDateField = UITextField()
+    var maturityDateField = UITextField()
+    var breakDateField = UITextField()
     var status = "All"
     var issue_date = "Any Time"
     var maturity_date = "Any Time"
@@ -33,6 +39,8 @@ class TransactionListViewController: UIViewController {
         
         filterView.layer.cornerRadius = 3
         filterView.backgroundColor = UIColorFromHex(rgbValue: 0x3f3f3f)
+        let filterTap = UITapGestureRecognizer(target: self, action: #selector(showFilter))
+        filterView.addGestureRecognizer(filterTap)
         filterLabel.font = UIFont.systemFont(ofSize: 10)
         filterLabel.textColor = .white
         filterLabel.text = "FILTER TRANSACTION"
@@ -46,6 +54,8 @@ class TransactionListViewController: UIViewController {
         
         presenter = TransactionListPresenter(delegate: self)
         getData()
+        
+        setFilter()
     }
     
 
@@ -77,12 +87,184 @@ class TransactionListViewController: UIViewController {
         presenter.getTransaction(status, issue_date)
     }
     
-    func showOptions(_ field: String, _ options: [String]) {
+    func setFilter() {
+        filterListBackgroundView = UIView()
+        filterListBackgroundView.isHidden = true
+        filterListBackgroundView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        view.addSubview(filterListBackgroundView)
+        
+        let filterListView = UIView()
+        filterListView.backgroundColor = .white
+        filterListView.layer.cornerRadius = 3
+        filterListBackgroundView.addSubview(filterListView)
+        
+        //Title
+        let title = UILabel()
+        title.font = UIFont.systemFont(ofSize: 18)
+        title.text = "Filter Transaction"
+        filterListView.addSubview(title)
+        
+        let titleFont = UIFont.systemFont(ofSize: 13)
+        
+        //Status
+        let statusTitle = UILabel()
+        statusTitle.font = titleFont
+        statusTitle.textColor = .lightGray
+        statusTitle.text = "Status"
+        filterListView.addSubview(statusTitle)
+        statusField = UITextField()
+        statusField.tag = 1
+        statusField.isUserInteractionEnabled = true
+        statusField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        statusField.text = "All"
+        filterListView.addSubview(statusField)
+        
+        //Issue date
+        let issueDateTitle = UILabel()
+        issueDateTitle.font = titleFont
+        issueDateTitle.textColor = .lightGray
+        issueDateTitle.text = "Issue Date"
+        filterListView.addSubview(issueDateTitle)
+        issueDateField = UITextField()
+        issueDateField.tag = 2
+        issueDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        issueDateField.text = "Any time"
+        filterListView.addSubview(issueDateField)
+        
+        //Maturity date
+        let maturityDateTitle = UILabel()
+        maturityDateTitle.font = titleFont
+        maturityDateTitle.textColor = .lightGray
+        maturityDateTitle.text = "Maturity Date"
+        filterListView.addSubview(maturityDateTitle)
+        maturityDateField = UITextField()
+        maturityDateField.tag = 3
+        maturityDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        maturityDateField.text = "Any time"
+        filterListView.addSubview(maturityDateField)
+        
+        //Break date
+        let breakDateTitle = UILabel()
+        breakDateTitle.font = titleFont
+        breakDateTitle.textColor = .lightGray
+        breakDateTitle.text = "Break Date"
+        filterListView.addSubview(breakDateTitle)
+        breakDateField = UITextField()
+        breakDateField.tag = 4
+        breakDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        breakDateField.text = "Any time"
+        filterListView.addSubview(breakDateField)
+        
+        //Cancel button
+        let cancelButton = UIButton()
+        cancelButton.setTitleColor(.systemYellow, for: .normal)
+        cancelButton.setTitle("CANCEL", for: .normal)
+        let closeTap = UITapGestureRecognizer(target: self, action: #selector(closeFilter))
+        cancelButton.addGestureRecognizer(closeTap)
+        filterListView.addSubview(cancelButton)
+        
+        //Submit button
+        let submitButton = UIButton()
+        submitButton.setTitleColor(.systemYellow, for: .normal)
+        submitButton.setTitle("FILTER", for: .normal)
+        let submitTap = UITapGestureRecognizer(target: self, action: #selector(submitFilter))
+        submitButton.addGestureRecognizer(submitTap)
+        filterListView.addSubview(submitButton)
+        
+        filterListBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        filterListView.translatesAutoresizingMaskIntoConstraints = false
+        title.translatesAutoresizingMaskIntoConstraints = false
+        statusTitle.translatesAutoresizingMaskIntoConstraints = false
+        statusField.translatesAutoresizingMaskIntoConstraints = false
+        issueDateTitle.translatesAutoresizingMaskIntoConstraints = false
+        issueDateField.translatesAutoresizingMaskIntoConstraints = false
+        maturityDateTitle.translatesAutoresizingMaskIntoConstraints = false
+        maturityDateField.translatesAutoresizingMaskIntoConstraints = false
+        breakDateTitle.translatesAutoresizingMaskIntoConstraints = false
+        breakDateField.translatesAutoresizingMaskIntoConstraints = false
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        submitButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            filterListBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            filterListBackgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            filterListBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            filterListBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            filterListView.centerYAnchor.constraint(equalTo: filterListBackgroundView.centerYAnchor, constant: 0),
+            filterListView.leadingAnchor.constraint(equalTo: filterListBackgroundView.leadingAnchor, constant: 25),
+            filterListView.trailingAnchor.constraint(equalTo: filterListBackgroundView.trailingAnchor, constant: -25),
+            filterListView.heightAnchor.constraint(equalToConstant: 300),
+            title.topAnchor.constraint(equalTo: filterListView.topAnchor, constant: 20),
+            title.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
+            statusTitle.topAnchor.constraint(equalTo: filterListView.topAnchor, constant: 70),
+            statusTitle.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
+            statusField.topAnchor.constraint(equalTo: filterListView.topAnchor, constant: 72),
+            statusField.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
+            issueDateTitle.topAnchor.constraint(equalTo: statusTitle.bottomAnchor, constant: 30),
+            issueDateTitle.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
+            issueDateField.topAnchor.constraint(equalTo: statusField.bottomAnchor, constant: 22),
+            issueDateField.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
+            maturityDateTitle.topAnchor.constraint(equalTo: issueDateTitle.bottomAnchor, constant: 30),
+            maturityDateTitle.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
+            maturityDateField.topAnchor.constraint(equalTo: issueDateField.bottomAnchor, constant: 22),
+            maturityDateField.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
+            breakDateTitle.topAnchor.constraint(equalTo: maturityDateTitle.bottomAnchor, constant: 30),
+            breakDateTitle.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
+            breakDateField.topAnchor.constraint(equalTo: maturityDateField.bottomAnchor, constant: 22),
+            breakDateField.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
+            cancelButton.trailingAnchor.constraint(equalTo: submitButton.trailingAnchor, constant: -100),
+            cancelButton.bottomAnchor.constraint(equalTo: filterListView.bottomAnchor, constant: -20),
+            submitButton.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
+            submitButton.bottomAnchor.constraint(equalTo: filterListView.bottomAnchor, constant: -20),
+        ])
+    }
+    
+    @objc func closeFilter() {
+        filterListBackgroundView.isHidden = true
+    }
+    
+    @objc func showFilter() {
+        filterListBackgroundView.isHidden = false
+    }
+    
+    @objc func submitFilter() {
+        print("aaa")
+    }
+    
+    @objc func showOptions(_ sender: UITapGestureRecognizer) {
+        var options = [String]()
+        
+        let tag = (sender.view?.tag)!
+        switch tag {
+        case 1:
+            // Status
+            options = [
+                "All", "Active", "Break", "Canceled", "Mature", "Used in Break Auction", "Used in RO Auction", "Rollover"
+            ]
+        case 2:
+            // Issue date
+            options = [
+                "Any time", "Today", "Yesterday", "This week", "This month", "This year"
+            ]
+        case 3:
+            // Maturity date
+            options = [
+                "Any time", "Today", "Yesterday", "This week", "This month", "This year"
+            ]
+        case 4:
+            // Break date
+            options = [
+                "None","Any time", "Today", "Yesterday", "This week", "This month", "This year"
+            ]
+        default:
+            break
+        }
+        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-
+        
         for option in options {
             alert.addAction(UIAlertAction(title: option, style: .default, handler: { action in
-                self.optionChoosed(field, option)
+                self.optionChoosed(tag, option)
             }))
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
@@ -90,13 +272,16 @@ class TransactionListViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
-    func optionChoosed(_ field: String, _ option: String) {
-        switch field {
-        case "status":
-            //statusTextField.text = option
-            status = option
-        case "issue_date":
-            print("")
+    func optionChoosed(_ tag: Int, _ option: String) {
+        switch tag {
+        case 1:
+            statusField.text = option
+        case 2:
+            issueDateField.text = option
+        case 3:
+            maturityDateField.text = option
+        case 4:
+            breakDateField.text = option
         default:
             break
         }
