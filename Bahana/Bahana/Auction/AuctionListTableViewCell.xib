@@ -206,6 +206,7 @@
                 <outlet property="mainView" destination="lme-46-tar" id="tWL-PJ-Fak"/>
                 <outlet property="placementDateLabel" destination="mbM-gn-4kh" id="Mbu-hq-wJZ"/>
                 <outlet property="placementDateTitleLabel" destination="2bx-r7-H5f" id="pTf-jN-vqp"/>
+                <outlet property="rightView" destination="8vn-IM-pNx" id="lIT-9u-1iP"/>
                 <outlet property="statusLabel" destination="NcW-Zv-Ixx" id="Zjf-Eg-ous"/>
                 <outlet property="statusView" destination="yFv-Xu-xcR" id="jnK-06-VxL"/>
                 <outlet property="tenorLabel" destination="OYv-wD-auQ" id="i64-F2-uiv"/>

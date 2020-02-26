@@ -34,7 +34,7 @@ class TransactionListPresenter {
                     let result = JSON(response.result.value!)
                     var auctions = [Auction]()
                     for auct in result.arrayValue {
-                        let id = auct["id"] != JSON.null ? auct["id"].intValue : nil
+                        /*let id = auct["id"] != JSON.null ? auct["id"].intValue : nil
                         let auction_name = auct["auction_name"] != JSON.null ? auct["auction_name"].stringValue : nil
                         let start_date = auct["start_date"] != JSON.null ? auct["start_date"].stringValue : nil
                         let end_date = auct["end_date"] != JSON.null ? auct["end_date"].stringValue : nil
@@ -54,7 +54,7 @@ class TransactionListPresenter {
                         let period = auct["period"] != JSON.null ? auct["period"].stringValue : nil
                         
                         let auction = Auction.init(id: id, auction_name: auction_name, start_date: start_date, end_date: end_date, end_bidding_rm: end_bidding_rm, investment_range_start: investment_range_start, investment_range_end: investment_range_end, notes: notes, issue_date: issue_date, pic_custodian: pic_custodian, custodian_bank: custodian_bank, portfolio_short: portfolio_short, portfolio: portfolio, maturity_date: maturity_date, break_maturity_date: break_maturity_date, type: type, status: status, period: period)
-                        auctions.append(auction)
+                        auctions.append(auction)*/
                     }
                     //print(result)
                 }

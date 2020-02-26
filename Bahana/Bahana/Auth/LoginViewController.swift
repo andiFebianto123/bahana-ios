@@ -33,6 +33,7 @@ class LoginViewController: UIViewController {
         setupToHideKeyboardOnTapOnView()
         
         backgroundImageView.image = UIImage(named: "bg")
+        backgroundImageView.contentMode = .scaleToFill
         languageView.layer.borderWidth = 1
         languageView.layer.borderColor = UIColor.white.cgColor
         languageView.layer.cornerRadius = 20

@@ -43,8 +43,6 @@ class TransactionDetailViewController: UIViewController {
         breakInformationTitle.text = "BREAK INFORMATION"
         breakInformationView.backgroundColor = UIColorFromHex(rgbValue: 0xfee2e1)
         
-        navigationBackView.isHidden = true
-        
         setContent()
     }
     

@@ -25,8 +25,10 @@ class AuctionListViewController: UIViewController {
     
     var pageType = "auction"
     
-    var status = "ALL"
-    var type = "ALL"
+    var auctionID = Int()
+    var auctionType = String()
+    
+    var data = [Auction]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,16 +80,19 @@ class AuctionListViewController: UIViewController {
         getData()
     }
     
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "showDetail" {
+            if let destinationVC = segue.destination as? AuctionDetailViewController {
+                destinationVC.auctionID = auctionID
+                destinationVC.auctionType = auctionType
+            }
+        }
     }
-    */
 
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
@@ -109,10 +114,12 @@ class AuctionListViewController: UIViewController {
     }
     
     func getData() {
+        let status = statusTextField.text!
+        let type = typeTextField.text!
         if pageType == "auction" {
-            presenter.getAuction(status, type)
+            presenter.getAuction(status, type, page: 1)
         } else if pageType == "history" {
-            presenter.getAuctionHistory(status, type)
+            presenter.getAuctionHistory(status, type, page: 1)
         }
     }
     
@@ -147,10 +154,8 @@ class AuctionListViewController: UIViewController {
         switch field {
         case "status":
             statusTextField.text = option
-            status = option
         case "type":
             typeTextField.text = option
-            type = option
         default:
             break
         }
@@ -160,18 +165,27 @@ class AuctionListViewController: UIViewController {
 
 extension AuctionListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
-        
+        let auction = data[indexPath.row]
+        cell.typeLabel.text = auction.type.uppercased()
+        cell.setStatus(auction.status)
+        cell.fundNameLabel.text = auction.portfolio_short
+        cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start)) - \(toIdrBio(auction.investment_range_end))"
+        cell.tenorLabel.text = auction.period
+        cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
+        cell.endLabel.text = "\(calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!))"
         return cell
     }
 }
 
 extension AuctionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        auctionID = data[indexPath.row].id
+        auctionType = data[indexPath.row].type.uppercased()
         performSegue(withIdentifier: "showDetail", sender: self)
     }
     
@@ -185,5 +199,10 @@ extension AuctionListViewController: AuctionListDelegate {
         let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
         let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
         self.present(loginViewController, animated: true, completion: nil)
+    }
+    
+    func setData(_ data: [Auction]) {
+        self.data = data
+        tableView.reloadData()
     }
 }

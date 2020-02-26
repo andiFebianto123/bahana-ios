@@ -8,18 +8,13 @@
 
 import UIKit
 
-struct Detail {
-    let title: String
-    let content: String
-}
-
 class AuctionDetailViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationBackView: UIView!
     @IBOutlet weak var navigationBackImageView: UIImageView!
     
-    @IBOutlet weak var mainView: UIView!
+    @IBOutlet weak var containerView: UIView!
     /*@IBOutlet weak var statusView: UIView!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var typeLabel: UILabel!
@@ -36,19 +31,60 @@ class AuctionDetailViewController: UIViewController {
     @IBOutlet weak var noteViewTop: NSLayoutConstraint!
     @IBOutlet weak var rateStackView: UIStackView!
     @IBOutlet weak var rateStackViewHeight: NSLayoutConstraint!*/
+    var scrollView = UIScrollView()
+    var mainView = UIView()
     
-    var auction: Auction!
+    var presenter: AuctionDetailPresenter!
+    
+    var auctionID: Int!
+    var auctionType: String!
+    var viewType: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
         setNavigationItems()
         
-        view.backgroundColor = backgroundColor
+        presenter = AuctionDetailPresenter(delegate: self)
         
-        mainView.backgroundColor = backgroundColor
+        let auctionStoryboard : UIStoryboard = UIStoryboard(name: "Auction", bundle: nil)
+        switch auctionType {
+        case "AUCTION":
+            let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailNormal") as! AuctionDetailNormalViewController
+            viewController.id = self.auctionID
+            containerView.addSubview(viewController.view)
+            viewController.view.frame = containerView.bounds
+        case "DIRECT AUCTION":
+            let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailDirect") as! AuctionDetailDirectViewController
+            viewController.id = self.auctionID
+            containerView.addSubview(viewController.view)
+            viewController.view.frame = containerView.bounds
+        case "BREAK":
+            let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailBreak") as! AuctionDetailBreakViewController
+            viewController.id = self.auctionID
+            containerView.addSubview(viewController.view)
+            viewController.view.frame = containerView.bounds
+        case "ROLLOVER":
+            let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailRollover") as! AuctionDetailRolloverViewController
+            viewController.id = self.auctionID
+            containerView.addSubview(viewController.view)
+            viewController.view.frame = containerView.bounds
+        default:
+            break
+        }
+        
+        /*
+        mainView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            mainView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            mainView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            mainView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            mainView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            mainView.widthAnchor.constraint(equalToConstant: screenSize.width),
+            mainView.heightAnchor.constraint(equalToConstant: screenSize.height + CGFloat(500))
+        ])*/
         
         /*
         typeLabel.textColor = primaryColor
@@ -67,12 +103,24 @@ class AuctionDetailViewController: UIViewController {
         portfolioView.addGestureRecognizer(testTap)
         */
         // For testing
-        auction = Auction(id: 1, auction_name: "NP.BDL.181219", start_date: "2019-12-18 15:40:00", end_date: "2019-12-18 18:40:00", end_bidding_rm: "2019-12-18 17:40:00", investment_range_start: 20000000, investment_range_end: nil, notes: "Mohon crosscheck instruksi dari Ops & Custody. Jatuh tempo di hari Sabtu/Minggu, bunga berjalan dibayarkan on bilyet", issue_date: "2019-12-18 00:00:00", pic_custodian: nil, custodian_bank: nil, portfolio_short: "BDL", portfolio: "BDL (RD BAHANA DANA LIKUID)", maturity_date: nil, break_maturity_date: nil, type: "AUCTION", status: "ACC", period: nil)
+        //auction = Auction(id: 1, auction_name: "NP.BDL.181219", start_date: "2019-12-18 15:40:00", end_date: "2019-12-18 18:40:00", end_bidding_rm: "2019-12-18 17:40:00", investment_range_start: 20000000, investment_range_end: nil, notes: "Mohon crosscheck instruksi dari Ops & Custody. Jatuh tempo di hari Sabtu/Minggu, bunga berjalan dibayarkan on bilyet", issue_date: "2019-12-18 00:00:00", pic_custodian: nil, custodian_bank: nil, portfolio_short: "BDL", portfolio: "BDL (RD BAHANA DANA LIKUID)", maturity_date: nil, break_maturity_date: nil, type: "AUCTION", status: "ACC", period: nil)
         
-        setContent()
+        /*setContent()
+        let screenSize = contentView.bounds
+        scrollView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
+        scrollView.contentSize = CGSize(width: screenSize.width, height: screenSize.height * 2)
+        contentView.addSubview(scrollView)
+        scrollView.addSubview(mainView)
+        
+        mainView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            mainView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            mainView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            mainView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            mainView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+        ])*/
     }
     
-
     /*
     // MARK: - Navigation
 
@@ -90,8 +138,7 @@ class AuctionDetailViewController: UIViewController {
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
-        //navigationBackImageView.image = UIImage(systemName: "back")
-        navigationBackImageView.isHidden = true
+        navigationBackImageView.image = UIImage(named: "icon_left")
         navigationBackView.addGestureRecognizer(backTap)
         
         /*let label = UILabel()
@@ -114,7 +161,7 @@ class AuctionDetailViewController: UIViewController {
     @objc func backButtonPressed() {
         self.dismiss(animated: true, completion: nil)
     }
-    
+    /*
     func setStatus(_ status: String) {
         let subView = UIView()
         subView.backgroundColor = primaryColor
@@ -133,7 +180,7 @@ class AuctionDetailViewController: UIViewController {
             subView.widthAnchor.constraint(equalToConstant: 50),
             subView.heightAnchor.constraint(equalToConstant: 20),
             subView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20),
-            subView.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -60),
+            subView.rightAnchor.constraint(equalTo: mainView.rightAnchor, constant: 0),
             statusLabel.centerXAnchor.constraint(equalTo: subView.centerXAnchor),
             statusLabel.centerYAnchor.constraint(equalTo: subView.centerYAnchor),
         ])
@@ -311,10 +358,97 @@ class AuctionDetailViewController: UIViewController {
         return noteLabel.bottomAnchor
     }
     
+    func setRates(_ data: [Bid]) {
+        let rateStackView = UIStackView()
+        rateStackView.axis = .vertical
+        rateStackView.distribution = .fill
+        rateStackView.alignment = .fill
+        
+        for dt in data {
+            let rateView = UIView()
+            rateView.backgroundColor = UIColorFromHex(rgbValue: 0xfee2e1)
+            
+            let titleFont = UIFont.boldSystemFont(ofSize: 12)
+            let contentFont = UIFont.systemFont(ofSize: 12)
+            
+            let statusTitle = UILabel()
+            statusTitle.text = "Status"
+            statusTitle.font = titleFont
+            statusTitle.translatesAutoresizingMaskIntoConstraints = false
+            rateView.addSubview(statusTitle)
+            let status = UILabel()
+            status.text = dt.status
+            status.font = contentFont
+            status.translatesAutoresizingMaskIntoConstraints = false
+            rateView.addSubview(status)
+            
+            let tenorTitle = UILabel()
+            tenorTitle.text = "Tenor"
+            tenorTitle.font = titleFont
+            tenorTitle.translatesAutoresizingMaskIntoConstraints = false
+            rateView.addSubview(tenorTitle)
+            let tenor = UILabel()
+            tenor.text = dt.tenor
+            tenor.font = contentFont
+            tenor.translatesAutoresizingMaskIntoConstraints = false
+            rateView.addSubview(tenor)
+            
+            let interestRateTitle = UILabel()
+            interestRateTitle.text = "Interest Rate (%)"
+            interestRateTitle.font = titleFont
+            interestRateTitle.translatesAutoresizingMaskIntoConstraints = false
+            rateView.addSubview(interestRateTitle)
+            let interestRate = UILabel()
+            interestRate.text = """
+            (IDR) \(dt.interest_rate_idr!)
+            (Sharia) \(dt.interest_rate_sharia!)
+            """
+            interestRate.font = contentFont
+            interestRate.translatesAutoresizingMaskIntoConstraints = false
+            rateView.addSubview(interestRate)
+            
+            NSLayoutConstraint.activate([
+                statusTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 20),
+                statusTitle.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 20),
+                statusTitle.heightAnchor.constraint(equalToConstant: 14),
+                status.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 130),
+                status.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 20),
+                status.heightAnchor.constraint(equalToConstant: 14),
+                
+                tenorTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 20),
+                tenorTitle.topAnchor.constraint(equalTo: statusTitle.bottomAnchor, constant: 10),
+                tenorTitle.heightAnchor.constraint(equalToConstant: 14),
+                tenor.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 130),
+                tenor.topAnchor.constraint(equalTo: status.bottomAnchor, constant: 10),
+                tenor.heightAnchor.constraint(equalToConstant: 14),
+                
+                interestRateTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 20),
+                interestRateTitle.topAnchor.constraint(equalTo: tenorTitle.bottomAnchor, constant: 10),
+                interestRateTitle.heightAnchor.constraint(equalToConstant: 14),
+                interestRate.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 130),
+                interestRate.topAnchor.constraint(equalTo: tenor.bottomAnchor, constant: 10),
+
+            ])
+            
+            rateStackView.addArrangedSubview(rateView)
+            //rateStackViewHeight.constant += 100
+            //rateViewHeight.constant += 100
+        }
+        
+        rateStackView.translatesAutoresizingMaskIntoConstraints = false
+        mainView.addSubview(rateStackView)
+        
+        NSLayoutConstraint.activate([
+            rateStackView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor),
+            rateStackView.topAnchor.constraint(equalTo: mainView.topAnchor),
+            rateStackView.heightAnchor.constraint(equalToConstant: CGFloat(80 * data.count)),
+        ])
+    }
+    
     func setContent() {
-        setStatus("ACC")
-        setType("AUCTION")
-        let portfolio = setPortfolio([
+        //setStatus("ACC")
+        //setType("AUCTION")
+        /*let portfolio = setPortfolio([
             Detail(title: "Fund Name", content: "ABF (RD ABF INDONESIA BOND INDEX FUND)"),
             Detail(title: "Investment (BIO)", content: "IDR 1 - 2.5"),
             Detail(title: "Placement Date", content: "10 Jan 20"),
@@ -330,8 +464,12 @@ class AuctionDetailViewController: UIViewController {
             Detail(title: "New Period", content: "10 Jan 20 - 10 Apr 20"),
         ], portfolio)
         
-        let notes = setNotes((auction.notes)!, detail)
-        //let notes = setNotes((auction.notes)!, portfolio)
+        let notes = setNotes((auction.notes)!, detail)*/
+        
+        setRates([
+            Bid(id: 1, status: "Pending", tenor: "3 months", interest_rate_idr: "2%", interest_rate_usd: nil, interest_rate_sharia: "2%"),
+            Bid(id: 2, status: "Pending", tenor: "6 months", interest_rate_idr: "2%", interest_rate_usd: nil, interest_rate_sharia: "2%")
+        ])
         
         /*
         typeLabel.text = "NORMAL AUCTION"
@@ -357,6 +495,8 @@ class AuctionDetailViewController: UIViewController {
         ])
         */
     }
+    */
+    
     /*
     func setPortfolio(_ data: [String:String]) {
         data.forEach {
@@ -578,4 +718,10 @@ class AuctionDetailViewController: UIViewController {
             test.heightAnchor.constraint(equalToConstant: 200)
         ])
     }*/
+}
+
+extension AuctionDetailViewController: AuctionDetailDelegate {
+    func setData(_ data: Auction, _ viewType: Int) {
+        self.viewType = viewType
+    }
 }

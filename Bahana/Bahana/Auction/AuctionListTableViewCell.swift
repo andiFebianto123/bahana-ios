@@ -25,6 +25,7 @@ class AuctionListTableViewCell: UITableViewCell {
     @IBOutlet weak var tenorLabel: UILabel!
     @IBOutlet weak var endTitleLabel: UILabel!
     @IBOutlet weak var endLabel: UILabel!
+    @IBOutlet weak var rightView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -68,7 +69,9 @@ class AuctionListTableViewCell: UITableViewCell {
         endTitleLabel.text = "Ends in"
         endLabel.font = contentFont
         
-        setContent()
+        typeView.layer.borderWidth = 1
+        typeView.layer.borderColor = primaryColor.cgColor
+        typeLabel.textColor = primaryColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -77,19 +80,15 @@ class AuctionListTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    
-    func setContent() {
-        typeView.layer.borderWidth = 1
-        typeView.layer.borderColor = primaryColor.cgColor
-        
-        typeLabel.text = "Auction"
-        typeLabel.textColor = primaryColor
-        
-        statusLabel.text = "ACC"
-        fundNameLabel.text = "ABF"
-        investmentLabel.text = "IDR 1 - 2.5"
-        placementDateLabel.text = "10 Jan 20"
-        tenorLabel.text = "3 / 6 month(s)"
-        endLabel.text = "0 hour 39 mins"
+    func setStatus(_ status: String) {
+        if status != "-" {
+            statusLabel.text = status
+        } else if status == "ACCC" {
+            statusLabel.text = status
+            mainView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+            rightView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+        } else {
+            statusView.isHidden = true
+        }
     }
 }

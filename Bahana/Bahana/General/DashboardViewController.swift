@@ -28,6 +28,8 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var needConfirmationLabel: UILabel!
     @IBOutlet weak var needConfirmationUnitLabel: UILabel!
     
+    var presenter: DashboardPresenter!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -74,7 +76,8 @@ class DashboardViewController: UIViewController {
         ongoingAuctionWidth.constant = (screenWidth / 2) - 30
         needConfirmationWidth.constant = (screenWidth / 2) - 30
         
-        setContent()
+        presenter = DashboardPresenter(delegate: self)
+        presenter.getData()
     }
 
     /*
@@ -101,13 +104,27 @@ class DashboardViewController: UIViewController {
         //notificationButton.frame = buttonFrame
         //notificationButton.addTarget(self, action: #selector(showNotification), for: .touchUpInside)
     }
+}
 
-    func setContent() {
-        completedAuctionLabel.text = "46"
-        completedAuctionUnitLabel.text = "Auctions"
-        ongoingAuctionLabel.text = "1"
-        ongoingAuctionUnitLabel.text = "Auction"
-        needConfirmationLabel.text = "0"
-        needConfirmationUnitLabel.text = "Auction"
+extension DashboardViewController: DashboardDelegate {
+    func setData(_ data: [String : Any?]) {
+        completedAuctionLabel.text = "\(data["completed"]! as! Int)"
+        if data["completed"]! as! Int > 1 {
+            completedAuctionUnitLabel.text = "Auctions"
+        } else {
+            completedAuctionUnitLabel.text = "Auction"
+        }
+        ongoingAuctionLabel.text = "\(data["ongoing"]! as! Int)"
+        if data["ongoing"]! as! Int > 1 {
+            ongoingAuctionUnitLabel.text = "Auctions"
+        } else {
+            ongoingAuctionUnitLabel.text = "Auction"
+        }
+        needConfirmationLabel.text = "\(data["confirmation"]! as! Int)"
+        if data["confirmation"]! as! Int > 1 {
+            needConfirmationUnitLabel.text = "Auctions"
+        } else {
+            needConfirmationUnitLabel.text = "Auction"
+        }
     }
 }
