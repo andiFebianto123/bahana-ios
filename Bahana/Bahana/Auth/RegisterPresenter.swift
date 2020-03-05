@@ -78,7 +78,7 @@ class RegisterPresenter {
             }
         }
     }
-    
+    /*
     func resetRegisterData() {
         let data: [String: String] = [
             "name": "",
@@ -125,4 +125,5 @@ class RegisterPresenter {
         ]
         setLocalData(data)
     }
+    */
 }

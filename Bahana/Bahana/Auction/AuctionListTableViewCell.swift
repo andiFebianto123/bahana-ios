@@ -80,6 +80,11 @@ class AuctionListTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func isTransaction() {
+        placementDateTitleLabel.text = "Issue Date"
+        endTitleLabel.text = "Maturity Date"
+    }
+    
     func setStatus(_ status: String) {
         if status != "-" {
             statusLabel.text = status
@@ -89,6 +94,20 @@ class AuctionListTableViewCell: UITableViewCell {
             rightView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
         } else {
             statusView.isHidden = true
+        }
+    }
+    
+    func setType(_ type: String) {
+        typeLabel.text = type
+        typeLabel.textColor = .white
+        typeView.layer.borderWidth = 0
+        switch type {
+        case "Active":
+            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x65d663)
+        case "Canceled":
+            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x3e3e3e)
+        default:
+            break
         }
     }
 }

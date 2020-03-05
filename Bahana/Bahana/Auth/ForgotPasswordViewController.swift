@@ -64,11 +64,9 @@ class ForgotPasswordViewController: UIViewController {
         navigationItem.setLeftBarButton(titleBar, animated: true)
         
         let closeButton = UIButton(type: UIButton.ButtonType.custom)
-        //closeButton.setImage(UIImage(named: "icon_back_white"), for: .normal)
-        closeButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        closeButton.setTitle("X", for: .normal)
-        closeButton.setTitleColor(.white, for: .normal)
-        //closeButton.frame = buttonFrame
+        closeButton.setImage(UIImage(named: "close"), for: .normal)
+        closeButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 70, bottom: 10, right: 0)
+        closeButton.frame = buttonFrame
         closeButton.addTarget(self, action: #selector(exit), for: .touchUpInside)
         let closeBarButton = UIBarButtonItem(customView: closeButton)
         //navigationItem.setHidesBackButton(true, animated: false)

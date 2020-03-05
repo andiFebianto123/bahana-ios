@@ -160,6 +160,7 @@ class AuctionDetailViewController: UIViewController {
 
     @objc func backButtonPressed() {
         self.dismiss(animated: true, completion: nil)
+        //self.performSegue(withIdentifier: "showConfirmation", sender: self)
     }
     /*
     func setStatus(_ status: String) {

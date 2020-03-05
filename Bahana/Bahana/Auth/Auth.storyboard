@@ -224,7 +224,7 @@
         <!--Navigation Controller-->
         <scene sceneID="jlP-72-3qn">
             <objects>
-                <navigationController id="dfR-w1-DJv" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="Register" id="dfR-w1-DJv" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="T0f-io-7e1"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="a9a-Nv-5Gp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
@@ -451,6 +451,7 @@
                         <outlet property="nextView" destination="bdy-O7-JYy" id="rej-FT-7fT"/>
                         <outlet property="previousLabel" destination="mA2-BG-Gez" id="43r-3i-Ip2"/>
                         <outlet property="previousView" destination="7Al-TV-Pk5" id="EgZ-C7-oVc"/>
+                        <outlet property="topTabView" destination="DLv-dx-NIV" id="8mn-Xj-U3m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dHI-V0-zO4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

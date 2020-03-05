@@ -1,0 +1,74 @@
+/* 
+  Localizable.strings
+  Bahana
+
+  Created by Christian Chandra on /2002/27.
+  Copyright © 2020 Rectmedia. All rights reserved.
+*/
+
+"back" = "Kembali";
+"try_again" = "Coba Lagi";
+"yes" = "Ya";
+"no" = "Tidak";
+"ok" = "OK";
+"submit" = "Submit";
+"send" = "Kirim";
+"login" = "MASUK";
+"forgot_your_password" = "LUPA SANDI ANDA?";
+"register" = "DAFTAR";
+"registration" = "REGISTRASI";
+"profile" = "PROFILE";
+"best_rate" = "BEST RATE";
+
+"information" = "Informasi";
+"fail_to_process_data_from_server" = "Gagal memproses data dari server";
+
+"indonesia" = "ID";
+"english" = "EN";
+"app_version" = "VERSI APP - %@";
+
+"or" = "Atau";
+"personal_information" = "DATA PRIBADI";
+"fullname" = "Nama Lengkap";
+"email" = "Email";
+"phone_number" = "Nomor Telepon";
+"alternative_pic" = "PIC Alternatif";
+"alternative_phone" = "Telepon Alternatif";
+"bank_information" = "INFORMASI BANK";
+"bank" = "Bank";
+"choose_bank" = "Pilih bank";
+"new_bank_name" = "Nama Bank Baru";
+"bank_branch" = "Cabang";
+"choose_bank_branch" = "Pilih cabang";
+"new_bank_branch_name" = "Nama Cabang Baru";
+"bank_branch_address" = "Alamat Cabang";
+"bank_type" = "Tipe Bank";
+"foreign_exchange" = "Devisa";
+"book" = "Buku";
+"sharia" = "Syariah";
+"interest_day_count_convertion" = "Konversi Bunga Harian";
+"end_date" = "Tanggal Akhir";
+"return_to_start_date" = "Kembali Tanggal Awal";
+"holiday_interest" = "Bunga hari libur";
+"password" = "Sandi";
+"password_confirmation" = "Konfirmasi Sandi";
+"placement" = "PENEMPATAN %@";
+"breakable_policy" = "Polis Break";
+"breakable_policy_notes" = "Catatan Polis";
+"account_number" = "Nomor Rekening";
+"account_name" = "A/n Rekening";
+"month_rate_1" = "Best Rate 1 Bulan (%)";
+"month_rate_3" = "Best Rate 3 Bulan (%)";
+"month_rate_6" = "Best Rate 6 Bulan (%)";
+
+"home" = "Home";
+"auction" = "Auction";
+"history" = "History";
+"transaction" = "Transaction";
+"profile" = "Profile";
+"summary_auction" = "SUMMARY AUCTION";
+"completed_auction" = "COMPLETED AUCTION";
+"ongoing_auction" = "ONGOING AUCTION";
+"need_confirmation" = "NEED CONFIRMATION";
+"no_information_at_the_moment" = "No information at the moment.";
+"please_update_best_rate" = "Please update your best rate";

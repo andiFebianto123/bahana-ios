@@ -40,9 +40,9 @@ class LoginViewController: UIViewController {
         languageView.backgroundColor = UIColor.red
         languageView.layer.masksToBounds = true
         languageLabel.textColor = UIColor.white
-        languageLabel.text = "ID"
+        languageLabel.text = localize("indonesia")
         emailLabel.font = UIFont.systemFont(ofSize: 10)
-        emailLabel.text = "Email"
+        emailLabel.text = localize("email")
         emailField.leftViewMode = .always
         let emailView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
         let emailImageView = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
@@ -51,10 +51,10 @@ class LoginViewController: UIViewController {
         emailImageView.contentMode = .center
         emailView.addSubview(emailImageView)
         emailField.leftView = emailView
-        emailField.placeholder = "Email"
+        emailField.placeholder = localize("email")
         passwordLabel.font = UIFont.systemFont(ofSize: 10)
-        passwordLabel.text = "Sandi"
-        passwordField.placeholder = "Sandi"
+        passwordLabel.text = localize("password")
+        passwordField.placeholder = localize("password")
         passwordField.isSecureTextEntry = true
         let passwordView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
         let passwordImageView = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
@@ -67,21 +67,21 @@ class LoginViewController: UIViewController {
         submitButton.layer.masksToBounds = true
         submitButton.backgroundColor = UIColor.red
         submitButton.setTitleColor(UIColor.white, for: .normal)
-        submitButton.setTitle("MASUK", for: .normal)
+        submitButton.setTitle(localize("login"), for: .normal)
         let fpTap = UITapGestureRecognizer(target: self, action: #selector(goToForgotPassword))
         forgotPasswordView.addGestureRecognizer(fpTap)
         forgotPasswordLabel.font = UIFont.italicSystemFont(ofSize: 10)
         forgotPasswordLabel.textColor = UIColor.red
-        forgotPasswordLabel.text = "LUPA SANDI ANDA?"
+        forgotPasswordLabel.text = localize("forgot_your_password")
         orLabel.font = UIFont.systemFont(ofSize: 10)
-        orLabel.text = "Atau"
+        orLabel.text = localize("or")
         registerButton.layer.cornerRadius = 3
         registerButton.layer.masksToBounds = true
         registerButton.backgroundColor = UIColor.black
         registerButton.setTitleColor(UIColor.white, for: .normal)
-        registerButton.setTitle("DAFTAR", for: .normal)
+        registerButton.setTitle(localize("register"), for: .normal)
         versionLabel.font = UIFont.systemFont(ofSize: 10)
-        versionLabel.text = "VERSI APP - 1.0"
+        versionLabel.text = String.localizedStringWithFormat(localize("app_version"), "1")
         
         presenter = LoginPresenter(delegate: self)
     }
@@ -99,7 +99,7 @@ class LoginViewController: UIViewController {
 
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -123,7 +123,7 @@ extension LoginViewController: LoginDelegate {
             let homeViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "GeneralTabBar") as UIViewController
             self.present(homeViewController, animated: true, completion: nil)
         } else {
-            showAlert(title: "Informasi", message: message)
+            showAlert(title: localize("information"), message: message)
         }
     }
 }

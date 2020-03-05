@@ -93,8 +93,8 @@ class AuctionDetailBreakViewController: UIViewController {
         
         // Portfolio
         fundNameLabel.text = data.portfolio
-        custodianBankLabel.text = data.custodian_bank
-        picCustodianLabel.text = data.pic_custodian
+        custodianBankLabel.text = data.custodian_bank != nil ? data.custodian_bank : "-"
+        picCustodianLabel.text = data.pic_custodian != nil ? data.pic_custodian : "-"
         
         // Detail
         tenorLabel.text = data.period

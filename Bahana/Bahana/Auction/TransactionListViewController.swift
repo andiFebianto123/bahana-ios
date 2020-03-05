@@ -29,6 +29,12 @@ class TransactionListViewController: UIViewController {
     var maturity_date = "Any Time"
     var break_date = "None"
     
+    var transactionID = Int()
+    var transactionType = String()
+    var transaction: Transaction!
+    
+    var data = [Transaction]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -58,16 +64,18 @@ class TransactionListViewController: UIViewController {
         setFilter()
     }
     
-
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "showDetail" {
+            if let destinationVC = segue.destination as?  TransactionDetailViewController {
+                destinationVC.data = transaction
+            }
+        }
     }
-    */
 
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
@@ -291,18 +299,27 @@ class TransactionListViewController: UIViewController {
 
 extension TransactionListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
-        
+        let transaction = data[indexPath.row]
+        cell.isTransaction()
+        cell.setType(transaction.status)
+        cell.setStatus("-")
+        cell.fundNameLabel.text = transaction.portfolio
+        cell.investmentLabel.text = "IDR \(toIdrBio(transaction.quantity))"
+        cell.tenorLabel.text = transaction.period
+        cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(transaction.issue_date)!)
+        cell.endLabel.text = convertDateToString(convertStringToDatetime(transaction.maturity_date)!)
         return cell
     }
 }
 
 extension TransactionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        transaction = data[indexPath.row]
         performSegue(withIdentifier: "showDetail", sender: self)
 //        performSegue(withIdentifier: "showDetail2", sender: self)
     }
@@ -319,4 +336,8 @@ extension TransactionListViewController: TransactionListDelegate {
         self.present(loginViewController, animated: true, completion: nil)
     }
     
+    func setData(_ data: [Transaction]) {
+        self.data = data
+        tableView.reloadData()
+    }
 }

@@ -25,5 +25,3 @@ struct Auction {
     var type: String
     var status: String
 }
-
-

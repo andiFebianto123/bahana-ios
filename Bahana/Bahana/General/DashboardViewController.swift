@@ -27,6 +27,8 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var needConfirmationTitleLabel: UILabel!
     @IBOutlet weak var needConfirmationLabel: UILabel!
     @IBOutlet weak var needConfirmationUnitLabel: UILabel!
+    @IBOutlet weak var informationTitle: UILabel!
+    @IBOutlet weak var informationContent: UILabel!
     
     var presenter: DashboardPresenter!
     
@@ -38,7 +40,7 @@ class DashboardViewController: UIViewController {
         
         view.backgroundColor = backgroundColor
         
-        titleLabel.text = "SUMMARY AUCTION"
+        titleLabel.text = localize("summary_auction")
         
         completedAuctionView.layer.cornerRadius = 5
         completedAuctionView.layer.shadowColor = UIColor.gray.cgColor
@@ -62,19 +64,21 @@ class DashboardViewController: UIViewController {
         
         let redColor = UIColor.red
         
-        completedAuctionTitleLabel.text = "COMPLETED AUCTION"
+        completedAuctionTitleLabel.text = localize("completed_auction")
         completedAuctionLabel.textColor = redColor
         completedAuctionUnitLabel.textColor = redColor
-        ongoingAuctionTitleLabel.text = "ONGOING AUCTION"
+        ongoingAuctionTitleLabel.text = localize("ongoing_auction")
         ongoingAuctionLabel.textColor = redColor
         ongoingAuctionUnitLabel.textColor = redColor
-        needConfirmationTitleLabel.text = "NEED CONFIRMATION"
+        needConfirmationTitleLabel.text = localize("need_confirmation")
         needConfirmationLabel.textColor = redColor
         needConfirmationUnitLabel.textColor = redColor
         
         let screenWidth = UIScreen.main.bounds.width
         ongoingAuctionWidth.constant = (screenWidth / 2) - 30
         needConfirmationWidth.constant = (screenWidth / 2) - 30
+        
+        informationTitle.textColor = primaryColor
         
         presenter = DashboardPresenter(delegate: self)
         presenter.getData()
@@ -96,10 +100,10 @@ class DashboardViewController: UIViewController {
         
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
-        navigationTitle.text = "HOME"
+        navigationTitle.text = localize("home").uppercased()
         
         let notificationButton = UIButton(type: UIButton.ButtonType.custom)
-        //notificationButton.setImage(UIImage(named: "icon_notification"), for: .normal)
+        notificationButton.setImage(UIImage(named: "notification"), for: .normal)
         notificationButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         //notificationButton.frame = buttonFrame
         //notificationButton.addTarget(self, action: #selector(showNotification), for: .touchUpInside)
@@ -125,6 +129,13 @@ extension DashboardViewController: DashboardDelegate {
             needConfirmationUnitLabel.text = "Auctions"
         } else {
             needConfirmationUnitLabel.text = "Auction"
+        }
+        
+        let info = data["info_base_placement"]! as! Bool
+        if info {
+            informationContent.text = localize("please_update_best_rate")
+        } else {
+            informationContent.text = localize("no_information_at_the_moment")
         }
     }
 }

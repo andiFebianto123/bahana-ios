@@ -12,6 +12,7 @@ import Eureka
 class RegisterViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var topTabView: UIView!
     @IBOutlet weak var bottomNavigationView: UIView!
     @IBOutlet weak var previousView: UIView!
     @IBOutlet weak var nextView: UIView!
@@ -20,7 +21,10 @@ class RegisterViewController: UIViewController {
     
     var presenter: RegisterPresenter!
     
+    var viewTo = String()
     var currentViewIdx = 0
+    
+    var formValid = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +38,25 @@ class RegisterViewController: UIViewController {
         
         presenter = RegisterPresenter(delegate: self)
         
-        let previousTap = UITapGestureRecognizer(target: self, action: #selector(showPrev))
-        previousView.addGestureRecognizer(previousTap)
-        let nextTap = UITapGestureRecognizer(target: self, action: #selector(validateForm))
-        nextView.addGestureRecognizer(nextTap)
         
-        loadMainView(index: 0)
+        if viewTo == "" {
+            // Notify if from register
+            NotificationCenter.default.post(name: Notification.Name("RegisterPage"), object: nil, userInfo: nil)
+            let previousTap = UITapGestureRecognizer(target: self, action: #selector(showPrev))
+            previousView.addGestureRecognizer(previousTap)
+            let nextTap = UITapGestureRecognizer(target: self, action: #selector(validateForm))
+            nextView.addGestureRecognizer(nextTap)
+            
+            loadMainView(index: 0)
+        } else if viewTo == "profile" {
+            topTabView.isHidden = true
+            bottomNavigationView.isHidden = true
+            loadMainView(index: 0)
+        } else if viewTo == "best_rate" {
+            topTabView.isHidden = true
+            bottomNavigationView.isHidden = true
+            loadMainView(index: 1)
+        }
         
         // Back when form failed to load
         NotificationCenter.default.addObserver(self, selector: #selector(back(notification:)), name: Notification.Name("RegisterBack"), object: nil)
@@ -66,7 +83,13 @@ class RegisterViewController: UIViewController {
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let label = UILabel()
-        label.text = "REGISTRASI"
+        if viewTo == "" {
+            label.text = localize("registration")
+        } else if viewTo == "profile" {
+            label.text = localize("profile")
+        } else if viewTo == "best_rate" {
+            label.text = localize("best_rate")
+        }
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = UIColor.white
@@ -75,10 +98,8 @@ class RegisterViewController: UIViewController {
         navigationItem.setLeftBarButton(titleBar, animated: true)
         
         let closeButton = UIButton(type: UIButton.ButtonType.custom)
-        //closeButton.setImage(UIImage(named: "icon_back_white"), for: .normal)
-        closeButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        closeButton.setTitle("X", for: .normal)
-        closeButton.setTitleColor(.white, for: .normal)
+        closeButton.setImage(UIImage(named: "close"), for: .normal)
+        closeButton.imageEdgeInsets = UIEdgeInsets(top: 10, left: 70, bottom: 10, right: 0)
         //closeButton.frame = buttonFrame
         closeButton.addTarget(self, action: #selector(showAlertExit), for: .touchUpInside)
         let closeBarButton = UIBarButtonItem(customView: closeButton)
@@ -88,9 +109,9 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func showAlertExit() {
-        let alert = UIAlertController(title: "Informasi", message: "Apakah anda yakin ingin meninggalkan halaman ini?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Tidak", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Ya", style: .default, handler: { action in
+        let alert = UIAlertController(title: localize("information"), message: "Apakah anda yakin ingin meninggalkan halaman ini?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("no"), style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
             self.dismiss(animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
@@ -105,7 +126,7 @@ class RegisterViewController: UIViewController {
         } else if index == 1 {
             previousView.isHidden = false
         } else if index == 2 {
-            nextLabel.text = "Kirim"
+            nextLabel.text = localize("send")
         }
         
         // Load view by tab index
@@ -126,6 +147,13 @@ class RegisterViewController: UIViewController {
     
     @objc func showPrev() {
         currentViewIdx -= 1
+        if currentViewIdx == 2 && !formValid {
+            nextView.isUserInteractionEnabled = false
+            nextLabel.textColor = UIColor.gray
+        } else {
+           nextView.isUserInteractionEnabled = true
+           nextLabel.textColor = UIColor.black
+        }
         loadMainView(index: currentViewIdx)
         collectionView.reloadData()
     }
@@ -133,6 +161,13 @@ class RegisterViewController: UIViewController {
     @objc func showNext(notification:Notification) {
         if let data = notification.userInfo as? [String: Int] {
             if let idx = data["idx"] {
+                if idx == 2 && !formValid {
+                    nextView.isUserInteractionEnabled = false
+                    nextLabel.textColor = UIColor.gray
+                } else {
+                    nextView.isUserInteractionEnabled = true
+                    nextLabel.textColor = UIColor.black
+                }
                 currentViewIdx = idx
                 loadMainView(index: idx)
                 collectionView.reloadData()
@@ -144,9 +179,11 @@ class RegisterViewController: UIViewController {
         if let data = notification.userInfo as? [String: Int] {
             let isChecked = data["isChecked"]!
             if isChecked == 1 {
+                formValid = true
                 nextView.isUserInteractionEnabled = true
                 nextLabel.textColor = UIColor.black
             } else {
+                formValid = false
                 nextView.isUserInteractionEnabled = false
                 nextLabel.textColor = UIColor.gray
             }

@@ -8,6 +8,11 @@
 
 import UIKit
 
+struct TransactionContent {
+    var title: String!
+    var content: String?
+}
+
 class TransactionDetailViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
@@ -28,10 +33,14 @@ class TransactionDetailViewController: UIViewController {
     @IBOutlet weak var breakInformationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var breakInformationStackView: UIStackView!
     
+    var data: Transaction!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setNavigationItems()
+        
         transactionIDTitle.text = "TRANSACTION ID"
         transactionStatusTitle.textColor = .white
         transactionStatusTitle.text = "TRANSACTION STATUS"
@@ -56,19 +65,60 @@ class TransactionDetailViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func setNavigationItems() {
+        //navigationBar.barTintColor = UIColor.red
+        //navigationController?.navigationBar.barTintColor = primaryColor
+        navigationView.backgroundColor = primaryColor
+        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        
+        let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
+        navigationBackImageView.image = UIImage(named: "icon_left")
+        navigationBackView.addGestureRecognizer(backTap)
+        
+        /*let label = UILabel()
+        label.text = "AUCTION DETAIL"
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.white
+        let titleBar = UIBarButtonItem.init(customView: label)
+        navigationItem.titleView = label*/
+        /*
+        let backButton = UIButton()
+        backButton.setTitle("Back", for: .normal)
+        backButton.setTitleColor(.white, for: .normal)
+        let backBar = UIBarButtonItem.init(customView: backButton)
+        
+        //navigationItem.setHidesBackButton(true, animated: false)
+        navigationController?.navigationItem.setLeftBarButton(backBar, animated: true)*/
+    }
+
+    @objc func backButtonPressed() {
+        self.dismiss(animated: true, completion: nil)
+    }
 
     func setContent() {
-        transactionID.text = "941"
-        transactionStatusView.backgroundColor = primaryColor
-        transactionStatus.text = "BREAK"
-        setGeneralInformation("Fund Name", "BLP")
-        setGeneralInformation("Investment (BIO)", "IDR 10")
-        setGeneralInformation("Tenor", "1 month")
-        setGeneralInformation("Issue Date", "21 Dec 19")
-        setGeneralInformation("Maturity Date", "21 Jan 20")
-        setGeneralInformation("Interest Rate (%)", "8.5 %")
-        setBreakInformation("Break Date", "20 Jan 20")
-        setBreakInformation("Break Rate(%)", "8.25 %")
+        transactionID.text = "\(data.id)"
+        if data.status == "Active" {
+            transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x65d663)
+        } else if data.status == "Canceled" {
+            transactionStatusView.backgroundColor = primaryColor
+        }
+        
+        transactionStatus.text = data.status
+        setGeneralInformation([
+            TransactionContent(title: "Fund Name", content: data.portfolio),
+            TransactionContent(title: "Investment (BIO)", content: "IDR \(toIdrBio(data.quantity))"),
+            TransactionContent(title: "Tenor", content: data.period),
+            TransactionContent(title: "Issue Date", content: convertDateToString(convertStringToDatetime(data.issue_date))),
+            TransactionContent(title: "Maturity Date", content: convertDateToString(convertStringToDatetime(data.maturity_date)!)),
+            TransactionContent(title: "Interest Rate (%)", content: "8.5 %"),
+            TransactionContent(title: "Break Date", content: convertDateToString(convertStringToDatetime(data.break_maturity_date)))
+        ])
+        
+        setBreakInformation([
+            TransactionContent(title: "Break Rate(%)", content: "8.25 %")
+        ])
     }
     
     func addDescriptionText(_ title: String, _ content: String) -> UIView {
@@ -103,15 +153,23 @@ class TransactionDetailViewController: UIViewController {
         return portfolio
     }
     
-    func setGeneralInformation(_ title: String, _ content: String) {
-        let subView = addDescriptionText(title, content)
-        generalInformationStackView.addArrangedSubview(subView)
-        generalInformationViewHeight.constant += CGFloat(30)
+    func setGeneralInformation(_ data: [TransactionContent]) {
+        for dt in data {
+            if dt.content != nil {
+                let subView = addDescriptionText(dt.title, dt.content!)
+                generalInformationStackView.addArrangedSubview(subView)
+                generalInformationViewHeight.constant += CGFloat(30)
+            }
+        }
     }
     
-    func setBreakInformation(_ title: String, _ content: String) {
-        let subView = addDescriptionText(title, content)
-        breakInformationStackView.addArrangedSubview(subView)
-        breakInformationViewHeight.constant += CGFloat(30)
+    func setBreakInformation(_ data: [TransactionContent]) {
+        for dt in data {
+            if dt.content != nil {
+                let subView = addDescriptionText(dt.title, dt.content!)
+                breakInformationStackView.addArrangedSubview(subView)
+                breakInformationViewHeight.constant += CGFloat(30)
+            }
+        }
     }
 }

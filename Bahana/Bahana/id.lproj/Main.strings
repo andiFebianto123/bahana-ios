@@ -1,0 +1,78 @@
+
+/* Class = "UILabel"; text = "NEED CONFIRMATION"; ObjectID = "5KO-Hb-H0r"; */
+"5KO-Hb-H0r.text" = "NEED CONFIRMATION";
+
+/* Class = "UILabel"; text = "Auction"; ObjectID = "5Sy-iF-5SU"; */
+"5Sy-iF-5SU.text" = "Auction";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "64k-5J-Yp5"; */
+"64k-5J-Yp5.text" = "0";
+
+/* Class = "UILabel"; text = "No Information at the moment"; ObjectID = "G4l-F8-kAQ"; */
+"G4l-F8-kAQ.text" = "No Information at the moment";
+
+/* Class = "UILabel"; text = "-"; ObjectID = "GIj-hh-ke4"; */
+"GIj-hh-ke4.text" = "-";
+
+/* Class = "UILabel"; text = "LOGOUT"; ObjectID = "If6-Kc-1AB"; */
+"If6-Kc-1AB.text" = "LOGOUT";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "JbG-h6-Q9T"; */
+"JbG-h6-Q9T.text" = "0";
+
+/* Class = "UILabel"; text = "HOME"; ObjectID = "L1R-nR-vPj"; */
+"L1R-nR-vPj.text" = "HOME";
+
+/* Class = "UILabel"; text = "EMAIL AND CONTACT"; ObjectID = "Mcj-t8-WZx"; */
+"Mcj-t8-WZx.text" = "EMAIL AND CONTACT";
+
+/* Class = "UILabel"; text = "ONGOING AUCTION"; ObjectID = "MiB-tO-SrV"; */
+"MiB-tO-SrV.text" = "ONGOING AUCTION";
+
+/* Class = "UILabel"; text = "FULLNAME"; ObjectID = "Nct-kg-n1b"; */
+"Nct-kg-n1b.text" = "FULLNAME";
+
+/* Class = "UILabel"; text = "LANGUAGE"; ObjectID = "QH3-i1-wrn"; */
+"QH3-i1-wrn.text" = "LANGUAGE";
+
+/* Class = "UILabel"; text = "-"; ObjectID = "QWC-rS-SDO"; */
+"QWC-rS-SDO.text" = "-";
+
+/* Class = "UILabel"; text = "INFORMATION"; ObjectID = "Shf-wB-hff"; */
+"Shf-wB-hff.text" = "INFORMATION";
+
+/* Class = "UILabel"; text = "SUMMARY AUCTION"; ObjectID = "V8U-XX-FiL"; */
+"V8U-XX-FiL.text" = "SUMMARY AUCTION";
+
+/* Class = "UIViewController"; title = "Home"; ObjectID = "VA3-7B-ZGc"; */
+"VA3-7B-ZGc.title" = "Home";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "a3F-eo-N20"; */
+"a3F-eo-N20.text" = "0";
+
+/* Class = "UILabel"; text = "CONTACT"; ObjectID = "bSO-J9-XJ5"; */
+"bSO-J9-XJ5.text" = "CONTACT";
+
+/* Class = "UILabel"; text = "Auction"; ObjectID = "epk-UY-wLE"; */
+"epk-UY-wLE.text" = "Auction";
+
+/* Class = "UILabel"; text = "COMPLETED AUCTION"; ObjectID = "fCG-nH-YVs"; */
+"fCG-nH-YVs.text" = "COMPLETED AUCTION";
+
+/* Class = "UILabel"; text = "FAQ"; ObjectID = "hKv-Hw-H2i"; */
+"hKv-Hw-H2i.text" = "FAQ";
+
+/* Class = "UILabel"; text = "Auction"; ObjectID = "kMR-Ce-9p1"; */
+"kMR-Ce-9p1.text" = "Auction";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "kvk-im-VXO"; */
+"kvk-im-VXO.title" = "Item";
+
+/* Class = "UILabel"; text = "PROFILE"; ObjectID = "lo8-LR-Ya3"; */
+"lo8-LR-Ya3.text" = "PROFILE";
+
+/* Class = "UILabel"; text = "EDIT BEST RATE"; ObjectID = "uBw-9G-h2d"; */
+"uBw-9G-h2d.text" = "EDIT BEST RATE";
+
+/* Class = "UILabel"; text = "-"; ObjectID = "wQn-fb-joC"; */
+"wQn-fb-joC.text" = "-";

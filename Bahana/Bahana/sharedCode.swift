@@ -31,6 +31,10 @@ func getLocalData(key: String) -> String {
     }
 }
 
+func localize(_ key: String) -> String {
+    return NSLocalizedString(key, comment: "")
+}
+
 func isLoggedIn() -> Bool {
     print("is logged in")
     if getLocalData(key: "user_id") != "" && getLocalData(key: "access_token") != "" {
@@ -83,19 +87,27 @@ func convertStringToDate(_ str: String) -> Date? {
     return time
 }
 
-func convertStringToDatetime(_ str: String) -> Date? {
-    let date = DateFormatter()
-    date.dateFormat = "yyyy-MM-dd HH:mm:ss"
-    let time = date.date(from: str)
-    return time
+func convertStringToDatetime(_ str: String?) -> Date? {
+    if str != nil {
+        let date = DateFormatter()
+        date.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let time = date.date(from: str!)
+        return time
+    } else {
+        return nil
+    }
 }
 
-func convertDateToString(_ date: Date) -> String {
-    let str = DateFormatter()
-    //str.dateFormat = "yyyy-MM-dd"
-    str.dateFormat = "dd MMM yy"
-    let time = str.string(from: date)
-    return time
+func convertDateToString(_ date: Date?) -> String? {
+    if date != nil {
+        let str = DateFormatter()
+        //str.dateFormat = "yyyy-MM-dd"
+        str.dateFormat = "dd MMM yy"
+        let time = str.string(from: date!)
+        return time
+    } else {
+        return nil
+    }
 }
 
 func convertDatetimeToString(_ date: Date) -> String {

@@ -23,7 +23,7 @@ class GeneralTabBarViewController: UITabBarController {
         let thirdViewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionList") as! AuctionListViewController
         thirdViewController.pageType = "history"
         let fourthViewController = auctionStoryboard.instantiateViewController(withIdentifier: "TransactionList") as! TransactionListViewController
-        let fifthViewController = auctionStoryboard.instantiateViewController(withIdentifier: "TransactionList") as! TransactionListViewController
+        let fifthViewController = mainStoryboard.instantiateViewController(withIdentifier: "Settings") as! SettingsViewController
         
         viewControllers = [firstViewController, secondViewController, thirdViewController, fourthViewController, fifthViewController]
         
@@ -33,15 +33,15 @@ class GeneralTabBarViewController: UITabBarController {
         tabBar.tintColor = primaryColor
         
         tabBar.items![0].image = resizeImage(image: UIImage(named: "home")!, targetSize: iconSize)
-        tabBar.items![0].title = "Home"
+        tabBar.items![0].title = localize("home")
         tabBar.items![1].image = resizeImage(image: UIImage(named: "auction")!, targetSize: iconSize)
-        tabBar.items![1].title = "Auction"
+        tabBar.items![1].title = localize("auction")
         tabBar.items![2].image = resizeImage(image: UIImage(named: "history")!, targetSize: iconSize)
-        tabBar.items![2].title = "History"
+        tabBar.items![2].title = localize("history")
         tabBar.items![3].image = resizeImage(image: UIImage(named: "transaction")!, targetSize: iconSize)
-        tabBar.items![3].title = "Transaction"
+        tabBar.items![3].title = localize("transaction")
         tabBar.items![4].image = resizeImage(image: UIImage(named: "profile")!, targetSize: iconSize)
-        tabBar.items![4].title = "Profile"
+        tabBar.items![4].title = localize("profile")
     }
     
 

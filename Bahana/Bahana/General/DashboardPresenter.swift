@@ -35,8 +35,9 @@ class DashboardPresenter {
                         "confirmation": result["confirmation"].intValue,
                         "latest_completed": nil,
                         "latest_bid": nil,
-                        "info_base_placement": false
+                        "info_base_placement": result["info_base_placement"].boolValue
                     ]
+                    
                     self.delegate?.setData(data)
                 }
             case .failure(let error):

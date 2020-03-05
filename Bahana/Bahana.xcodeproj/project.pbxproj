@@ -10,6 +10,9 @@
 		3EEAAED73B249DE305A0FBF5 /* Pods_Bahana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 514ED3B16B7529AD889E8B31 /* Pods_Bahana.framework */; };
 		BC067DB323E7085500605FAA /* BestRatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC067DB223E7085500605FAA /* BestRatePresenter.swift */; };
 		BC081C3623E7E75D00FC7763 /* SearchablePushRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC081C3523E7E75D00FC7763 /* SearchablePushRow.swift */; };
+		BC12BC8D2408E6AB00728F13 /* AuctionDetailConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12BC8C2408E6AA00728F13 /* AuctionDetailConfirmationViewController.swift */; };
+		BC190B65240E1E4300D11011 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC190B64240E1E4300D11011 /* Transaction.swift */; };
+		BC190B67240E77F100D11011 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC190B66240E77F100D11011 /* SettingsPresenter.swift */; };
 		BC27FF8224052283002E1188 /* AuctionDetailNormalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC27FF8124052283002E1188 /* AuctionDetailNormalPresenter.swift */; };
 		BC27FF8424052299002E1188 /* AuctionDetailDirectPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC27FF8324052299002E1188 /* AuctionDetailDirectPresenter.swift */; };
 		BC27FF86240522B0002E1188 /* AuctionDetailBreakPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC27FF85240522B0002E1188 /* AuctionDetailBreakPresenter.swift */; };
@@ -39,6 +42,7 @@
 		BCA2BABC23F40BAB00E219B2 /* TransactionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA2BABB23F40BAB00E219B2 /* TransactionListViewController.swift */; };
 		BCA2BABE23F40BC400E219B2 /* TransactionListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA2BABD23F40BC400E219B2 /* TransactionListPresenter.swift */; };
 		BCA2BAC023F40C1D00E219B2 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA2BABF23F40C1D00E219B2 /* TransactionDetailViewController.swift */; };
+		BCC0A6342406707F00B8FA2F /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC0A6332406707F00B8FA2F /* SettingsViewController.swift */; };
 		BCC95ACF23EAC04600515773 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95ACE23EAC04600515773 /* ForgotPasswordViewController.swift */; };
 		BCC95AD123EAC14300515773 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD023EAC14300515773 /* LoginPresenter.swift */; };
 		BCC95AD323EAC15600515773 /* ForgotPasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD223EAC15600515773 /* ForgotPasswordPresenter.swift */; };
@@ -46,6 +50,7 @@
 		BCC95AD823EADD1C00515773 /* AuctionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD723EADD1C00515773 /* AuctionListViewController.swift */; };
 		BCC95ADA23EADD2D00515773 /* AuctionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD923EADD2D00515773 /* AuctionDetailViewController.swift */; };
 		BCDE2E5A23F5229F009AEC18 /* TransactionDetail2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDE2E5923F5229F009AEC18 /* TransactionDetail2ViewController.swift */; };
+		BCE00CA72407865F00EDBADE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCE00CA92407865F00EDBADE /* Localizable.strings */; };
 		BCE40BF723E2AAB200034744 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCE40BF623E2AAB200034744 /* Auth.storyboard */; };
 		BCE40BF923E2AE2F00034744 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE40BF823E2AE2F00034744 /* LoginViewController.swift */; };
 		BCE4862923F152F8007961CE /* Auction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4862823F152F8007961CE /* Auction.swift */; };
@@ -70,6 +75,9 @@
 		514ED3B16B7529AD889E8B31 /* Pods_Bahana.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bahana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC067DB223E7085500605FAA /* BestRatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestRatePresenter.swift; sourceTree = "<group>"; };
 		BC081C3523E7E75D00FC7763 /* SearchablePushRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchablePushRow.swift; sourceTree = "<group>"; };
+		BC12BC8C2408E6AA00728F13 /* AuctionDetailConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailConfirmationViewController.swift; sourceTree = "<group>"; };
+		BC190B64240E1E4300D11011 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		BC190B66240E77F100D11011 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		BC27FF8124052283002E1188 /* AuctionDetailNormalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailNormalPresenter.swift; sourceTree = "<group>"; };
 		BC27FF8324052299002E1188 /* AuctionDetailDirectPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailDirectPresenter.swift; sourceTree = "<group>"; };
 		BC27FF85240522B0002E1188 /* AuctionDetailBreakPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailBreakPresenter.swift; sourceTree = "<group>"; };
@@ -101,6 +109,7 @@
 		BCA2BABB23F40BAB00E219B2 /* TransactionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListViewController.swift; sourceTree = "<group>"; };
 		BCA2BABD23F40BC400E219B2 /* TransactionListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListPresenter.swift; sourceTree = "<group>"; };
 		BCA2BABF23F40C1D00E219B2 /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
+		BCC0A6332406707F00B8FA2F /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BCC95ACE23EAC04600515773 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		BCC95AD023EAC14300515773 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		BCC95AD223EAC15600515773 /* ForgotPasswordPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordPresenter.swift; sourceTree = "<group>"; };
@@ -108,6 +117,10 @@
 		BCC95AD723EADD1C00515773 /* AuctionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListViewController.swift; sourceTree = "<group>"; };
 		BCC95AD923EADD2D00515773 /* AuctionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailViewController.swift; sourceTree = "<group>"; };
 		BCDE2E5923F5229F009AEC18 /* TransactionDetail2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetail2ViewController.swift; sourceTree = "<group>"; };
+		BCE00CA32407861300EDBADE /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Main.strings; sourceTree = "<group>"; };
+		BCE00CA42407861400EDBADE /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		BCE00CA82407865F00EDBADE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BCE00CAA2407866A00EDBADE /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCE40BF623E2AAB200034744 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
 		BCE40BF823E2AE2F00034744 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BCE4862823F152F8007961CE /* Auction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auction.swift; sourceTree = "<group>"; };
@@ -157,6 +170,7 @@
 				BCFE9E152404DF890013909A /* AuctionDetailDirect.swift */,
 				BCFE9E112404DF680013909A /* AuctionDetailBreak.swift */,
 				BCFE9E132404DF770013909A /* AuctionDetailRollover.swift */,
+				BC190B64240E1E4300D11011 /* Transaction.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -185,10 +199,11 @@
 				BC81C13823E15D3A004DBBD3 /* AppDelegate.swift */,
 				BC81C13A23E15D3A004DBBD3 /* SceneDelegate.swift */,
 				BC81C13C23E15D3A004DBBD3 /* ViewController.swift */,
+				BC81C14623E15D3C004DBBD3 /* Info.plist */,
+				BCE00CA92407865F00EDBADE /* Localizable.strings */,
 				BC81C13E23E15D3A004DBBD3 /* Main.storyboard */,
 				BC81C14123E15D3C004DBBD3 /* Assets.xcassets */,
 				BC81C14323E15D3C004DBBD3 /* LaunchScreen.storyboard */,
-				BC81C14623E15D3C004DBBD3 /* Info.plist */,
 				BC472B6A23E42B7000FA2A6F /* sharedCode.swift */,
 				BC081C3723E7F22500FC7763 /* EurekaCustom */,
 				BC472B6C23E4357900FA2A6F /* Model */,
@@ -221,6 +236,7 @@
 				BC27FF85240522B0002E1188 /* AuctionDetailBreakPresenter.swift */,
 				BCFE9E092404CFE70013909A /* AuctionDetailRolloverViewController.swift */,
 				BC27FF87240522C2002E1188 /* AuctionDetailRolloverPresenter.swift */,
+				BC12BC8C2408E6AA00728F13 /* AuctionDetailConfirmationViewController.swift */,
 			);
 			path = Auction;
 			sourceTree = "<group>";
@@ -231,6 +247,8 @@
 				BCC95AD423EADBEC00515773 /* DashboardViewController.swift */,
 				BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */,
 				BC27FF8924053B00002E1188 /* DashboardPresenter.swift */,
+				BCC0A6332406707F00B8FA2F /* SettingsViewController.swift */,
+				BC190B66240E77F100D11011 /* SettingsPresenter.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -319,6 +337,7 @@
 			knownRegions = (
 				en,
 				Base,
+				id,
 			);
 			mainGroup = BC81C12C23E15D39004DBBD3;
 			productRefGroup = BC81C13623E15D3A004DBBD3 /* Products */;
@@ -340,6 +359,7 @@
 				BC81C14223E15D3C004DBBD3 /* Assets.xcassets in Resources */,
 				BCE40BF723E2AAB200034744 /* Auth.storyboard in Resources */,
 				BCF2846223F0553800EE8FD8 /* AuctionListTableViewCell.xib in Resources */,
+				BCE00CA72407865F00EDBADE /* Localizable.strings in Resources */,
 				BC81C14023E15D3A004DBBD3 /* Main.storyboard in Resources */,
 				BC81C14E23E15E70004DBBD3 /* Auction.storyboard in Resources */,
 			);
@@ -408,11 +428,13 @@
 				BC067DB323E7085500605FAA /* BestRatePresenter.swift in Sources */,
 				BCC95ACF23EAC04600515773 /* ForgotPasswordViewController.swift in Sources */,
 				BCFE9E082404CFC10013909A /* AuctionDetailBreakViewController.swift in Sources */,
+				BC190B65240E1E4300D11011 /* Transaction.swift in Sources */,
 				BC472B5F23E3E35100FA2A6F /* BestRateViewController.swift in Sources */,
 				BCDE2E5A23F5229F009AEC18 /* TransactionDetail2ViewController.swift in Sources */,
 				BCC95AD323EAC15600515773 /* ForgotPasswordPresenter.swift in Sources */,
 				BC081C3623E7E75D00FC7763 /* SearchablePushRow.swift in Sources */,
 				BCE4862923F152F8007961CE /* Auction.swift in Sources */,
+				BC190B67240E77F100D11011 /* SettingsPresenter.swift in Sources */,
 				BC4ECE422403C31300A8B4FB /* AuctionDetailPresenter.swift in Sources */,
 				BC81C13D23E15D3A004DBBD3 /* ViewController.swift in Sources */,
 				BCF2846123F0553800EE8FD8 /* AuctionListTableViewCell.swift in Sources */,
@@ -429,11 +451,13 @@
 				BCFE9E0A2404CFE70013909A /* AuctionDetailRolloverViewController.swift in Sources */,
 				BC27FF8A24053B00002E1188 /* DashboardPresenter.swift in Sources */,
 				BCC95ADA23EADD2D00515773 /* AuctionDetailViewController.swift in Sources */,
+				BCC0A6342406707F00B8FA2F /* SettingsViewController.swift in Sources */,
 				BC472B6E23E4358A00FA2A6F /* Bank.swift in Sources */,
 				BCC95AD523EADBEC00515773 /* DashboardViewController.swift in Sources */,
 				BC27FF8424052299002E1188 /* AuctionDetailDirectPresenter.swift in Sources */,
 				BCFE9E0C2404D0B10013909A /* AuctionDetailNormalViewController.swift in Sources */,
 				BCF7C59523EBD57B00340C4A /* AuctionListPresenter.swift in Sources */,
+				BC12BC8D2408E6AB00728F13 /* AuctionDetailConfirmationViewController.swift in Sources */,
 				BC27FF8224052283002E1188 /* AuctionDetailNormalPresenter.swift in Sources */,
 				BCA2BAC023F40C1D00E219B2 /* TransactionDetailViewController.swift in Sources */,
 				BC472B6923E4292B00FA2A6F /* ProfilePresenter.swift in Sources */,
@@ -451,6 +475,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC81C13F23E15D3A004DBBD3 /* Base */,
+				BCE00CA32407861300EDBADE /* id */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -459,8 +484,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC81C14423E15D3C004DBBD3 /* Base */,
+				BCE00CA42407861400EDBADE /* id */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		BCE00CA92407865F00EDBADE /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCE00CA82407865F00EDBADE /* en */,
+				BCE00CAA2407866A00EDBADE /* id */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -470,6 +505,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -530,6 +566,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
