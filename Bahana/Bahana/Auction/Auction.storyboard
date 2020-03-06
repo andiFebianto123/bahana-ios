@@ -11,7 +11,7 @@
         <!--Auction List View Controller-->
         <scene sceneID="qde-xM-IK1">
             <objects>
-                <viewController storyboardIdentifier="AuctionList" id="cBH-7s-lRi" customClass="AuctionListViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuctionList" modalPresentationStyle="fullScreen" id="cBH-7s-lRi" customClass="AuctionListViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="o2a-X9-ZmP">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -116,7 +116,7 @@
         <!--Auction Detail Break View Controller-->
         <scene sceneID="HSC-mE-xiI">
             <objects>
-                <viewController storyboardIdentifier="AuctionDetailBreak" id="k0T-QC-rsN" customClass="AuctionDetailBreakViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuctionDetailBreak" modalPresentationStyle="fullScreen" id="k0T-QC-rsN" customClass="AuctionDetailBreakViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0Gq-Q1-pxh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -438,7 +438,7 @@
         <!--Transaction List View Controller-->
         <scene sceneID="PVG-Rt-64z">
             <objects>
-                <viewController storyboardIdentifier="TransactionList" id="Swk-Gg-1MQ" customClass="TransactionListViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TransactionList" modalPresentationStyle="fullScreen" id="Swk-Gg-1MQ" customClass="TransactionListViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UPL-BH-9aH">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -523,9 +523,9 @@
         <!--Transaction Detail View Controller-->
         <scene sceneID="Ag2-SF-Sv2">
             <objects>
-                <viewController id="j3j-Z9-taQ" customClass="TransactionDetailViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="j3j-Z9-taQ" customClass="TransactionDetailViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zI5-5U-YIu">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zbN-t5-Q5d">
@@ -699,7 +699,7 @@
         <!--Auction Detail Rollover View Controller-->
         <scene sceneID="Rzq-Ng-bl2">
             <objects>
-                <viewController storyboardIdentifier="AuctionDetailRollover" id="LLH-So-DX2" customClass="AuctionDetailRolloverViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuctionDetailRollover" modalPresentationStyle="fullScreen" id="LLH-So-DX2" customClass="AuctionDetailRolloverViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="m8u-oa-6Ft">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1076,9 +1076,9 @@
         <!--Auction Detail View Controller-->
         <scene sceneID="RWd-Zv-tWk">
             <objects>
-                <viewController id="dlU-Ha-LsX" customClass="AuctionDetailViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="5eZ-2i-Spp">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                <viewController modalPresentationStyle="fullScreen" id="dlU-Ha-LsX" customClass="AuctionDetailViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5eZ-2i-Spp">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cg1-vk-op0">
@@ -1117,11 +1117,11 @@
                                     <constraint firstAttribute="height" constant="64" id="yja-hy-uha"/>
                                 </constraints>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aGL-Rj-HiT">
-                                <rect key="frame" x="0.0" y="64" width="414" height="744"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aGL-Rj-HiT">
+                                <rect key="frame" x="0.0" y="64" width="414" height="798"/>
                                 <subviews>
-                                    <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QiE-1v-DHz">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="744"/>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QiE-1v-DHz">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="798"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1000" id="fnc-m0-Raw"/>
                                         </constraints>
@@ -1169,7 +1169,7 @@
         <!--Auction Detail Direct View Controller-->
         <scene sceneID="7bL-Nw-ZG6">
             <objects>
-                <viewController storyboardIdentifier="AuctionDetailDirect" id="kuk-Pa-5HL" customClass="AuctionDetailDirectViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuctionDetailDirect" modalPresentationStyle="fullScreen" id="kuk-Pa-5HL" customClass="AuctionDetailDirectViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dFp-zN-Qwi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1429,9 +1429,9 @@
         <!--Auction Detail Confirmation View Controller-->
         <scene sceneID="qWO-lx-bLk">
             <objects>
-                <viewController id="zs6-xj-wHC" customClass="AuctionDetailConfirmationViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="zs6-xj-wHC" customClass="AuctionDetailConfirmationViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="r3v-Ab-KeW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Vm-n4-7i2">
@@ -1547,7 +1547,7 @@
         <!--Auction Detail Normal View Controller-->
         <scene sceneID="twz-g0-el5">
             <objects>
-                <viewController storyboardIdentifier="AuctionDetailNormal" id="VaD-Pl-eVR" customClass="AuctionDetailNormalViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuctionDetailNormal" modalPresentationStyle="fullScreen" id="VaD-Pl-eVR" customClass="AuctionDetailNormalViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="K4F-pD-3r8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

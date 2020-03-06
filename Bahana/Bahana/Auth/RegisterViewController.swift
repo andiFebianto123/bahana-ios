@@ -41,7 +41,6 @@ class RegisterViewController: UIViewController {
         
         if viewTo == "" {
             // Notify if from register
-            NotificationCenter.default.post(name: Notification.Name("RegisterPage"), object: nil, userInfo: nil)
             let previousTap = UITapGestureRecognizer(target: self, action: #selector(showPrev))
             previousView.addGestureRecognizer(previousTap)
             let nextTap = UITapGestureRecognizer(target: self, action: #selector(validateForm))
@@ -131,6 +130,10 @@ class RegisterViewController: UIViewController {
         
         // Load view by tab index
         NotificationCenter.default.post(name: Notification.Name("RegisterTab"), object: nil, userInfo: ["idx": index])
+        
+        if viewTo == "" {
+            NotificationCenter.default.post(name: Notification.Name("RegisterPage"), object: nil, userInfo: nil)
+        }
     }
     
     @objc func back(notification:Notification) {

@@ -36,7 +36,6 @@ func localize(_ key: String) -> String {
 }
 
 func isLoggedIn() -> Bool {
-    print("is logged in")
     if getLocalData(key: "user_id") != "" && getLocalData(key: "access_token") != "" {
         return true
     } else {

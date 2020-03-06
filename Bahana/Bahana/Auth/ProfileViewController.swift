@@ -144,7 +144,7 @@ class ProfileViewController: FormViewController {
             $0.tag = "bank"
             $0.options = banks
             $0.selectorTitle = localize("choose_bank")
-            $0.value = data["bank"]! as! Bank
+            $0.value = !isDataEmpty("bank") ? data["bank"]! as! Bank : nil
             $0.displayValueFor = { value in
                 return value?.name
             }
@@ -179,7 +179,7 @@ class ProfileViewController: FormViewController {
             $0.title = localize("bank_branch")
             $0.tag = "bank_branch"
             $0.selectorTitle = localize("choose_bank_branch")
-            $0.value = data["bank_branch"]! as! BankBranch
+            $0.value = !isDataEmpty("bank_branch") ? data["bank_branch"]! as! BankBranch : nil
             $0.displayValueFor = { value in
                 return value?.name
             }
@@ -393,7 +393,6 @@ class ProfileViewController: FormViewController {
     
     @objc func isRegisterPage(notification:Notification) {
         isRegisterPage = true
-        print("is register page")
     }
     
     func isBankEmpty() -> Bool {

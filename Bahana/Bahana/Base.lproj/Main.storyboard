@@ -11,7 +11,7 @@
         <!--Home-->
         <scene sceneID="0Wp-zF-mDg">
             <objects>
-                <viewController storyboardIdentifier="Dashboard" title="Home" id="VA3-7B-ZGc" customClass="DashboardViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Dashboard" title="Home" modalPresentationStyle="fullScreen" id="VA3-7B-ZGc" customClass="DashboardViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hFx-mE-Rlg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -204,7 +204,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Lcd-Fr-iOW"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="kvk-im-VXO"/>
+                    <tabBarItem key="tabBarItem" title="Home" id="kvk-im-VXO">
+                        <inset key="imageInsets" minX="2" minY="2" maxX="2" maxY="2"/>
+                    </tabBarItem>
                     <connections>
                         <outlet property="completedAuctionLabel" destination="JbG-h6-Q9T" id="36M-BJ-kgn"/>
                         <outlet property="completedAuctionTitleLabel" destination="fCG-nH-YVs" id="yE7-tW-C1g"/>
@@ -234,7 +236,7 @@
         <!--Settings View Controller-->
         <scene sceneID="Nko-D6-w01">
             <objects>
-                <viewController storyboardIdentifier="Settings" id="ld6-2c-dQE" customClass="SettingsViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Settings" modalPresentationStyle="fullScreen" id="ld6-2c-dQE" customClass="SettingsViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MGZ-7B-ADs">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -491,7 +493,7 @@
         <!--General Tab Bar View Controller-->
         <scene sceneID="dYC-9x-ppN">
             <objects>
-                <tabBarController storyboardIdentifier="GeneralTabBar" id="h7t-Wm-Uog" customClass="GeneralTabBarViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="GeneralTabBar" modalPresentationStyle="fullScreen" id="h7t-Wm-Uog" customClass="GeneralTabBarViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="MU8-Pe-0cd"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Myl-jf-ZHk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>

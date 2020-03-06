@@ -85,7 +85,7 @@ class BestRateViewController: FormViewController {
         }
         
         form
-        +++ Section(String.localizedStringWithFormat(localize("placement"), "IDR") )
+        +++ Section(!isIdrHidden ? String.localizedStringWithFormat(localize("placement"), "IDR") : "")
         <<< AlertRow<String>() { row in
             row.title = localize("breakable_policy")
             row.tag = "idr_breakable_policy"
@@ -172,7 +172,7 @@ class BestRateViewController: FormViewController {
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numberPad
         }
-        +++ Section(String.localizedStringWithFormat(localize("placement"), "USD"))
+        +++ Section(!isUsdHidden ? String.localizedStringWithFormat(localize("placement"), "USD") : "")
         <<< AlertRow<String>() { row in
             row.title = localize("breakable_policy")
             row.tag = "usd_breakable_policy"
@@ -237,7 +237,7 @@ class BestRateViewController: FormViewController {
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numberPad
         }
-        +++ Section(String.localizedStringWithFormat(localize("placement"), localize("sharia")))
+        +++ Section(!isShariaHidden ? String.localizedStringWithFormat(localize("placement"), localize("sharia")) : "")
         <<< AlertRow<String>() { row in
             row.title = localize("breakable_policy")
             row.tag = "sharia_breakable_policy"
@@ -332,7 +332,6 @@ class BestRateViewController: FormViewController {
     
     @objc func isRegisterPage(notification:Notification) {
         isRegisterPage = true
-        print("is register page")
     }
     
     @objc func save(notification:Notification) {

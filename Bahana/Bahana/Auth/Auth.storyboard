@@ -12,7 +12,7 @@
         <!--Login View Controller-->
         <scene sceneID="fqg-EI-hm0">
             <objects>
-                <viewController storyboardIdentifier="Login" id="JHu-jk-haD" customClass="LoginViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Login" modalPresentationStyle="fullScreen" id="JHu-jk-haD" customClass="LoginViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AXE-Cs-yEN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -224,10 +224,10 @@
         <!--Navigation Controller-->
         <scene sceneID="jlP-72-3qn">
             <objects>
-                <navigationController storyboardIdentifier="Register" id="dfR-w1-DJv" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="Register" modalPresentationStyle="fullScreen" id="dfR-w1-DJv" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="T0f-io-7e1"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="a9a-Nv-5Gp">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -241,10 +241,10 @@
         <!--Navigation Controller-->
         <scene sceneID="NBm-QI-Opk">
             <objects>
-                <navigationController id="Yfm-9K-ADW" sceneMemberID="viewController">
+                <navigationController modalPresentationStyle="fullScreen" id="Yfm-9K-ADW" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="rWg-nX-CJZ"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="YvV-ID-dc0">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -258,7 +258,7 @@
         <!--Forgot Password View Controller-->
         <scene sceneID="L56-8D-CeE">
             <objects>
-                <viewController id="Nlg-Aa-fqs" customClass="ForgotPasswordViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="Nlg-Aa-fqs" customClass="ForgotPasswordViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bPI-QK-16J">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -318,7 +318,7 @@
         <!--Register View Controller-->
         <scene sceneID="nLP-iU-Jza">
             <objects>
-                <viewController id="ar2-6O-8Gh" customClass="RegisterViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="ar2-6O-8Gh" customClass="RegisterViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NjM-cl-yqB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -461,7 +461,7 @@
         <!--Item-->
         <scene sceneID="Z3K-Lj-AT0">
             <objects>
-                <viewController storyboardIdentifier="Profile" id="jP7-dR-puE" customClass="ProfileViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Profile" modalPresentationStyle="fullScreen" id="jP7-dR-puE" customClass="ProfileViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="faA-s8-nw5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="652"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -489,7 +489,7 @@
         <!--Register Tab Bar View Controller-->
         <scene sceneID="GnW-qt-7G4">
             <objects>
-                <tabBarController id="iYQ-4G-MUW" customClass="RegisterTabBarViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController modalPresentationStyle="fullScreen" id="iYQ-4G-MUW" customClass="RegisterTabBarViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Vrw-Ee-mkB"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ctr-bg-D3s">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
@@ -509,7 +509,7 @@
         <!--Item-->
         <scene sceneID="YSC-xa-Td8">
             <objects>
-                <viewController storyboardIdentifier="BestRate" id="u9L-n8-6lK" customClass="BestRateViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BestRate" modalPresentationStyle="fullScreen" id="u9L-n8-6lK" customClass="BestRateViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Pu-2j-2DM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="652"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -525,7 +525,7 @@
         <!--Item-->
         <scene sceneID="Vrc-YU-AbY">
             <objects>
-                <viewController storyboardIdentifier="TermsAndConditions" id="aPk-YB-Vb0" customClass="TermsAndConditionsViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TermsAndConditions" modalPresentationStyle="fullScreen" id="aPk-YB-Vb0" customClass="TermsAndConditionsViewController" customModule="Bahana" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hZE-PC-2M0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="652"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

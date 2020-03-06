@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3EEAAED73B249DE305A0FBF5 /* Pods_Bahana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 514ED3B16B7529AD889E8B31 /* Pods_Bahana.framework */; };
+		044AD13C29CCC1528766178D /* libPods-Bahana.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43EA881E43046610D789804C /* libPods-Bahana.a */; };
 		BC067DB323E7085500605FAA /* BestRatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC067DB223E7085500605FAA /* BestRatePresenter.swift */; };
 		BC081C3623E7E75D00FC7763 /* SearchablePushRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC081C3523E7E75D00FC7763 /* SearchablePushRow.swift */; };
 		BC12BC8D2408E6AB00728F13 /* AuctionDetailConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12BC8C2408E6AA00728F13 /* AuctionDetailConfirmationViewController.swift */; };
@@ -32,6 +32,7 @@
 		BC472B7023E437D200FA2A6F /* BankBranch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B6F23E437D200FA2A6F /* BankBranch.swift */; };
 		BC472B7423E44ACC00FA2A6F /* TermsAndConditionsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B7323E44ACB00FA2A6F /* TermsAndConditionsPresenter.swift */; };
 		BC4ECE422403C31300A8B4FB /* AuctionDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4ECE412403C31300A8B4FB /* AuctionDetailPresenter.swift */; };
+		BC75E42D2412042500CB2A64 /* BuildFile in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC81C13923E15D3A004DBBD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81C13823E15D3A004DBBD3 /* AppDelegate.swift */; };
 		BC81C13B23E15D3A004DBBD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81C13A23E15D3A004DBBD3 /* SceneDelegate.swift */; };
 		BC81C13D23E15D3A004DBBD3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81C13C23E15D3A004DBBD3 /* ViewController.swift */; };
@@ -69,10 +70,23 @@
 		BCFE9E182404E0CE0013909A /* Bilyet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E172404E0CE0013909A /* Bilyet.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		BC75E42E2412042500CB2A64 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BC75E42D2412042500CB2A64 /* BuildFile in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		06236A606AFAD3B54D55D1E1 /* Pods-Bahana.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bahana.release.xcconfig"; path = "Target Support Files/Pods-Bahana/Pods-Bahana.release.xcconfig"; sourceTree = "<group>"; };
-		24ADD201419B79B4CE7BEBD0 /* Pods-Bahana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bahana.debug.xcconfig"; path = "Target Support Files/Pods-Bahana/Pods-Bahana.debug.xcconfig"; sourceTree = "<group>"; };
-		514ED3B16B7529AD889E8B31 /* Pods_Bahana.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bahana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		24F4FBEE3CEE179612665B2E /* Pods-Bahana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bahana.debug.xcconfig"; path = "Target Support Files/Pods-Bahana/Pods-Bahana.debug.xcconfig"; sourceTree = "<group>"; };
+		43EA881E43046610D789804C /* libPods-Bahana.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bahana.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC067DB223E7085500605FAA /* BestRatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestRatePresenter.swift; sourceTree = "<group>"; };
 		BC081C3523E7E75D00FC7763 /* SearchablePushRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchablePushRow.swift; sourceTree = "<group>"; };
 		BC12BC8C2408E6AA00728F13 /* AuctionDetailConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailConfirmationViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +111,8 @@
 		BC472B6F23E437D200FA2A6F /* BankBranch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankBranch.swift; sourceTree = "<group>"; };
 		BC472B7323E44ACB00FA2A6F /* TermsAndConditionsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsPresenter.swift; sourceTree = "<group>"; };
 		BC4ECE412403C31300A8B4FB /* AuctionDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailPresenter.swift; sourceTree = "<group>"; };
+		BC75E4292411FBCE00CB2A64 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC75E42F2412054500CB2A64 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC81C13523E15D3A004DBBD3 /* Bahana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bahana.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC81C13823E15D3A004DBBD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BC81C13A23E15D3A004DBBD3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -137,6 +153,7 @@
 		BCFE9E132404DF770013909A /* AuctionDetailRollover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailRollover.swift; sourceTree = "<group>"; };
 		BCFE9E152404DF890013909A /* AuctionDetailDirect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailDirect.swift; sourceTree = "<group>"; };
 		BCFE9E172404E0CE0013909A /* Bilyet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bilyet.swift; sourceTree = "<group>"; };
+		DDC1E239146E74E66FC4B49D /* Pods-Bahana.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bahana.release.xcconfig"; path = "Target Support Files/Pods-Bahana/Pods-Bahana.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3EEAAED73B249DE305A0FBF5 /* Pods_Bahana.framework in Frameworks */,
+				044AD13C29CCC1528766178D /* libPods-Bahana.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +296,9 @@
 		CDD6BF071836F8E2DA924DCD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				514ED3B16B7529AD889E8B31 /* Pods_Bahana.framework */,
+				BC75E42F2412054500CB2A64 /* Alamofire.framework */,
+				BC75E4292411FBCE00CB2A64 /* Alamofire.framework */,
+				43EA881E43046610D789804C /* libPods-Bahana.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -287,8 +306,8 @@
 		EDA99568F78E804076090DE9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				24ADD201419B79B4CE7BEBD0 /* Pods-Bahana.debug.xcconfig */,
-				06236A606AFAD3B54D55D1E1 /* Pods-Bahana.release.xcconfig */,
+				24F4FBEE3CEE179612665B2E /* Pods-Bahana.debug.xcconfig */,
+				DDC1E239146E74E66FC4B49D /* Pods-Bahana.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -300,11 +319,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BC81C14923E15D3C004DBBD3 /* Build configuration list for PBXNativeTarget "Bahana" */;
 			buildPhases = (
-				A25590A6588405C2197D98A5 /* [CP] Check Pods Manifest.lock */,
+				4187D7FA97D9CB29F6DCE825 /* [CP] Check Pods Manifest.lock */,
 				BC81C13123E15D3A004DBBD3 /* Sources */,
 				BC81C13223E15D3A004DBBD3 /* Frameworks */,
 				BC81C13323E15D3A004DBBD3 /* Resources */,
-				A3BA753DDFB5F6CCD293F15D /* [CP] Embed Pods Frameworks */,
+				BC75E42E2412042500CB2A64 /* Embed Frameworks */,
+				329F9DB2AF0E0516FA25FDC1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -368,7 +388,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A25590A6588405C2197D98A5 /* [CP] Check Pods Manifest.lock */ = {
+		329F9DB2AF0E0516FA25FDC1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4187D7FA97D9CB29F6DCE825 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -388,23 +425,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A3BA753DDFB5F6CCD293F15D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -504,6 +524,7 @@
 		BC81C14723E15D3C004DBBD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -553,6 +574,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -565,6 +587,7 @@
 		BC81C14823E15D3C004DBBD3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -608,6 +631,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -619,7 +643,7 @@
 		};
 		BC81C14A23E15D3C004DBBD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 24ADD201419B79B4CE7BEBD0 /* Pods-Bahana.debug.xcconfig */;
+			baseConfigurationReference = 24F4FBEE3CEE179612665B2E /* Pods-Bahana.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -639,7 +663,7 @@
 		};
 		BC81C14B23E15D3C004DBBD3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06236A606AFAD3B54D55D1E1 /* Pods-Bahana.release.xcconfig */;
+			baseConfigurationReference = DDC1E239146E74E66FC4B49D /* Pods-Bahana.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
