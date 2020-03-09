@@ -158,6 +158,7 @@ class AuctionDetailNormalViewController: UIViewController {
             bidStackViewHeight.constant += 80
         }
     }
+    
     /*
     func setInterestRates(_ data: [Bid]) {
         for dt in data {

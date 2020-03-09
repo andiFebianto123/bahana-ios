@@ -11,8 +11,8 @@ import UIKit
 class AuctionListViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
-    
     @IBOutlet weak var navigationTitle: UILabel!
+    @IBOutlet weak var notificationView: UIView!
     @IBOutlet weak var statusTextField: UITextField!
     @IBOutlet weak var typeTextField: UITextField!
     @IBOutlet weak var showButton: UIButton!
@@ -106,11 +106,16 @@ class AuctionListViewController: UIViewController {
             navigationTitle.text = "HISTORY"
         }
         
-        let notificationButton = UIButton(type: UIButton.ButtonType.custom)
+        //let notificationButton = UIButton(type: UIButton.ButtonType.custom)
         //notificationButton.setImage(UIImage(named: "icon_notification"), for: .normal)
-        notificationButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        //notificationButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         //notificationButton.frame = buttonFrame
         //notificationButton.addTarget(self, action: #selector(showNotification), for: .touchUpInside)
+        notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
+    }
+    
+    @objc func showNotification() {
+        performSegue(withIdentifier: "showNotification", sender: self)
     }
     
     func getData() {
@@ -171,13 +176,20 @@ extension AuctionListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
         let auction = data[indexPath.row]
-        cell.typeLabel.text = auction.type.uppercased()
+        cell.setAuctionType(auction.type)
         cell.setStatus(auction.status)
         cell.fundNameLabel.text = auction.portfolio_short
-        cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start)) - \(toIdrBio(auction.investment_range_end))"
         cell.tenorLabel.text = auction.period
-        cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
-        cell.endLabel.text = "\(calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!))"
+        if auction.type != "break" {
+            cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start)) - \(toIdrBio(auction.investment_range_end))"
+            cell.endLabel.text = "\(calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!))"
+            cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
+        } else {
+            cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start))"
+            cell.endLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
+            cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.maturity_date)!)
+        }
+        
         return cell
     }
 }

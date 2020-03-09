@@ -117,6 +117,11 @@ class AuctionDetailBreakViewController: UIViewController {
             confirmButton.isHidden = true
         }
     }
+    
+    
+    @IBAction func confirmationButtonPressed(_ sender: Any) {
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["idx": id])
+    }
 }
 
 extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {

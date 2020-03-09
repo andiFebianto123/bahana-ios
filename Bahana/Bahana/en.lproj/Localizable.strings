@@ -13,6 +13,8 @@
 "ok" = "OK";
 "submit" = "Submit";
 "send" = "Kirim";
+"cancel" = "Batal";
+"done" = "Selesai";
 "login" = "MASUK";
 "forgot_your_password" = "LUPA SANDI ANDA?";
 "register" = "DAFTAR";

@@ -112,6 +112,11 @@ class AuctionDetailDirectViewController: UIViewController {
     func setCountDownTimer() {
         
     }
+    
+    @IBAction func confirmationButtonPressed(_ sender: Any) {
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["idx": id])
+    }
+    
 }
 
 extension AuctionDetailDirectViewController: AuctionDetailDirectDelegate {

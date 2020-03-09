@@ -12,6 +12,7 @@ class SettingsViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationTitle: UILabel!
+    @IBOutlet weak var notificationView: UIView!
     @IBOutlet weak var profileView: UIView!
     @IBOutlet weak var fullnameView: UIView!
     @IBOutlet weak var fullnameTitleLabel: UILabel!
@@ -47,6 +48,7 @@ class SettingsViewController: UIViewController {
         
         navigationView.backgroundColor = primaryColor
         navigationTitle.textColor = .white
+        notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
         profileView.backgroundColor = .white
         fullnameTitleLabel.textColor = .gray
         contactTitleLabel.textColor = .gray
@@ -115,6 +117,10 @@ class SettingsViewController: UIViewController {
         phoneLabel.text = getLocalData(key: "phone")
     }
     
+    @objc func showNotification() {
+        performSegue(withIdentifier: "showNotification", sender: self)
+    }
+    
     @objc func menuPressed(_ sender: UITapGestureRecognizer) {
         let tag = sender.view?.tag
         switch tag {
@@ -128,8 +134,7 @@ class SettingsViewController: UIViewController {
             performSegue(withIdentifier: "showRegister", sender: self)
         case 2:
             // Contact
-            print("contact")
-            //performSegue(withIdentifier: "", sender: self)
+            performSegue(withIdentifier: "showContact", sender: self)
         case 3:
             // FAQ
             print("faq")

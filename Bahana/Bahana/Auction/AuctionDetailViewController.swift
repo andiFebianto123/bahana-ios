@@ -119,17 +119,24 @@ class AuctionDetailViewController: UIViewController {
             mainView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             mainView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
         ])*/
+        
+        // Confirmation button pressed
+        NotificationCenter.default.addObserver(self, selector: #selector(showConfimation(notification:)), name: Notification.Name("AuctionDetailConfirmation"), object: nil)
     }
     
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "showConfirmation" {
+            if let destinationVC = segue.destination as? AuctionDetailConfirmationViewController {
+                destinationVC.auctionID = auctionID
+                destinationVC.auctionType = auctionType
+            }
+        }
     }
-    */
     
     func setNavigationItems() {
         //navigationBar.barTintColor = UIColor.red
@@ -160,7 +167,14 @@ class AuctionDetailViewController: UIViewController {
 
     @objc func backButtonPressed() {
         self.dismiss(animated: true, completion: nil)
-        //self.performSegue(withIdentifier: "showConfirmation", sender: self)
+        //
+    }
+    
+    @objc func showConfimation(notification: Notification) {
+        /*if let data = notification.userInfo as? [String: Int] {
+            let id = data["id"]!
+        }*/
+        self.performSegue(withIdentifier: "showConfirmation", sender: self)
     }
     /*
     func setStatus(_ status: String) {

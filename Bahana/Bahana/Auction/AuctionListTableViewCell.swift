@@ -97,7 +97,20 @@ class AuctionListTableViewCell: UITableViewCell {
         }
     }
     
-    func setType(_ type: String) {
+    func setAuctionType(_ type: String) {
+        typeLabel.text = type.uppercased()
+        switch type {
+        case "break":
+            placementDateTitleLabel.text = "Maturity Date"
+            endTitleLabel.text = "Break Date"
+        case "rollover":
+            placementDateTitleLabel.text = "Maturity Date"
+        default:
+            break
+        }
+    }
+    
+    func setTransactionType(_ type: String) {
         typeLabel.text = type
         typeLabel.textColor = .white
         typeView.layer.borderWidth = 0

@@ -10,13 +10,20 @@ import UIKit
 
 class AuctionDetailConfirmationViewController: UIViewController {
 
+    @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationTitle: UILabel!
+    @IBOutlet weak var closeView: UIView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var confirmationLabel: UILabel!
     @IBOutlet weak var noButton: UIButton!
     @IBOutlet weak var yesButton: UIButton!
     @IBOutlet weak var changeEndDateButton: UIButton!
     
-    var pickerView = UIView()
+    var auctionID: Int!
+    var auctionType: String!
+    var auctionDate = String()
+    
+    var textField = UITextField()
     var datePicker = UIDatePicker()
     
     override func viewDidLoad() {
@@ -28,6 +35,8 @@ class AuctionDetailConfirmationViewController: UIViewController {
         mainView.layer.shadowOffset = CGSize(width: 0, height: 0)
         mainView.layer.shadowRadius = 4
         mainView.layer.shadowOpacity = 0.5
+        
+        closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goBack)))
         
         confirmationLabel.text = "Are you sure you want to be the winner?"
         
@@ -55,19 +64,55 @@ class AuctionDetailConfirmationViewController: UIViewController {
     */
 
     func setDatePicker() {
-        pickerView.isHidden = true
-        
         datePicker.datePickerMode = .date
-        view.addSubview(datePicker)
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            datePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            datePicker.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
+        datePicker.addTarget(self, action: #selector(dateChanged(sender:)), for: .valueChanged)
+        
+        let toolbar = UIToolbar()
+        toolbar.barStyle = .default
+        toolbar.isTranslucent = true
+        toolbar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: localize("done"), style: UIBarButtonItem.Style.done, target: self, action: #selector(donePicker))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: localize("cancel"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(closePicker))
+        
+        toolbar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolbar.isUserInteractionEnabled = true
+        
+        textField = UITextField()
+        view.addSubview(textField)
+        textField.inputView = datePicker
+        textField.inputAccessoryView = toolbar
     }
     
     @IBAction func changeEndDatePressed(_ sender: Any) {
-        pickerView.isHidden = false
+        textField.becomeFirstResponder()
+    }
+    
+    @objc func goBack() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func dateChanged(sender: UIDatePicker) {
+        let date = convertDateToString(datePicker.date)
+        auctionDate = date!
+    }
+    
+    @objc func closePicker() {
+        textField.resignFirstResponder()
+    }
+    
+    @objc func donePicker() {
+        textField.resignFirstResponder()
+        showConfirmationAlert(auctionDate)
+    }
+    
+    func showConfirmationAlert(_ date: String) {
+        let alert = UIAlertController(title: localize("information"), message: "Are you sure you want to change end date to \(date)?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("no"), style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
+            print("yes")
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 }
