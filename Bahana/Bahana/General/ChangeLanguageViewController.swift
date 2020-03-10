@@ -51,11 +51,6 @@ class ChangeLanguageViewController: UIViewController {
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
         //navigationTitle.text = localize("home").uppercased()
         
-        //let notificationButton = UIButton(type: UIButton.ButtonType.custom)
-        //notificationButton.setImage(UIImage(named: "notification"), for: .normal)
-        //notificationButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        //notificationButton.frame = buttonFrame
-        //notificationButton.addTarget(self, action: #selector(showNotification), for: .touchUpInside)
         closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
         
     }

@@ -18,7 +18,7 @@ class FaqViewController: UIViewController {
     
     var presenter: FaqPresenter!
     
-    var data = [String]()
+    var data = [Faq]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +26,7 @@ class FaqViewController: UIViewController {
         // Do any additional setup after loading the view.
         setNavigationItems()
         
+        tableView.backgroundColor = backgroundColor
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
@@ -76,8 +77,8 @@ extension FaqViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FaqTableViewCell", for: indexPath) as! FaqTableViewCell
         let faq = data[indexPath.row]
-        cell.titleLabel.text = faq
-        cell.answerLabel.text = faq
+        cell.titleLabel.text = faq.question
+        cell.answerLabel.text = faq.answer
         return cell
     }
 }
@@ -98,7 +99,7 @@ extension FaqViewController: UITableViewDelegate {
 }
 
 extension FaqViewController: FaqDelegate {
-    func setData(_ data: [String]) {
+    func setData(_ data: [Faq]) {
         self.data = data
         tableView.reloadData()
     }

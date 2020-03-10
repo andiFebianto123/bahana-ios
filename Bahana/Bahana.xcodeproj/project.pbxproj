@@ -17,6 +17,12 @@
 		BC14BF41241754D000D84A0A /* FaqPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF40241754D000D84A0A /* FaqPresenter.swift */; };
 		BC14BF442417591F00D84A0A /* FaqTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF422417591F00D84A0A /* FaqTableViewCell.swift */; };
 		BC14BF452417591F00D84A0A /* FaqTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC14BF432417591F00D84A0A /* FaqTableViewCell.xib */; };
+		BC14BF47241767E900D84A0A /* ContactPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF46241767E900D84A0A /* ContactPresenter.swift */; };
+		BC14BF4924176A2300D84A0A /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF4824176A2300D84A0A /* Contact.swift */; };
+		BC14BF4B24176BA800D84A0A /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF4A24176BA800D84A0A /* ContactTableViewCell.swift */; };
+		BC14BF4D24176D7700D84A0A /* Faq.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF4C24176D7700D84A0A /* Faq.swift */; };
+		BC14BF4F241775B300D84A0A /* TransactionDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF4E241775B300D84A0A /* TransactionDetailPresenter.swift */; };
+		BC14BF512417775900D84A0A /* AuctionDetailConfirmationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF502417775900D84A0A /* AuctionDetailConfirmationPresenter.swift */; };
 		BC190B65240E1E4300D11011 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC190B64240E1E4300D11011 /* Transaction.swift */; };
 		BC190B67240E77F100D11011 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC190B66240E77F100D11011 /* SettingsPresenter.swift */; };
 		BC27FF8224052283002E1188 /* AuctionDetailNormalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC27FF8124052283002E1188 /* AuctionDetailNormalPresenter.swift */; };
@@ -107,6 +113,12 @@
 		BC14BF40241754D000D84A0A /* FaqPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqPresenter.swift; sourceTree = "<group>"; };
 		BC14BF422417591F00D84A0A /* FaqTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqTableViewCell.swift; sourceTree = "<group>"; };
 		BC14BF432417591F00D84A0A /* FaqTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FaqTableViewCell.xib; sourceTree = "<group>"; };
+		BC14BF46241767E900D84A0A /* ContactPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactPresenter.swift; sourceTree = "<group>"; };
+		BC14BF4824176A2300D84A0A /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		BC14BF4A24176BA800D84A0A /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		BC14BF4C24176D7700D84A0A /* Faq.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Faq.swift; sourceTree = "<group>"; };
+		BC14BF4E241775B300D84A0A /* TransactionDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailPresenter.swift; sourceTree = "<group>"; };
+		BC14BF502417775900D84A0A /* AuctionDetailConfirmationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailConfirmationPresenter.swift; sourceTree = "<group>"; };
 		BC190B64240E1E4300D11011 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		BC190B66240E77F100D11011 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		BC27FF8124052283002E1188 /* AuctionDetailNormalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailNormalPresenter.swift; sourceTree = "<group>"; };
@@ -211,6 +223,8 @@
 				BCFE9E132404DF770013909A /* AuctionDetailRollover.swift */,
 				BC190B64240E1E4300D11011 /* Transaction.swift */,
 				BC86E587241633B0009C12A5 /* Notification.swift */,
+				BC14BF4824176A2300D84A0A /* Contact.swift */,
+				BC14BF4C24176D7700D84A0A /* Faq.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -268,6 +282,7 @@
 				BCA2BABD23F40BC400E219B2 /* TransactionListPresenter.swift */,
 				BCA2BABF23F40C1D00E219B2 /* TransactionDetailViewController.swift */,
 				BCDE2E5923F5229F009AEC18 /* TransactionDetail2ViewController.swift */,
+				BC14BF4E241775B300D84A0A /* TransactionDetailPresenter.swift */,
 				BCFE9E0B2404D0B10013909A /* AuctionDetailNormalViewController.swift */,
 				BC27FF8124052283002E1188 /* AuctionDetailNormalPresenter.swift */,
 				BCFE9E0D2404D0EE0013909A /* AuctionDetailDirectViewController.swift */,
@@ -277,6 +292,7 @@
 				BCFE9E092404CFE70013909A /* AuctionDetailRolloverViewController.swift */,
 				BC27FF87240522C2002E1188 /* AuctionDetailRolloverPresenter.swift */,
 				BC12BC8C2408E6AA00728F13 /* AuctionDetailConfirmationViewController.swift */,
+				BC14BF502417775900D84A0A /* AuctionDetailConfirmationPresenter.swift */,
 			);
 			path = Auction;
 			sourceTree = "<group>";
@@ -290,6 +306,8 @@
 				BCC0A6332406707F00B8FA2F /* SettingsViewController.swift */,
 				BC190B66240E77F100D11011 /* SettingsPresenter.swift */,
 				BC76797F2415EE5400683F2E /* ContactViewController.swift */,
+				BC14BF46241767E900D84A0A /* ContactPresenter.swift */,
+				BC14BF4A24176BA800D84A0A /* ContactTableViewCell.swift */,
 				BC76798124162D5600683F2E /* NotificationViewController.swift */,
 				BC76798324162ED200683F2E /* NotificationTableViewCell.swift */,
 				BC767985241631AD00683F2E /* NotificationPresenter.swift */,
@@ -472,10 +490,13 @@
 				BC472B6123E3E3A900FA2A6F /* TermsAndConditionsViewController.swift in Sources */,
 				BCA2BABC23F40BAB00E219B2 /* TransactionListViewController.swift in Sources */,
 				BC14BF3F2417549E00D84A0A /* FaqViewController.swift in Sources */,
+				BC14BF4B24176BA800D84A0A /* ContactTableViewCell.swift in Sources */,
 				BC472B5D23E3E32800FA2A6F /* ProfileViewController.swift in Sources */,
 				BC27FF86240522B0002E1188 /* AuctionDetailBreakPresenter.swift in Sources */,
+				BC14BF4D24176D7700D84A0A /* Faq.swift in Sources */,
 				BC298D2723E5D713004C8749 /* RegisterTabBarViewController.swift in Sources */,
 				BCE40BF923E2AE2F00034744 /* LoginViewController.swift in Sources */,
+				BC14BF4F241775B300D84A0A /* TransactionDetailPresenter.swift in Sources */,
 				BCC95AD123EAC14300515773 /* LoginPresenter.swift in Sources */,
 				BCFE9E122404DF680013909A /* AuctionDetailBreak.swift in Sources */,
 				BC472B7423E44ACC00FA2A6F /* TermsAndConditionsPresenter.swift in Sources */,
@@ -489,12 +510,14 @@
 				BC472B5F23E3E35100FA2A6F /* BestRateViewController.swift in Sources */,
 				BCDE2E5A23F5229F009AEC18 /* TransactionDetail2ViewController.swift in Sources */,
 				BCC95AD323EAC15600515773 /* ForgotPasswordPresenter.swift in Sources */,
+				BC14BF512417775900D84A0A /* AuctionDetailConfirmationPresenter.swift in Sources */,
 				BC14BF41241754D000D84A0A /* FaqPresenter.swift in Sources */,
 				BC081C3623E7E75D00FC7763 /* SearchablePushRow.swift in Sources */,
 				BCE4862923F152F8007961CE /* Auction.swift in Sources */,
 				BC190B67240E77F100D11011 /* SettingsPresenter.swift in Sources */,
 				BC4ECE422403C31300A8B4FB /* AuctionDetailPresenter.swift in Sources */,
 				BC81C13D23E15D3A004DBBD3 /* ViewController.swift in Sources */,
+				BC14BF4924176A2300D84A0A /* Contact.swift in Sources */,
 				BCF2846123F0553800EE8FD8 /* AuctionListTableViewCell.swift in Sources */,
 				BC81C13923E15D3A004DBBD3 /* AppDelegate.swift in Sources */,
 				BC472B6B23E42B7000FA2A6F /* sharedCode.swift in Sources */,
@@ -519,6 +542,7 @@
 				BCF7C59523EBD57B00340C4A /* AuctionListPresenter.swift in Sources */,
 				BC12BC8D2408E6AB00728F13 /* AuctionDetailConfirmationViewController.swift in Sources */,
 				BC76798224162D5600683F2E /* NotificationViewController.swift in Sources */,
+				BC14BF47241767E900D84A0A /* ContactPresenter.swift in Sources */,
 				BC767986241631AD00683F2E /* NotificationPresenter.swift in Sources */,
 				BC27FF8224052283002E1188 /* AuctionDetailNormalPresenter.swift in Sources */,
 				BCA2BAC023F40C1D00E219B2 /* TransactionDetailViewController.swift in Sources */,

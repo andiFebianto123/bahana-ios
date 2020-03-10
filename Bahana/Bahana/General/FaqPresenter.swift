@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 protocol FaqDelegate {
-    func setData(_ data: [String])
+    func setData(_ data: [Faq])
 }
 
 class FaqPresenter {
@@ -29,21 +29,17 @@ class FaqPresenter {
                 if response.response?.statusCode == 401 {
                     //
                 } else {
-                    print(result)
-                    //var faqs = [NotificationModel]()
+                    var faqs = [Faq]()
                     for faq in result.arrayValue {
                         let id = faq["id"].intValue
-                        let question = faq["question"] != JSON.null ? faq["question"].stringValue : nil
-                        let answer = faq["answer"] != JSON.null ? faq["answer"].stringValue : nil
+                        let question = faq["question"].stringValue
+                        let answer = faq["answer"].stringValue
+                        let topic_id = faq["topic_id"].intValue
+                        let topic = Topic(id: faq["topic"]["id"].intValue, name: faq["topic"]["name"].stringValue)
                         
-                        /*
-                        let notificationData = nData(type: type, sub_type: sub_type, id: id, portfolio: portfolio, issue_date: issue_date, maturity_date: maturity_date, quantity: qty, coupon_rate: coupon_rate, period: period, title_in: title_in, message_in: message_in)
-                        let notification = NotificationModel(id: notify["id"].stringValue, title: notify["title"].stringValue, message: notify["message"].stringValue, data: notificationData, is_read: notify["is_read"].intValue, created_at: notify["created_at"].stringValue, available_at: notify["available_at"].stringValue)
-                        notifications.append(notification)*/
+                        faqs.append(Faq(id: id, topic_id: topic_id, question: question, answer: answer, topic: topic))
                     }
-                    let faqs = [
-                        "abc", "def"
-                    ]
+                    
                     self.delegate?.setData(faqs)
                 }
             case .failure(let error):

@@ -11,6 +11,7 @@ import SwiftyJSON
 
 protocol NotificationDelegate {
     func setData(_ data: [NotificationModel])
+    func isMarkAsRead(_ isRead: Bool)
 }
 
 class NotificationPresenter {
@@ -48,6 +49,23 @@ class NotificationPresenter {
                     }
                     
                     self.delegate?.setData(notifications)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func markAsRead(_ id: Int) {
+        Alamofire.request(WEB_API_URL + "api/v1/notification/\(id)/read", method: .get, headers: getAuthHeaders()).responseJSON { response in
+            switch response.result {
+            case .success:
+                let result = JSON(response.result.value!)
+                //let message = result["message"].stringValue
+                if response.response?.statusCode == 200 {
+                    self.delegate?.isMarkAsRead(true)
+                } else {
+                    self.delegate?.isMarkAsRead(false)
                 }
             case .failure(let error):
                 print(error)

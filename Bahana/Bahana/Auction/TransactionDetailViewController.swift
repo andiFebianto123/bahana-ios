@@ -35,6 +35,8 @@ class TransactionDetailViewController: UIViewController {
     
     var data: Transaction!
     
+    var presenter: TransactionDetailPresenter!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -52,7 +54,8 @@ class TransactionDetailViewController: UIViewController {
         breakInformationTitle.text = "BREAK INFORMATION"
         breakInformationView.backgroundColor = UIColorFromHex(rgbValue: 0xfee2e1)
         
-        setContent()
+        presenter = TransactionDetailPresenter(delegate: self)
+        presenter.getTransaction(data.id)
     }
     
 
@@ -171,5 +174,12 @@ class TransactionDetailViewController: UIViewController {
                 breakInformationViewHeight.constant += CGFloat(30)
             }
         }
+    }
+}
+
+extension TransactionDetailViewController: TransactionDetailDelegate {
+    func setData(_ data: Transaction) {
+        self.data = data
+        setContent()
     }
 }

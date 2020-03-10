@@ -13,24 +13,10 @@ class AuctionDetailViewController: UIViewController {
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationBackView: UIView!
     @IBOutlet weak var navigationBackImageView: UIImageView!
+    @IBOutlet weak var navigationTitle: UILabel!
     
     @IBOutlet weak var containerView: UIView!
-    /*@IBOutlet weak var statusView: UIView!
-    @IBOutlet weak var statusLabel: UILabel!
-    @IBOutlet weak var typeLabel: UILabel!
-    @IBOutlet weak var endLabel: UILabel!
-    @IBOutlet weak var portfolioView: UIView!
-    @IBOutlet weak var portfolioViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var portfolioStackView: UIStackView!
-    @IBOutlet weak var detailLabel: UILabel!
-    @IBOutlet weak var detailView: UIView!
-    @IBOutlet weak var detailStackView: UIStackView!
-    @IBOutlet weak var detailViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var noteView: UIView!
-    @IBOutlet weak var noteViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var noteViewTop: NSLayoutConstraint!
-    @IBOutlet weak var rateStackView: UIStackView!
-    @IBOutlet weak var rateStackViewHeight: NSLayoutConstraint!*/
+    
     var scrollView = UIScrollView()
     var mainView = UIView()
     
@@ -74,38 +60,10 @@ class AuctionDetailViewController: UIViewController {
             break
         }
         
-        /*
-        mainView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            mainView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            mainView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            mainView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            mainView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            mainView.widthAnchor.constraint(equalToConstant: screenSize.width),
-            mainView.heightAnchor.constraint(equalToConstant: screenSize.height + CGFloat(500))
-        ])*/
-        
-        /*
-        typeLabel.textColor = primaryColor
-        endLabel.textColor = primaryColor
-        endLabel.font = UIFont.boldSystemFont(ofSize: 14)
-            
-        statusView.layer.cornerRadius = 10
-        
-        portfolioView.layer.cornerRadius = 3
-        portfolioView.layer.shadowColor = UIColor.gray.cgColor
-        portfolioView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        portfolioView.layer.shadowRadius = 4
-        portfolioView.layer.shadowOpacity = 0.5
-        portfolioView.backgroundColor = UIColorFromHex(rgbValue: 0xfee2e1)
-        let testTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
-        portfolioView.addGestureRecognizer(testTap)
-        */
         // For testing
         //auction = Auction(id: 1, auction_name: "NP.BDL.181219", start_date: "2019-12-18 15:40:00", end_date: "2019-12-18 18:40:00", end_bidding_rm: "2019-12-18 17:40:00", investment_range_start: 20000000, investment_range_end: nil, notes: "Mohon crosscheck instruksi dari Ops & Custody. Jatuh tempo di hari Sabtu/Minggu, bunga berjalan dibayarkan on bilyet", issue_date: "2019-12-18 00:00:00", pic_custodian: nil, custodian_bank: nil, portfolio_short: "BDL", portfolio: "BDL (RD BAHANA DANA LIKUID)", maturity_date: nil, break_maturity_date: nil, type: "AUCTION", status: "ACC", period: nil)
         
-        /*setContent()
+        /*
         let screenSize = contentView.bounds
         scrollView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height)
         scrollView.contentSize = CGSize(width: screenSize.width, height: screenSize.height * 2)
@@ -147,22 +105,6 @@ class AuctionDetailViewController: UIViewController {
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
         navigationBackImageView.image = UIImage(named: "icon_left")
         navigationBackView.addGestureRecognizer(backTap)
-        
-        /*let label = UILabel()
-        label.text = "AUCTION DETAIL"
-        label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.white
-        let titleBar = UIBarButtonItem.init(customView: label)
-        navigationItem.titleView = label*/
-        /*
-        let backButton = UIButton()
-        backButton.setTitle("Back", for: .normal)
-        backButton.setTitleColor(.white, for: .normal)
-        let backBar = UIBarButtonItem.init(customView: backButton)
-        
-        //navigationItem.setHidesBackButton(true, animated: false)
-        navigationController?.navigationItem.setLeftBarButton(backBar, animated: true)*/
     }
 
     @objc func backButtonPressed() {

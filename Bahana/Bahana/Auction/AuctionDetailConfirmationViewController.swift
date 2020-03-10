@@ -26,6 +26,8 @@ class AuctionDetailConfirmationViewController: UIViewController {
     var textField = UITextField()
     var datePicker = UIDatePicker()
     
+    var presenter: AuctionDetailConfirmationPresenter!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -50,6 +52,8 @@ class AuctionDetailConfirmationViewController: UIViewController {
         changeEndDateButton.setTitleColor(.white, for: .normal)
         
         setDatePicker()
+        
+        presenter = AuctionDetailConfirmationPresenter(delegate: self)
     }
     
 
@@ -114,5 +118,11 @@ class AuctionDetailConfirmationViewController: UIViewController {
             print("yes")
         }))
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension AuctionDetailConfirmationViewController: AuctionDetailConfirmationDelegate {
+    func isConfirmed(_ isConfirmed: Bool, _ message: String) {
+        //
     }
 }

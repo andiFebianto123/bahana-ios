@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 //let WEB_API_URL = "http://localhost:8000/"
 //let WEB_API_URL = "http://192.168.1.25:8000/"
@@ -143,6 +144,19 @@ func toRp(_ number: Double) -> String {
     return formattedNumber
 }
 */
+
+func getUnreadNotificationCount(completion: @escaping (_ count: Int) -> Void) {
+    Alamofire.request(WEB_API_URL + "api/v1/notification/unread", method: .get, headers: getAuthHeaders()).responseJSON { response in
+        switch response.result {
+        case .success:
+            let result = JSON(response.result.value!)
+            completion(result["count"].intValue)
+        case .failure(let error):
+            print(error)
+        }
+    }
+}
+
 func UIColorFromHex(rgbValue:UInt32, alpha:Double=1.0) -> UIColor {
     let red = CGFloat((rgbValue & 0xFF0000) >> 16)/256.0
     let green = CGFloat((rgbValue & 0xFF00) >> 8)/256.0

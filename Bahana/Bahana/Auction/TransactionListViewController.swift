@@ -85,11 +85,6 @@ class TransactionListViewController: UIViewController {
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
         
-        //let notificationButton = UIButton(type: UIButton.ButtonType.custom)
-        //notificationButton.setImage(UIImage(named: "icon_notification"), for: .normal)
-        //notificationButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        //notificationButton.frame = buttonFrame
-        //notificationButton.addTarget(self, action: #selector(showNotification), for: .touchUpInside)
         notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
     }
     

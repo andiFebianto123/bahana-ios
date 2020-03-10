@@ -10,30 +10,25 @@ import UIKit
 
 class ContactViewController: UIViewController {
 
-    @IBOutlet weak var contact1View: UIView!
-    @IBOutlet weak var contact1Title: UILabel!
-    @IBOutlet weak var contact1Name: UILabel!
-    @IBOutlet weak var contact1Phone: UILabel!
-    @IBOutlet weak var contact2View: UIView!
-    @IBOutlet weak var contact2Title: UILabel!
-    @IBOutlet weak var contact2Name: UILabel!
-    @IBOutlet weak var contact2Phone: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     
+    var presenter: ContactPresenter!
     
+    var data = [Contact]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        view.backgroundColor = backgroundColor
-        
-        contact1Title.textColor = primaryColor
-        contact1Phone.textColor = .blue
-        contact2Title.textColor = primaryColor
-        contact2Phone.textColor = .blue
-        
         setNavigationItems()
-        setContent()
+        
+        tableView.backgroundColor = backgroundColor
+        tableView.separatorStyle = .none
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        presenter = ContactPresenter(delegate: self)
+        presenter.getData()
     }
     
 
@@ -72,21 +67,35 @@ class ContactViewController: UIViewController {
         navigationItem.rightBarButtonItem = closeBarButton
     }
     
-    func setContent() {
-        contact1View.layer.cornerRadius = 5
-        contact1View.backgroundColor = .white
-        contact1Title.text = "Fund Manager"
-        contact1Name.text = "Tono"
-        contact1Phone.text = "040404"
-        
-        contact2View.layer.cornerRadius = 5
-        contact2View.backgroundColor = .white
-        contact2Title.text = "Manager"
-        contact2Name.text = "ANI"
-        contact2Phone.text = "5550505"
-    }
-    
     @objc func close() {
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ContactViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ContactTableViewCell
+        let contact = data[indexPath.row]
+        cell.position.text = contact.position
+        cell.name.text = contact.name
+        cell.phone.text = contact.phone
+        return cell
+    }
+}
+
+extension ContactViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
+}
+
+extension ContactViewController: ContactDelegate {
+    func setData(_ data: [Contact]) {
+        self.data = data
+        tableView.reloadData()
     }
 }

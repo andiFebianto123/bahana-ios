@@ -23,6 +23,8 @@ class FaqTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         self.selectionStyle = .none
+        self.backgroundColor = backgroundColor
+        
         self.bottomView.isHidden = true
     }
 
