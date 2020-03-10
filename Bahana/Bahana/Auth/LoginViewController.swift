@@ -39,6 +39,7 @@ class LoginViewController: UIViewController {
         languageView.layer.cornerRadius = 20
         languageView.backgroundColor = UIColor.red
         languageView.layer.masksToBounds = true
+        languageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToChangeLanguage)))
         languageLabel.textColor = UIColor.white
         languageLabel.text = localize("indonesia")
         emailLabel.font = UIFont.systemFont(ofSize: 10)
@@ -113,6 +114,12 @@ class LoginViewController: UIViewController {
     
     @objc func goToForgotPassword() {
         performSegue(withIdentifier: "showForgotPassword", sender: self)
+    }
+    
+    @objc func goToChangeLanguage() {
+        let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let changeLanguageViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "ChangeLanguage") as UIViewController
+        self.present(changeLanguageViewController, animated: true, completion: nil)
     }
 }
 

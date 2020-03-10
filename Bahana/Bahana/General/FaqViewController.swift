@@ -1,37 +1,37 @@
 //
-//  NotificationViewController.swift
+//  FaqViewController.swift
 //  Bahana
 //
-//  Created by Christian Chandra on /2003/09.
+//  Created by Christian Chandra on /2003/10.
 //  Copyright © 2020 Rectmedia. All rights reserved.
 //
 
 import UIKit
 
-class NotificationViewController: UIViewController {
+class FaqViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationTitle: UILabel!
-    @IBOutlet weak var navigationBackView: UIView!
+    @IBOutlet weak var closeView: UIView!
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
-    var presenter: NotificationPresenter!
+    var presenter: FaqPresenter!
     
-    var data = [NotificationModel]()
+    var data = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.separatorStyle = .none
-        view.backgroundColor = backgroundColor
-        //tableView.estimatedRowHeight = CGFloat()
-        
         setNavigationItems()
         
-        presenter = NotificationPresenter(delegate: self)
+        tableView.separatorStyle = .none
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UINib(nibName: "FaqTableViewCell", bundle: nil), forCellReuseIdentifier: "FaqTableViewCell")
+        
+        presenter = FaqPresenter(delegate: self)
         presenter.getData()
     }
     
@@ -59,7 +59,7 @@ class NotificationViewController: UIViewController {
         //notificationButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         //notificationButton.frame = buttonFrame
         //notificationButton.addTarget(self, action: #selector(showNotification), for: .touchUpInside)
-        navigationBackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
+        closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
         
     }
     
@@ -68,41 +68,37 @@ class NotificationViewController: UIViewController {
     }
 }
 
-extension NotificationViewController: UITableViewDataSource {
+extension FaqViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationTableViewCell
-        let notification = data[indexPath.row]
-        cell.notificationTitle.text = notification.title
-        cell.notificationContent.text = notification.message
-        cell.notificationDate.text = notification.created_at
-        if notification.is_read == 0 {
-            cell.isUnread()
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FaqTableViewCell", for: indexPath) as! FaqTableViewCell
+        let faq = data[indexPath.row]
+        cell.titleLabel.text = faq
+        cell.answerLabel.text = faq
         return cell
     }
 }
 
-extension NotificationViewController: UITableViewDelegate {
-    /*func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
-    }*/
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //return UITableView.automaticDimension
-        return 120
+extension FaqViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! FaqTableViewCell
+        if cell.isExpanded {
+            cell.shrink()
+        } else {
+            cell.expand()
+        }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 }
 
-extension NotificationViewController: NotificationDelegate {
-    func setData(_ data: [NotificationModel]) {
+extension FaqViewController: FaqDelegate {
+    func setData(_ data: [String]) {
         self.data = data
         tableView.reloadData()
     }

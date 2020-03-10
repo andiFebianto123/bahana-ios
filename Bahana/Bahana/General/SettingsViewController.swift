@@ -137,12 +137,10 @@ class SettingsViewController: UIViewController {
             performSegue(withIdentifier: "showContact", sender: self)
         case 3:
             // FAQ
-            print("faq")
-            //performSegue(withIdentifier: "", sender: self)
+            performSegue(withIdentifier: "showFaq", sender: self)
         case 4:
             // Change Language
-            print("language")
-            //performSegue(withIdentifier: "", sender: self)
+            performSegue(withIdentifier: "showChangeLanguage", sender: self)
         case 5:
             // Logout
             presenter.logout()

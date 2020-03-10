@@ -31,6 +31,10 @@ func getLocalData(key: String) -> String {
     }
 }
 
+func changeLanguage() {
+    //getLocalData(key: "language")
+}
+
 func localize(_ key: String) -> String {
     return NSLocalizedString(key, comment: "")
 }

@@ -22,6 +22,9 @@
 "profile" = "PROFILE";
 "best_rate" = "BEST RATE";
 
+"language_en" = "English (EN)";
+"language_id" = "Bahasa Indonesia (ID)";
+
 "information" = "Informasi";
 "fail_to_process_data_from_server" = "Gagal memproses data dari server";
 

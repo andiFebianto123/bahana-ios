@@ -1,38 +1,35 @@
 //
-//  NotificationViewController.swift
+//  ChangeLanguageViewController.swift
 //  Bahana
 //
-//  Created by Christian Chandra on /2003/09.
+//  Created by Christian Chandra on /2003/10.
 //  Copyright © 2020 Rectmedia. All rights reserved.
 //
 
 import UIKit
 
-class NotificationViewController: UIViewController {
+class ChangeLanguageViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationTitle: UILabel!
-    @IBOutlet weak var navigationBackView: UIView!
+    @IBOutlet weak var closeView: UIView!
+    
     @IBOutlet weak var tableView: UITableView!
     
-    var presenter: NotificationPresenter!
-    
-    var data = [NotificationModel]()
+    var languages = [
+        "language_en",
+        "language_id"
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.separatorStyle = .none
-        view.backgroundColor = backgroundColor
-        //tableView.estimatedRowHeight = CGFloat()
-        
         setNavigationItems()
         
-        presenter = NotificationPresenter(delegate: self)
-        presenter.getData()
+        tableView.tableFooterView = UIView()
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
 
@@ -59,7 +56,7 @@ class NotificationViewController: UIViewController {
         //notificationButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         //notificationButton.frame = buttonFrame
         //notificationButton.addTarget(self, action: #selector(showNotification), for: .touchUpInside)
-        navigationBackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
+        closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
         
     }
     
@@ -68,42 +65,26 @@ class NotificationViewController: UIViewController {
     }
 }
 
-extension NotificationViewController: UITableViewDataSource {
+extension ChangeLanguageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return languages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationTableViewCell
-        let notification = data[indexPath.row]
-        cell.notificationTitle.text = notification.title
-        cell.notificationContent.text = notification.message
-        cell.notificationDate.text = notification.created_at
-        if notification.is_read == 0 {
-            cell.isUnread()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ChangeLanguageTableViewCell
+        cell.name.text = localize(languages[indexPath.row])
+        if getLocalData(key: "language") == languages[indexPath.row] {
+            cell.checked()
+        } else {
+            cell.unchecked()
         }
         return cell
     }
 }
 
-extension NotificationViewController: UITableViewDelegate {
-    /*func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
-    }*/
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //return UITableView.automaticDimension
-        return 120
-    }
-    
+extension ChangeLanguageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
-    }
-}
-
-extension NotificationViewController: NotificationDelegate {
-    func setData(_ data: [NotificationModel]) {
-        self.data = data
+        setLocalData(["language": languages[indexPath.row]])
         tableView.reloadData()
     }
 }
