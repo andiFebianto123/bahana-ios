@@ -30,6 +30,7 @@ class NotificationPresenter {
                     //
                 } else {
                     var notifications = [NotificationModel]()
+                    
                     for notify in result.arrayValue {
                         let id = notify["data"]["id"].intValue
                         let type = notify["data"]["type"] != JSON.null ? notify["data"]["type"].stringValue : nil

@@ -63,6 +63,7 @@ class AuctionDetailBreakViewController: UIViewController {
         policyView.layer.shadowRadius = 4
         policyView.layer.shadowOpacity = 0.5
         submitButton.backgroundColor = primaryColor
+        confirmButton.backgroundColor = UIColorFromHex(rgbValue: 0x2a91ff)
         
         presenter = AuctionDetailBreakPresenter(delegate: self)
         presenter.getAuction(id)
@@ -118,9 +119,12 @@ class AuctionDetailBreakViewController: UIViewController {
         }
     }
     
+    @IBAction func submitButtonPressed(_ sender: Any) {
+        //presenter.saveAuction(id)
+    }
     
     @IBAction func confirmationButtonPressed(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["idx": id])
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["date": ""])
     }
 }
 

@@ -106,6 +106,35 @@ class AuctionListViewController: UIViewController {
             navigationTitle.text = "HISTORY"
         }
         
+        // Set badge notification
+        let badgeView = UIView()
+        badgeView.backgroundColor = .lightGray
+        badgeView.layer.cornerRadius = 6
+        badgeView.translatesAutoresizingMaskIntoConstraints = false
+        notificationView.addSubview(badgeView)
+        
+        let badgeLabel = UILabel()
+        getUnreadNotificationCount() { count in
+            if count > 99 {
+                badgeLabel.text = "99+"
+            } else {
+                badgeLabel.text = "\(count)"
+            }
+        }
+        badgeLabel.font = UIFont.systemFont(ofSize: 8)
+        badgeLabel.textColor = .white
+        badgeLabel.translatesAutoresizingMaskIntoConstraints = false
+        badgeView.addSubview(badgeLabel)
+        
+        NSLayoutConstraint.activate([
+            badgeView.topAnchor.constraint(equalTo: notificationView.topAnchor, constant: 0),
+            badgeView.trailingAnchor.constraint(equalTo: notificationView.trailingAnchor, constant: -2),
+            badgeView.heightAnchor.constraint(equalToConstant: 14),
+            badgeView.widthAnchor.constraint(equalToConstant: 22),
+            badgeLabel.centerXAnchor.constraint(equalTo: badgeView.centerXAnchor),
+            badgeLabel.centerYAnchor.constraint(equalTo: badgeView.centerYAnchor),
+        ])
+        
         notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
     }
     
@@ -175,9 +204,19 @@ extension AuctionListViewController: UITableViewDataSource {
         cell.setStatus(auction.status)
         cell.fundNameLabel.text = auction.portfolio_short
         cell.tenorLabel.text = auction.period
-        if auction.type != "break" {
-            cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start)) - \(toIdrBio(auction.investment_range_end))"
-            cell.endLabel.text = "\(calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!))"
+        if auction.type == "auction" || auction.type == "direct auction" || auction.type == "rollover" {
+            if auction.type == "auction" {
+                cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start))"
+            } else {
+                cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start)) - \(toIdrBio(auction.investment_range_end))"
+            }
+            
+            let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
+            if countdown != "" {
+                cell.endLabel.text = countdown
+            } else {
+                cell.endLabel.text = ""
+            }
             cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
         } else {
             cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start))"
@@ -192,7 +231,7 @@ extension AuctionListViewController: UITableViewDataSource {
 extension AuctionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         auctionID = data[indexPath.row].id
-        auctionType = data[indexPath.row].type.uppercased()
+        auctionType = data[indexPath.row].type
         performSegue(withIdentifier: "showDetail", sender: self)
     }
     

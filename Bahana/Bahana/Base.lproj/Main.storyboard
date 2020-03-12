@@ -163,27 +163,27 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="emB-pI-DE3">
-                                        <rect key="frame" x="379" y="29" width="25" height="25"/>
+                                        <rect key="frame" x="374" y="24" width="35" height="30"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="notification" translatesAutoresizingMaskIntoConstraints="NO" id="zgS-Q5-4aM">
-                                                <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                                <rect key="frame" x="5" y="5" width="20" height="20"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="zgS-Q5-4aM" secondAttribute="trailing" id="33l-wF-d07"/>
-                                            <constraint firstAttribute="width" constant="25" id="Mmx-jw-Ozu"/>
-                                            <constraint firstAttribute="bottom" secondItem="zgS-Q5-4aM" secondAttribute="bottom" id="OOT-3Q-Xwe"/>
-                                            <constraint firstItem="zgS-Q5-4aM" firstAttribute="top" secondItem="emB-pI-DE3" secondAttribute="top" id="PLr-OH-lVG"/>
-                                            <constraint firstAttribute="height" constant="25" id="xU2-vD-Arm"/>
-                                            <constraint firstItem="zgS-Q5-4aM" firstAttribute="leading" secondItem="emB-pI-DE3" secondAttribute="leading" id="xYl-j0-07z"/>
+                                            <constraint firstAttribute="trailing" secondItem="zgS-Q5-4aM" secondAttribute="trailing" constant="10" id="33l-wF-d07"/>
+                                            <constraint firstAttribute="width" constant="35" id="Mmx-jw-Ozu"/>
+                                            <constraint firstAttribute="bottom" secondItem="zgS-Q5-4aM" secondAttribute="bottom" constant="5" id="OOT-3Q-Xwe"/>
+                                            <constraint firstItem="zgS-Q5-4aM" firstAttribute="top" secondItem="emB-pI-DE3" secondAttribute="top" constant="5" id="PLr-OH-lVG"/>
+                                            <constraint firstAttribute="height" constant="30" id="xU2-vD-Arm"/>
+                                            <constraint firstItem="zgS-Q5-4aM" firstAttribute="leading" secondItem="emB-pI-DE3" secondAttribute="leading" constant="5" id="xYl-j0-07z"/>
                                         </constraints>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="8ey-BZ-ZGG"/>
-                                    <constraint firstAttribute="trailing" secondItem="emB-pI-DE3" secondAttribute="trailing" constant="10" id="Bqe-Pr-89D"/>
+                                    <constraint firstAttribute="trailing" secondItem="emB-pI-DE3" secondAttribute="trailing" constant="5" id="Bqe-Pr-89D"/>
                                     <constraint firstAttribute="bottom" secondItem="emB-pI-DE3" secondAttribute="bottom" constant="10" id="VRd-4O-ZQH"/>
                                     <constraint firstAttribute="bottom" secondItem="L1R-nR-vPj" secondAttribute="bottom" constant="10" id="cOa-9c-ikd"/>
                                     <constraint firstItem="L1R-nR-vPj" firstAttribute="leading" secondItem="0nY-HM-km9" secondAttribute="leading" constant="10" id="uUP-Tz-3G2"/>
@@ -272,27 +272,27 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ATt-to-q9Z">
-                                        <rect key="frame" x="379" y="29" width="25" height="25"/>
+                                        <rect key="frame" x="374" y="24" width="35" height="30"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="notification" translatesAutoresizingMaskIntoConstraints="NO" id="SLm-dh-51e">
-                                                <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                                <rect key="frame" x="5" y="5" width="20" height="20"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstItem="SLm-dh-51e" firstAttribute="leading" secondItem="ATt-to-q9Z" secondAttribute="leading" id="CiQ-Rj-hfe"/>
-                                            <constraint firstAttribute="bottom" secondItem="SLm-dh-51e" secondAttribute="bottom" id="DuQ-dZ-qIL"/>
-                                            <constraint firstAttribute="height" constant="25" id="WUB-wR-kAQ"/>
-                                            <constraint firstItem="SLm-dh-51e" firstAttribute="top" secondItem="ATt-to-q9Z" secondAttribute="top" id="Wee-7e-XrD"/>
-                                            <constraint firstAttribute="width" constant="25" id="hsA-sO-4v8"/>
-                                            <constraint firstAttribute="trailing" secondItem="SLm-dh-51e" secondAttribute="trailing" id="opc-tx-JlD"/>
+                                            <constraint firstItem="SLm-dh-51e" firstAttribute="leading" secondItem="ATt-to-q9Z" secondAttribute="leading" constant="5" id="CiQ-Rj-hfe"/>
+                                            <constraint firstAttribute="bottom" secondItem="SLm-dh-51e" secondAttribute="bottom" constant="5" id="DuQ-dZ-qIL"/>
+                                            <constraint firstAttribute="height" constant="30" id="WUB-wR-kAQ"/>
+                                            <constraint firstItem="SLm-dh-51e" firstAttribute="top" secondItem="ATt-to-q9Z" secondAttribute="top" constant="5" id="Wee-7e-XrD"/>
+                                            <constraint firstAttribute="width" constant="35" id="hsA-sO-4v8"/>
+                                            <constraint firstAttribute="trailing" secondItem="SLm-dh-51e" secondAttribute="trailing" constant="10" id="opc-tx-JlD"/>
                                         </constraints>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstItem="lo8-LR-Ya3" firstAttribute="leading" secondItem="Jw5-5B-Fd7" secondAttribute="leading" constant="10" id="AKu-Pv-vyn"/>
-                                    <constraint firstAttribute="trailing" secondItem="ATt-to-q9Z" secondAttribute="trailing" constant="10" id="C3R-Wo-QhC"/>
+                                    <constraint firstAttribute="trailing" secondItem="ATt-to-q9Z" secondAttribute="trailing" constant="5" id="C3R-Wo-QhC"/>
                                     <constraint firstAttribute="height" constant="64" id="TVD-R1-DIq"/>
                                     <constraint firstAttribute="bottom" secondItem="ATt-to-q9Z" secondAttribute="bottom" constant="10" id="bdB-z5-fSg"/>
                                     <constraint firstAttribute="bottom" secondItem="lo8-LR-Ya3" secondAttribute="bottom" constant="10" id="qHf-p9-1Pp"/>
@@ -843,6 +843,16 @@
             </objects>
             <point key="canvasLocation" x="3158" y="1102"/>
         </scene>
+        <!--AuctionDetail-->
+        <scene sceneID="0Nl-ek-1vm">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Auction" referencedIdentifier="AuctionDetail" id="qgf-A7-oTP" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Eji-Gx-0Be"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bbO-4g-EMh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-19" y="2265"/>
+        </scene>
         <!--Notification View Controller-->
         <scene sceneID="RED-Bv-Dn2">
             <objects>
@@ -968,11 +978,23 @@
                         <outlet property="navigationTitle" destination="e2h-oU-2Vj" id="8X4-m9-L6Y"/>
                         <outlet property="navigationView" destination="f8Y-as-NuK" id="lZ7-La-UVl"/>
                         <outlet property="tableView" destination="yUE-KM-FMX" id="b3U-mA-2mU"/>
+                        <segue destination="qgf-A7-oTP" kind="show" identifier="showAuctionDetail" id="3ZZ-oa-Rpy"/>
+                        <segue destination="PWs-Uv-sDe" kind="show" identifier="showTransactionDetail" id="iBb-D4-mEj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXb-8u-Rku" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="445" y="1854"/>
+        </scene>
+        <!--TransactionDetail-->
+        <scene sceneID="sTh-hl-s9T">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Auction" referencedIdentifier="TransactionDetail" id="PWs-Uv-sDe" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Td3-qI-xRY"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VdM-CJ-m8Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="901" y="2266"/>
         </scene>
     </scenes>
     <resources>
@@ -983,6 +1005,6 @@
         <image name="notification" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="XGC-5f-Z7e"/>
+        <segue reference="wzc-aa-HKd"/>
     </inferredMetricsTieBreakers>
 </document>

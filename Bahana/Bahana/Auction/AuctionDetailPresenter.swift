@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 protocol AuctionDetailDelegate {
-    func setData(_ data: Auction, _ viewType: Int)
+    //
 }
 
 class AuctionDetailPresenter {

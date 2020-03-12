@@ -67,7 +67,6 @@
 		BCC95AD523EADBEC00515773 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD423EADBEC00515773 /* DashboardViewController.swift */; };
 		BCC95AD823EADD1C00515773 /* AuctionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD723EADD1C00515773 /* AuctionListViewController.swift */; };
 		BCC95ADA23EADD2D00515773 /* AuctionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD923EADD2D00515773 /* AuctionDetailViewController.swift */; };
-		BCDE2E5A23F5229F009AEC18 /* TransactionDetail2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDE2E5923F5229F009AEC18 /* TransactionDetail2ViewController.swift */; };
 		BCE00CA72407865F00EDBADE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCE00CA92407865F00EDBADE /* Localizable.strings */; };
 		BCE40BF723E2AAB200034744 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCE40BF623E2AAB200034744 /* Auth.storyboard */; };
 		BCE40BF923E2AE2F00034744 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE40BF823E2AE2F00034744 /* LoginViewController.swift */; };
@@ -166,7 +165,6 @@
 		BCC95AD423EADBEC00515773 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		BCC95AD723EADD1C00515773 /* AuctionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListViewController.swift; sourceTree = "<group>"; };
 		BCC95AD923EADD2D00515773 /* AuctionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailViewController.swift; sourceTree = "<group>"; };
-		BCDE2E5923F5229F009AEC18 /* TransactionDetail2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetail2ViewController.swift; sourceTree = "<group>"; };
 		BCE00CA32407861300EDBADE /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Main.strings; sourceTree = "<group>"; };
 		BCE00CA42407861400EDBADE /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		BCE00CA82407865F00EDBADE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -278,11 +276,6 @@
 				BCF2846023F0553800EE8FD8 /* AuctionListTableViewCell.xib */,
 				BCC95AD923EADD2D00515773 /* AuctionDetailViewController.swift */,
 				BC4ECE412403C31300A8B4FB /* AuctionDetailPresenter.swift */,
-				BCA2BABB23F40BAB00E219B2 /* TransactionListViewController.swift */,
-				BCA2BABD23F40BC400E219B2 /* TransactionListPresenter.swift */,
-				BCA2BABF23F40C1D00E219B2 /* TransactionDetailViewController.swift */,
-				BCDE2E5923F5229F009AEC18 /* TransactionDetail2ViewController.swift */,
-				BC14BF4E241775B300D84A0A /* TransactionDetailPresenter.swift */,
 				BCFE9E0B2404D0B10013909A /* AuctionDetailNormalViewController.swift */,
 				BC27FF8124052283002E1188 /* AuctionDetailNormalPresenter.swift */,
 				BCFE9E0D2404D0EE0013909A /* AuctionDetailDirectViewController.swift */,
@@ -293,6 +286,10 @@
 				BC27FF87240522C2002E1188 /* AuctionDetailRolloverPresenter.swift */,
 				BC12BC8C2408E6AA00728F13 /* AuctionDetailConfirmationViewController.swift */,
 				BC14BF502417775900D84A0A /* AuctionDetailConfirmationPresenter.swift */,
+				BCA2BABB23F40BAB00E219B2 /* TransactionListViewController.swift */,
+				BCA2BABD23F40BC400E219B2 /* TransactionListPresenter.swift */,
+				BCA2BABF23F40C1D00E219B2 /* TransactionDetailViewController.swift */,
+				BC14BF4E241775B300D84A0A /* TransactionDetailPresenter.swift */,
 			);
 			path = Auction;
 			sourceTree = "<group>";
@@ -508,7 +505,6 @@
 				BCFE9E082404CFC10013909A /* AuctionDetailBreakViewController.swift in Sources */,
 				BC190B65240E1E4300D11011 /* Transaction.swift in Sources */,
 				BC472B5F23E3E35100FA2A6F /* BestRateViewController.swift in Sources */,
-				BCDE2E5A23F5229F009AEC18 /* TransactionDetail2ViewController.swift in Sources */,
 				BCC95AD323EAC15600515773 /* ForgotPasswordPresenter.swift in Sources */,
 				BC14BF512417775900D84A0A /* AuctionDetailConfirmationPresenter.swift in Sources */,
 				BC14BF41241754D000D84A0A /* FaqPresenter.swift in Sources */,

@@ -18,10 +18,11 @@ class AuctionDetailConfirmationViewController: UIViewController {
     @IBOutlet weak var noButton: UIButton!
     @IBOutlet weak var yesButton: UIButton!
     @IBOutlet weak var changeEndDateButton: UIButton!
+    @IBOutlet weak var mainViewHeight: NSLayoutConstraint!
     
     var auctionID: Int!
     var auctionType: String!
-    var auctionDate = String()
+    var auctionRequestMaturityDate: String?
     
     var textField = UITextField()
     var datePicker = UIDatePicker()
@@ -42,14 +43,22 @@ class AuctionDetailConfirmationViewController: UIViewController {
         
         confirmationLabel.text = "Are you sure you want to be the winner?"
         
-        noButton.backgroundColor = .red
+        noButton.backgroundColor = primaryColor
         noButton.setTitleColor(.white, for: .normal)
         
-        yesButton.backgroundColor = .green
+        yesButton.backgroundColor = UIColorFromHex(rgbValue: 0x85cc63)
         yesButton.setTitleColor(.white, for: .normal)
         
-        changeEndDateButton.backgroundColor = .systemYellow
+        changeEndDateButton.backgroundColor = UIColorFromHex(rgbValue: 0xffc74e)
         changeEndDateButton.setTitleColor(.white, for: .normal)
+        
+        if auctionType == "BREAK" {
+            confirmationLabel.text = "Are you sure you want to be the choosen bidder?"
+            changeEndDateButton.isHidden = true
+            mainViewHeight.constant -= 20
+        } else {
+            confirmationLabel.text = "Are you sure you want to be the winner?"
+        }
         
         setDatePicker()
         
@@ -89,6 +98,14 @@ class AuctionDetailConfirmationViewController: UIViewController {
         textField.inputAccessoryView = toolbar
     }
     
+    @IBAction func noButtonPressed(_ sender: Any) {
+        presenter.confirm(auctionID, auctionType, false, auctionRequestMaturityDate)
+    }
+    
+    @IBAction func yesButtonPressed(_ sender: Any) {
+        presenter.confirm(auctionID, auctionType, true, auctionRequestMaturityDate)
+    }
+    
     @IBAction func changeEndDatePressed(_ sender: Any) {
         textField.becomeFirstResponder()
     }
@@ -99,7 +116,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
     
     @objc func dateChanged(sender: UIDatePicker) {
         let date = convertDateToString(datePicker.date)
-        auctionDate = date!
+        auctionRequestMaturityDate = date!
     }
     
     @objc func closePicker() {
@@ -108,7 +125,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
     
     @objc func donePicker() {
         textField.resignFirstResponder()
-        showConfirmationAlert(auctionDate)
+        showConfirmationAlert(auctionRequestMaturityDate!)
     }
     
     func showConfirmationAlert(_ date: String) {

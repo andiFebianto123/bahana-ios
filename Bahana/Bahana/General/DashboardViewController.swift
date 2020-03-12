@@ -103,13 +103,36 @@ class DashboardViewController: UIViewController {
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
         navigationTitle.text = localize("home").uppercased()
         
-        //let notificationButton = UIButton(type: UIButton.ButtonType.custom)
-        //notificationButton.setImage(UIImage(named: "notification"), for: .normal)
-        //notificationButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        //notificationButton.frame = buttonFrame
-        //notificationButton.addTarget(self, action: #selector(showNotification), for: .touchUpInside)
-        notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
+        // Set badge notification
+        let badgeView = UIView()
+        badgeView.backgroundColor = .lightGray
+        badgeView.layer.cornerRadius = 6
+        badgeView.translatesAutoresizingMaskIntoConstraints = false
+        notificationView.addSubview(badgeView)
         
+        let badgeLabel = UILabel()
+        getUnreadNotificationCount() { count in
+            if count > 99 {
+                badgeLabel.text = "99+"
+            } else {
+                badgeLabel.text = "\(count)"
+            }
+        }
+        badgeLabel.font = UIFont.systemFont(ofSize: 8)
+        badgeLabel.textColor = .white
+        badgeLabel.translatesAutoresizingMaskIntoConstraints = false
+        badgeView.addSubview(badgeLabel)
+        
+        NSLayoutConstraint.activate([
+            badgeView.topAnchor.constraint(equalTo: notificationView.topAnchor, constant: 0),
+            badgeView.trailingAnchor.constraint(equalTo: notificationView.trailingAnchor, constant: -2),
+            badgeView.heightAnchor.constraint(equalToConstant: 14),
+            badgeView.widthAnchor.constraint(equalToConstant: 22),
+            badgeLabel.centerXAnchor.constraint(equalTo: badgeView.centerXAnchor),
+            badgeLabel.centerYAnchor.constraint(equalTo: badgeView.centerYAnchor),
+        ])
+        
+        notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
     }
     
     @objc func showNotification() {

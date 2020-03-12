@@ -24,7 +24,7 @@ class AuctionDetailViewController: UIViewController {
     
     var auctionID: Int!
     var auctionType: String!
-    var viewType: Int!
+    var auctionRequestMaturityDate: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,22 +36,22 @@ class AuctionDetailViewController: UIViewController {
         
         let auctionStoryboard : UIStoryboard = UIStoryboard(name: "Auction", bundle: nil)
         switch auctionType {
-        case "AUCTION":
+        case "auction":
             let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailNormal") as! AuctionDetailNormalViewController
             viewController.id = self.auctionID
             containerView.addSubview(viewController.view)
             viewController.view.frame = containerView.bounds
-        case "DIRECT AUCTION":
+        case "direct-auction":
             let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailDirect") as! AuctionDetailDirectViewController
             viewController.id = self.auctionID
             containerView.addSubview(viewController.view)
             viewController.view.frame = containerView.bounds
-        case "BREAK":
+        case "break":
             let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailBreak") as! AuctionDetailBreakViewController
             viewController.id = self.auctionID
             containerView.addSubview(viewController.view)
             viewController.view.frame = containerView.bounds
-        case "ROLLOVER":
+        case "rollover":
             let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailRollover") as! AuctionDetailRolloverViewController
             viewController.id = self.auctionID
             containerView.addSubview(viewController.view)
@@ -59,9 +59,10 @@ class AuctionDetailViewController: UIViewController {
         default:
             break
         }
-        
-        // For testing
-        //auction = Auction(id: 1, auction_name: "NP.BDL.181219", start_date: "2019-12-18 15:40:00", end_date: "2019-12-18 18:40:00", end_bidding_rm: "2019-12-18 17:40:00", investment_range_start: 20000000, investment_range_end: nil, notes: "Mohon crosscheck instruksi dari Ops & Custody. Jatuh tempo di hari Sabtu/Minggu, bunga berjalan dibayarkan on bilyet", issue_date: "2019-12-18 00:00:00", pic_custodian: nil, custodian_bank: nil, portfolio_short: "BDL", portfolio: "BDL (RD BAHANA DANA LIKUID)", maturity_date: nil, break_maturity_date: nil, type: "AUCTION", status: "ACC", period: nil)
+        /*let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailNormal") as! AuctionDetailNormalViewController
+        viewController.id = self.auctionID
+        containerView.addSubview(viewController.view)
+        viewController.view.frame = containerView.bounds*/
         
         /*
         let screenSize = contentView.bounds
@@ -92,6 +93,7 @@ class AuctionDetailViewController: UIViewController {
             if let destinationVC = segue.destination as? AuctionDetailConfirmationViewController {
                 destinationVC.auctionID = auctionID
                 destinationVC.auctionType = auctionType
+                destinationVC.auctionRequestMaturityDate = auctionRequestMaturityDate
             }
         }
     }
@@ -113,10 +115,14 @@ class AuctionDetailViewController: UIViewController {
     }
     
     @objc func showConfimation(notification: Notification) {
-        /*if let data = notification.userInfo as? [String: Int] {
-            let id = data["id"]!
-        }*/
-        self.performSegue(withIdentifier: "showConfirmation", sender: self)
+        if let data = notification.userInfo as? [String: String] {
+            let date = data["date"]
+            if date != "" {
+                auctionRequestMaturityDate = date
+            }
+            
+            self.performSegue(withIdentifier: "showConfirmation", sender: self)
+        }
     }
     /*
     func setStatus(_ status: String) {
@@ -678,7 +684,5 @@ class AuctionDetailViewController: UIViewController {
 }
 
 extension AuctionDetailViewController: AuctionDetailDelegate {
-    func setData(_ data: Auction, _ viewType: Int) {
-        self.viewType = viewType
-    }
+    //
 }

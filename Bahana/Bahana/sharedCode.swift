@@ -114,6 +114,18 @@ func convertDateToString(_ date: Date?) -> String? {
     }
 }
 
+func convertTimeToString(_ date: Date?) -> String? {
+    if date != nil {
+        let str = DateFormatter()
+        //str.dateFormat = "yyyy-MM-dd"
+        str.dateFormat = "HH:mm"
+        let time = str.string(from: date!)
+        return time
+    } else {
+        return nil
+    }
+}
+
 func convertDatetimeToString(_ date: Date) -> String {
     let str = DateFormatter()
     str.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -127,7 +139,11 @@ func calculateDateDifference(_ date1: Date, _ date2: Date) -> String {
     let minutes = (time / 60) % 60 > 1 ? "\((time / 60) % 60) mins" : "\((time / 60) % 60) min"
     let hours = (time / 3600) > 1 ? "\((time / 3600)) hours" : "\((time / 3600)) hour"
     
-    return "\(hours) \(minutes)"
+    if time <= 0 {
+        return ""
+    } else {
+        return "\(hours) \(minutes)"
+    }
 }
 
 func toIdrBio(_ number: Double) -> Double {

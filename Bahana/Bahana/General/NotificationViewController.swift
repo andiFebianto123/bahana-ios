@@ -19,6 +19,10 @@ class NotificationViewController: UIViewController {
     
     var data = [NotificationModel]()
     
+    var auctionID: Int!
+    var auctionType: String!
+    var transactionID: Int!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,15 +40,23 @@ class NotificationViewController: UIViewController {
     }
     
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "showAuctionDetail" {
+            if let destinationVC = segue.destination as? AuctionDetailViewController {
+                destinationVC.auctionID = auctionID
+                destinationVC.auctionType = auctionType
+            }
+        } else if segue.identifier == "showTransactionDetail" {
+            if let destinationVC = segue.destination as? TransactionDetailViewController {
+                destinationVC.data.id = transactionID
+            }
+        }
     }
-    */
 
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
@@ -73,7 +85,7 @@ extension NotificationViewController: UITableViewDataSource {
         let notification = data[indexPath.row]
         cell.notificationTitle.text = notification.title
         cell.notificationContent.text = notification.message
-        cell.notificationDate.text = notification.created_at
+        cell.notificationDate.text = "\(convertDateToString(convertStringToDatetime(notification.created_at)!)!) \(convertTimeToString(convertStringToDatetime(notification.created_at)!)!)"
         if notification.is_read == 0 {
             cell.isUnread()
         }
@@ -92,7 +104,20 @@ extension NotificationViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
+        let notification = data[indexPath.row]
+        if notification.data != nil {
+            if notification.data!.type != "transaction" && notification.data?.sub_type != nil && notification.data!.sub_type == "detail" {
+                auctionID = notification.data?.id
+                auctionType = notification.data?.type!
+                //presenter.markAsRead(notification.id)
+                performSegue(withIdentifier: "showAuctionDetail", sender: self)
+            } else if notification.data!.type == "transaction" {
+                transactionID = notification.data?.id
+                print(transactionID)
+                //presenter.markAsRead(notification.id)
+                //performSegue(withIdentifier: "showTransactionDetail", sender: self)
+            }
+        }
     }
 }
 

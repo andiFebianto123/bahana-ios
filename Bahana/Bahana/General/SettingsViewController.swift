@@ -41,14 +41,13 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setNavigationItems()
+        
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "bg")
         backgroundImage.contentMode = .scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
         
-        navigationView.backgroundColor = primaryColor
-        navigationTitle.textColor = .white
-        notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
         profileView.backgroundColor = .white
         fullnameTitleLabel.textColor = .gray
         contactTitleLabel.textColor = .gray
@@ -105,6 +104,46 @@ class SettingsViewController: UIViewController {
         }
     }
 
+    func setNavigationItems() {
+        navigationView.backgroundColor = primaryColor
+        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        
+        navigationTitle.textColor = .white
+        navigationTitle.font = UIFont.systemFont(ofSize: 16)
+        navigationTitle.text = localize("home").uppercased()
+        
+        // Set badge notification
+        let badgeView = UIView()
+        badgeView.backgroundColor = .lightGray
+        badgeView.layer.cornerRadius = 6
+        badgeView.translatesAutoresizingMaskIntoConstraints = false
+        notificationView.addSubview(badgeView)
+        
+        let badgeLabel = UILabel()
+        getUnreadNotificationCount() { count in
+            if count > 99 {
+                badgeLabel.text = "99+"
+            } else {
+                badgeLabel.text = "\(count)"
+            }
+        }
+        badgeLabel.font = UIFont.systemFont(ofSize: 8)
+        badgeLabel.textColor = .white
+        badgeLabel.translatesAutoresizingMaskIntoConstraints = false
+        badgeView.addSubview(badgeLabel)
+        
+        NSLayoutConstraint.activate([
+            badgeView.topAnchor.constraint(equalTo: notificationView.topAnchor, constant: 0),
+            badgeView.trailingAnchor.constraint(equalTo: notificationView.trailingAnchor, constant: -2),
+            badgeView.heightAnchor.constraint(equalToConstant: 14),
+            badgeView.widthAnchor.constraint(equalToConstant: 22),
+            badgeLabel.centerXAnchor.constraint(equalTo: badgeView.centerXAnchor),
+            badgeLabel.centerYAnchor.constraint(equalTo: badgeView.centerYAnchor),
+        ])
+        
+        notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
+    }
+    
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))

@@ -52,9 +52,10 @@ class AuctionDetailDirectViewController: UIViewController {
         detailView.layer.shadowRadius = 4
         detailView.layer.shadowOpacity = 0.5
         revisedButton.backgroundColor = primaryColor
+        confirmButton.backgroundColor = UIColorFromHex(rgbValue: 0x2a91ff)
         
         presenter = AuctionDetailDirectPresenter(delegate: self)
-        //presenter.getAuction(id)
+        presenter.getAuction(id)
     }
     
 
@@ -113,8 +114,12 @@ class AuctionDetailDirectViewController: UIViewController {
         
     }
     
+    @IBAction func reviseButtonPressed(_ sender: Any) {
+        //presenter.reviseAuction(id)
+    }
+    
     @IBAction func confirmationButtonPressed(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["idx": id])
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["date": data.end_date])
     }
     
 }
@@ -122,6 +127,6 @@ class AuctionDetailDirectViewController: UIViewController {
 extension AuctionDetailDirectViewController: AuctionDetailDirectDelegate {
     func setData(_ data: AuctionDetailDirect) {
         self.data = data
-        //setContent()
+        setContent()
     }
 }

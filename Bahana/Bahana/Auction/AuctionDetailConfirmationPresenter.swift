@@ -22,11 +22,11 @@ class AuctionDetailConfirmationPresenter {
         self.delegate = delegate
     }
     
-    func confirm(_ id: Int, _ type: String) {
+    func confirm(_ id: Int, _ type: String, _ isAccepted: Bool, _ maturityDate: String?) {
         var url = "api/v1/"
-        let paramaters: Parameters = [
-            "is_accepted": "", // yes or no
-            "request_maturity_date": "" //date
+        let parameters: Parameters = [
+            "is_accepted": isAccepted ? "yes" : "no",
+            "request_maturity_date": maturityDate != nil ? maturityDate! : ""
         ]
         switch type {
             case "AUCTION":
@@ -40,8 +40,9 @@ class AuctionDetailConfirmationPresenter {
             default:
                 break
         }
-        
-        Alamofire.request(WEB_API_URL + url, method: .get, parameters: paramaters, headers: getAuthHeaders()).responseJSON { response in
+        print(parameters)
+        /*
+        Alamofire.request(WEB_API_URL + url, method: .get, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:
                 let result = JSON(response.result.value!)
@@ -53,6 +54,6 @@ class AuctionDetailConfirmationPresenter {
             case .failure(let error):
                 print(error)
             }
-        }
+        }*/
     }
 }

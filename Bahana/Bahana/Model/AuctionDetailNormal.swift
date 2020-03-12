@@ -15,11 +15,11 @@ struct AuctionDetailNormal {
     var end_date: String
     var end_bidding_rm: String
     var investment_range_start: Double
-    var investment_range_end: Double
+    var investment_range_end: Double?
     var notes: String
     var pic_custodian: String?
     var custodian_bank: String?
-    var fund_type: String
+    var fund_type: String?
     var portfolio: String
     var portfolio_short: String
     var bids: [Bid]

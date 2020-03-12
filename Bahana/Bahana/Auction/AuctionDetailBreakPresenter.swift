@@ -67,9 +67,9 @@ class AuctionDetailBreakPresenter {
         }
     }
     
-    func saveAuction(_ id: Int) {
+    func saveAuction(_ id: Int, _ rate: Double) {
         let parameters: Parameters = [
-            "rate": ""
+            "rate": rate
         ]
         
         Alamofire.request(WEB_API_URL + "api/v1/break/\(id)/post", method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
