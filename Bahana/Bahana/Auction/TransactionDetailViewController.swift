@@ -33,9 +33,11 @@ class TransactionDetailViewController: UIViewController {
     @IBOutlet weak var breakInformationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var breakInformationStackView: UIStackView!
     
-    var data: Transaction!
+    var loadingView = UIView()
     
     var presenter: TransactionDetailPresenter!
+    
+    var data: Transaction!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,16 +45,39 @@ class TransactionDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         setNavigationItems()
         
-        transactionIDTitle.text = "TRANSACTION ID"
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
+        
+        transactionIDTitle.text = localize("transaction_id").uppercased()
         transactionStatusTitle.textColor = .white
-        transactionStatusTitle.text = "TRANSACTION STATUS"
+        transactionStatusTitle.text = localize("transaction_status").uppercased()
         transactionStatus.textColor = .white
         generalInformationTitle.textColor = primaryColor
-        generalInformationTitle.text = "GENERAL INFORMATION"
+        generalInformationTitle.text = localize("general_information").uppercased()
         generalInformationView.backgroundColor = UIColorFromHex(rgbValue: 0xfee2e1)
         breakInformationTitle.textColor = primaryColor
-        breakInformationTitle.text = "BREAK INFORMATION"
+        breakInformationTitle.text = localize("break_information")
+        breakInformationTitle.isHidden = true
         breakInformationView.backgroundColor = UIColorFromHex(rgbValue: 0xfee2e1)
+        breakInformationView.isHidden = true
         
         presenter = TransactionDetailPresenter(delegate: self)
         presenter.getTransaction(data.id)
@@ -75,53 +100,62 @@ class TransactionDetailViewController: UIViewController {
         navigationView.backgroundColor = primaryColor
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
+        navigationTitle.text = localize("transaction_detail").uppercased()
+        
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
         navigationBackImageView.image = UIImage(named: "icon_left")
         navigationBackView.addGestureRecognizer(backTap)
-        
-        /*let label = UILabel()
-        label.text = "AUCTION DETAIL"
-        label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.white
-        let titleBar = UIBarButtonItem.init(customView: label)
-        navigationItem.titleView = label*/
-        /*
-        let backButton = UIButton()
-        backButton.setTitle("Back", for: .normal)
-        backButton.setTitleColor(.white, for: .normal)
-        let backBar = UIBarButtonItem.init(customView: backButton)
-        
-        //navigationItem.setHidesBackButton(true, animated: false)
-        navigationController?.navigationItem.setLeftBarButton(backBar, animated: true)*/
     }
 
     @objc func backButtonPressed() {
         self.dismiss(animated: true, completion: nil)
     }
+    
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
+    }
 
     func setContent() {
         transactionID.text = "\(data.id)"
+        
         if data.status == "Active" {
             transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x65d663)
         } else if data.status == "Canceled" {
-            transactionStatusView.backgroundColor = primaryColor
+            transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x3e3e3e)
+        } else if data.status == "Used in Break Auction" {
+            transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x990000)
+        } else if data.status == "Mature" {
+            transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x2d91ff)
         }
         
-        transactionStatus.text = data.status
+        transactionStatus.text = data.status.uppercased()
+        var interest_rate = "-"
+        if data.coupon_rate != nil {
+            let newCouponRate = Double(data.coupon_rate!)
+            interest_rate = newCouponRate!.truncatingRemainder(dividingBy: 1) == 0 ? "\(String(format: "%.0f", newCouponRate!)) %" : "\(data.coupon_rate!) %"
+        }
+       
         setGeneralInformation([
-            TransactionContent(title: "Fund Name", content: data.portfolio),
-            TransactionContent(title: "Investment (BIO)", content: "IDR \(toIdrBio(data.quantity))"),
-            TransactionContent(title: "Tenor", content: data.period),
-            TransactionContent(title: "Issue Date", content: convertDateToString(convertStringToDatetime(data.issue_date))),
-            TransactionContent(title: "Maturity Date", content: convertDateToString(convertStringToDatetime(data.maturity_date)!)),
-            TransactionContent(title: "Interest Rate (%)", content: "8.5 %"),
-            TransactionContent(title: "Break Date", content: convertDateToString(convertStringToDatetime(data.break_maturity_date)))
+            TransactionContent(title: localize("fund_name"), content: data.portfolio),
+            TransactionContent(title: localize("custodian_bank"), content: data.custodian_bank != nil ? data.custodian_bank : "-"),
+            TransactionContent(title: localize("pic_custodian"), content: data.pic_custodian != nil ? data.pic_custodian : "-"),
+            TransactionContent(title: localize("investment"), content: "IDR \(toIdrBio(data.quantity))"),
+            TransactionContent(title: localize("tenor"), content: data.period),
+            TransactionContent(title: localize("issue_date"), content: convertDateToString(convertStringToDatetime(data.issue_date))),
+            TransactionContent(title: localize("maturity_date"), content: convertDateToString(convertStringToDatetime(data.maturity_date)!)),
+            TransactionContent(title: localize("interest_rate"), content: interest_rate),
+            TransactionContent(title: localize("break_date"), content: convertDateToString(convertStringToDatetime(data.break_maturity_date)))
         ])
         
-        setBreakInformation([
-            TransactionContent(title: "Break Rate(%)", content: "8.25 %")
-        ])
+        if data.break_maturity_date != nil {
+            setBreakInformation([
+                TransactionContent(title: localize("break_rate"), content: "\(data.break_coupon_rate) %")
+            ])
+        }
     }
     
     func addDescriptionText(_ title: String, _ content: String) -> UIView {
@@ -167,6 +201,8 @@ class TransactionDetailViewController: UIViewController {
     }
     
     func setBreakInformation(_ data: [TransactionContent]) {
+        breakInformationTitle.isHidden = false
+        breakInformationView.isHidden = false
         for dt in data {
             if dt.content != nil {
                 let subView = addDescriptionText(dt.title, dt.content!)
@@ -180,6 +216,7 @@ class TransactionDetailViewController: UIViewController {
 extension TransactionDetailViewController: TransactionDetailDelegate {
     func setData(_ data: Transaction) {
         self.data = data
+        showLoading(false)
         setContent()
     }
 }

@@ -17,7 +17,7 @@ class BestRateViewController: FormViewController {
     
     var isRegisterPage = false
     
-    var spinner = UIActivityIndicatorView()
+    var loadingView = UIView()
     
     var errors = [String]()
     
@@ -32,29 +32,32 @@ class BestRateViewController: FormViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
         spinner.color = .black
+        spinner.startAnimating()
         spinner.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(spinner)
+        loadingView.addSubview(spinner)
         
         NSLayoutConstraint.activate([
-            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
-        showLoading(true)
         
         presenter = BestRatePresenter(delegate: self)
         presenter.getOptions()
         
         NotificationCenter.default.addObserver(self, selector: #selector(isRegisterPage(notification:)), name: Notification.Name("RegisterPage"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(save(notification:)), name: Notification.Name("RegisterNext"), object: nil)
-    }
-    
-    func showLoading(_ isShow: Bool) {
-        if isShow {
-            spinner.startAnimating()
-        } else {
-            spinner.stopAnimating()
-        }
     }
     
     func showConnectionAlert(title: String, message: String) {
@@ -324,6 +327,14 @@ class BestRateViewController: FormViewController {
     }
     */
 
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
+    }
+    
     func showValidationAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
@@ -338,8 +349,10 @@ class BestRateViewController: FormViewController {
         if let data = notification.userInfo as? [String: Int] {
             let idx = data["idx"]!
             if idx == 1 {
+                form.cleanValidationErrors()
+                errors = [String]()
                 let formData = form.values()
-                /*
+                
                 let validateForm = form.validate()
                 
                 //if(form.validate().count == 0) {
@@ -369,16 +382,16 @@ class BestRateViewController: FormViewController {
                     ]
                     
                     setLocalData(data)
-                    NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["step": 2])
+                    NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 2])
                 } else {
                     var msg = String()
                     for error in errors {
                         msg += "\(error)\n"
                     }
                     
-                    showValidationAlert(title: "Error", message: msg)
-                }*/
-                NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 2])
+                    showValidationAlert(title: localize("information"), message: msg)
+                }
+                //NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 2])
             }
         }
     }
@@ -456,6 +469,10 @@ class BestRateViewController: FormViewController {
             isShariaRequired = false
             isShariaHidden = true
         }
+    }
+    
+    func validateForm() {
+        // cek kalau ada idr, usd, atau sharia yang terisi walaupun tidak required, maka akan jadi required
     }
     
     func isDataEmpty(_ key: String) -> Bool {

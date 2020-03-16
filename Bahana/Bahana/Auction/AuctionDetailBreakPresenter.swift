@@ -52,7 +52,7 @@ class AuctionDetailBreakPresenter {
                     let view = auct["view"].intValue
                     let message = auct["message"].stringValue
                     let breakable_policy = auct["breakable_policy"] != JSON.null ? auct["breakable_policy"].stringValue : nil
-                    let policyNotes = auct["policy_notes"].stringValue
+                    let policyNotes = auct["policy_notes"] != JSON.null ? auct["policy_notes"].stringValue : nil
                     let previous_maturity_date = auct["previous_maturity_date"].stringValue
                     let previous_issue_date = auct["previous_issue_date"].stringValue
                     let break_maturity_date = auct["break_maturity_date"] != JSON.null ? auct["break_maturity_date"].stringValue : nil

@@ -29,7 +29,10 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var needConfirmationLabel: UILabel!
     @IBOutlet weak var needConfirmationUnitLabel: UILabel!
     @IBOutlet weak var informationTitle: UILabel!
+    @IBOutlet weak var informationContentView: UIView!
     @IBOutlet weak var informationContent: UILabel!
+    
+    var loadingView = UIView()
     
     var presenter: DashboardPresenter!
     
@@ -40,6 +43,27 @@ class DashboardViewController: UIViewController {
         setNavigationItems()
         
         view.backgroundColor = backgroundColor
+        
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
         
         titleLabel.text = localize("summary_auction")
         
@@ -79,21 +103,27 @@ class DashboardViewController: UIViewController {
         ongoingAuctionWidth.constant = (screenWidth / 2) - 30
         needConfirmationWidth.constant = (screenWidth / 2) - 30
         
+        informationTitle.text = localize("information")
         informationTitle.textColor = primaryColor
         
         presenter = DashboardPresenter(delegate: self)
         presenter.getData()
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "showBestRate" {
+            if let navigation = segue.destination as? UINavigationController {
+                if let destinationVC = navigation.topViewController as? RegisterViewController {
+                    destinationVC.viewTo = "best_rate"
+                }
+            }
+        }
     }
-    */
     
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
@@ -135,13 +165,26 @@ class DashboardViewController: UIViewController {
         notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
     }
     
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
+    }
+    
     @objc func showNotification() {
         performSegue(withIdentifier: "showNotification", sender: self)
+    }
+    
+    @objc func showBestRate() {
+        performSegue(withIdentifier: "showBestRate", sender: self)
     }
 }
 
 extension DashboardViewController: DashboardDelegate {
     func setData(_ data: [String : Any?]) {
+        showLoading(false)
         completedAuctionLabel.text = "\(data["completed"]! as! Int)"
         if data["completed"]! as! Int > 1 {
             completedAuctionUnitLabel.text = "Auctions"
@@ -163,8 +206,12 @@ extension DashboardViewController: DashboardDelegate {
         
         let info = data["info_base_placement"]! as! Bool
         if info {
+            informationContentView.layer.borderColor = UIColor.black.cgColor
+            informationContentView.layer.borderWidth = 0.5
             informationContent.text = localize("please_update_best_rate")
+            informationContentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showBestRate)))
         } else {
+            informationContentView.backgroundColor = backgroundColor
             informationContent.text = localize("no_information_at_the_moment")
         }
     }

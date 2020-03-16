@@ -40,7 +40,7 @@ class RegisterViewController: UIViewController {
         
         
         if viewTo == "" {
-            // Notify if from register
+            // If view is register
             let previousTap = UITapGestureRecognizer(target: self, action: #selector(showPrev))
             previousView.addGestureRecognizer(previousTap)
             let nextTap = UITapGestureRecognizer(target: self, action: #selector(validateForm))
@@ -108,7 +108,7 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func showAlertExit() {
-        let alert = UIAlertController(title: localize("information"), message: "Apakah anda yakin ingin meninggalkan halaman ini?", preferredStyle: .alert)
+        let alert = UIAlertController(title: localize("information"), message: localize("confirmation_leave_page"), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("no"), style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
             self.dismiss(animated: true, completion: nil)
@@ -118,8 +118,8 @@ class RegisterViewController: UIViewController {
     
     
     func loadMainView(index: Int) {
-        previousLabel.text = "< Prev"
-        nextLabel.text = "Next >"
+        previousLabel.text = "< \(localize("prev"))"
+        nextLabel.text = "\(localize("next")) >"
         if index == 0 {
             previousView.isHidden = true
         } else if index == 1 {
@@ -204,7 +204,7 @@ extension RegisterViewController: UICollectionViewDataSource {
         switch indexPath.row {
         case 0:
             cell.number.text = "1"
-            cell.name.text = "Form Registrasi"
+            cell.name.text = localize("registration_form")
             if currentViewIdx >= 0 {
                 cell.setActive()
             } else {
@@ -212,7 +212,7 @@ extension RegisterViewController: UICollectionViewDataSource {
             }
         case 1:
             cell.number.text = "2"
-            cell.name.text = "Best Rate"
+            cell.name.text = localize("best_rate")
             if currentViewIdx >= 1 {
                 cell.setActive()
             } else {
@@ -220,7 +220,7 @@ extension RegisterViewController: UICollectionViewDataSource {
             }
         case 2:
             cell.number.text = "3"
-            cell.name.text = "Syarat & Ketentuan"
+            cell.name.text = localize("terms_and_conditions")
             if currentViewIdx == 2 {
                 cell.setActive()
             } else {

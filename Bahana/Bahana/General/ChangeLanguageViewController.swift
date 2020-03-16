@@ -49,7 +49,7 @@ class ChangeLanguageViewController: UIViewController {
         
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
-        //navigationTitle.text = localize("home").uppercased()
+        navigationTitle.text = localize("language").uppercased()
         
         closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
         
@@ -80,6 +80,7 @@ extension ChangeLanguageViewController: UITableViewDataSource {
 extension ChangeLanguageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         setLocalData(["language": languages[indexPath.row]])
+        changeLanguage()
         tableView.reloadData()
     }
 }

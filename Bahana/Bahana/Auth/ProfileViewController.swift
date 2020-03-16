@@ -20,36 +20,39 @@ class ProfileViewController: FormViewController {
     
     var isRegisterPage = false
     
-    var spinner = UIActivityIndicatorView()
+    var loadingView = UIView()
     
     var errors = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
         spinner.color = .black
+        spinner.startAnimating()
         spinner.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(spinner)
+        loadingView.addSubview(spinner)
         
         NSLayoutConstraint.activate([
-            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
-        showLoading(true)
         
         presenter = ProfilePresenter(delegate: self)
         presenter.getBank()
         
         NotificationCenter.default.addObserver(self, selector: #selector(isRegisterPage(notification:)), name: Notification.Name("RegisterPage"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(save(notification:)), name: Notification.Name("RegisterNext"), object: nil)
-    }
-    
-    func showLoading(_ isShow: Bool) {
-        if isShow {
-            spinner.startAnimating()
-        } else {
-            spinner.stopAnimating()
-        }
     }
     
     func showConnectionAlert(title: String, message: String) {
@@ -378,6 +381,14 @@ class ProfileViewController: FormViewController {
     }
     */
     
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
+    }
+    
     func requiredField(_ str: String) -> NSAttributedString {
         let mutableAttributedString = NSMutableAttributedString()
         
@@ -411,13 +422,13 @@ class ProfileViewController: FormViewController {
                 errors = [String]()
                 let formData = form.values()
                 
-                //let validateForm = form.validate()
-                /*
+                let validateForm = form.validate()
+                
                 // Manual Validation
                 // Phone - Number only
                 if formData["phone"]! != nil {
                     if Int(formData["phone"] as! String) == nil {
-                        errors.append("Phone must be number")
+                        errors.append(localize("phone_must_be_number"))
                     }
                 }
                 
@@ -459,8 +470,7 @@ class ProfileViewController: FormViewController {
                     ]
                     
                     setLocalData(data)
-                    //NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["step": 1])
-                    NotificationCenter.default.post(name: Notification.Name("RegisterTab"), object: nil, userInfo: ["idx": 1])
+                    NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 1])
                     
                     
                 } else {
@@ -469,9 +479,9 @@ class ProfileViewController: FormViewController {
                         msg += "\(error)\n"
                     }
                     
-                    showValidationAlert(title: "Informasi", message: msg)
-                }*/
-                NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 1])
+                    showValidationAlert(title: localize("information"), message: msg)
+                }
+                //NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 1])
             }
         }
     }

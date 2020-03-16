@@ -15,6 +15,8 @@ struct Transaction {
     var maturity_date: String
     var status: String
     var portfolio: String
+    var pic_custodian: String?
+    var custodian_bank: String?
     var break_maturity_date: String?
     var coupon_rate: String?
     var break_coupon_rate: String?

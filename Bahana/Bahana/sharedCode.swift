@@ -34,6 +34,7 @@ func getLocalData(key: String) -> String {
 
 func changeLanguage() {
     //getLocalData(key: "language")
+    NotificationCenter.default.post(name: Notification.Name("LanguageChanged"), object: nil, userInfo: nil)
 }
 
 func localize(_ key: String) -> String {
@@ -56,6 +57,10 @@ func getAuthHeaders() -> HTTPHeaders {
         "Authorization": "Bearer \(token)"
     ]
     return headers
+}
+
+func getAppVersion() -> String {
+    return (Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String)!
 }
 
 func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
@@ -133,24 +138,32 @@ func convertDatetimeToString(_ date: Date) -> String {
     return time
 }
 
-func calculateDateDifference(_ date1: Date, _ date2: Date) -> String {
+func calculateDateDifference(_ date1: Date, _ date2: Date) -> [String: Int] {
     let delta = date2.timeIntervalSince(date1)
     let time = Int(delta)
-    let minutes = (time / 60) % 60 > 1 ? "\((time / 60) % 60) mins" : "\((time / 60) % 60) min"
-    let hours = (time / 3600) > 1 ? "\((time / 3600)) hours" : "\((time / 3600)) hour"
+    let minutes = (time / 60) % 60
+    let hours = (time / 3600)
     
-    if time <= 0 {
-        return ""
-    } else {
-        return "\(hours) \(minutes)"
-    }
+    let resp: [String: Int] = [
+        "hour": hours,
+        "minute": minutes
+    ]
+    
+    return resp
 }
 
-func toIdrBio(_ number: Double) -> Double {
+func toIdrBio(_ number: Double) -> String {
     let newNumber = number / 1000000000
     //return toRp(newNumber)
-    return newNumber
+    let numToStr = newNumber.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", newNumber) : String(newNumber)
+    return numToStr
 }
+
+func checkPercentage(_ number: Double) -> String {
+    let numToStr = number.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", number) : String(number)
+    return numToStr
+}
+
 /*
 func toRp(_ number: Double) -> String {
     let formater = NumberFormatter()

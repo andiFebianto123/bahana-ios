@@ -37,10 +37,10 @@ class LoginPresenter {
                     self.delegate?.isLoginSuccess(false, result["message"].stringValue)
                 } else {
                     self.saveLoginData(result)
-                    self.delegate?.isLoginSuccess(true, "")
+                    self.delegate?.isLoginSuccess(true, localize("information"))
                 }
             case .failure(let error):
-                self.delegate?.isLoginSuccess(false, "Error")
+                self.delegate?.isLoginSuccess(false, localize("information"))
                 print(error)
             }
         }

@@ -114,7 +114,7 @@ class BestRatePresenter {
             case .success:
                 let result = JSON(response.result.value!)
                 if response.response?.statusCode == 200 {
-                    self.delegate?.isUpdateSuccess(true, "Update sukses")
+                    self.delegate?.isUpdateSuccess(true, localize("update_success"))
                 } else {
                     self.delegate?.isUpdateSuccess(false, result["message"].stringValue)
                 }

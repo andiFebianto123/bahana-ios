@@ -29,7 +29,7 @@ struct AuctionDetailBreak {
     var view: Int
     var message: String
     var breakable_policy: String?
-    var policy_notes : String
+    var policy_notes : String?
     var previous_maturity_date: String
     var previous_issue_date: String
     var break_maturity_date:String?

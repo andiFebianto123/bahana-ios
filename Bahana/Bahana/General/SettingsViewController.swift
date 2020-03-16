@@ -49,7 +49,10 @@ class SettingsViewController: UIViewController {
         self.view.insertSubview(backgroundImage, at: 0)
         
         profileView.backgroundColor = .white
+        fullnameTitleLabel.text = localize("fullname")
         fullnameTitleLabel.textColor = .gray
+        fullnameLabel.textColor = primaryColor
+        contactTitleLabel.text = localize("email_and_contact")
         contactTitleLabel.textColor = .gray
         
         fullnameView.tag = 0
@@ -62,26 +65,31 @@ class SettingsViewController: UIViewController {
         bestRateView.layer.borderColor = borderColor
         bestRateView.tag = 1
         bestRateView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
+        bestRateLabel.text =  localize("edit_best_rate")
         
         contactView.layer.borderWidth = borderWidth
         contactView.layer.borderColor = borderColor
         contactView.tag = 2
         contactView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
+        contactLabel.text = localize("contact")
         
         faqView.layer.borderWidth = borderWidth
         faqView.layer.borderColor = borderColor
         faqView.tag = 3
         faqView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
+        faqLabel.text = localize("faq")
         
         languageView.layer.borderWidth = borderWidth
         languageView.layer.borderColor = borderColor
         languageView.tag = 4
         languageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
+        languageLabel.text = localize("language")
         
         logoutView.layer.borderWidth = borderWidth
         logoutView.layer.borderColor = borderColor
         logoutView.tag = 5
         logoutView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
+        logoutLabel.text = localize("logout")
         
         setContent()
         
@@ -110,7 +118,7 @@ class SettingsViewController: UIViewController {
         
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
-        navigationTitle.text = localize("home").uppercased()
+        navigationTitle.text = localize("profile").uppercased()
         
         // Set badge notification
         let badgeView = UIView()

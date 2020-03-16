@@ -32,7 +32,7 @@ class AuctionDetailDirectPresenter {
                 } else {
                     let res = JSON(response.result.value!)
                     let auct = res["auction"]
-                    
+                    //print(auct)
                     let id = auct["id"].intValue
                     let start_date = auct["start_date"].stringValue
                     let end_date = auct["end_date"].stringValue

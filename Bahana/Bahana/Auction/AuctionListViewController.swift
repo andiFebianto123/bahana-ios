@@ -19,7 +19,10 @@ class AuctionListViewController: UIViewController {
     @IBOutlet weak var statusTextFieldWidth: NSLayoutConstraint!
     @IBOutlet weak var typeTextFieldWidth: NSLayoutConstraint!
     @IBOutlet weak var showButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var tableBackgroundView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    
+    var loadingView = UIView()
     
     var presenter: AuctionListPresenter!
     
@@ -38,9 +41,31 @@ class AuctionListViewController: UIViewController {
         
         view.backgroundColor = backgroundColor
         
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        tableBackgroundView.addSubview(loadingView)
+        tableBackgroundView.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: tableBackgroundView.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: tableBackgroundView.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: tableBackgroundView.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: tableBackgroundView.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
+        
         let statusTap = UITapGestureRecognizer(target: self, action: #selector(statusFieldTapped))
         statusTextField.addGestureRecognizer(statusTap)
-        statusTextField.placeholder = "Status"
+        statusTextField.placeholder = localize("status")
+        statusTextField.borderStyle = .none
         statusTextField.rightViewMode = .always
         let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 10))
         let dropdownImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
@@ -51,7 +76,8 @@ class AuctionListViewController: UIViewController {
         statusTextField.rightView = dropdownView
         let typeTap = UITapGestureRecognizer(target: self, action: #selector(typeFieldTapped))
         typeTextField.addGestureRecognizer(typeTap)
-        typeTextField.placeholder = "Type"
+        typeTextField.placeholder = localize("type")
+        typeTextField.borderStyle = .none
         typeTextField.rightViewMode = .always
         let dropdownView2 = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 10))
         let dropdownImageView2 = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
@@ -60,7 +86,7 @@ class AuctionListViewController: UIViewController {
         //dropdownImageView2.image?.withTintColor(UIColor.black)
         dropdownView2.addSubview(dropdownImageView2)
         typeTextField.rightView = dropdownView2
-        showButton.setTitle("Show", for: .normal)
+        showButton.setTitle(localize("show"), for: .normal)
         showButton.setTitleColor(UIColor.white, for: .normal)
         showButton.backgroundColor = UIColor.black
         
@@ -101,9 +127,9 @@ class AuctionListViewController: UIViewController {
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
         if pageType == "auction" {
-            navigationTitle.text = "AUCTION"
+            navigationTitle.text = localize("auction").uppercased()
         } else if pageType == "history" {
-            navigationTitle.text = "HISTORY"
+            navigationTitle.text = localize("history").uppercased()
         }
         
         // Set badge notification
@@ -136,6 +162,14 @@ class AuctionListViewController: UIViewController {
         ])
         
         notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
+    }
+    
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
     }
     
     @objc func showNotification() {
@@ -174,7 +208,7 @@ class AuctionListViewController: UIViewController {
                 self.optionChoosed(field, option)
             }))
         }
-        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: localize("cancel"), style: .default, handler: nil))
         
         self.present(alert, animated: true)
     }
@@ -188,6 +222,9 @@ class AuctionListViewController: UIViewController {
         default:
             break
         }
+    }
+
+    @IBAction func showButtonPressed(_ sender: Any) {
         self.getData()
     }
 }
@@ -204,7 +241,7 @@ extension AuctionListViewController: UITableViewDataSource {
         cell.setStatus(auction.status)
         cell.fundNameLabel.text = auction.portfolio_short
         cell.tenorLabel.text = auction.period
-        if auction.type == "auction" || auction.type == "direct auction" || auction.type == "rollover" {
+        if auction.type == "auction" || auction.type == "direct auction" {
             if auction.type == "auction" {
                 cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start))"
             } else {
@@ -212,16 +249,30 @@ extension AuctionListViewController: UITableViewDataSource {
             }
             
             let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
-            if countdown != "" {
-                cell.endLabel.text = countdown
+            if countdown["hour"]! > 0 {
+                let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
+                let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
+                cell.endLabel.text = "\(hour) \(minute)"
             } else {
                 cell.endLabel.text = ""
             }
             cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
-        } else {
+        } else if auction.type == "break" {
             cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start))"
             cell.endLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
             cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.maturity_date)!)
+        } else if auction.type == "rollover" {
+            cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start))"
+            let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
+            
+            if countdown["hour"]! > 0 {
+                let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
+                let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
+                cell.endLabel.text = "\(hour) \(minute)"
+            } else {
+                cell.endLabel.text = ""
+            }
+            cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
         }
         
         return cell
@@ -249,6 +300,7 @@ extension AuctionListViewController: AuctionListDelegate {
     
     func setData(_ data: [Auction]) {
         self.data = data
+        showLoading(false)
         tableView.reloadData()
     }
 }

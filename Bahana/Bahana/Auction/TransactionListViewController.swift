@@ -13,22 +13,24 @@ class TransactionListViewController: UIViewController {
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var notificationView: UIView!
+    @IBOutlet weak var tableBackgroundView: UIView!
     @IBOutlet weak var filterView: UIView!
     @IBOutlet weak var filterLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    var presenter: TransactionListPresenter!
-    
+    var loadingView = UIView()
     var filterListBackgroundView = UIView()
+    
+    var presenter: TransactionListPresenter!
     
     var statusField = UITextField()
     var issueDateField = UITextField()
     var maturityDateField = UITextField()
     var breakDateField = UITextField()
-    var status = "All"
-    var issue_date = "Any Time"
-    var maturity_date = "Any Time"
-    var break_date = "None"
+    var status = localize("all")
+    var issue_date = localize("any_time")
+    var maturity_date = localize("any_time")
+    var break_date = localize("none")
     
     var transactionID = Int()
     var transactionType = String()
@@ -42,7 +44,29 @@ class TransactionListViewController: UIViewController {
         // Do any additional setup after loading the view.
         setNavigationItems()
         
+        tableBackgroundView.backgroundColor = backgroundColor
         view.backgroundColor = backgroundColor
+        
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        tableBackgroundView.addSubview(loadingView)
+        tableBackgroundView.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: tableBackgroundView.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: tableBackgroundView.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: tableBackgroundView.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: tableBackgroundView.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
         
         filterView.layer.cornerRadius = 3
         filterView.backgroundColor = UIColorFromHex(rgbValue: 0x3f3f3f)
@@ -50,7 +74,7 @@ class TransactionListViewController: UIViewController {
         filterView.addGestureRecognizer(filterTap)
         filterLabel.font = UIFont.systemFont(ofSize: 10)
         filterLabel.textColor = .white
-        filterLabel.text = "FILTER TRANSACTION"
+        filterLabel.text = localize("filter_transaction").uppercased()
         
         tableView.register(UINib(nibName: "AuctionListTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
@@ -84,6 +108,7 @@ class TransactionListViewController: UIViewController {
         
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
+        navigationTitle.text = localize("transaction").uppercased()
         
         // Set badge notification
         let badgeView = UIView()
@@ -118,6 +143,7 @@ class TransactionListViewController: UIViewController {
     }
     
     func getData() {
+        showLoading(true)
         presenter.getTransaction(status, issue_date)
     }
     
@@ -135,7 +161,7 @@ class TransactionListViewController: UIViewController {
         //Title
         let title = UILabel()
         title.font = UIFont.systemFont(ofSize: 18)
-        title.text = "Filter Transaction"
+        title.text = localize("filter_transaction")
         filterListView.addSubview(title)
         
         let titleFont = UIFont.systemFont(ofSize: 13)
@@ -144,55 +170,55 @@ class TransactionListViewController: UIViewController {
         let statusTitle = UILabel()
         statusTitle.font = titleFont
         statusTitle.textColor = .lightGray
-        statusTitle.text = "Status"
+        statusTitle.text = localize("status")
         filterListView.addSubview(statusTitle)
         statusField = UITextField()
         statusField.tag = 1
         statusField.isUserInteractionEnabled = true
         statusField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
-        statusField.text = "All"
+        statusField.text = localize("all")
         filterListView.addSubview(statusField)
         
         //Issue date
         let issueDateTitle = UILabel()
         issueDateTitle.font = titleFont
         issueDateTitle.textColor = .lightGray
-        issueDateTitle.text = "Issue Date"
+        issueDateTitle.text = localize("issue_date")
         filterListView.addSubview(issueDateTitle)
         issueDateField = UITextField()
         issueDateField.tag = 2
         issueDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
-        issueDateField.text = "Any time"
+        issueDateField.text = localize("any_time")
         filterListView.addSubview(issueDateField)
         
         //Maturity date
         let maturityDateTitle = UILabel()
         maturityDateTitle.font = titleFont
         maturityDateTitle.textColor = .lightGray
-        maturityDateTitle.text = "Maturity Date"
+        maturityDateTitle.text = localize("maturity_date")
         filterListView.addSubview(maturityDateTitle)
         maturityDateField = UITextField()
         maturityDateField.tag = 3
         maturityDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
-        maturityDateField.text = "Any time"
+        maturityDateField.text = localize("any_time")
         filterListView.addSubview(maturityDateField)
         
         //Break date
         let breakDateTitle = UILabel()
         breakDateTitle.font = titleFont
         breakDateTitle.textColor = .lightGray
-        breakDateTitle.text = "Break Date"
+        breakDateTitle.text = localize("break_date")
         filterListView.addSubview(breakDateTitle)
         breakDateField = UITextField()
         breakDateField.tag = 4
         breakDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
-        breakDateField.text = "Any time"
+        breakDateField.text = localize("any_time")
         filterListView.addSubview(breakDateField)
         
         //Cancel button
         let cancelButton = UIButton()
         cancelButton.setTitleColor(.systemYellow, for: .normal)
-        cancelButton.setTitle("CANCEL", for: .normal)
+        cancelButton.setTitle(localize("cancel").uppercased(), for: .normal)
         let closeTap = UITapGestureRecognizer(target: self, action: #selector(closeFilter))
         cancelButton.addGestureRecognizer(closeTap)
         filterListView.addSubview(cancelButton)
@@ -200,7 +226,7 @@ class TransactionListViewController: UIViewController {
         //Submit button
         let submitButton = UIButton()
         submitButton.setTitleColor(.systemYellow, for: .normal)
-        submitButton.setTitle("FILTER", for: .normal)
+        submitButton.setTitle(localize("filter").uppercased(), for: .normal)
         let submitTap = UITapGestureRecognizer(target: self, action: #selector(submitFilter))
         submitButton.addGestureRecognizer(submitTap)
         filterListView.addSubview(submitButton)
@@ -253,6 +279,14 @@ class TransactionListViewController: UIViewController {
         ])
     }
     
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
+    }
+    
     @objc func showNotification() {
         performSegue(withIdentifier: "showNotification", sender: self)
     }
@@ -266,7 +300,8 @@ class TransactionListViewController: UIViewController {
     }
     
     @objc func submitFilter() {
-        print("aaa")
+        closeFilter()
+        presenter.getTransaction(status, issue_date)
     }
     
     @objc func showOptions(_ sender: UITapGestureRecognizer) {
@@ -277,22 +312,22 @@ class TransactionListViewController: UIViewController {
         case 1:
             // Status
             options = [
-                "All", "Active", "Break", "Canceled", "Mature", "Used in Break Auction", "Used in RO Auction", "Rollover"
+                "ALL", "ACTIVE", "BREAK", "CANCELED", "MATURE", localize("used_in_break_auction"), localize("used_in_ro_auction"), "ROLLOVER"
             ]
         case 2:
             // Issue date
             options = [
-                "Any time", "Today", "Yesterday", "This week", "This month", "This year"
+                "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
             ]
         case 3:
             // Maturity date
             options = [
-                "Any time", "Today", "Yesterday", "This week", "This month", "This year"
+                "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
             ]
         case 4:
             // Break date
             options = [
-                "None","Any time", "Today", "Yesterday", "This week", "This month", "This year"
+                "NONE", "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
             ]
         default:
             break
@@ -305,7 +340,7 @@ class TransactionListViewController: UIViewController {
                 self.optionChoosed(tag, option)
             }))
         }
-        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: localize("cancel"), style: .default, handler: nil))
         
         self.present(alert, animated: true)
     }
@@ -368,6 +403,7 @@ extension TransactionListViewController: TransactionListDelegate {
     
     func setData(_ data: [Transaction]) {
         self.data = data
+        showLoading(false)
         tableView.reloadData()
     }
 }

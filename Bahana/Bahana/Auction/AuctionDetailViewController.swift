@@ -102,6 +102,7 @@ class AuctionDetailViewController: UIViewController {
         //navigationBar.barTintColor = UIColor.red
         //navigationController?.navigationBar.barTintColor = primaryColor
         navigationView.backgroundColor = primaryColor
+        navigationTitle.text = localize("auction_detail").uppercased()
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))

@@ -35,7 +35,7 @@ class ForgotPasswordPresenter {
                     self.delegate?.isSubmitSuccess(true, result["message"].stringValue)
                 }
             case .failure(let error):
-                self.delegate?.isSubmitSuccess(false, "Error")
+                self.delegate?.isSubmitSuccess(false, localize("information"))
                 print(error)
             }
         }

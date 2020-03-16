@@ -15,6 +15,8 @@ class NotificationViewController: UIViewController {
     @IBOutlet weak var navigationBackView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
+    var loadingView = UIView()
+    
     var presenter: NotificationPresenter!
     
     var data = [NotificationModel]()
@@ -27,6 +29,27 @@ class NotificationViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
+        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
@@ -64,10 +87,18 @@ class NotificationViewController: UIViewController {
         
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
-        //navigationTitle.text = localize("home").uppercased()
+        navigationTitle.text = localize("notification").uppercased()
         
         navigationBackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
         
+    }
+    
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
     }
     
     @objc func close() {
@@ -124,6 +155,7 @@ extension NotificationViewController: UITableViewDelegate {
 extension NotificationViewController: NotificationDelegate {
     func setData(_ data: [NotificationModel]) {
         self.data = data
+        showLoading(false)
         tableView.reloadData()
     }
     

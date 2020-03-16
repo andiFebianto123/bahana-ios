@@ -41,26 +41,34 @@ class LoginViewController: UIViewController {
         languageView.layer.masksToBounds = true
         languageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToChangeLanguage)))
         languageLabel.textColor = UIColor.white
-        languageLabel.text = localize("indonesia")
+        if getLocalData(key: "language") == "language_id" {
+            languageLabel.text = localize("indonesia")
+        } else if getLocalData(key: "language") == "language_en" {
+            languageLabel.text = localize("english")
+        }
         emailLabel.font = UIFont.systemFont(ofSize: 10)
         emailLabel.text = localize("email")
+        emailField.placeholder = localize("email")
+        emailField.borderStyle = .none
+        emailField.backgroundColor = .white
         emailField.leftViewMode = .always
         let emailView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
+        emailView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         let emailImageView = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
-        //emailImageView.image = UIImage(systemName: "person.and.person")
-        //emailImageView.image?.withTintColor(UIColor.black, renderingMode: .alwaysTemplate)
-        emailImageView.contentMode = .center
+        emailImageView.image = UIImage(named: "users")
+        emailImageView.contentMode = .scaleAspectFit
         emailView.addSubview(emailImageView)
         emailField.leftView = emailView
-        emailField.placeholder = localize("email")
         passwordLabel.font = UIFont.systemFont(ofSize: 10)
         passwordLabel.text = localize("password")
         passwordField.placeholder = localize("password")
+        passwordField.borderStyle = .none
+        passwordField.backgroundColor = .white
         passwordField.isSecureTextEntry = true
         let passwordView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
         let passwordImageView = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
-        //passwordImageView.image = UIImage(systemName: "person.and.person")
-        passwordImageView.contentMode = .center
+        passwordImageView.image = UIImage(named: "key")
+        passwordImageView.contentMode = .scaleAspectFit
         passwordView.addSubview(passwordImageView)
         passwordField.leftViewMode = .always
         passwordField.leftView = passwordView
@@ -82,9 +90,11 @@ class LoginViewController: UIViewController {
         registerButton.setTitleColor(UIColor.white, for: .normal)
         registerButton.setTitle(localize("register"), for: .normal)
         versionLabel.font = UIFont.systemFont(ofSize: 10)
-        versionLabel.text = String.localizedStringWithFormat(localize("app_version"), "1")
+        versionLabel.text = String.localizedStringWithFormat(localize("app_version"), getAppVersion())
         
         presenter = LoginPresenter(delegate: self)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
     }
     
 
@@ -120,6 +130,14 @@ class LoginViewController: UIViewController {
         let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let changeLanguageViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "ChangeLanguage") as UIViewController
         self.present(changeLanguageViewController, animated: true, completion: nil)
+    }
+    
+    @objc func languageChanged() {
+        if getLocalData(key: "language") == "language_id" {
+            languageLabel.text = localize("indonesia")
+        } else if getLocalData(key: "language") == "language_en" {
+            languageLabel.text = localize("english")
+        }
     }
 }
 

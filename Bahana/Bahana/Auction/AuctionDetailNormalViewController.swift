@@ -13,10 +13,15 @@ class AuctionDetailNormalViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var auctionEndLabel: UILabel!
     @IBOutlet weak var portfolioView: UIView!
+    @IBOutlet weak var fundNameTitleLabel: UILabel!
     @IBOutlet weak var fundNameLabel: UILabel!
+    @IBOutlet weak var investmentTitleLabel: UILabel!
     @IBOutlet weak var investmentLabel: UILabel!
+    @IBOutlet weak var placementDateTitleLabel: UILabel!
     @IBOutlet weak var placementDateLabel: UILabel!
+    @IBOutlet weak var custodianBankTitleLabel: UILabel!
     @IBOutlet weak var custodianBankLabel: UILabel!
+    @IBOutlet weak var picCustodianTitleLabel: UILabel!
     @IBOutlet weak var picCustodianLabel: UILabel!
     @IBOutlet weak var noteTitleLabel: UILabel!
     @IBOutlet weak var noteLabel: UILabel!
@@ -31,18 +36,48 @@ class AuctionDetailNormalViewController: UIViewController {
     @IBOutlet weak var maxPlacementTitleLabel: UILabel!
     @IBOutlet weak var maxPlacementTextField: UITextField!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var footerLabel: UILabel!
     
+    var loadingView = UIView()
     
     var presenter: AuctionDetailNormalPresenter!
     
     var id = Int()
     var data: AuctionDetailNormal!
     
+    var interestRateTenorType = [String]()
+    var interestRateTenorFields = [UITextField]()
+    var interestRateIdrFields = [UITextField]()
+    var interestRateShariaFields = [UITextField]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         view.backgroundColor = backgroundColor
+        
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
+        
+        titleLabel.text = localize("auction").uppercased()
         titleLabel.textColor = primaryColor
         let cardBackgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
         portfolioView.backgroundColor = cardBackgroundColor
@@ -51,7 +86,14 @@ class AuctionDetailNormalViewController: UIViewController {
         portfolioView.layer.shadowOffset = CGSize(width: 0, height: 0)
         portfolioView.layer.shadowRadius = 4
         portfolioView.layer.shadowOpacity = 0.5
+        fundNameTitleLabel.text = localize("fund_name")
+        investmentTitleLabel.text = localize("investment")
+        placementDateTitleLabel.text = localize("placement_date")
+        custodianBankTitleLabel.text = localize("custodian_bank")
+        picCustodianTitleLabel.text = localize("pic_custodian")
+        noteTitleLabel.text = localize("notes")
         noteTitleLabel.textColor = primaryColor
+        interestRateTitleLabel.text = localize("interest_rate").uppercased()
         interestRateTitleLabel.textColor = primaryColor
         interestRateAddDayButton.backgroundColor = UIColorFromHex(rgbValue: 0x87cc62)
         interestRateAddDayButton.setTitleColor(UIColorFromHex(rgbValue: 0x318803), for: .normal)
@@ -59,6 +101,7 @@ class AuctionDetailNormalViewController: UIViewController {
         interestRateAddMonthButton.backgroundColor = UIColorFromHex(rgbValue: 0x63cb7c)
         interestRateAddMonthButton.setTitleColor(UIColorFromHex(rgbValue: 0x2b890f), for: .normal)
         interestRateAddMonthButton.layer.cornerRadius = 5
+        maxPlacementTitleLabel.text = localize("max_placement")
         maxPlacementTitleLabel.textColor = primaryColor
         submitButton.backgroundColor = primaryColor
         submitButton.setTitleColor(.white, for: .normal)
@@ -78,6 +121,14 @@ class AuctionDetailNormalViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
+    }
 
     func setContent() {
         // Check status
@@ -86,7 +137,17 @@ class AuctionDetailNormalViewController: UIViewController {
         }
         
         if convertStringToDatetime(data.end_date)! > Date() {
-            auctionEndLabel.text = "Ends in: \(calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!))"
+            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
+            
+            let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
+            let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
+            auctionEndLabel.text = "\(localize("ends_in")): \(hour) \(minute)"
+            
+            if countdown["hour"]! < 1 {
+                auctionEndLabel.textColor = primaryColor
+            } else {
+                auctionEndLabel.textColor = .black
+            }
         } else {
             auctionEndLabel.isHidden = true
         }
@@ -112,7 +173,13 @@ class AuctionDetailNormalViewController: UIViewController {
             maxPlacementTitleLabel.isHidden = true
             maxPlacementTextField.isHidden = true
             submitButton.isHidden = true
+        } else if data.view == 2 {
+            
         }
+        
+        footerLabel.text = """
+        \(localize("auction_detail_footer"))
+        """
     }
     
     func setBids(_ data: [Bid]) {
@@ -125,18 +192,18 @@ class AuctionDetailNormalViewController: UIViewController {
             let contentFont = UIFont.systemFont(ofSize: 12)
             
             let statusTitle = UILabel()
-            statusTitle.text = "Status"
+            statusTitle.text = localize("status")
             statusTitle.font = titleFont
             statusTitle.translatesAutoresizingMaskIntoConstraints = false
             rateView.addSubview(statusTitle)
             let status = UILabel()
-            status.text = dt.is_accepted == "yes" ? "Accepted" : "Pending"
+            status.text = dt.is_accepted == "yes" ? localize("accepted") : localize("pending")
             status.font = contentFont
             status.translatesAutoresizingMaskIntoConstraints = false
             rateView.addSubview(status)
             
             let tenorTitle = UILabel()
-            tenorTitle.text = "Tenor"
+            tenorTitle.text = localize("tenor")
             tenorTitle.font = titleFont
             tenorTitle.translatesAutoresizingMaskIntoConstraints = false
             rateView.addSubview(tenorTitle)
@@ -147,7 +214,7 @@ class AuctionDetailNormalViewController: UIViewController {
             rateView.addSubview(tenor)
             
             let interestRateTitle = UILabel()
-            interestRateTitle.text = "Interest Rate (%)"
+            interestRateTitle.text = localize("interest_rate")
             interestRateTitle.font = titleFont
             interestRateTitle.translatesAutoresizingMaskIntoConstraints = false
             rateView.addSubview(interestRateTitle)
@@ -274,15 +341,168 @@ class AuctionDetailNormalViewController: UIViewController {
         }
     }*/
     
-    @IBAction func submitButtonPressed(_ sender: Any) {
-        //presenter.saveAuction(id)
+    @IBAction func addInterestRateDayButtonPressed(_ sender: Any) {
+        addInterestRate("day")
     }
     
+    @IBAction func addInterestRateMonthButtonPressed(_ sender: Any) {
+        addInterestRate("month")
+    }
+    
+    func addInterestRate(_ tenorType: String) {
+        let rateView = UIView()
+        rateView.backgroundColor = .white
+        //rateView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let titleFont = UIFont.boldSystemFont(ofSize: 12)
+        let contentFont = UIFont.systemFont(ofSize: 12)
+        
+        let tenorTitle = UILabel()
+        tenorTitle.text = localize("tenor")
+        tenorTitle.font = titleFont
+        tenorTitle.translatesAutoresizingMaskIntoConstraints = false
+        rateView.addSubview(tenorTitle)
+        let tenor = UITextField()
+        tenor.borderStyle = .roundedRect
+        tenor.keyboardType = .numbersAndPunctuation
+        tenor.font = contentFont
+        tenor.translatesAutoresizingMaskIntoConstraints = false
+        rateView.addSubview(tenor)
+        
+        let interestRateIdrTitle = UILabel()
+        interestRateIdrTitle.text = "\(localize("interest_rate")) IDR"
+        interestRateIdrTitle.font = titleFont
+        interestRateIdrTitle.translatesAutoresizingMaskIntoConstraints = false
+        rateView.addSubview(interestRateIdrTitle)
+        let interestRateIdr = UITextField()
+        interestRateIdr.borderStyle = .roundedRect
+        interestRateIdr.keyboardType = .numbersAndPunctuation
+        interestRateIdr.font = contentFont
+        interestRateIdr.translatesAutoresizingMaskIntoConstraints = false
+        rateView.addSubview(interestRateIdr)
+        
+        let interestRateShariaTitle = UILabel()
+        interestRateShariaTitle.text = "\(localize("interest_rate")) Syariah"
+        interestRateShariaTitle.font = titleFont
+        interestRateShariaTitle.translatesAutoresizingMaskIntoConstraints = false
+        rateView.addSubview(interestRateShariaTitle)
+        let interestRateSharia = UITextField()
+        interestRateSharia.borderStyle = .roundedRect
+        interestRateSharia.keyboardType = .numbersAndPunctuation
+        interestRateSharia.font = contentFont
+        interestRateSharia.translatesAutoresizingMaskIntoConstraints = false
+        rateView.addSubview(interestRateSharia)
+        
+        interestRateTenorType.append(tenorType)
+        interestRateTenorFields.append(tenor)
+        interestRateIdrFields.append(interestRateIdr)
+        interestRateShariaFields.append(interestRateSharia)
+        
+        interestRateStackView.addArrangedSubview(rateView)
+        interestRateStackViewHeight.constant += 140
+        
+        NSLayoutConstraint.activate([
+            tenorTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 20),
+            tenorTitle.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 20),
+            tenorTitle.heightAnchor.constraint(equalToConstant: 18),
+            tenor.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 150),
+            tenor.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -20),
+            tenor.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 20),
+            tenor.heightAnchor.constraint(equalToConstant: 25),
+            
+            interestRateIdrTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 20),
+            interestRateIdrTitle.topAnchor.constraint(equalTo: tenorTitle.bottomAnchor, constant: 30),
+            interestRateIdrTitle.heightAnchor.constraint(equalToConstant: 18),
+            interestRateIdr.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 150),
+            interestRateIdr.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -20),
+            interestRateIdr.topAnchor.constraint(equalTo: tenor.bottomAnchor, constant: 21),
+            interestRateIdr.heightAnchor.constraint(equalToConstant: 25),
+            
+            interestRateShariaTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 20),
+            interestRateShariaTitle.topAnchor.constraint(equalTo: interestRateIdrTitle.bottomAnchor, constant: 30),
+            interestRateShariaTitle.heightAnchor.constraint(equalToConstant: 18),
+            interestRateSharia.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 150),
+            interestRateSharia.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -20),
+            interestRateSharia.topAnchor.constraint(equalTo: interestRateIdr.bottomAnchor, constant: 21),
+            interestRateSharia.heightAnchor.constraint(equalToConstant: 25),
+
+        ])
+    }
+    
+    @IBAction func submitButtonPressed(_ sender: Any) {
+        var bids = [Bid]()
+        var isValid = true
+        for (idx, tenor) in interestRateTenorFields.enumerated() {
+            if isInputValid(interestRateTenorFields[idx].text, "int") && isInputValid(interestRateIdrFields[idx].text, "double") &&
+                isInputValid(interestRateShariaFields[idx].text, "double") {
+                let tenor = Int(interestRateTenorFields[idx].text!)!
+                let idr = Double(interestRateIdrFields[idx].text!)
+                let usd = Double(0)
+                let sharia = Double(interestRateShariaFields[idx].text!)
+                let bid = Bid(id: tenor, auction_header_id: 0, is_accepted: "", is_winner: "", interest_rate_idr: idr, interest_rate_usd: usd, interest_rate_sharia: sharia, used_investment_value: 0, bilyet: [], choosen_rate: nil, period: interestRateTenorType[idx])
+                bids.append(bid)
+            } else {
+                isValid = false
+                break
+            }
+        }
+        
+        if isValid {
+            presenter.saveAuction(id, bids, maxPlacementTextField != nil ? maxPlacementTextField.text! : "")
+        }
+    }
+    
+    func isInputValid(_ input: String?, _ dataType: String) -> Bool {
+        if dataType == "int" {
+            if input == nil || (Int(input!) == nil) {
+                return false
+            } else {
+                return true
+            }
+        } else if dataType == "double" {
+            if input == nil || (Double(input!) == nil) {
+                return false
+            } else {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
     func setData(_ data: AuctionDetailNormal) {
         self.data = data
+        showLoading(false)
         setContent()
+    }
+}
+
+extension AuctionDetailNormalViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
+
+        let components = string.components(separatedBy: inverseSet)
+
+        let filtered = components.joined(separator: "")
+
+        if filtered == string {
+            return true
+        } else {
+            if string == Locale.current.decimalSeparator {
+                let countdots = textField.text!.components(separatedBy: ".").count - 1
+                if countdots == 0 {
+                    return true
+                }else{
+                    if countdots > 0 && string == Locale.current.decimalSeparator {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            }else{
+                return false
+            }
+        }
     }
 }

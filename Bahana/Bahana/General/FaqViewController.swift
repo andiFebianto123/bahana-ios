@@ -16,6 +16,8 @@ class FaqViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
+    var loadingView = UIView()
+    
     var presenter: FaqPresenter!
     
     var data = [Faq]()
@@ -25,6 +27,27 @@ class FaqViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         setNavigationItems()
+        
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
         
         tableView.backgroundColor = backgroundColor
         tableView.separatorStyle = .none
@@ -53,15 +76,17 @@ class FaqViewController: UIViewController {
         
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
-        //navigationTitle.text = localize("home").uppercased()
+        navigationTitle.text = localize("faq").uppercased()
         
-        //let notificationButton = UIButton(type: UIButton.ButtonType.custom)
-        //notificationButton.setImage(UIImage(named: "notification"), for: .normal)
-        //notificationButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        //notificationButton.frame = buttonFrame
-        //notificationButton.addTarget(self, action: #selector(showNotification), for: .touchUpInside)
         closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
-        
+    }
+    
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
     }
     
     @objc func close() {
@@ -101,6 +126,7 @@ extension FaqViewController: UITableViewDelegate {
 extension FaqViewController: FaqDelegate {
     func setData(_ data: [Faq]) {
         self.data = data
+        showLoading(false)
         tableView.reloadData()
     }
 }

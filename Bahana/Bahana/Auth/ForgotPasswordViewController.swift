@@ -24,17 +24,17 @@ class ForgotPasswordViewController: UIViewController {
         setupToHideKeyboardOnTapOnView()
         
         emailLabel.font = UIFont.systemFont(ofSize: 12)
-        emailLabel.text = "Email"
+        emailLabel.text = localize("email")
         emailField.leftViewMode = .always
         let emailImageView = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
         //emailImageView.image = UIImage(systemName: "person.and.person")
         emailField.leftView = emailImageView
-        emailField.placeholder = "Email"
+        //emailField.placeholder = localize("email")
         submitButton.layer.cornerRadius = 3
         submitButton.layer.masksToBounds = true
         submitButton.backgroundColor = UIColor.red
         submitButton.setTitleColor(UIColor.white, for: .normal)
-        submitButton.setTitle("ATUR ULANG SANDI", for: .normal)
+        submitButton.setTitle(localize("reset_password"), for: .normal)
         
         presenter = ForgotPasswordPresenter(delegate: self)
     }
@@ -55,7 +55,7 @@ class ForgotPasswordViewController: UIViewController {
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let label = UILabel()
-        label.text = "LUPA SANDI"
+        label.text = localize("forgot_password_title")
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = UIColor.white
@@ -80,7 +80,7 @@ class ForgotPasswordViewController: UIViewController {
     
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -91,6 +91,6 @@ class ForgotPasswordViewController: UIViewController {
 
 extension ForgotPasswordViewController: ForgotPasswordDelegate {
     func isSubmitSuccess(_ isSuccess: Bool, _ message: String) {
-        showAlert(title: "Informasi", message: message)
+        showAlert(title: localize("information"), message: message)
     }
 }

@@ -12,6 +12,8 @@ class ContactViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
+    var loadingView = UIView()
+    
     var presenter: ContactPresenter!
     
     var data = [Contact]()
@@ -21,6 +23,27 @@ class ContactViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         setNavigationItems()
+        
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
         
         tableView.backgroundColor = backgroundColor
         tableView.separatorStyle = .none
@@ -48,7 +71,7 @@ class ContactViewController: UIViewController {
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let label = UILabel()
-        label.text = "CONTACT"
+        label.text = localize("contact").uppercased()
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = UIColor.white
@@ -65,6 +88,14 @@ class ContactViewController: UIViewController {
         //navigationItem.setHidesBackButton(true, animated: false)
         
         navigationItem.rightBarButtonItem = closeBarButton
+    }
+    
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
     }
     
     @objc func close() {
@@ -96,6 +127,7 @@ extension ContactViewController: UITableViewDelegate {
 extension ContactViewController: ContactDelegate {
     func setData(_ data: [Contact]) {
         self.data = data
+        showLoading(false)
         tableView.reloadData()
     }
 }

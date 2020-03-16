@@ -33,6 +33,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        navigationTitle.text = localize("confirmation").uppercased()
         mainView.layer.cornerRadius = 5
         mainView.layer.shadowColor = UIColor.gray.cgColor
         mainView.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -40,8 +41,6 @@ class AuctionDetailConfirmationViewController: UIViewController {
         mainView.layer.shadowOpacity = 0.5
         
         closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goBack)))
-        
-        confirmationLabel.text = "Are you sure you want to be the winner?"
         
         noButton.backgroundColor = primaryColor
         noButton.setTitleColor(.white, for: .normal)
@@ -52,12 +51,12 @@ class AuctionDetailConfirmationViewController: UIViewController {
         changeEndDateButton.backgroundColor = UIColorFromHex(rgbValue: 0xffc74e)
         changeEndDateButton.setTitleColor(.white, for: .normal)
         
-        if auctionType == "BREAK" {
-            confirmationLabel.text = "Are you sure you want to be the choosen bidder?"
+        if auctionType == "break" {
+            confirmationLabel.text = localize("confirmation_choosen_bidder")
             changeEndDateButton.isHidden = true
             mainViewHeight.constant -= 20
         } else {
-            confirmationLabel.text = "Are you sure you want to be the winner?"
+            confirmationLabel.text = localize("confirmation_choosen_winner")
         }
         
         setDatePicker()
@@ -78,6 +77,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
 
     func setDatePicker() {
         datePicker.datePickerMode = .date
+        datePicker.date = auctionRequestMaturityDate != nil ? convertStringToDatetime(auctionRequestMaturityDate!)! : Date()
         datePicker.addTarget(self, action: #selector(dateChanged(sender:)), for: .valueChanged)
         
         let toolbar = UIToolbar()
@@ -129,7 +129,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
     }
     
     func showConfirmationAlert(_ date: String) {
-        let alert = UIAlertController(title: localize("information"), message: "Are you sure you want to change end date to \(date)?", preferredStyle: .alert)
+        let alert = UIAlertController(title: localize("information"), message: "\(localize("confirmation_change_end_date")) \(date)?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("no"), style: .default, handler: nil))
         alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
             print("yes")

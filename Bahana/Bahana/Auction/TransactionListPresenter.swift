@@ -45,12 +45,14 @@ class TransactionListPresenter {
                         let maturity_date = trans["maturity_date"].stringValue
                         let status = trans["status"].stringValue
                         let portfolio = trans["portfolio"].stringValue
+                        let custodian_bank = trans["custodian_bank"] != JSON.null ? trans["custodian_bank"].stringValue : nil
+                        let pic_custodian = trans["pic_custodian"] != JSON.null ? trans["pic_custodian"].stringValue : nil
                         let break_maturity_date = trans["break_maturity_date"] != JSON.null ? trans["break_maturity_date"].stringValue : nil
                         let coupon_rate = trans["coupon_rate"] != JSON.null ? trans["coupon_rate"].stringValue : nil
                         let break_coupon_rate = trans["break_coupon_rate"] != JSON.null ? trans["break_coupon_rate"].stringValue : nil
                         let period = trans["period"].stringValue
                         
-                        let transaction = Transaction(id: id, quantity: qty, issue_date: issue_date, maturity_date: maturity_date, status: status, portfolio: portfolio, break_maturity_date: break_maturity_date, coupon_rate: coupon_rate, break_coupon_rate: break_coupon_rate, period: period)
+                        let transaction = Transaction(id: id, quantity: qty, issue_date: issue_date, maturity_date: maturity_date, status: status, portfolio: portfolio, pic_custodian: pic_custodian, custodian_bank: custodian_bank, break_maturity_date: break_maturity_date, coupon_rate: coupon_rate, break_coupon_rate: break_coupon_rate, period: period)
                         
                         transactions.append(transaction)
                     }
