@@ -206,8 +206,7 @@ extension DashboardViewController: DashboardDelegate {
         
         let info = data["info_base_placement"]! as! Bool
         if info {
-            informationContentView.layer.borderColor = UIColor.black.cgColor
-            informationContentView.layer.borderWidth = 0.5
+            informationContentView.backgroundColor = UIColor.white
             informationContent.text = localize("please_update_best_rate")
             informationContentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showBestRate)))
         } else {

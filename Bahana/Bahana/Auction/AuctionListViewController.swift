@@ -237,44 +237,8 @@ extension AuctionListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
         let auction = data[indexPath.row]
-        cell.setAuctionType(auction.type)
-        cell.setStatus(auction.status)
-        cell.fundNameLabel.text = auction.portfolio_short
-        cell.tenorLabel.text = auction.period
-        if auction.type == "auction" || auction.type == "direct auction" {
-            if auction.type == "auction" {
-                cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start))"
-            } else {
-                cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start)) - \(toIdrBio(auction.investment_range_end))"
-            }
-            
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
-            if countdown["hour"]! > 0 {
-                let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-                let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
-                cell.endLabel.text = "\(hour) \(minute)"
-            } else {
-                cell.endLabel.text = ""
-            }
-            cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
-        } else if auction.type == "break" {
-            cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start))"
-            cell.endLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
-            cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.maturity_date)!)
-        } else if auction.type == "rollover" {
-            cell.investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start))"
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
-            
-            if countdown["hour"]! > 0 {
-                let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-                let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
-                cell.endLabel.text = "\(hour) \(minute)"
-            } else {
-                cell.endLabel.text = ""
-            }
-            cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
-        }
-        
+        cell.pageType = pageType
+        cell.setAuction(auction)
         return cell
     }
 }
@@ -288,6 +252,12 @@ extension AuctionListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 180
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == data.count - 1 {
+            print("aaaa")
+        }
     }
 }
 

@@ -12,6 +12,9 @@ class AuctionDetailRolloverViewController: UIViewController {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var auctionEndLabel: UILabel!
+    @IBOutlet weak var statusView: UIView!
+    @IBOutlet weak var statusViewWidth: NSLayoutConstraint!
+    @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var portfolioView: UIView!
     @IBOutlet weak var fundNameTitleLabel: UILabel!
     @IBOutlet weak var fundNameLabel: UILabel!
@@ -74,6 +77,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         
         titleLabel.text = localize("rollover")
         titleLabel.textColor = primaryColor
+        statusView.layer.cornerRadius = 10
         let cardBackgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
         portfolioView.backgroundColor = cardBackgroundColor
         portfolioView.layer.cornerRadius = 5
@@ -128,7 +132,11 @@ class AuctionDetailRolloverViewController: UIViewController {
     func setContent() {
         // Check status
         if data.status == "-" {
-            
+            statusView.isHidden = true
+        } else {
+            statusView.backgroundColor = primaryColor
+            statusLabel.text = data.status
+            statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
         }
         
         if convertStringToDatetime(data.end_date)! > Date() {

@@ -29,6 +29,8 @@ class AuctionListTableViewCell: UITableViewCell {
     @IBOutlet weak var endLabel: UILabel!
     @IBOutlet weak var rightView: UIView!
     
+    var pageType: String!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -46,7 +48,7 @@ class AuctionListTableViewCell: UITableViewCell {
         statusView.layer.cornerRadius = 5
         statusLabel.font = UIFont.boldSystemFont(ofSize: 12)
         
-        let titleFont = UIFont.boldSystemFont(ofSize: 10)
+        let titleFont = UIFont.systemFont(ofSize: 10)
         let titleColor = titleLabelColor
         let contentFont = UIFont.boldSystemFont(ofSize: 14)
             
@@ -82,9 +84,82 @@ class AuctionListTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func isTransaction() {
+    func setAuction(_ auction: Auction) {
+        if pageType == "history" {
+            endTitleLabel.isHidden = true
+            endLabel.isHidden = true
+        }
+        
+        setAuctionType(auction.type)
+        setStatus(auction.status)
+        fundNameLabel.text = auction.portfolio_short
+        tenorLabel.text = auction.period
+        if auction.investment_range_end > 0 {
+            investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start)) - \(toIdrBio(auction.investment_range_end))"
+            
+        } else {
+           investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start))"
+        }
+        
+        if auction.type == "auction" || auction.type == "direct auction" {
+            
+        } else {
+            
+        }
+        
+        if auction.type == "break" {
+            if auction.maturity_date != nil {
+                placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.maturity_date!)!)
+            }
+            
+            endLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
+        } else {
+            if pageType == "auction" {
+                placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
+            } else if pageType == "history" {
+                placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
+            }
+            
+            let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
+            if countdown["hour"]! > 0 {
+                let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
+                let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
+                endLabel.text = "\(hour) \(minute)"
+            } else {
+                endLabel.text = ""
+            }
+        }
+    }
+    
+    func setTransaction(_ transaction: Transaction) {
         placementDateTitleLabel.text = localize("issue_date")
         endTitleLabel.text = localize("maturity_date")
+        
+        // Transaction type
+        typeLabel.text = transaction.status.uppercased()
+        let typeTextWidth = typeLabel.intrinsicContentSize.width
+        typeViewWidth.constant = typeTextWidth + 10
+        typeLabel.textColor = .white
+        typeView.layer.borderWidth = 0
+        switch transaction.status {
+        case "Active":
+            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x65d663)
+        case "Canceled":
+            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x3e3e3e)
+        case "Used in Break Auction":
+            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x990000)
+        case "Mature":
+            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x2d91ff)
+        default:
+            break
+        }
+        
+        setStatus("-")
+        fundNameLabel.text = transaction.portfolio
+        investmentLabel.text = "IDR \(toIdrBio(transaction.quantity))"
+        tenorLabel.text = transaction.period
+        placementDateLabel.text = convertDateToString(convertStringToDatetime(transaction.issue_date)!)
+        endLabel.text = convertDateToString(convertStringToDatetime(transaction.maturity_date)!)
     }
     
     func setStatus(_ status: String) {
@@ -116,26 +191,6 @@ class AuctionListTableViewCell: UITableViewCell {
             typeView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
             leftView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
             rightView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-        default:
-            break
-        }
-    }
-    
-    func setTransactionType(_ type: String) {
-        typeLabel.text = type.uppercased()
-        let typeTextWidth = typeLabel.intrinsicContentSize.width
-        typeViewWidth.constant = typeTextWidth + 10
-        typeLabel.textColor = .white
-        typeView.layer.borderWidth = 0
-        switch type {
-        case "Active":
-            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x65d663)
-        case "Canceled":
-            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x3e3e3e)
-        case "Used in Break Auction":
-            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x990000)
-        case "Mature":
-            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x2d91ff)
         default:
             break
         }

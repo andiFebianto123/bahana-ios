@@ -370,14 +370,7 @@ extension TransactionListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
         let transaction = data[indexPath.row]
-        cell.isTransaction()
-        cell.setTransactionType(transaction.status)
-        cell.setStatus("-")
-        cell.fundNameLabel.text = transaction.portfolio
-        cell.investmentLabel.text = "IDR \(toIdrBio(transaction.quantity))"
-        cell.tenorLabel.text = transaction.period
-        cell.placementDateLabel.text = convertDateToString(convertStringToDatetime(transaction.issue_date)!)
-        cell.endLabel.text = convertDateToString(convertStringToDatetime(transaction.maturity_date)!)
+        cell.setTransaction(transaction)
         return cell
     }
 }
