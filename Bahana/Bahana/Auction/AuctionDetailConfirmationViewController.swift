@@ -23,6 +23,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
     var auctionID: Int!
     var auctionType: String!
     var auctionRequestMaturityDate: String?
+    var tempAuctionRequestMaturityDate: String?
     
     var textField = UITextField()
     var datePicker = UIDatePicker()
@@ -59,6 +60,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
             confirmationLabel.text = localize("confirmation_choosen_winner")
         }
         
+        tempAuctionRequestMaturityDate = auctionRequestMaturityDate
         setDatePicker()
         
         presenter = AuctionDetailConfirmationPresenter(delegate: self)
@@ -98,6 +100,12 @@ class AuctionDetailConfirmationViewController: UIViewController {
         textField.inputAccessoryView = toolbar
     }
     
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func noButtonPressed(_ sender: Any) {
         presenter.confirm(auctionID, auctionType, false, auctionRequestMaturityDate)
     }
@@ -130,9 +138,12 @@ class AuctionDetailConfirmationViewController: UIViewController {
     
     func showConfirmationAlert(_ date: String) {
         let alert = UIAlertController(title: localize("information"), message: "\(localize("confirmation_change_end_date")) \(date)?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: localize("no"), style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: localize("no"), style: .default, handler: { action in
+            self.auctionRequestMaturityDate = self.tempAuctionRequestMaturityDate
+            print(self.auctionRequestMaturityDate)
+        }))
         alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
-            print("yes")
+            print(self.auctionRequestMaturityDate)
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -140,6 +151,6 @@ class AuctionDetailConfirmationViewController: UIViewController {
 
 extension AuctionDetailConfirmationViewController: AuctionDetailConfirmationDelegate {
     func isConfirmed(_ isConfirmed: Bool, _ message: String) {
-        //
+        showAlert(title: localize("information"), message: message)
     }
 }

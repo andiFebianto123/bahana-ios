@@ -21,6 +21,7 @@ class FaqViewController: UIViewController {
     var presenter: FaqPresenter!
     
     var data = [Faq]()
+    var tempData = [Faq]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +49,8 @@ class FaqViewController: UIViewController {
             spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
+        
+        searchBar.delegate = self
         
         tableView.backgroundColor = backgroundColor
         tableView.separatorStyle = .none
@@ -96,12 +99,12 @@ class FaqViewController: UIViewController {
 
 extension FaqViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return tempData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FaqTableViewCell", for: indexPath) as! FaqTableViewCell
-        let faq = data[indexPath.row]
+        let faq = tempData[indexPath.row]
         cell.titleLabel.text = faq.question
         cell.answerLabel.text = faq.answer
         return cell
@@ -116,16 +119,38 @@ extension FaqViewController: UITableViewDelegate {
         } else {
             cell.expand()
         }
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        let cell = tableView.cellForRow(at: indexPath) as? FaqTableViewCell
+        if cell != nil {
+            return cell!.getHeight()
+        } else {
+            return 70
+        }
+    }
+}
+
+extension FaqViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            tempData = data
+        } else {
+            tempData = data.filter { $0.answer.lowercased().contains(searchText.lowercased()) || $0.question.lowercased().contains(searchText.lowercased()) }
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        tableView.reloadData()
     }
 }
 
 extension FaqViewController: FaqDelegate {
     func setData(_ data: [Faq]) {
         self.data = data
+        self.tempData = data
         showLoading(false)
         tableView.reloadData()
     }

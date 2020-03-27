@@ -12,6 +12,7 @@ import SwiftyJSON
 
 protocol AuctionDetailRolloverDelegate {
     func setData(_ data: AuctionDetailRollover)
+    func isPosted(_ isSuccess: Bool, _ message: String)
 }
 
 class AuctionDetailRolloverPresenter {
@@ -31,7 +32,7 @@ class AuctionDetailRolloverPresenter {
                 } else {
                     let res = JSON(response.result.value!)
                     let auct = res["auction"]
-                    
+                    print(auct)
                     let id = auct["id"].intValue
                     let start_date = auct["start_date"].stringValue
                     let end_date = auct["end_date"].stringValue
@@ -58,7 +59,6 @@ class AuctionDetailRolloverPresenter {
                     
                     let auction = AuctionDetailRollover(id: id, start_date: start_date, end_date: end_date, end_bidding_rm: end_bidding_rm, pic_custodian: pic_custodian, custodian_bank: custodian_bank, portfolio: portfolio, portfolio_short: portfolio_short, fund_type: fund_type, investment_range_start: investment_range_start, investment_range_end: investment_range_end, period: period, auction_name: auction_name, previous_interest_rate: previous_interest_rate, revision_rate_admin: revision_rate_admin, last_bid_rate: last_bid_rate, status: status, view: view, message: message, previous_maturity_date: previous_maturity_date, previous_issue_date: previous_issue_date, issue_date: issue_date, maturity_date: maturity_date)
                     
-                    //print(result)
                     self.delegate?.setData(auction)
                 }
             case .failure(let error):
@@ -76,8 +76,11 @@ class AuctionDetailRolloverPresenter {
             switch response.result {
             case .success:
                 let res = JSON(response.result.value!)
-                print(res["message"])
-                //self.delegate.
+                if response.response?.statusCode == 200 {
+                    self.delegate?.isPosted(true, res["message"].stringValue)
+                } else {
+                    self.delegate?.isPosted(false, res["message"].stringValue)
+                }
             case .failure(let error):
                 print(error)
             }

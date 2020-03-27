@@ -95,6 +95,7 @@ class AuctionDetailBreakViewController: UIViewController {
         fundNameTitleLabel.text = localize("fund_name")
         custodianBankTitleLabel.text = localize("custodian_bank")
         picCustodianTitleLabel.text = localize("pic_custodian")
+        detailTitleLabel.textColor = primaryColor
         detailView.backgroundColor = cardBackgroundColor
         detailView.layer.cornerRadius = 5
         detailView.layer.shadowColor = UIColor.gray.cgColor
@@ -107,6 +108,7 @@ class AuctionDetailBreakViewController: UIViewController {
         investmentTitleLabel.text = localize("investment")
         periodTitleLabel.text = localize("period")
         breakDateTitleLabel.text = localize("break_date")
+        policyTitleLabel.textColor = primaryColor
         policyTitleLabel.text = localize("policy").uppercased()
         policyView.backgroundColor = cardBackgroundColor
         policyView.layer.cornerRadius = 5
@@ -116,7 +118,9 @@ class AuctionDetailBreakViewController: UIViewController {
         policyView.layer.shadowOpacity = 0.5
         breakablePolicyTitleLabel.text = localize("breakable_policy")
         policyNoteTitleLabel.text = localize("policy_notes")
+        breakRateTitle2Label.textColor = primaryColor
         breakRateTitle2Label.text = localize("break_rate").uppercased()
+        breakRateTextField.keyboardType = .numbersAndPunctuation
         submitButton.setTitle(localize("submit").uppercased(), for: .normal)
         submitButton.backgroundColor = primaryColor
         confirmButton.setTitle(localize("confirm"), for: .normal)
@@ -201,14 +205,36 @@ class AuctionDetailBreakViewController: UIViewController {
         }
         
         // Footer
+        let footerDate = convertDateToString(convertStringToDatetime(data.break_maturity_date)!, format: "ddMMyy")!
+        
         footerLabel.text = """
         \(localize("auction_detail_footer"))
-        Ref Code : BR.\(data.portfolio_short).
+        Ref Code : BR.\(data.portfolio_short).\(footerDate).\(data.id)
         """
     }
     
+    func validateForm() -> Bool {
+        if breakRateTextField.text! == nil ||
+            breakRateTextField.text! != nil && Double(breakRateTextField.text!) == nil ||
+        Double(breakRateTextField.text!) != nil && Double(breakRateTextField.text!)! < 0.0 || Double(breakRateTextField.text!)! > 99.9 {
+            showAlert("Rate not valid")
+            return false
+        } else {
+            return true
+        }
+        
+        return false
+    }
+    
+    func showAlert(_ message: String) {
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["message": message])
+    }
+    
     @IBAction func submitButtonPressed(_ sender: Any) {
-        //presenter.saveAuction(id)
+        if validateForm() {
+            let rate = Double(breakRateTextField.text!)!
+            presenter.saveAuction(id, rate)
+        }
     }
     
     @IBAction func confirmationButtonPressed(_ sender: Any) {
@@ -221,5 +247,9 @@ extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
         self.data = data
         showLoading(false)
         setContent()
+    }
+    
+    func isPosted(_ isSuccess: Bool, _ message: String) {
+        showAlert(message)
     }
 }

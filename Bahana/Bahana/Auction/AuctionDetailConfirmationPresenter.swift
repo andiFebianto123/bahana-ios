@@ -41,7 +41,7 @@ class AuctionDetailConfirmationPresenter {
                 break
         }
         print(parameters)
-        /*
+        
         Alamofire.request(WEB_API_URL + url, method: .get, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:
@@ -54,6 +54,6 @@ class AuctionDetailConfirmationPresenter {
             case .failure(let error):
                 print(error)
             }
-        }*/
+        }
     }
 }

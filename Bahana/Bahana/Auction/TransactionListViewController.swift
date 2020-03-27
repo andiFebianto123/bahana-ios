@@ -32,6 +32,9 @@ class TransactionListViewController: UIViewController {
     var maturity_date = localize("any_time")
     var break_date = localize("none")
     
+    var stopFetch: Bool = false
+    var loadFinished: Bool = false
+    
     var transactionID = Int()
     var transactionType = String()
     var transaction: Transaction!
@@ -142,9 +145,13 @@ class TransactionListViewController: UIViewController {
         notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
     }
     
-    func getData() {
+    func getData(nextPage: Bool = false) {
         showLoading(true)
-        presenter.getTransaction(status, issue_date)
+        if nextPage {
+            presenter.getTransaction(status, issue_date, maturity_date: maturity_date, break_date: break_date, lastId: data.last?.id)
+        } else {
+            presenter.getTransaction(status, issue_date, maturity_date: maturity_date, break_date: break_date)
+        }
     }
     
     func setFilter() {
@@ -301,7 +308,8 @@ class TransactionListViewController: UIViewController {
     
     @objc func submitFilter() {
         closeFilter()
-        presenter.getTransaction(status, issue_date)
+        data.removeAll()
+        getData()
     }
     
     @objc func showOptions(_ sender: UITapGestureRecognizer) {
@@ -348,17 +356,20 @@ class TransactionListViewController: UIViewController {
     func optionChoosed(_ tag: Int, _ option: String) {
         switch tag {
         case 1:
+            status = option
             statusField.text = option
         case 2:
+            issue_date = option
             issueDateField.text = option
         case 3:
+            maturity_date = option
             maturityDateField.text = option
         case 4:
+            break_date = option
             breakDateField.text = option
         default:
             break
         }
-        self.getData()
     }
 }
 
@@ -385,6 +396,13 @@ extension TransactionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 180
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == data.count - 1 && loadFinished {
+            loadFinished = false
+            //self.getData(nextPage: true)
+        }
+    }
 }
 
 extension TransactionListViewController: TransactionListDelegate {
@@ -395,7 +413,15 @@ extension TransactionListViewController: TransactionListDelegate {
     }
     
     func setData(_ data: [Transaction]) {
-        self.data = data
+        for dt in data {
+            if dt.id != self.data.first?.id {
+                self.data.append(dt)
+            } else {
+                stopFetch = true
+                break
+            }
+        }
+        loadFinished = true
         showLoading(false)
         tableView.reloadData()
     }

@@ -23,13 +23,37 @@ class TransactionListPresenter {
         self.delegate = delegate
     }
     
-    func getTransaction(_ status: String, _ type: String) {
+    func getTransaction(_ status: String, _ issue_date: String?, maturity_date: String?, break_date: String?, lastId: Int? = nil) {
         // Get transaction
-        var url = "transaction"
-        // Add status parameter
-        if status == "ACC" || status == "REJ" || status == "NEC" {
-            url += "?status=\(status)"
+        var url = "transaction?"
+        
+        // Status parameter
+        //if status == "ACC" || status == "REJ" || status == "NEC" {
+            url += "status=\(status.replacingOccurrences(of: " ", with: "%20"))&"
+        //}
+        
+        // Issue date parameter
+        if issue_date != nil {
+            url += "issue_date=\(issue_date!.replacingOccurrences(of: " ", with: "%20"))&"
         }
+        
+        // Maturity date parameter
+        if maturity_date != nil {
+            url += "maturity_date=\(maturity_date!.replacingOccurrences(of: " ", with: "%20"))&"
+        }
+        
+        // Issue date parameter
+        if break_date != nil {
+            url += "break_date=\(break_date!.replacingOccurrences(of: " ", with: "%20"))&"
+        }
+        
+        // Pagination
+        if lastId != nil {
+            let pageUrl = "last_id=\(lastId!)&"
+            url += pageUrl
+        }
+        
+        print(url)
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:

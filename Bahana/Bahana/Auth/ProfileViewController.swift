@@ -546,7 +546,6 @@ extension ProfileViewController: ProfileDelegate {
     
     func setBankBranchs(_ data: [BankBranch]) {
         self.branchs = data
-        print(data.count)
     }
     
     func setOptions(_ data: [String : [String]]) {

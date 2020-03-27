@@ -107,11 +107,11 @@ func convertStringToDatetime(_ str: String?) -> Date? {
     }
 }
 
-func convertDateToString(_ date: Date?) -> String? {
+func convertDateToString(_ date: Date?, format: String = "dd MMM yy") -> String? {
     if date != nil {
         let str = DateFormatter()
         //str.dateFormat = "yyyy-MM-dd"
-        str.dateFormat = "dd MMM yy"
+        str.dateFormat = format
         let time = str.string(from: date!)
         return time
     } else {

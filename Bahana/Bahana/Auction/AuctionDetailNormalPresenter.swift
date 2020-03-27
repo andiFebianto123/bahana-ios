@@ -12,6 +12,7 @@ import SwiftyJSON
 
 protocol AuctionDetailNormalDelegate {
     func setData(_ data: AuctionDetailNormal)
+    func isPosted(_ isSuccess: Bool, _ message: String)
 }
 
 class AuctionDetailNormalPresenter {
@@ -31,7 +32,7 @@ class AuctionDetailNormalPresenter {
                 } else {
                     let res = JSON(response.result.value!)
                     let auct = res["auction"]
-                    //print(auct)
+                    print(auct)
                     
                     let id = auct["id"].intValue
                     let auction_name = auct["auction_name"].stringValue
@@ -80,7 +81,6 @@ class AuctionDetailNormalPresenter {
                     
                     let auction = AuctionDetailNormal(id: id, auction_name: auction_name, start_date: start_date, end_date: end_date, end_bidding_rm: end_bidding_rm, investment_range_start: investment_range_start, investment_range_end: investment_range_end, notes: notes, pic_custodian: pic_custodian, custodian_bank: custodian_bank, fund_type: fund_type, portfolio: portfolio, portfolio_short: portfolio_short, bids: bids, view: view, status: status, issue_date: issue_date, details: details, allowed_rate: allowedRates, default_rate: defaultRate)
                     
-                    //print(result)
                     self.delegate?.setData(auction)
                 }
             case .failure(let error):
@@ -89,6 +89,7 @@ class AuctionDetailNormalPresenter {
         }
         /*
         let fundType = ""
+        let view = 2
         let bilyet1 = [Bilyet(quantity: 10000000, issue_date: "2019-12-18 00:00:00", maturity_date: "2020-02-18 00:00:00")]
         let bilyet2 = [Bilyet(quantity: 5000000, issue_date: "2019-12-18 00:00:00", maturity_date: "2020-01-07 00:00:00"), Bilyet(quantity: 5000000, issue_date: "2019-12-18 00:00:00", maturity_date: "2020-01-07 00:00:00")]
         let bilyet3 = [Bilyet(quantity: 10000000, issue_date: "2019-12-18 00:00:00", maturity_date: "2020-03-18 00:00:00")]
@@ -100,14 +101,14 @@ class AuctionDetailNormalPresenter {
         let details = [Detail(auction_header_id: 42, td_period: 3, td_period_type: "month", default_rate: 0, default_rate_usd: 0, default_rate_sharia: 0)]
         let allowedRates = ["IDR", "Syariah"]
         let defaultRate = DefaultRate(month_rate_1: 5.25, month_rate_3: 2, month_rate_6: 2, month_rate_1_usd: 4, month_rate_3_usd: 2.5, month_rate_6_usd: 2, month_rate_1_sharia: 2, month_rate_3_sharia: 1.1, month_rate_6_sharia: 3)
-        let auction = AuctionDetailNormal(id: 42, auction_name: "NP.BDL.181219", start_date: "2019-12-18 15:40:00", end_date: "2019-12-18 18:40:00", end_bidding_rm: "2019-12-18 17:40:00", investment_range_start: 20000000000, investment_range_end: 30000000000, notes: "Mohon crosscheck instruksi dari Ops & Custody. Jatuh tempo di hari Sabtu/Minggu, bunga berjalan dibayarkan on bilyet.", pic_custodian: nil, custodian_bank: nil, fund_type: fundType, portfolio: "BDL (RD BAHANA DANA LIKUID)", portfolio_short: "BDL", bids: bids, view: 1, status: "ACC", issue_date: "2019-12-18 00:00:00", details: details, allowed_rate: allowedRates, default_rate: defaultRate)
+        let auction = AuctionDetailNormal(id: 42, auction_name: "NP.BDL.181219", start_date: "2019-12-18 15:40:00", end_date: "2019-12-18 18:40:00", end_bidding_rm: "2019-12-18 17:40:00", investment_range_start: 20000000000, investment_range_end: 30000000000, notes: "Mohon crosscheck instruksi dari Ops & Custody. Jatuh tempo di hari Sabtu/Minggu, bunga berjalan dibayarkan on bilyet.", pic_custodian: nil, custodian_bank: nil, fund_type: fundType, portfolio: "BDL (RD BAHANA DANA LIKUID)", portfolio_short: "BDL", bids: bids, view: view, status: "ACC", issue_date: "2019-12-18 00:00:00", details: details, allowed_rate: allowedRates, default_rate: defaultRate)
         
         self.delegate?.setData(auction)
-         */
+        */
     }
     
     func saveAuction(_ id: Int, _ bids: [Bid], _ placement: String) {
-        var parameters: Parameters!
+        var parameters = Parameters()
         
         for (idx, bid) in bids.enumerated() {
             // Untuk jumlah period menggunakan id
@@ -118,19 +119,19 @@ class AuctionDetailNormalPresenter {
             parameters.updateValue(bids[idx].interest_rate_sharia!, forKey: "bid[\(idx)][rate_syariah]")
             parameters.updateValue(placement, forKey: "bid[\(idx)][max_placement]")
         }
-        print(parameters)
-        print(bids)
-        print(placement)
-        /*
+        
         Alamofire.request(WEB_API_URL + "api/v1/auction/\(id)/post", method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:
                 let res = JSON(response.result.value!)
-                print(res["message"])
-                //self.delegate.
+                if response.response?.statusCode == 200 {
+                    self.delegate?.isPosted(true, res["message"].stringValue)
+                } else {
+                    self.delegate?.isPosted(false, res["message"].stringValue)
+                }
             case .failure(let error):
                 print(error)
             }
-        }*/
+        }
     }
 }

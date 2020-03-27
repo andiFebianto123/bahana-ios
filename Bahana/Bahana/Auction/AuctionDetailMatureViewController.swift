@@ -1,14 +1,14 @@
 //
-//  AuctionDetailDirectViewController.swift
+//  AuctionDetailMatureViewController.swift
 //  Bahana
 //
-//  Created by Christian Chandra on /2002/25.
+//  Created by Christian Chandra on /2003/26.
 //  Copyright © 2020 Rectmedia. All rights reserved.
 //
 
 import UIKit
 
-class AuctionDetailDirectViewController: UIViewController {
+class AuctionDetailMatureViewController: UIViewController {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var auctionEndLabel: UILabel!
@@ -31,23 +31,16 @@ class AuctionDetailDirectViewController: UIViewController {
     @IBOutlet weak var interestRateLabel: UILabel!
     @IBOutlet weak var investmentTitleLabel: UILabel!
     @IBOutlet weak var investmentLabel: UILabel!
-    @IBOutlet weak var bilyetTitleLabel: UILabel!
-    @IBOutlet weak var bilyetLabel: UILabel!
-    @IBOutlet weak var noteTitleLabel: UILabel!
-    @IBOutlet weak var noteLabel: UILabel!
-    @IBOutlet weak var revisionRateStackView: UIStackView!
-    @IBOutlet weak var revisionRateTitleLabel: UILabel!
-    @IBOutlet weak var revisionRateTextField: UITextField!
-    @IBOutlet weak var revisedButton: UIButton!
-    @IBOutlet weak var confirmButton: UIButton!
+    @IBOutlet weak var periodTitleLabel: UILabel!
+    @IBOutlet weak var periodLabel: UILabel!
     @IBOutlet weak var footerLabel: UILabel!
     
     var loadingView = UIView()
     
-    var presenter: AuctionDetailDirectPresenter!
+    var presenter: AuctionDetailMaturePresenter!
     
     var id = Int()
-    var data: AuctionDetailDirect!
+    var data: AuctionDetailMature!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,16 +90,9 @@ class AuctionDetailDirectViewController: UIViewController {
         tenorTitleLabel.text = localize("tenor")
         interestRateTitleLabel.text = localize("interest_rate")
         investmentTitleLabel.text = localize("investment")
-        bilyetTitleLabel.text = localize("bilyet")
-        noteTitleLabel.textColor = primaryColor
-        noteTitleLabel.text = localize("notes").uppercased()
-        revisionRateTitleLabel.text = localize("revision_rate")
-        revisedButton.setTitle(localize("revised").uppercased(), for: .normal)
-        revisedButton.backgroundColor = primaryColor
-        confirmButton.setTitle(localize("confirm").uppercased(), for: .normal)
-        confirmButton.backgroundColor = UIColorFromHex(rgbValue: 0x2a91ff)
+        periodTitleLabel.text = localize("bilyet")
         
-        presenter = AuctionDetailDirectPresenter(delegate: self)
+        presenter = AuctionDetailMaturePresenter(delegate: self)
         presenter.getAuction(id)
     }
     
@@ -139,22 +125,8 @@ class AuctionDetailDirectViewController: UIViewController {
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
         }
         
-        if convertStringToDatetime(data.end_date)! > Date() {
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
-            
-            let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-            let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
-            auctionEndLabel.text = "\(localize("ends_in")): \(hour) \(minute)"
-            
-            if countdown["hour"]! < 1 {
-                auctionEndLabel.textColor = primaryColor
-            } else {
-                auctionEndLabel.textColor = .black
-            }
-        } else {
-            auctionEndLabel.isHidden = true
-        }
-        
+        auctionEndLabel.isHidden = true
+       
         // Portfolio
         fundNameLabel.text = data.portfolio
         custodianBankLabel.text = data.custodian_bank != nil ? data.custodian_bank : "-"
@@ -162,75 +134,24 @@ class AuctionDetailDirectViewController: UIViewController {
         
         // Detail
         tenorLabel.text = data.period
-        interestRateLabel.text = data.revision_rate_rm != nil ? "\(data.revision_rate_rm)" : "-"
-        investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
-        var bilyet = """
-        """
-        for bilyetArr in data.bilyet {
-            bilyet += "- IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
-        }
-        let cnt = CGFloat(data.bilyet.count)
-        detailViewHeight.constant += (CGFloat(25) * cnt)
-        bilyetLabel.text = bilyet
-        noteLabel.text = data.notes
+        interestRateLabel.text = "\(data.coupon_rate)"
+        investmentLabel.text = "IDR \(toIdrBio(data.quantity))"
+        periodLabel.text = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
         
-        // Action
-        if data.view == 0 {
-            revisionRateStackView.isHidden = true
-        } else if data.view == 1 {
-            revisionRateTitleLabel.isHidden = true
-            revisionRateTextField.isHidden = true
-            revisedButton.isHidden = true
-        } else if data.view == 2 {
-            confirmButton.isHidden = true
-        }
-        
-        let footerDate = convertDateToString(convertStringToDatetime(data.start_date)!, format: "ddMMyy")!
+        let footerDate = convertDateToString(convertStringToDatetime(data.maturity_date)!, format: "ddMMyy")!
         
         footerLabel.text = """
         \(localize("auction_detail_footer"))
-        Ref Code : PP.\(data.portfolio_short).\(footerDate)
+        Ref Code : MA.\(data.portfolio).\(footerDate).\(data.id)
         """
     }
-    
-    func validateForm() -> Bool {
-        if revisionRateTextField.text! == nil ||
-            revisionRateTextField.text! != nil && Double(revisionRateTextField.text!) == nil ||
-        Double(revisionRateTextField.text!) != nil && Double(revisionRateTextField.text!)! < 0.0 || Double(revisionRateTextField.text!)! > 99.9 {
-            showAlert("Rate not valid")
-            return false
-        } else {
-            return true
-        }
-        
-        return false
-    }
-    
-    func showAlert(_ message: String) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["message": message])
-    }
-    
-    @IBAction func reviseButtonPressed(_ sender: Any) {
-        if validateForm() {
-            let rate = Double(revisionRateTextField.text!)!
-            presenter.reviseAuction(id, rate)
-        }
-    }
-    
-    @IBAction func confirmationButtonPressed(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["date": data.end_date])
-    }
-    
 }
 
-extension AuctionDetailDirectViewController: AuctionDetailDirectDelegate {
-    func setData(_ data: AuctionDetailDirect) {
+
+extension AuctionDetailMatureViewController: AuctionDetailMatureDelegate {
+    func setData(_ data: AuctionDetailMature) {
         self.data = data
         showLoading(false)
         setContent()
-    }
-    
-    func isPosted(_ isSuccess: Bool, _ message: String) {
-        showAlert(message)
     }
 }

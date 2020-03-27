@@ -88,6 +88,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         fundNameTitleLabel.text = localize("fund_name")
         custodianBankTitleLabel.text = localize("custodian_bank")
         picCustodianTitleLabel.text = localize("pic_custodian")
+        detailTitleLabel.textColor = primaryColor
         detailView.backgroundColor = cardBackgroundColor
         detailView.layer.cornerRadius = 5
         detailView.layer.shadowColor = UIColor.gray.cgColor
@@ -100,6 +101,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         investmentTitleLabel.text = localize("investment")
         previousPeriodTitleLabel.text = localize("previous_period")
         newPeriodTitleLabel.text = localize("new_period")
+        interestRateTitleLabel.textColor = primaryColor
         interestRateTitleLabel.text = localize("interest_rate").uppercased()
         submitButton.setTitle(localize("submit").uppercased(), for: .normal)
         submitButton.backgroundColor = primaryColor
@@ -179,13 +181,36 @@ class AuctionDetailRolloverViewController: UIViewController {
             confirmButton.isHidden = true
         }
         
+        let footerDate = convertDateToString(convertStringToDatetime(data.start_date)!, format: "ddMMyy")!
+        
         footerLabel.text = """
         \(localize("auction_detail_footer"))
+        Ref Code : RO.\(data.portfolio_short).\(footerDate).\(data.id)
         """
     }
     
+    func validateForm() -> Bool {
+        if interestRateTextField.text! == nil ||
+            interestRateTextField.text! != nil && Double(interestRateTextField.text!) == nil ||
+        Double(interestRateTextField.text!) != nil && Double(interestRateTextField.text!)! < 0.0 || Double(interestRateTextField.text!)! > 99.9 {
+            showAlert("Rate not valid")
+            return false
+        } else {
+            return true
+        }
+        
+        return false
+    }
+    
+    func showAlert(_ message: String) {
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["message": message])
+    }
+    
     @IBAction func submitButtonPressed(_ sender: Any) {
-        //presenter.saveAuction(id)
+        if validateForm() {
+            let rate = Double(interestRateTextField.text!)!
+            presenter.saveAuction(id, rate)
+        }
     }
     
     @IBAction func confirmationButtonPressed(_ sender: Any) {
@@ -199,5 +224,9 @@ extension AuctionDetailRolloverViewController: AuctionDetailRolloverDelegate {
         self.data = data
         showLoading(false)
         setContent()
+    }
+    
+    func isPosted(_ isSuccess: Bool, _ message: String) {
+        showAlert(message)
     }
 }

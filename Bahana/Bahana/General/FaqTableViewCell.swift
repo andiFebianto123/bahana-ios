@@ -24,8 +24,6 @@ class FaqTableViewCell: UITableViewCell {
         // Initialization code
         self.selectionStyle = .none
         self.backgroundColor = backgroundColor
-        
-        self.bottomView.isHidden = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -47,6 +45,14 @@ class FaqTableViewCell: UITableViewCell {
         titleImageView.image = UIImage(named: "icon_add")
         UIView.animate(withDuration: 0.5) {
             self.bottomView.isHidden = true
+        }
+    }
+    
+    func getHeight() -> CGFloat {
+        if isExpanded {
+            return 100 + answerLabel.intrinsicContentSize.height
+        } else {
+            return 70
         }
     }
 }

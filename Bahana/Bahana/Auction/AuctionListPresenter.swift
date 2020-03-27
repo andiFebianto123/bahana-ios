@@ -23,32 +23,36 @@ class AuctionListPresenter {
         self.delegate = delegate
     }
     
-    func getAuction(_ status: String, _ type: String, page: Int) {
+    func getAuction(_ status: String, _ type: String, lastId: Int? = nil, lastDate: String? = nil) {
         // Get auction
         var url = String()
         switch type {
         case "ALL":
-            url += "all-auction"
+            url += "all-auction?"
         case "AUCTION":
-            url += "auction"
+            url += "auction?"
         case "DIRECT AUCTION":
-            url += "direct-auction"
+            url += "direct-auction?"
         case "BREAK":
-            url += "break"
+            url += "break?"
         case "ROLLOVER":
-            url += "rollover"
+            url += "rollover?"
+        case "MATURE":
+            url += "mature-auction?"
         default:
-            url += "all-auction"
+            url += "all-auction?"
         }
         
         // Add status parameter
         if status == "ACC" || status == "REJ" || status == "NEC" {
-            url += "?status=\(status)"
+            url += "status=\(status)&"
         }
         
         // Pagination
-        if page > 1 {
-            url += ""
+        if lastId != nil && lastDate != nil {
+            let date = lastDate!.replacingOccurrences(of: " ", with: "%20")
+            let pageUrl = "last_id=\(lastId!)&last_date=\(date)&"
+            url += pageUrl
         }
         
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getAuthHeaders()).responseJSON { response in
@@ -89,32 +93,36 @@ class AuctionListPresenter {
         }
     }
     
-    func getAuctionHistory(_ status: String, _ type: String, page: Int) {
+    func getAuctionHistory(_ status: String, _ type: String, lastId: Int? = nil, lastDate: String? = nil) {
         // Get auction history
         var url = String()
         switch type {
         case "ALL":
-            url += "all-auction-history"
+            url += "all-auction-history?"
         case "AUCTION":
-            url += "auction-history"
+            url += "auction-history?"
         case "DIRECT AUCTION":
-            url += "direct-auction-history"
+            url += "direct-auction-history?"
         case "BREAK":
-            url += "break-history"
+            url += "break-history?"
         case "ROLLOVER":
-            url += "rollover-history"
+            url += "rollover-history?"
+        case "MATURE":
+            url += "mature-history?"
         default:
-            url += "all-auction-history"
+            url += "all-auction-history?"
         }
         
         // Add status parameter
         if status == "ACC" || status == "REJ" || status == "NEC" {
-            url += "?status=\(status)"
+            url += "status=\(status)&"
         }
         
         // Pagination
-        if page > 1 {
-            url += ""
+        if lastId != nil && lastDate != nil {
+            let date = lastDate!.replacingOccurrences(of: " ", with: "%20")
+            let pageUrl = "last_id=\(lastId!)&last_date=\(date)&"
+            url += pageUrl
         }
         
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getAuthHeaders()).responseJSON { response in

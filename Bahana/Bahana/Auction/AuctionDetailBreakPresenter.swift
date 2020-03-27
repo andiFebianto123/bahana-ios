@@ -12,6 +12,7 @@ import SwiftyJSON
 
 protocol AuctionDetailBreakDelegate {
     func setData(_ data: AuctionDetailBreak)
+    func isPosted(_ isSuccess: Bool, _ message: String)
 }
 
 class AuctionDetailBreakPresenter {
@@ -31,7 +32,7 @@ class AuctionDetailBreakPresenter {
                 } else {
                     let res = JSON(response.result.value!)
                     let auct = res["auction"]
-                    print(auct)
+                    //print(auct)
                     let id = auct["id"].intValue
                     let start_date = auct["start_date"].stringValue
                     let end_date = auct["end_date"].stringValue
@@ -49,7 +50,8 @@ class AuctionDetailBreakPresenter {
                     let revision_rate_admin = auct["revision_rate_admin"].stringValue
                     let last_bid_rate = auct["last_bid_rate"] != JSON.null ? auct["last_bid_rate"].doubleValue : nil
                     let status = auct["status"].stringValue
-                    let view = auct["view"].intValue
+                    //let view = auct["view"].intValue
+                    let view = 2
                     let message = auct["message"].stringValue
                     let breakable_policy = auct["breakable_policy"] != JSON.null ? auct["breakable_policy"].stringValue : nil
                     let policyNotes = auct["policy_notes"] != JSON.null ? auct["policy_notes"].stringValue : nil
@@ -76,8 +78,11 @@ class AuctionDetailBreakPresenter {
             switch response.result {
             case .success:
                 let res = JSON(response.result.value!)
-                print(res["message"])
-                //self.delegate.
+                if response.response?.statusCode == 200 {
+                    self.delegate?.isPosted(true, res["message"].stringValue)
+                } else {
+                    self.delegate?.isPosted(false, res["message"].stringValue)
+                }
             case .failure(let error):
                 print(error)
             }

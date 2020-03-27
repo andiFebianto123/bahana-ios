@@ -15,9 +15,10 @@ class AuctionDetailViewController: UIViewController {
     @IBOutlet weak var navigationBackImageView: UIImageView!
     @IBOutlet weak var navigationTitle: UILabel!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var containerViewHeight: NSLayoutConstraint!
     
-    var scrollView = UIScrollView()
     var mainView = UIView()
     
     var presenter: AuctionDetailPresenter!
@@ -32,13 +33,15 @@ class AuctionDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         setNavigationItems()
         
-        presenter = AuctionDetailPresenter(delegate: self)
+        view.backgroundColor = backgroundColor
         
         let auctionStoryboard : UIStoryboard = UIStoryboard(name: "Auction", bundle: nil)
         switch auctionType {
         case "auction":
             let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailNormal") as! AuctionDetailNormalViewController
             viewController.id = self.auctionID
+            containerViewHeight.constant = 1200
+            viewController.currentHeight = containerViewHeight.constant
             containerView.addSubview(viewController.view)
             viewController.view.frame = containerView.bounds
         case "direct-auction":
@@ -53,6 +56,11 @@ class AuctionDetailViewController: UIViewController {
             viewController.view.frame = containerView.bounds
         case "rollover":
             let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailRollover") as! AuctionDetailRolloverViewController
+            viewController.id = self.auctionID
+            containerView.addSubview(viewController.view)
+            viewController.view.frame = containerView.bounds
+        case "mature":
+            let viewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionDetailMature") as! AuctionDetailMatureViewController
             viewController.id = self.auctionID
             containerView.addSubview(viewController.view)
             viewController.view.frame = containerView.bounds
@@ -78,6 +86,16 @@ class AuctionDetailViewController: UIViewController {
             mainView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             mainView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
         ])*/
+        
+        presenter = AuctionDetailPresenter(delegate: self)
+        
+        setupToHideKeyboardOnTapOnView()
+        
+        // View height
+        NotificationCenter.default.addObserver(self, selector: #selector(setHeight(notification:)), name: Notification.Name("AuctionDetailHeight"), object: nil)
+        
+        // Validation alert
+        NotificationCenter.default.addObserver(self, selector: #selector(showValidationAlert(notification:)), name: Notification.Name("AuctionDetailAlert"), object: nil)
         
         // Confirmation button pressed
         NotificationCenter.default.addObserver(self, selector: #selector(showConfimation(notification:)), name: Notification.Name("AuctionDetailConfirmation"), object: nil)
@@ -115,6 +133,14 @@ class AuctionDetailViewController: UIViewController {
         //
     }
     
+    @objc func setHeight(notification: Notification) {
+        if let data = notification.userInfo as? [String: CGFloat] {
+            let height = data["height"]!
+            containerViewHeight.constant = height
+            view.layoutIfNeeded()
+        }
+    }
+    
     @objc func showConfimation(notification: Notification) {
         if let data = notification.userInfo as? [String: String] {
             let date = data["date"]
@@ -125,6 +151,20 @@ class AuctionDetailViewController: UIViewController {
             self.performSegue(withIdentifier: "showConfirmation", sender: self)
         }
     }
+    
+    @objc func showValidationAlert(notification: Notification) {
+        if let data = notification.userInfo as? [String: String] {
+            let message = data["message"]!
+            showAlert(title: localize("information"), message: message)
+        }
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     /*
     func setStatus(_ status: String) {
         let subView = UIView()

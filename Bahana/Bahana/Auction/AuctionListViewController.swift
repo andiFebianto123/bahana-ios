@@ -27,6 +27,8 @@ class AuctionListViewController: UIViewController {
     var presenter: AuctionListPresenter!
     
     var pageType = "auction"
+    var stopFetch: Bool = false
+    var loadFinished: Bool = false
     
     var auctionID = Int()
     var auctionType = String()
@@ -176,13 +178,22 @@ class AuctionListViewController: UIViewController {
         performSegue(withIdentifier: "showNotification", sender: self)
     }
     
-    func getData() {
+    func getData(nextPage: Bool = false) {
         let status = statusTextField.text!
         let type = typeTextField.text!
         if pageType == "auction" {
-            presenter.getAuction(status, type, page: 1)
+            if nextPage {
+                presenter.getAuction(status, type, lastId: data.last?.id, lastDate: data.last?.end_date)
+            } else {
+                presenter.getAuction(status, type, lastId: nil, lastDate: nil)
+            }
+            
         } else if pageType == "history" {
-            presenter.getAuctionHistory(status, type, page: 1)
+            if nextPage {
+                presenter.getAuctionHistory(status, type, lastId: data.last?.id, lastDate: data.last?.end_date)
+            } else {
+                presenter.getAuctionHistory(status, type, lastId: nil, lastDate: nil)
+            }
         }
     }
     
@@ -225,6 +236,7 @@ class AuctionListViewController: UIViewController {
     }
 
     @IBAction func showButtonPressed(_ sender: Any) {
+        data.removeAll()
         self.getData()
     }
 }
@@ -255,8 +267,9 @@ extension AuctionListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == data.count - 1 {
-            print("aaaa")
+        if indexPath.row == data.count - 1 && loadFinished && data.count > 10 {
+            loadFinished = false
+            //self.getData(nextPage: true)
         }
     }
 }
@@ -269,8 +282,19 @@ extension AuctionListViewController: AuctionListDelegate {
     }
     
     func setData(_ data: [Auction]) {
-        self.data = data
         showLoading(false)
-        tableView.reloadData()
+        if data.count > 0 {
+            /*for dt in data {
+                if dt.id == self.data.first?.id {
+                    //stopFetch = true
+                    break
+                } else {
+                    self.data.append(dt)
+                }
+            }*/
+            self.data = data
+            loadFinished = true
+            tableView.reloadData()
+        }
     }
 }

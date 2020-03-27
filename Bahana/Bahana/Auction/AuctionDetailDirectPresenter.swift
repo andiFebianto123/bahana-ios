@@ -12,6 +12,7 @@ import SwiftyJSON
 
 protocol AuctionDetailDirectDelegate {
     func setData(_ data: AuctionDetailDirect)
+    func isPosted(_ isSuccess: Bool, _ message: String)
 }
 
 class AuctionDetailDirectPresenter {
@@ -61,7 +62,6 @@ class AuctionDetailDirectPresenter {
                     
                     let auction = AuctionDetailDirect(id: id, start_date: start_date, end_date: end_date, end_bidding_rm: end_bidding_rm, investment_range_start: investment_range_start, investment_range_end: investment_range_end, auction_name: auction_name, portfolio: portfolio, portfolio_short: portfolio_short, fund_type: fund_type, revision_rate_rm: revision_rate_rm, interest_rate: interest_rate, notes: notes, pic_custodian: pic_custodian, custodian_bank: custodian_bank, period: period, bilyet: bilyets, status: status, message: message, view: view)
                     
-                    //print(result)
                     self.delegate?.setData(auction)
                 }
             case .failure(let error):
@@ -79,8 +79,11 @@ class AuctionDetailDirectPresenter {
             switch response.result {
             case .success:
                 let res = JSON(response.result.value!)
-                print(res["message"])
-                //self.delegate.
+                if response.response?.statusCode == 200 {
+                    self.delegate?.isPosted(true, res["message"].stringValue)
+                } else {
+                    self.delegate?.isPosted(false, res["message"].stringValue)
+                }
             case .failure(let error):
                 print(error)
             }

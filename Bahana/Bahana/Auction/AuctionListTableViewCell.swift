@@ -30,6 +30,7 @@ class AuctionListTableViewCell: UITableViewCell {
     @IBOutlet weak var rightView: UIView!
     
     var pageType: String!
+    var alreadySet: Bool = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -163,36 +164,45 @@ class AuctionListTableViewCell: UITableViewCell {
     }
     
     func setStatus(_ status: String) {
-        if status != "-" {
-            statusLabel.text = status
-        } else if status == "ACC" {
-            statusLabel.text = status
-            mainView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-            typeView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-            leftView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-            rightView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-        } else {
-            statusView.isHidden = true
-        }
+        //if !alreadySet {
+            if status != "-" {
+                statusLabel.text = status
+            } else if status == "ACC" {
+                /*statusLabel.text = status
+                mainView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+                typeView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+                leftView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+                rightView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)*/
+            } else {
+                statusView.isHidden = true
+            }
+            
+            //alreadySet = true
+        //}
     }
     
     func setAuctionType(_ type: String) {
-        typeLabel.text = type.uppercased()
-        let typeTextWidth = typeLabel.intrinsicContentSize.width
-        typeViewWidth.constant = typeTextWidth + 10
-        switch type {
-        case "break":
-            placementDateTitleLabel.text = localize("maturity_date")
-            endTitleLabel.text = localize("break_date")
-        case "rollover":
-            placementDateTitleLabel.text = localize("maturity_date")
-        case "mature":
-            mainView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-            typeView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-            leftView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-            rightView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-        default:
-            break
-        }
+        //if !alreadySet {
+            typeLabel.text = type.uppercased()
+            let typeTextWidth = typeLabel.intrinsicContentSize.width
+            typeViewWidth.constant = typeTextWidth + 10
+            switch type {
+            case "break":
+                placementDateTitleLabel.text = localize("maturity_date")
+                endTitleLabel.text = localize("break_date")
+            case "rollover":
+                placementDateTitleLabel.text = localize("maturity_date")
+            case "mature":
+                /*mainView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+                typeView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+                leftView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+                rightView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)*/
+                break
+            default:
+                break
+            }
+            
+            //alreadySet = true
+        //}
     }
 }
