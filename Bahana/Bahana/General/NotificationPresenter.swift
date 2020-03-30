@@ -10,7 +10,7 @@ import Alamofire
 import SwiftyJSON
 
 protocol NotificationDelegate {
-    func setData(_ data: [NotificationModel])
+    func setData(_ data: [NotificationModel], _ page: Int)
     func isMarkAsRead(_ isRead: Bool)
 }
 
@@ -21,16 +21,23 @@ class NotificationPresenter {
         self.delegate = delegate
     }
     
-    func getData() {
-        Alamofire.request(WEB_API_URL + "api/v1/notification", method: .get, headers: getAuthHeaders()).responseJSON { response in
+    func getData(lastId: Int? = nil, _ page: Int) {
+        var url = "notification?"
+        
+        if lastId != nil {
+            url += "last_id=\(lastId!)"
+        }
+        print(url)
+        
+        Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:
                 let result = JSON(response.result.value!)
                 if response.response?.statusCode == 401 {
-                    //
+                    
                 } else {
                     var notifications = [NotificationModel]()
-                    
+                    //print(result)
                     for notify in result.arrayValue {
                         let id = notify["data"]["id"].intValue
                         let type = notify["data"]["type"] != JSON.null ? notify["data"]["type"].stringValue : nil
@@ -45,11 +52,11 @@ class NotificationPresenter {
                         let message_in = notify["data"]["message_in"] != JSON.null ? notify["data"]["message_in"].stringValue : nil
                         
                         let notificationData = nData(type: type, sub_type: sub_type, id: id, portfolio: portfolio, issue_date: issue_date, maturity_date: maturity_date, quantity: qty, coupon_rate: coupon_rate, period: period, title_in: title_in, message_in: message_in)
-                        let notification = NotificationModel(id: notify["id"].stringValue, title: notify["title"].stringValue, message: notify["message"].stringValue, data: notificationData, is_read: notify["is_read"].intValue, created_at: notify["created_at"].stringValue, available_at: notify["available_at"].stringValue)
+                        let notification = NotificationModel(id: notify["id"].intValue, title: notify["title"].stringValue, message: notify["message"].stringValue, data: notificationData, is_read: notify["is_read"].intValue, created_at: notify["created_at"].stringValue, available_at: notify["available_at"].stringValue)
                         notifications.append(notification)
                     }
                     
-                    self.delegate?.setData(notifications)
+                    self.delegate?.setData(notifications, page)
                 }
             case .failure(let error):
                 print(error)

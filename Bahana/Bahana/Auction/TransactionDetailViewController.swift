@@ -21,7 +21,7 @@ class TransactionDetailViewController: UIViewController {
     @IBOutlet weak var navigationBackImageView: UIImageView!
     @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var transactionIDTitle: UILabel!
-    @IBOutlet weak var transactionID: UILabel!
+    @IBOutlet weak var transactionIDLabel: UILabel!
     @IBOutlet weak var transactionStatusView: UIView!
     @IBOutlet weak var transactionStatusTitle: UILabel!
     @IBOutlet weak var transactionStatus: UILabel!
@@ -39,6 +39,7 @@ class TransactionDetailViewController: UIViewController {
     var presenter: TransactionDetailPresenter!
     
     var data: Transaction!
+    var transactionID: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +82,7 @@ class TransactionDetailViewController: UIViewController {
         breakInformationView.isHidden = true
         
         presenter = TransactionDetailPresenter(delegate: self)
-        presenter.getTransaction(data.id)
+        presenter.getTransaction(transactionID)
     }
     
 
@@ -122,7 +123,7 @@ class TransactionDetailViewController: UIViewController {
     }
 
     func setContent() {
-        transactionID.text = "\(data.id)"
+        transactionIDLabel.text = "\(data.id)"
         
         switch data.status {
         case "Active":

@@ -22,6 +22,8 @@ class ChangeLanguageViewController: UIViewController {
         "language_id"
     ]
     
+    var language: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -54,11 +56,22 @@ class ChangeLanguageViewController: UIViewController {
         navigationTitle.text = localize("language").uppercased()
         
         closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
-        
     }
     
     @objc func close() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func showConfirmationAlert(_ message: String) {
+        let alert = UIAlertController(title: localize("confirmation"), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("cancel"), style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
+            setLocalData(["language": self.language])
+            NotificationCenter.default.post(name: Notification.Name("LanguageChanged"), object: nil, userInfo: nil)
+            self.setNavigationItems()
+            self.tableView.reloadData()
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -81,8 +94,8 @@ extension ChangeLanguageViewController: UITableViewDataSource {
 
 extension ChangeLanguageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        setLocalData(["language": languages[indexPath.row]])
-        changeLanguage()
-        tableView.reloadData()
+        language = languages[indexPath.row]
+        let message = String.localizedStringWithFormat(localize("confirmation_change_language"), localize(language))
+        showConfirmationAlert(message)
     }
 }

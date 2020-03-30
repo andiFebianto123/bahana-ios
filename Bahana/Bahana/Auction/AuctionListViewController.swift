@@ -46,6 +46,7 @@ class AuctionListViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         setNavigationItems()
+        setViewText()
         
         view.backgroundColor = backgroundColor
         
@@ -72,7 +73,6 @@ class AuctionListViewController: UIViewController {
         
         let statusTap = UITapGestureRecognizer(target: self, action: #selector(statusFieldTapped))
         statusTextField.addGestureRecognizer(statusTap)
-        statusTextField.placeholder = localize("status")
         statusTextField.borderStyle = .none
         statusTextField.rightViewMode = .always
         let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 10))
@@ -84,7 +84,6 @@ class AuctionListViewController: UIViewController {
         statusTextField.rightView = dropdownView
         let typeTap = UITapGestureRecognizer(target: self, action: #selector(typeFieldTapped))
         typeTextField.addGestureRecognizer(typeTap)
-        typeTextField.placeholder = localize("type")
         typeTextField.borderStyle = .none
         typeTextField.rightViewMode = .always
         let dropdownView2 = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 10))
@@ -94,7 +93,6 @@ class AuctionListViewController: UIViewController {
         //dropdownImageView2.image?.withTintColor(UIColor.black)
         dropdownView2.addSubview(dropdownImageView2)
         typeTextField.rightView = dropdownView2
-        showButton.setTitle(localize("show"), for: .normal)
         showButton.setTitleColor(UIColor.white, for: .normal)
         showButton.backgroundColor = UIColor.black
         
@@ -111,7 +109,9 @@ class AuctionListViewController: UIViewController {
         tableView.delegate = self
         
         presenter = AuctionListPresenter(delegate: self)
-        getData(lastId: nil, lastDate: nil)
+        getData(lastId: nil, lastDate: nil, lastType: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
     }
     
     // MARK: - Navigation
@@ -173,6 +173,12 @@ class AuctionListViewController: UIViewController {
         notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
     }
     
+    func setViewText() {
+        statusTextField.placeholder = localize("status")
+        typeTextField.placeholder = localize("type")
+        showButton.setTitle(localize("show"), for: .normal)
+    }
+    
     func showLoading(_ show: Bool) {
         if show {
             loadingView.isHidden = false
@@ -185,7 +191,7 @@ class AuctionListViewController: UIViewController {
         performSegue(withIdentifier: "showNotification", sender: self)
     }
     
-    func getData(lastId: Int?, lastDate: String?, page: Int = 1) {
+    func getData(lastId: Int?, lastDate: String?, lastType: String?, page: Int = 1) {
         let status = statusTextField.text!
         let type = typeTextField.text!
         
@@ -197,7 +203,7 @@ class AuctionListViewController: UIViewController {
         if pageType == "auction" {
             presenter.getAuction(filter, lastId: lastId, lastDate: lastDate, page)
         } else if pageType == "history" {
-            presenter.getAuctionHistory(filter, lastId: lastId, lastDate: lastDate, page)
+            presenter.getAuctionHistory(filter, lastId: lastId, lastDate: lastDate, lastType: lastType, page)
         }
     }
     
@@ -236,7 +242,12 @@ class AuctionListViewController: UIViewController {
     @IBAction func showButtonPressed(_ sender: Any) {
         data.removeAll()
         page = 1
-        self.getData(lastId: nil, lastDate: nil)
+        self.getData(lastId: nil, lastDate: nil, lastType: nil)
+    }
+    
+    @objc func languageChanged() {
+        setNavigationItems()
+        setViewText()
     }
 }
 
@@ -248,7 +259,8 @@ extension AuctionListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == data.count - 1 && loadFinished && !stopFetch {
             page += 1
-            self.getData(lastId: data[indexPath.row].id, lastDate: data[indexPath.row].end_date, page: page)
+            loadFinished = false
+            self.getData(lastId: data[indexPath.row].id, lastDate: data[indexPath.row].end_date, lastType: data[indexPath.row].type, page: page)
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell

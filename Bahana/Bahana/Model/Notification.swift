@@ -9,7 +9,7 @@
 import Foundation
 
 struct NotificationModel {
-    var id: String
+    var id: Int
     var title: String
     var message: String
     var data: nData?

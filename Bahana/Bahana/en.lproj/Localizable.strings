@@ -132,7 +132,7 @@
 "notification" = "Notification";
 "contact" = "Contact";
 "faq" = "FAQ";
-"language" = "Language";
+"language" = "Change Language";
 "logout" = "Logout";
 "confirmation" = "Confirmation";
 "canceled" = "Canceled";
@@ -153,3 +153,4 @@
 "confirmation_choosen_winner" = "Are you sure you want to be the winner?";
 "confirmation_change_end_date" = "Are you sure you want to change end date to";
 "auction_detail_footer" = "Any error or mismatch, please directly contact Bahana TCW";
+"confirmation_change_language" = "Are you sure you want to change the language to %@?";

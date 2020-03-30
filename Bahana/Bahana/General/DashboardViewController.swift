@@ -42,6 +42,7 @@ class DashboardViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         setNavigationItems()
+        setViewText()
         
         view.backgroundColor = backgroundColor
         
@@ -66,8 +67,6 @@ class DashboardViewController: UIViewController {
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
         
-        titleLabel.text = localize("summary_auction")
-        
         completedAuctionView.layer.cornerRadius = 5
         completedAuctionView.layer.shadowColor = UIColor.gray.cgColor
         completedAuctionView.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -90,13 +89,10 @@ class DashboardViewController: UIViewController {
         
         let redColor = UIColor.red
         
-        completedAuctionTitleLabel.text = localize("completed_auction")
         completedAuctionLabel.textColor = redColor
         completedAuctionUnitLabel.textColor = redColor
-        ongoingAuctionTitleLabel.text = localize("ongoing_auction")
         ongoingAuctionLabel.textColor = redColor
         ongoingAuctionUnitLabel.textColor = redColor
-        needConfirmationTitleLabel.text = localize("need_confirmation")
         needConfirmationLabel.textColor = redColor
         needConfirmationUnitLabel.textColor = redColor
         
@@ -104,11 +100,12 @@ class DashboardViewController: UIViewController {
         ongoingAuctionWidth.constant = (screenWidth / 2) - 30
         needConfirmationWidth.constant = (screenWidth / 2) - 30
         
-        informationTitle.text = localize("information")
         informationTitle.textColor = primaryColor
         
         presenter = DashboardPresenter(delegate: self)
         presenter.getData()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
     }
 
     // MARK: - Navigation
@@ -167,6 +164,14 @@ class DashboardViewController: UIViewController {
         notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
     }
     
+    func setViewText() {
+        titleLabel.text = localize("summary_auction")
+        completedAuctionTitleLabel.text = localize("completed_auction")
+        ongoingAuctionTitleLabel.text = localize("ongoing_auction")
+        needConfirmationTitleLabel.text = localize("need_confirmation")
+        informationTitle.text = localize("information")
+    }
+    
     func showLoading(_ show: Bool) {
         if show {
             loadingView.isHidden = false
@@ -181,6 +186,11 @@ class DashboardViewController: UIViewController {
     
     @objc func showBestRate() {
         performSegue(withIdentifier: "showBestRate", sender: self)
+    }
+    
+    @objc func languageChanged() {
+        setNavigationItems()
+        setViewText()
     }
 }
 

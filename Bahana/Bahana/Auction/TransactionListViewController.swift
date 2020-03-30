@@ -58,6 +58,7 @@ class TransactionListViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         setNavigationItems()
+        setViewText()
         
         tableBackgroundView.backgroundColor = backgroundColor
         view.backgroundColor = backgroundColor
@@ -89,7 +90,6 @@ class TransactionListViewController: UIViewController {
         filterView.addGestureRecognizer(filterTap)
         filterLabel.font = UIFont.systemFont(ofSize: 10)
         filterLabel.textColor = .white
-        filterLabel.text = localize("filter_transaction").uppercased()
         
         tableView.register(UINib(nibName: "AuctionListTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
@@ -103,6 +103,8 @@ class TransactionListViewController: UIViewController {
         getData(lastId: nil)
         
         setFilter()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
     }
     
     // MARK: - Navigation
@@ -113,7 +115,7 @@ class TransactionListViewController: UIViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "showDetail" {
             if let destinationVC = segue.destination as?  TransactionDetailViewController {
-                destinationVC.data = transaction
+                destinationVC.transactionID = transaction.id
             }
         }
     }
@@ -157,6 +159,10 @@ class TransactionListViewController: UIViewController {
         ])
         
         notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
+    }
+    
+    func setViewText() {
+        filterLabel.text = localize("filter_transaction").uppercased()
     }
     
     func getData(lastId: Int?, page: Int = 1) {
@@ -377,6 +383,11 @@ class TransactionListViewController: UIViewController {
             break
         }
     }
+    
+    @objc func languageChanged() {
+        setNavigationItems()
+        setViewText()
+    }
 }
 
 extension TransactionListViewController: UITableViewDataSource {
@@ -387,6 +398,7 @@ extension TransactionListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == data.count - 1 && loadFinished && !stopFetch {
             page += 1
+            loadFinished = false
             self.getData(lastId: data[indexPath.row].id, page: page)
         }
         

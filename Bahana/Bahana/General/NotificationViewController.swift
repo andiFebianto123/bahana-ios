@@ -21,6 +21,11 @@ class NotificationViewController: UIViewController {
     var presenter: NotificationPresenter!
     
     var data = [NotificationModel]()
+    let dataPerPage = 10
+    var page = 1
+    
+    var stopFetch: Bool = false
+    var loadFinished: Bool = false
     
     var auctionID: Int!
     var auctionType: String!
@@ -60,7 +65,7 @@ class NotificationViewController: UIViewController {
         setNavigationItems()
         
         presenter = NotificationPresenter(delegate: self)
-        presenter.getData()
+        getData(lastId: nil)
     }
     
 
@@ -77,7 +82,7 @@ class NotificationViewController: UIViewController {
             }
         } else if segue.identifier == "showTransactionDetail" {
             if let destinationVC = segue.destination as? TransactionDetailViewController {
-                destinationVC.data.id = transactionID
+                destinationVC.transactionID = transactionID
             }
         }
     }
@@ -93,6 +98,10 @@ class NotificationViewController: UIViewController {
         
         navigationBackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
         
+    }
+    
+    func getData(lastId: Int?, page: Int = 1) {
+        presenter.getData(lastId: lastId, page)
     }
     
     func showLoading(_ show: Bool) {
@@ -114,14 +123,17 @@ extension NotificationViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == data.count - 1 && loadFinished && !stopFetch {
+            page += 1
+            loadFinished = false
+            let lastId = data[indexPath.row].id
+            self.getData(lastId: lastId, page: page)
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationTableViewCell
         let notification = data[indexPath.row]
-        cell.notificationTitle.text = notification.title
-        cell.notificationContent.text = notification.message
-        cell.notificationDate.text = "\(convertDateToString(convertStringToDatetime(notification.created_at)!)!) \(convertTimeToString(convertStringToDatetime(notification.created_at)!)!)"
-        if notification.is_read == 0 {
-            cell.isUnread()
-        }
+        cell.setData(notification)
+        cell.notificationTitle.text! += " \(indexPath.row)"
         return cell
     }
 }
@@ -142,23 +154,31 @@ extension NotificationViewController: UITableViewDelegate {
             if notification.data!.type != "transaction" && notification.data?.sub_type != nil && notification.data!.sub_type == "detail" {
                 auctionID = notification.data?.id
                 auctionType = notification.data?.type!
-                //presenter.markAsRead(notification.id)
+                presenter.markAsRead(notification.id)
                 performSegue(withIdentifier: "showAuctionDetail", sender: self)
             } else if notification.data!.type == "transaction" {
                 transactionID = notification.data?.id
-                print(transactionID)
-                //presenter.markAsRead(notification.id)
-                //performSegue(withIdentifier: "showTransactionDetail", sender: self)
+                presenter.markAsRead(notification.id)
+                performSegue(withIdentifier: "showTransactionDetail", sender: self)
             }
         }
     }
 }
 
 extension NotificationViewController: NotificationDelegate {
-    func setData(_ data: [NotificationModel]) {
-        self.data = data
-        showLoading(false)
-        tableView.reloadData()
+    func setData(_ data: [NotificationModel], _ page: Int) {
+        if data.count > 0 && self.page == page {
+            for dt in data {
+                self.data.append(dt)
+            }
+            
+            if data.count < dataPerPage {
+                stopFetch = true
+            }
+            showLoading(false)
+            loadFinished = true
+            tableView.reloadData()
+        }
     }
     
     func isMarkAsRead(_ isRead: Bool) {

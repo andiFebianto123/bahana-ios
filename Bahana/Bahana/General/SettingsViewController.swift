@@ -43,6 +43,7 @@ class SettingsViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         setNavigationItems()
+        setViewText()
         
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "bg")
@@ -50,10 +51,8 @@ class SettingsViewController: UIViewController {
         self.view.insertSubview(backgroundImage, at: 0)
         
         profileView.backgroundColor = .white
-        fullnameTitleLabel.text = localize("fullname")
         fullnameTitleLabel.textColor = .gray
         fullnameLabel.textColor = primaryColor
-        contactTitleLabel.text = localize("email_and_contact")
         contactTitleLabel.textColor = .gray
         
         fullnameView.tag = 0
@@ -66,35 +65,32 @@ class SettingsViewController: UIViewController {
         bestRateView.layer.borderColor = borderColor
         bestRateView.tag = 1
         bestRateView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
-        bestRateLabel.text =  localize("edit_best_rate")
         
         contactView.layer.borderWidth = borderWidth
         contactView.layer.borderColor = borderColor
         contactView.tag = 2
         contactView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
-        contactLabel.text = localize("contact")
         
         faqView.layer.borderWidth = borderWidth
         faqView.layer.borderColor = borderColor
         faqView.tag = 3
         faqView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
-        faqLabel.text = localize("faq")
         
         languageView.layer.borderWidth = borderWidth
         languageView.layer.borderColor = borderColor
         languageView.tag = 4
         languageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
-        languageLabel.text = localize("language")
         
         logoutView.layer.borderWidth = borderWidth
         logoutView.layer.borderColor = borderColor
         logoutView.tag = 5
         logoutView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
-        logoutLabel.text = localize("logout")
         
         setContent()
         
         presenter = SettingsPresenter(delegate: self)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
     }
     
 
@@ -154,6 +150,16 @@ class SettingsViewController: UIViewController {
         notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
     }
     
+    func setViewText() {
+        fullnameTitleLabel.text = localize("fullname")
+        contactTitleLabel.text = localize("email_and_contact")
+        bestRateLabel.text =  localize("edit_best_rate")
+        contactLabel.text = localize("contact")
+        faqLabel.text = localize("faq")
+        languageLabel.text = localize("language")
+        logoutLabel.text = localize("logout")
+    }
+    
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
@@ -196,6 +202,11 @@ class SettingsViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    @objc func languageChanged() {
+        setNavigationItems()
+        setViewText()
     }
 }
 

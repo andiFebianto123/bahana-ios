@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import LanguageManager_iOS
 
 //let WEB_API_URL = "http://localhost:8000/"
 //let WEB_API_URL = "http://192.168.1.25:8000/"
@@ -32,13 +33,20 @@ func getLocalData(key: String) -> String {
     }
 }
 
-func changeLanguage() {
-    //getLocalData(key: "language")
-    NotificationCenter.default.post(name: Notification.Name("LanguageChanged"), object: nil, userInfo: nil)
-}
-
 func localize(_ key: String) -> String {
-    return NSLocalizedString(key, comment: "")
+    //return NSLocalizedString(key, comment: "")
+    var lang = String()
+    switch getLocalData(key: "language") {
+    case "language_id":
+        lang = "id"
+    case "language_en":
+        lang = "en"
+    default:
+        break
+    }
+    let path = Bundle.main.path(forResource: lang, ofType: "lproj")
+    let bundle = Bundle(path: path!)
+    return NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: "")
 }
 
 func isLoggedIn() -> Bool {

@@ -849,7 +849,7 @@
                         <outlet property="navigationTitle" destination="0pa-uA-N5C" id="X4w-PI-TbC"/>
                         <outlet property="navigationView" destination="zbN-t5-Q5d" id="hxJ-wf-x33"/>
                         <outlet property="navigationViewHeight" destination="m6e-Wd-rDM" id="tta-H8-Itb"/>
-                        <outlet property="transactionID" destination="CZG-OC-1wQ" id="KdV-iI-l88"/>
+                        <outlet property="transactionIDLabel" destination="CZG-OC-1wQ" id="8Am-bY-frr"/>
                         <outlet property="transactionIDTitle" destination="GNM-dm-ty1" id="7EM-xG-5yE"/>
                         <outlet property="transactionStatus" destination="v6w-WC-Huj" id="3xQ-D9-7Gk"/>
                         <outlet property="transactionStatusTitle" destination="e4T-TE-Utx" id="dGQ-jc-u3d"/>

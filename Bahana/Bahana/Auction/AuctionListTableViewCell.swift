@@ -168,11 +168,7 @@ class AuctionListTableViewCell: UITableViewCell {
             if status != "-" {
                 statusLabel.text = status
             } else if status == "ACC" {
-                /*statusLabel.text = status
-                mainView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-                typeView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-                leftView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-                rightView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)*/
+                statusLabel.text = status
             } else {
                 statusView.isHidden = true
             }
@@ -186,6 +182,12 @@ class AuctionListTableViewCell: UITableViewCell {
             typeLabel.text = type.uppercased()
             let typeTextWidth = typeLabel.intrinsicContentSize.width
             typeViewWidth.constant = typeTextWidth + 10
+        
+            mainView.backgroundColor = UIColor.white
+            typeView.backgroundColor = UIColor.white
+            leftView.backgroundColor = UIColor.white
+            rightView.backgroundColor = UIColor.white
+        
             switch type {
             case "break":
                 placementDateTitleLabel.text = localize("maturity_date")
@@ -193,10 +195,10 @@ class AuctionListTableViewCell: UITableViewCell {
             case "rollover":
                 placementDateTitleLabel.text = localize("maturity_date")
             case "mature":
-                /*mainView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+                mainView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
                 typeView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
                 leftView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-                rightView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)*/
+                rightView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
                 break
             default:
                 break

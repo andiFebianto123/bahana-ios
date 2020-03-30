@@ -32,6 +32,8 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view.
         setupToHideKeyboardOnTapOnView()
         
+        setViewText()
+        
         backgroundImageView.image = UIImage(named: "bg")
         backgroundImageView.contentMode = .scaleToFill
         languageView.layer.borderWidth = 1
@@ -41,13 +43,7 @@ class LoginViewController: UIViewController {
         languageView.layer.masksToBounds = true
         languageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToChangeLanguage)))
         languageLabel.textColor = UIColor.white
-        if getLocalData(key: "language") == "language_id" {
-            languageLabel.text = localize("indonesia")
-        } else if getLocalData(key: "language") == "language_en" {
-            languageLabel.text = localize("english")
-        }
         emailLabel.font = UIFont.systemFont(ofSize: 10)
-        emailLabel.text = localize("email")
         emailField.placeholder = localize("email")
         emailField.borderStyle = .none
         emailField.backgroundColor = .white
@@ -60,7 +56,6 @@ class LoginViewController: UIViewController {
         emailView.addSubview(emailImageView)
         emailField.leftView = emailView
         passwordLabel.font = UIFont.systemFont(ofSize: 10)
-        passwordLabel.text = localize("password")
         passwordField.placeholder = localize("password")
         passwordField.borderStyle = .none
         passwordField.backgroundColor = .white
@@ -76,27 +71,36 @@ class LoginViewController: UIViewController {
         submitButton.layer.masksToBounds = true
         submitButton.backgroundColor = UIColor.red
         submitButton.setTitleColor(UIColor.white, for: .normal)
-        submitButton.setTitle(localize("login"), for: .normal)
         let fpTap = UITapGestureRecognizer(target: self, action: #selector(goToForgotPassword))
         forgotPasswordView.addGestureRecognizer(fpTap)
         forgotPasswordLabel.font = UIFont.italicSystemFont(ofSize: 10)
         forgotPasswordLabel.textColor = UIColor.red
-        forgotPasswordLabel.text = localize("forgot_your_password")
         orLabel.font = UIFont.systemFont(ofSize: 10)
-        orLabel.text = localize("or")
         registerButton.layer.cornerRadius = 3
         registerButton.layer.masksToBounds = true
         registerButton.backgroundColor = UIColor.black
         registerButton.setTitleColor(UIColor.white, for: .normal)
-        registerButton.setTitle(localize("register"), for: .normal)
         versionLabel.font = UIFont.systemFont(ofSize: 10)
-        versionLabel.text = String.localizedStringWithFormat(localize("app_version"), getAppVersion())
         
         presenter = LoginPresenter(delegate: self)
         
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
     }
     
+    func setViewText() {
+        if getLocalData(key: "language") == "language_id" {
+            languageLabel.text = localize("indonesia")
+        } else if getLocalData(key: "language") == "language_en" {
+            languageLabel.text = localize("english")
+        }
+        emailLabel.text = localize("email")
+        passwordLabel.text = localize("password")
+        submitButton.setTitle(localize("login"), for: .normal)
+        forgotPasswordLabel.text = localize("forgot_your_password")
+        orLabel.text = localize("or")
+        registerButton.setTitle(localize("register"), for: .normal)
+        versionLabel.text = String.localizedStringWithFormat(localize("app_version"), getAppVersion())
+    }
 
     /*
     // MARK: - Navigation
@@ -133,11 +137,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc func languageChanged() {
-        if getLocalData(key: "language") == "language_id" {
-            languageLabel.text = localize("indonesia")
-        } else if getLocalData(key: "language") == "language_en" {
-            languageLabel.text = localize("english")
-        }
+        setViewText()
     }
 }
 
