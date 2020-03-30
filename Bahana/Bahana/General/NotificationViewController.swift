@@ -11,6 +11,7 @@ import UIKit
 class NotificationViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var navigationBackView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -83,6 +84,7 @@ class NotificationViewController: UIViewController {
 
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
+        navigationViewHeight.constant = getNavigationHeight()
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         navigationTitle.textColor = .white

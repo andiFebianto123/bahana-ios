@@ -11,6 +11,7 @@ import UIKit
 class AuctionListViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var notificationView: UIView!
     @IBOutlet weak var statusTextField: UITextField!
@@ -26,14 +27,19 @@ class AuctionListViewController: UIViewController {
     
     var presenter: AuctionListPresenter!
     
-    var pageType = "auction"
+    var pageType: String!
     var stopFetch: Bool = false
     var loadFinished: Bool = false
+    
+    let statusOptions = ["ALL", "-", "ACC", "REJ", "NEC"]
+    let typeOptions = ["ALL", "AUCTION", "DIRECT AUCTION", "BREAK", "ROLLOVER"]
     
     var auctionID = Int()
     var auctionType = String()
     
     var data = [Auction]()
+    let dataPerPage = 10
+    var page = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,7 +111,7 @@ class AuctionListViewController: UIViewController {
         tableView.delegate = self
         
         presenter = AuctionListPresenter(delegate: self)
-        getData()
+        getData(lastId: nil, lastDate: nil)
     }
     
     // MARK: - Navigation
@@ -124,6 +130,7 @@ class AuctionListViewController: UIViewController {
 
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
+        navigationViewHeight.constant = getNavigationHeight()
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         navigationTitle.textColor = .white
@@ -178,37 +185,28 @@ class AuctionListViewController: UIViewController {
         performSegue(withIdentifier: "showNotification", sender: self)
     }
     
-    func getData(nextPage: Bool = false) {
+    func getData(lastId: Int?, lastDate: String?, page: Int = 1) {
         let status = statusTextField.text!
         let type = typeTextField.text!
+        
+        let filter = [
+            "status": status,
+            "type": type
+        ]
+        
         if pageType == "auction" {
-            if nextPage {
-                presenter.getAuction(status, type, lastId: data.last?.id, lastDate: data.last?.end_date)
-            } else {
-                presenter.getAuction(status, type, lastId: nil, lastDate: nil)
-            }
-            
+            presenter.getAuction(filter, lastId: lastId, lastDate: lastDate, page)
         } else if pageType == "history" {
-            if nextPage {
-                presenter.getAuctionHistory(status, type, lastId: data.last?.id, lastDate: data.last?.end_date)
-            } else {
-                presenter.getAuctionHistory(status, type, lastId: nil, lastDate: nil)
-            }
+            presenter.getAuctionHistory(filter, lastId: lastId, lastDate: lastDate, page)
         }
     }
     
     @objc func statusFieldTapped() {
-        let options = [
-            "ALL", "-", "ACC", "REJ", "NEC"
-        ]
-        showOptions("status", options)
+        showOptions("status", statusOptions)
     }
     
     @objc func typeFieldTapped() {
-        let options = [
-            "ALL", "AUCTION", "DIRECT AUCTION", "BREAK", "ROLLOVER"
-        ]
-        showOptions("type", options)
+        showOptions("type", typeOptions)
     }
     
     func showOptions(_ field: String, _ options: [String]) {
@@ -237,7 +235,8 @@ class AuctionListViewController: UIViewController {
 
     @IBAction func showButtonPressed(_ sender: Any) {
         data.removeAll()
-        self.getData()
+        page = 1
+        self.getData(lastId: nil, lastDate: nil)
     }
 }
 
@@ -247,6 +246,11 @@ extension AuctionListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == data.count - 1 && loadFinished && !stopFetch {
+            page += 1
+            self.getData(lastId: data[indexPath.row].id, lastDate: data[indexPath.row].end_date, page: page)
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
         let auction = data[indexPath.row]
         cell.pageType = pageType
@@ -265,13 +269,6 @@ extension AuctionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 180
     }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == data.count - 1 && loadFinished && data.count > 10 {
-            loadFinished = false
-            //self.getData(nextPage: true)
-        }
-    }
 }
 
 extension AuctionListViewController: AuctionListDelegate {
@@ -281,18 +278,16 @@ extension AuctionListViewController: AuctionListDelegate {
         self.present(loginViewController, animated: true, completion: nil)
     }
     
-    func setData(_ data: [Auction]) {
-        showLoading(false)
-        if data.count > 0 {
-            /*for dt in data {
-                if dt.id == self.data.first?.id {
-                    //stopFetch = true
-                    break
-                } else {
-                    self.data.append(dt)
-                }
-            }*/
-            self.data = data
+    func setData(_ data: [Auction], _ page: Int) {
+        if data.count > 0 && self.page == page {
+            for dt in data {
+                self.data.append(dt)
+            }
+            
+            if data.count < dataPerPage {
+                stopFetch = true
+            }
+            showLoading(false)
             loadFinished = true
             tableView.reloadData()
         }

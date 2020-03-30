@@ -11,6 +11,7 @@ import UIKit
 class DashboardViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var notificationView: UIView!
@@ -127,6 +128,7 @@ class DashboardViewController: UIViewController {
     
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
+        navigationViewHeight.constant = getNavigationHeight()
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         navigationTitle.textColor = .white

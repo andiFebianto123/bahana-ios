@@ -12,7 +12,7 @@ import SwiftyJSON
 
 protocol AuctionListDelegate {
     func openLoginPage()
-    func setData(_ data: [Auction])
+    func setData(_ data: [Auction], _ page: Int)
 }
 
 class AuctionListPresenter {
@@ -23,10 +23,10 @@ class AuctionListPresenter {
         self.delegate = delegate
     }
     
-    func getAuction(_ status: String, _ type: String, lastId: Int? = nil, lastDate: String? = nil) {
+    func getAuction(_ filter: [String: String], lastId: Int? = nil, lastDate: String? = nil, _ page: Int) {
         // Get auction
         var url = String()
-        switch type {
+        switch filter["type"] {
         case "ALL":
             url += "all-auction?"
         case "AUCTION":
@@ -44,8 +44,8 @@ class AuctionListPresenter {
         }
         
         // Add status parameter
-        if status == "ACC" || status == "REJ" || status == "NEC" {
-            url += "status=\(status)&"
+        if filter["status"] == "ACC" || filter["status"] == "REJ" || filter["status"] == "NEC" {
+            url += "status=\(filter["status"])&"
         }
         
         // Pagination
@@ -85,7 +85,7 @@ class AuctionListPresenter {
                         auctions.append(auction)
                     }
                     
-                    self.delegate?.setData(auctions)
+                    self.delegate?.setData(auctions, page)
                 }
             case .failure(let error):
                 print(error)
@@ -93,10 +93,10 @@ class AuctionListPresenter {
         }
     }
     
-    func getAuctionHistory(_ status: String, _ type: String, lastId: Int? = nil, lastDate: String? = nil) {
+    func getAuctionHistory(_ filter: [String: String], lastId: Int? = nil, lastDate: String? = nil, _ page: Int) {
         // Get auction history
         var url = String()
-        switch type {
+        switch filter["type"] {
         case "ALL":
             url += "all-auction-history?"
         case "AUCTION":
@@ -114,8 +114,8 @@ class AuctionListPresenter {
         }
         
         // Add status parameter
-        if status == "ACC" || status == "REJ" || status == "NEC" {
-            url += "status=\(status)&"
+        if filter["status"] == "ACC" || filter["status"] == "REJ" || filter["status"] == "NEC" {
+            url += "status=\(filter["status"])&"
         }
         
         // Pagination
@@ -124,7 +124,7 @@ class AuctionListPresenter {
             let pageUrl = "last_id=\(lastId!)&last_date=\(date)&"
             url += pageUrl
         }
-        
+        print(url)
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:
@@ -152,7 +152,7 @@ class AuctionListPresenter {
                     auctions.append(auction)
                 }
                 
-                self.delegate?.setData(auctions)
+                self.delegate?.setData(auctions, page)
             case .failure(let error):
                 print(error)
             }

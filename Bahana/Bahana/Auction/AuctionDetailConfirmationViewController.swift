@@ -11,6 +11,7 @@ import UIKit
 class AuctionDetailConfirmationViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var closeView: UIView!
     @IBOutlet weak var mainView: UIView!
@@ -76,6 +77,11 @@ class AuctionDetailConfirmationViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func setNavigationItems() {
+        navigationViewHeight.constant = getNavigationHeight()
+        navigationTitle.text = localize("confirmation").uppercased()
+    }
 
     func setDatePicker() {
         datePicker.datePickerMode = .date

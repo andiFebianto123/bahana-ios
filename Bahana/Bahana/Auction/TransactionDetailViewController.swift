@@ -16,6 +16,7 @@ struct TransactionContent {
 class TransactionDetailViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var navigationBackView: UIView!
     @IBOutlet weak var navigationBackImageView: UIImageView!
     @IBOutlet weak var navigationTitle: UILabel!
@@ -98,6 +99,7 @@ class TransactionDetailViewController: UIViewController {
         //navigationBar.barTintColor = UIColor.red
         //navigationController?.navigationBar.barTintColor = primaryColor
         navigationView.backgroundColor = primaryColor
+        navigationViewHeight.constant = getNavigationHeight()
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         navigationTitle.text = localize("transaction_detail").uppercased()
@@ -122,14 +124,17 @@ class TransactionDetailViewController: UIViewController {
     func setContent() {
         transactionID.text = "\(data.id)"
         
-        if data.status == "Active" {
+        switch data.status {
+        case "Active":
             transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x65d663)
-        } else if data.status == "Canceled" {
+        case "Canceled":
             transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x3e3e3e)
-        } else if data.status == "Used in Break Auction" {
+        case "Used in Break Auction":
             transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x990000)
-        } else if data.status == "Mature" {
+        case "Mature":
             transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x2d91ff)
+        default:
+            break
         }
         
         transactionStatus.text = data.status.uppercased()

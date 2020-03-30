@@ -11,6 +11,7 @@ import UIKit
 class TransactionListViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var notificationView: UIView!
     @IBOutlet weak var tableBackgroundView: UIView!
@@ -27,19 +28,30 @@ class TransactionListViewController: UIViewController {
     var issueDateField = UITextField()
     var maturityDateField = UITextField()
     var breakDateField = UITextField()
-    var status = localize("all")
-    var issue_date = localize("any_time")
-    var maturity_date = localize("any_time")
-    var break_date = localize("none")
     
     var stopFetch: Bool = false
     var loadFinished: Bool = false
+    
+    let statusOptions =  [
+        "ALL", "ACTIVE", "BREAK", "CANCELED", "MATURE", localize("used_in_break_auction"), localize("used_in_ro_auction"), "ROLLOVER"
+    ]
+    let issueDateOptions = [
+        "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
+    ]
+    let maturityDateOptions = [
+        "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
+    ]
+    let breakDateOptions = [
+        "NONE", "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
+    ]
     
     var transactionID = Int()
     var transactionType = String()
     var transaction: Transaction!
     
     var data = [Transaction]()
+    let dataPerPage = 10
+    var page = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,7 +99,8 @@ class TransactionListViewController: UIViewController {
         tableView.delegate = self
         
         presenter = TransactionListPresenter(delegate: self)
-        getData()
+        showLoading(true)
+        getData(lastId: nil)
         
         setFilter()
     }
@@ -107,6 +120,7 @@ class TransactionListViewController: UIViewController {
 
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
+        navigationViewHeight.constant = getNavigationHeight()
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         navigationTitle.textColor = .white
@@ -145,13 +159,15 @@ class TransactionListViewController: UIViewController {
         notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
     }
     
-    func getData(nextPage: Bool = false) {
-        showLoading(true)
-        if nextPage {
-            presenter.getTransaction(status, issue_date, maturity_date: maturity_date, break_date: break_date, lastId: data.last?.id)
-        } else {
-            presenter.getTransaction(status, issue_date, maturity_date: maturity_date, break_date: break_date)
-        }
+    func getData(lastId: Int?, page: Int = 1) {
+        let filter: [String: String] = [
+            "status": statusField.text!,
+            "issue_date": issueDateField.text!,
+            "maturity_date": maturityDateField.text!,
+            "break_date": breakDateField.text!
+        ]
+        
+        presenter.getTransaction(filter, lastId: lastId, page)
     }
     
     func setFilter() {
@@ -183,7 +199,7 @@ class TransactionListViewController: UIViewController {
         statusField.tag = 1
         statusField.isUserInteractionEnabled = true
         statusField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
-        statusField.text = localize("all")
+        statusField.text = statusOptions.first
         filterListView.addSubview(statusField)
         
         //Issue date
@@ -195,7 +211,7 @@ class TransactionListViewController: UIViewController {
         issueDateField = UITextField()
         issueDateField.tag = 2
         issueDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
-        issueDateField.text = localize("any_time")
+        issueDateField.text = issueDateOptions.first
         filterListView.addSubview(issueDateField)
         
         //Maturity date
@@ -207,7 +223,7 @@ class TransactionListViewController: UIViewController {
         maturityDateField = UITextField()
         maturityDateField.tag = 3
         maturityDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
-        maturityDateField.text = localize("any_time")
+        maturityDateField.text = maturityDateOptions.first
         filterListView.addSubview(maturityDateField)
         
         //Break date
@@ -219,7 +235,7 @@ class TransactionListViewController: UIViewController {
         breakDateField = UITextField()
         breakDateField.tag = 4
         breakDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
-        breakDateField.text = localize("any_time")
+        breakDateField.text = breakDateOptions.first
         filterListView.addSubview(breakDateField)
         
         //Cancel button
@@ -309,7 +325,9 @@ class TransactionListViewController: UIViewController {
     @objc func submitFilter() {
         closeFilter()
         data.removeAll()
-        getData()
+        page = 1
+        showLoading(true)
+        getData(lastId: nil)
     }
     
     @objc func showOptions(_ sender: UITapGestureRecognizer) {
@@ -319,24 +337,16 @@ class TransactionListViewController: UIViewController {
         switch tag {
         case 1:
             // Status
-            options = [
-                "ALL", "ACTIVE", "BREAK", "CANCELED", "MATURE", localize("used_in_break_auction"), localize("used_in_ro_auction"), "ROLLOVER"
-            ]
+            options = statusOptions
         case 2:
             // Issue date
-            options = [
-                "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
-            ]
+            options = issueDateOptions
         case 3:
             // Maturity date
-            options = [
-                "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
-            ]
+            options = maturityDateOptions
         case 4:
             // Break date
-            options = [
-                "NONE", "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
-            ]
+            options = breakDateOptions
         default:
             break
         }
@@ -356,16 +366,12 @@ class TransactionListViewController: UIViewController {
     func optionChoosed(_ tag: Int, _ option: String) {
         switch tag {
         case 1:
-            status = option
             statusField.text = option
         case 2:
-            issue_date = option
             issueDateField.text = option
         case 3:
-            maturity_date = option
             maturityDateField.text = option
         case 4:
-            break_date = option
             breakDateField.text = option
         default:
             break
@@ -379,6 +385,11 @@ extension TransactionListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == data.count - 1 && loadFinished && !stopFetch {
+            page += 1
+            self.getData(lastId: data[indexPath.row].id, page: page)
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
         let transaction = data[indexPath.row]
         cell.setTransaction(transaction)
@@ -390,18 +401,10 @@ extension TransactionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         transaction = data[indexPath.row]
         performSegue(withIdentifier: "showDetail", sender: self)
-//        performSegue(withIdentifier: "showDetail2", sender: self)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 180
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == data.count - 1 && loadFinished {
-            loadFinished = false
-            //self.getData(nextPage: true)
-        }
     }
 }
 
@@ -412,17 +415,18 @@ extension TransactionListViewController: TransactionListDelegate {
         self.present(loginViewController, animated: true, completion: nil)
     }
     
-    func setData(_ data: [Transaction]) {
-        for dt in data {
-            if dt.id != self.data.first?.id {
+    func setData(_ data: [Transaction], _ page: Int) {
+        if data.count > 0 && self.page == page {
+            for dt in data {
                 self.data.append(dt)
-            } else {
-                stopFetch = true
-                break
             }
+            
+            if data.count < dataPerPage {
+                stopFetch = true
+            }
+            showLoading(false)
+            loadFinished = true
+            tableView.reloadData()
         }
-        loadFinished = true
-        showLoading(false)
-        tableView.reloadData()
     }
 }

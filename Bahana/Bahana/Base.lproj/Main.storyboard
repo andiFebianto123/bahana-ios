@@ -257,6 +257,7 @@
                         <outlet property="informationTitle" destination="Shf-wB-hff" id="NDC-fn-NEB"/>
                         <outlet property="navigationTitle" destination="L1R-nR-vPj" id="0Aq-BJ-oMp"/>
                         <outlet property="navigationView" destination="0nY-HM-km9" id="NdH-RI-r6z"/>
+                        <outlet property="navigationViewHeight" destination="8ey-BZ-ZGG" id="AQw-bw-Y78"/>
                         <outlet property="needConfirmationLabel" destination="a3F-eo-N20" id="3F3-89-JQb"/>
                         <outlet property="needConfirmationTitleLabel" destination="5KO-Hb-H0r" id="XM3-Pc-gwM"/>
                         <outlet property="needConfirmationUnitLabel" destination="5Sy-iF-5SU" id="0TX-Dz-5Yh"/>
@@ -523,6 +524,7 @@
                         <outlet property="logoutView" destination="xEK-qg-Rur" id="Fmj-CK-eJ9"/>
                         <outlet property="navigationTitle" destination="lo8-LR-Ya3" id="1sR-f4-7Q5"/>
                         <outlet property="navigationView" destination="Jw5-5B-Fd7" id="DZL-q1-RBQ"/>
+                        <outlet property="navigationViewHeight" destination="TVD-R1-DIq" id="PjK-14-4zn"/>
                         <outlet property="notificationView" destination="ATt-to-q9Z" id="kiM-J0-5SW"/>
                         <outlet property="phoneLabel" destination="QWC-rS-SDO" id="DEL-IG-u7w"/>
                         <outlet property="profileView" destination="s1Q-8i-vxP" id="bdK-PY-dOv"/>
@@ -778,6 +780,7 @@
                         <outlet property="closeView" destination="67v-fI-jXf" id="WFH-Sp-XF6"/>
                         <outlet property="navigationTitle" destination="MDt-k9-vHr" id="JEX-8g-jXa"/>
                         <outlet property="navigationView" destination="13N-Xg-xp6" id="gOj-dI-g2v"/>
+                        <outlet property="navigationViewHeight" destination="2lY-Dy-OPf" id="J6j-TY-DS4"/>
                         <outlet property="tableView" destination="JTm-J6-IJH" id="t2r-PP-zSx"/>
                     </connections>
                 </viewController>
@@ -858,6 +861,7 @@
                         <outlet property="closeView" destination="TDQ-yN-lTr" id="GHc-Sz-os1"/>
                         <outlet property="navigationTitle" destination="hzV-aP-FVX" id="wAA-Q6-Rjt"/>
                         <outlet property="navigationView" destination="Quk-30-IcL" id="jlL-5u-fqL"/>
+                        <outlet property="navigationViewHeight" destination="4Aj-wb-liT" id="OWi-8z-Wlm"/>
                         <outlet property="searchBar" destination="03s-s8-Lfq" id="eu7-sf-JU0"/>
                         <outlet property="tableView" destination="fEW-LE-xu4" id="Lpe-XP-e4Z"/>
                     </connections>
@@ -1000,6 +1004,7 @@
                         <outlet property="navigationBackView" destination="IFa-mX-Oqw" id="TAP-rq-WYB"/>
                         <outlet property="navigationTitle" destination="e2h-oU-2Vj" id="8X4-m9-L6Y"/>
                         <outlet property="navigationView" destination="f8Y-as-NuK" id="lZ7-La-UVl"/>
+                        <outlet property="navigationViewHeight" destination="hZ5-g7-vVg" id="HxN-jr-LKT"/>
                         <outlet property="tableView" destination="yUE-KM-FMX" id="b3U-mA-2mU"/>
                         <segue destination="qgf-A7-oTP" kind="show" identifier="showAuctionDetail" id="3ZZ-oa-Rpy"/>
                         <segue destination="PWs-Uv-sDe" kind="show" identifier="showTransactionDetail" id="iBb-D4-mEj"/>
@@ -1024,7 +1029,7 @@
         <image name="close" width="96" height="96"/>
         <image name="edit" width="512" height="512"/>
         <image name="icon_checkmark" width="32" height="32"/>
-        <image name="icon_chevron_right" width="32" height="32"/>
+        <image name="icon_chevron_right" width="30" height="30"/>
         <image name="icon_left" width="33.333332061767578" height="33.333332061767578"/>
         <image name="notification" width="512" height="512"/>
     </resources>

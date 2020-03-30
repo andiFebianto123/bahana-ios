@@ -8,6 +8,16 @@
 
 import UIKit
 
+struct InterestRate {
+    var idx: Int
+    var tenorType: String
+    var tenorField: UITextField?
+    var idrField: UITextField?
+    var usdField: UITextField?
+    var shariaField: UITextField?
+    var isHidden: Bool
+}
+
 class AuctionDetailNormalViewController: UIViewController {
 
     @IBOutlet weak var titleLabel: UILabel!
@@ -44,44 +54,20 @@ class AuctionDetailNormalViewController: UIViewController {
     @IBOutlet weak var footerLabel: UILabel!
     
     var currentHeight: CGFloat!
-    var loadingView = UIView()
     
     var presenter: AuctionDetailNormalPresenter!
     
     var id = Int()
     var data: AuctionDetailNormal!
     
-    var interestRateTenorType = [String]()
-    var interestRateTenorFields = [UITextField]()
-    var interestRateIdrFields = [UITextField]()
-    var interestRateShariaFields = [UITextField]()
+    var interestRates = [InterestRate]()
+    var interestRateIdx = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         view.backgroundColor = backgroundColor
-        
-        // Set loading view
-        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        loadingView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(loadingView)
-        view.bringSubviewToFront(loadingView)
-        
-        let spinner = UIActivityIndicatorView()
-        spinner.color = .black
-        spinner.startAnimating()
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        loadingView.addSubview(spinner)
-        
-        NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
-            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
-            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
-        ])
         
         titleLabel.text = localize("auction").uppercased()
         titleLabel.textColor = primaryColor
@@ -130,11 +116,7 @@ class AuctionDetailNormalViewController: UIViewController {
     */
     
     func showLoading(_ show: Bool) {
-        if show {
-            loadingView.isHidden = false
-        } else {
-            loadingView.isHidden = true
-        }
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailLoading"), object: nil, userInfo: ["isShow": show])
     }
 
     func setContent() {
@@ -193,8 +175,8 @@ class AuctionDetailNormalViewController: UIViewController {
         """
     }
     
-    func setBids(_ data: [Bid]) {
-        for dt in data {
+    func setBids(_ bidData: [Bid]) {
+        for dt in bidData {
             let rateView = UIView()
             if dt.is_winner == "yes" {
                 rateView.backgroundColor = UIColorFromHex(rgbValue: 0xb4eeb4)
@@ -237,13 +219,18 @@ class AuctionDetailNormalViewController: UIViewController {
             tenor.translatesAutoresizingMaskIntoConstraints = false
             rateView.addSubview(tenor)
             
+            let interestRateView = UIView()
+            interestRateView.translatesAutoresizingMaskIntoConstraints = false
+            rateView.addSubview(interestRateView)
+            
             let interestRateTitle = UILabel()
             interestRateTitle.text = localize("interest_rate")
             interestRateTitle.font = titleFont
             interestRateTitle.translatesAutoresizingMaskIntoConstraints = false
-            rateView.addSubview(interestRateTitle)
+            interestRateView.addSubview(interestRateTitle)
             var interestRateContent = """
             """
+            var interestRateViewHeight: CGFloat = 15
             if dt.interest_rate_idr != nil {
                 interestRateContent += "(IDR) \(dt.interest_rate_idr!)%"
                 if dt.choosen_rate != nil && dt.choosen_rate == "IDR" {
@@ -251,7 +238,8 @@ class AuctionDetailNormalViewController: UIViewController {
                 } else {
                     interestRateContent += "\n"
                 }
-                rateViewHeight += 10
+                rateViewHeight += 15
+                interestRateViewHeight += 15
             }
             if dt.interest_rate_usd != nil {
                 interestRateContent += "(USD) \(dt.interest_rate_usd!)%"
@@ -260,7 +248,8 @@ class AuctionDetailNormalViewController: UIViewController {
                 } else {
                     interestRateContent += "\n"
                 }
-                rateViewHeight += 10
+                rateViewHeight += 15
+                interestRateViewHeight += 15
             }
             if dt.interest_rate_sharia != nil {
                 interestRateContent += "(Sharia) \(dt.interest_rate_sharia!)%"
@@ -269,13 +258,15 @@ class AuctionDetailNormalViewController: UIViewController {
                 } else {
                     interestRateContent += "\n"
                 }
-                rateViewHeight += 10
+                rateViewHeight += 15
+                interestRateViewHeight += 15
             }
             let interestRate = UILabel()
             interestRate.text = interestRateContent
+            interestRate.numberOfLines = 0
             interestRate.font = contentFont
             interestRate.translatesAutoresizingMaskIntoConstraints = false
-            rateView.addSubview(interestRate)
+            interestRateView.addSubview(interestRate)
             
             bidStackView.addArrangedSubview(rateView)
             
@@ -296,11 +287,17 @@ class AuctionDetailNormalViewController: UIViewController {
                 tenor.topAnchor.constraint(equalTo: status.bottomAnchor, constant: 10),
                 tenor.heightAnchor.constraint(equalToConstant: 14),
                 
-                interestRateTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 15),
-                interestRateTitle.topAnchor.constraint(equalTo: tenorTitle.bottomAnchor, constant: 10),
-                interestRateTitle.heightAnchor.constraint(equalToConstant: 14),
-                interestRate.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 125),
-                interestRate.topAnchor.constraint(equalTo: tenor.bottomAnchor, constant: 10),
+                interestRateView.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 15),
+                interestRateView.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -15),
+                interestRateView.topAnchor.constraint(equalTo: tenorTitle.bottomAnchor, constant: 10),
+                interestRateView.heightAnchor.constraint(equalToConstant: interestRateViewHeight),
+                interestRateTitle.leadingAnchor.constraint(equalTo: interestRateView.leadingAnchor, constant: 0),
+                interestRateTitle.topAnchor.constraint(equalTo: interestRateView.topAnchor, constant: 0),
+                interestRateTitle.widthAnchor.constraint(equalToConstant: 110),
+                interestRate.leadingAnchor.constraint(equalTo: interestRateTitle.trailingAnchor, constant: 0),
+                interestRate.trailingAnchor.constraint(equalTo: interestRateView.trailingAnchor, constant: 0),
+                interestRate.topAnchor.constraint(equalTo: interestRateView.topAnchor, constant: 0),
+                //interestRate.bottomAnchor.constraint(equalTo: interestRateView.bottomAnchor, constant: 0),
             ])
             
             if dt.is_winner == "yes" {
@@ -316,11 +313,15 @@ class AuctionDetailNormalViewController: UIViewController {
                 investment.translatesAutoresizingMaskIntoConstraints = false
                 rateView.addSubview(investment)
                 
+                let bilyetView = UIView()
+                bilyetView.translatesAutoresizingMaskIntoConstraints = false
+                rateView.addSubview(bilyetView)
+                
                 let bilyetTitle = UILabel()
                 bilyetTitle.text = localize("bilyet")
                 bilyetTitle.font = titleFont
                 bilyetTitle.translatesAutoresizingMaskIntoConstraints = false
-                rateView.addSubview(bilyetTitle)
+                bilyetView.addSubview(bilyetTitle)
                
                 var bilyetStr = """
                 """
@@ -329,110 +330,63 @@ class AuctionDetailNormalViewController: UIViewController {
                 }
                 let cnt = CGFloat(dt.bilyet.count)
                 
+                var bilyetViewHeight: CGFloat = 15
                 let bilyet = UILabel()
                 bilyet.text = bilyetStr
+                bilyet.numberOfLines = 0
                 bilyet.font = contentFont
                 bilyet.translatesAutoresizingMaskIntoConstraints = false
-                rateView.addSubview(bilyet)
+                bilyetView.addSubview(bilyet)
                 
                 NSLayoutConstraint.activate([
                     investmentTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 15),
-                    investmentTitle.topAnchor.constraint(equalTo: interestRateTitle.bottomAnchor, constant: 10),
+                    investmentTitle.topAnchor.constraint(equalTo: interestRateView.bottomAnchor, constant: 0),
                     investmentTitle.heightAnchor.constraint(equalToConstant: 14),
                     investment.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 125),
-                    investment.topAnchor.constraint(equalTo: interestRate.bottomAnchor, constant: 10),
+                    investment.topAnchor.constraint(equalTo: interestRateView.bottomAnchor, constant: 0),
                     investment.heightAnchor.constraint(equalToConstant: 14),
                     
-                    bilyetTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 15),
-                    bilyetTitle.topAnchor.constraint(equalTo: investmentTitle.bottomAnchor, constant: 10),
-                    bilyetTitle.heightAnchor.constraint(equalToConstant: 14),
-                    bilyet.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 125),
-                    bilyet.topAnchor.constraint(equalTo: investment.bottomAnchor, constant: 10),
-                    bilyet.heightAnchor.constraint(equalToConstant: 14),
+                    bilyetView.topAnchor.constraint(equalTo: investment.bottomAnchor, constant: 10),
+                    bilyetView.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 15),
+                    bilyetView.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -15),
+                    //bilyetView.bottomAnchor.constraint(equalTo: rateView.bottomAnchor, constant: -15),
+                    bilyetView.heightAnchor.constraint(equalToConstant: bilyetViewHeight),
+                    bilyetTitle.leadingAnchor.constraint(equalTo: bilyetView.leadingAnchor, constant: 0),
+                    bilyetTitle.topAnchor.constraint(equalTo: bilyetView.topAnchor, constant: 0),
+                    bilyetTitle.widthAnchor.constraint(equalToConstant: 110),
+                    bilyet.leadingAnchor.constraint(equalTo: bilyetTitle.trailingAnchor, constant: 0),
+                    bilyet.trailingAnchor.constraint(equalTo: bilyetView.trailingAnchor, constant: 0),
+                    bilyet.topAnchor.constraint(equalTo: bilyetView.topAnchor, constant: 0),
+                    bilyet.bottomAnchor.constraint(equalTo: bilyetView.bottomAnchor, constant: 0)
                 ])
                 
-                rateViewHeight += 30 + (CGFloat(25) * cnt)
+                rateViewHeight += 50 + (bilyetViewHeight * cnt - 1)
+                
+                if self.data.view == 2 && dt.is_accepted == "pending" {
+                    let confirmButton = UIButton()
+                    confirmButton.setTitle(localize("confirm"), for: .normal)
+                    confirmButton.setTitleColor(UIColor.white, for: .normal)
+                    confirmButton.titleLabel?.font = contentFont
+                    confirmButton.backgroundColor = UIColorFromHex(rgbValue: 0x2a91ff)
+                    confirmButton.layer.cornerRadius = 3
+                    confirmButton.addTarget(self, action: #selector(confirmationButtonPressed), for: .touchUpInside)
+                    confirmButton.translatesAutoresizingMaskIntoConstraints = false
+                    rateView.addSubview(confirmButton)
+                    
+                    NSLayoutConstraint.activate([
+                        confirmButton.topAnchor.constraint(equalTo: bilyetView.bottomAnchor, constant: 15),
+                        //confirmButton.bottomAnchor.constraint(equalTo: rateView.bottomAnchor, constant: -10),
+                        confirmButton.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 15),
+                        confirmButton.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -15),
+                    ])
+                    
+                    rateViewHeight += 30
+                }
             }
             
             bidStackViewHeight.constant += rateViewHeight
         }
     }
-    
-    /*
-    func setInterestRates(_ data: [Bid]) {
-        for dt in data {
-            let rateView = UIView()
-            rateView.backgroundColor = .red
-            
-            let titleFont = UIFont.boldSystemFont(ofSize: 12)
-            let contentFont = UIFont.systemFont(ofSize: 12)
-            
-            let statusTitle = UILabel()
-            statusTitle.text = "Status"
-            statusTitle.font = titleFont
-            statusTitle.translatesAutoresizingMaskIntoConstraints = false
-            rateView.addSubview(statusTitle)
-            let status = UILabel()
-            //status.text = dt.status
-            status.text = "-"
-            status.font = contentFont
-            status.translatesAutoresizingMaskIntoConstraints = false
-            rateView.addSubview(status)
-            
-            let tenorTitle = UILabel()
-            tenorTitle.text = "Tenor"
-            tenorTitle.font = titleFont
-            tenorTitle.translatesAutoresizingMaskIntoConstraints = false
-            rateView.addSubview(tenorTitle)
-            let tenor = UILabel()
-            //tenor.text = dt.tenor
-            tenor.text = "-"
-            tenor.font = contentFont
-            tenor.translatesAutoresizingMaskIntoConstraints = false
-            rateView.addSubview(tenor)
-            
-            let interestRateTitle = UILabel()
-            interestRateTitle.text = "Interest Rate (%)"
-            interestRateTitle.font = titleFont
-            interestRateTitle.translatesAutoresizingMaskIntoConstraints = false
-            rateView.addSubview(interestRateTitle)
-            let interestRate = UILabel()
-            /*interestRate.text = """
-            (IDR) \(dt.interest_rate_idr!)
-            (Sharia) \(dt.interest_rate_sharia!)
-            """*/
-            interestRate.text = ""
-            interestRate.font = contentFont
-            interestRate.translatesAutoresizingMaskIntoConstraints = false
-            rateView.addSubview(interestRate)
-            
-            NSLayoutConstraint.activate([
-                statusTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 20),
-                statusTitle.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 20),
-                statusTitle.heightAnchor.constraint(equalToConstant: 14),
-                status.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 130),
-                status.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 20),
-                status.heightAnchor.constraint(equalToConstant: 14),
-                
-                tenorTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 20),
-                tenorTitle.topAnchor.constraint(equalTo: statusTitle.bottomAnchor, constant: 10),
-                tenorTitle.heightAnchor.constraint(equalToConstant: 14),
-                tenor.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 130),
-                tenor.topAnchor.constraint(equalTo: status.bottomAnchor, constant: 10),
-                tenor.heightAnchor.constraint(equalToConstant: 14),
-                
-                interestRateTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 20),
-                interestRateTitle.topAnchor.constraint(equalTo: tenorTitle.bottomAnchor, constant: 10),
-                interestRateTitle.heightAnchor.constraint(equalToConstant: 14),
-                interestRate.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 130),
-                interestRate.topAnchor.constraint(equalTo: tenor.bottomAnchor, constant: 10),
-
-            ])
-            
-            bidStackView.addArrangedSubview(rateView)
-            bidStackViewHeight.constant += 80
-        }
-    }*/
     
     @IBAction func addInterestRateDayButtonPressed(_ sender: Any) {
         addInterestRate("day")
@@ -444,85 +398,36 @@ class AuctionDetailNormalViewController: UIViewController {
     
     func addInterestRate(_ tenorType: String) {
         let rateView = UIView()
+        rateView.tag = interestRateIdx
         rateView.backgroundColor = .white
         //rateView.translatesAutoresizingMaskIntoConstraints = false
+        interestRateStackView.addArrangedSubview(rateView)
+        
+        let rateStackView = UIStackView()
+        rateStackView.axis = .vertical
+        rateStackView.spacing = 10
+        rateStackView.translatesAutoresizingMaskIntoConstraints = false
+        rateView.addSubview(rateStackView)
         
         let titleFont = UIFont.boldSystemFont(ofSize: 12)
         let contentFont = UIFont.systemFont(ofSize: 12)
+        let titleWidth: CGFloat = 150
         
+        // Tenor
+        let tenorView = UIView()
+        tenorView.translatesAutoresizingMaskIntoConstraints = false
+        rateStackView.addArrangedSubview(tenorView)
         let tenorTitle = UILabel()
         tenorTitle.text = localize("tenor")
         tenorTitle.font = titleFont
         tenorTitle.translatesAutoresizingMaskIntoConstraints = false
-        rateView.addSubview(tenorTitle)
+        tenorView.addSubview(tenorTitle)
         let tenor = UITextField()
         tenor.borderStyle = .roundedRect
         tenor.keyboardType = .numbersAndPunctuation
         tenor.font = contentFont
         tenor.translatesAutoresizingMaskIntoConstraints = false
-        rateView.addSubview(tenor)
-        
-        let interestRateIdrTitle = UILabel()
-        interestRateIdrTitle.text = "\(localize("interest_rate")) IDR"
-        interestRateIdrTitle.font = titleFont
-        interestRateIdrTitle.translatesAutoresizingMaskIntoConstraints = false
-        rateView.addSubview(interestRateIdrTitle)
-        let interestRateIdr = UITextField()
-        interestRateIdr.borderStyle = .roundedRect
-        interestRateIdr.keyboardType = .numbersAndPunctuation
-        interestRateIdr.font = contentFont
-        interestRateIdr.translatesAutoresizingMaskIntoConstraints = false
-        rateView.addSubview(interestRateIdr)
-        
-        let interestRateShariaTitle = UILabel()
-        interestRateShariaTitle.text = "\(localize("interest_rate")) Syariah"
-        interestRateShariaTitle.font = titleFont
-        interestRateShariaTitle.translatesAutoresizingMaskIntoConstraints = false
-        rateView.addSubview(interestRateShariaTitle)
-        let interestRateSharia = UITextField()
-        interestRateSharia.borderStyle = .roundedRect
-        interestRateSharia.keyboardType = .numbersAndPunctuation
-        interestRateSharia.font = contentFont
-        interestRateSharia.translatesAutoresizingMaskIntoConstraints = false
-        rateView.addSubview(interestRateSharia)
-        
-        interestRateTenorType.append(tenorType)
-        interestRateTenorFields.append(tenor)
-        interestRateIdrFields.append(interestRateIdr)
-        interestRateShariaFields.append(interestRateSharia)
-        
-        interestRateStackView.addArrangedSubview(rateView)
-        interestRateStackViewHeight.constant += 140
-        
-        currentHeight += CGFloat(140)
-        setHeight(currentHeight)
-        
-        NSLayoutConstraint.activate([
-            tenorTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 15),
-            tenorTitle.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 20),
-            tenorTitle.heightAnchor.constraint(equalToConstant: 18),
-            tenor.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 160),
-            tenor.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -15),
-            tenor.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 20),
-            tenor.heightAnchor.constraint(equalToConstant: 25),
-            
-            interestRateIdrTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 15),
-            interestRateIdrTitle.topAnchor.constraint(equalTo: tenorTitle.bottomAnchor, constant: 20),
-            interestRateIdrTitle.heightAnchor.constraint(equalToConstant: 18),
-            interestRateIdr.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 160),
-            interestRateIdr.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -15),
-            interestRateIdr.topAnchor.constraint(equalTo: tenor.bottomAnchor, constant: 11),
-            interestRateIdr.heightAnchor.constraint(equalToConstant: 25),
-            
-            interestRateShariaTitle.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 15),
-            interestRateShariaTitle.topAnchor.constraint(equalTo: interestRateIdrTitle.bottomAnchor, constant: 20),
-            interestRateShariaTitle.heightAnchor.constraint(equalToConstant: 18),
-            interestRateSharia.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 160),
-            interestRateSharia.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -15),
-            interestRateSharia.topAnchor.constraint(equalTo: interestRateIdr.bottomAnchor, constant: 11),
-            interestRateSharia.heightAnchor.constraint(equalToConstant: 25),
-
-        ])
+        tenorView.addSubview(tenor)
         
         let period = UILabel()
         if tenorType == "day" {
@@ -533,47 +438,244 @@ class AuctionDetailNormalViewController: UIViewController {
         period.font = UIFont.systemFont(ofSize: 14)
         period.textColor = UIColor.lightGray
         period.translatesAutoresizingMaskIntoConstraints = false
-        rateView.addSubview(period)
-        let deleteView = UIView()
-        deleteView.translatesAutoresizingMaskIntoConstraints = false
-        deleteView.backgroundColor = .red
-        deleteView.layer.cornerRadius = 3
-        rateView.addSubview(deleteView)
-        let deleteImageView = UIImageView()
-        deleteImageView.image = UIImage(named: "icon_trash_can")
-        deleteImageView.translatesAutoresizingMaskIntoConstraints = false
-        deleteView.addSubview(deleteImageView)
+        tenorView.addSubview(period)
+        let deleteButton = UIButton()
+        deleteButton.layer.cornerRadius = 3
+        deleteButton.backgroundColor = .red
+        deleteButton.setImage(UIImage(named: "icon_trash_can"), for: .normal)
+        deleteButton.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        deleteButton.tag = interestRateIdx
+        deleteButton.addTarget(self, action: #selector(deleteRateButtonTapped(sender:)), for: .touchUpInside)
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        tenorView.addSubview(deleteButton)
+        
+        var idrInterestRate: UITextField?
+        if data.allowed_rate.contains("IDR") {
+            // Interest Rate IDR
+            let idrRateView = UIView()
+            idrRateView.translatesAutoresizingMaskIntoConstraints = false
+            rateStackView.addArrangedSubview(idrRateView)
+            
+            let idrRateTitleLabel = UILabel()
+            idrRateTitleLabel.text = "\(localize("interest_rate")) IDR"
+            idrRateTitleLabel.font = titleFont
+            idrRateTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            idrRateView.addSubview(idrRateTitleLabel)
+            
+            NSLayoutConstraint.activate([
+                idrRateTitleLabel.widthAnchor.constraint(equalToConstant: titleWidth),
+                idrRateTitleLabel.leadingAnchor.constraint(equalTo: idrRateView.leadingAnchor, constant: 0),
+                idrRateTitleLabel.centerYAnchor.constraint(equalTo: idrRateView.centerYAnchor)
+            ])
+            // Label Content
+            /*let idrRateLabel = UILabel()
+            idrRateLabel.font = contentFont
+            idrRateLabel.numberOfLines = 0
+            idrRateLabel.text = """
+            Test 2
+            Test 3
+            Test 4
+            """
+            idrRateLabel.translatesAutoresizingMaskIntoConstraints = false
+            idrRateView.addSubview(usdRateLabel)
+            
+            NSLayoutConstraint.activate([
+                idrRateLabel.leadingAnchor.constraint(equalTo: idrRateTitleLabel.trailingAnchor, constant: 0),
+                idrRateLabel.topAnchor.constraint(equalTo: idrRateView.topAnchor, constant: 0),
+                idrRateLabel.bottomAnchor.constraint(equalTo: idrRateView.bottomAnchor, constant: 0)
+            ])*/
+            
+            // Field content
+            idrInterestRate = UITextField()
+            idrInterestRate!.borderStyle = .roundedRect
+            idrInterestRate!.keyboardType = .numbersAndPunctuation
+            idrInterestRate!.font = contentFont
+            idrInterestRate!.translatesAutoresizingMaskIntoConstraints = false
+            idrRateView.addSubview(idrInterestRate!)
+            
+            NSLayoutConstraint.activate([
+                idrInterestRate!.leadingAnchor.constraint(equalTo: idrRateTitleLabel.trailingAnchor, constant: 0),
+                idrInterestRate!.trailingAnchor.constraint(equalTo: idrRateView.trailingAnchor, constant: 0),
+                idrInterestRate!.topAnchor.constraint(equalTo: idrRateView.topAnchor, constant: 0),
+                idrInterestRate!.bottomAnchor.constraint(equalTo: idrRateView.bottomAnchor, constant: 0),
+                idrInterestRate!.heightAnchor.constraint(equalToConstant: 25)
+            ])
+        }
+        
+        var usdInterestRate: UITextField?
+        if data.allowed_rate.contains("USD") {
+            // Interest Rate USD
+            let usdRateView = UIView()
+            usdRateView.translatesAutoresizingMaskIntoConstraints = false
+            rateStackView.addArrangedSubview(usdRateView)
+            
+            let usdRateTitleLabel = UILabel()
+            usdRateTitleLabel.text = "\(localize("interest_rate")) USD"
+            usdRateTitleLabel.font = titleFont
+            usdRateTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            usdRateView.addSubview(usdRateTitleLabel)
+            
+            NSLayoutConstraint.activate([
+                usdRateTitleLabel.widthAnchor.constraint(equalToConstant: titleWidth),
+                usdRateTitleLabel.leadingAnchor.constraint(equalTo: usdRateView.leadingAnchor, constant: 0),
+                usdRateTitleLabel.centerYAnchor.constraint(equalTo: usdRateView.centerYAnchor)
+            ])
+            // Label Content
+            /*let usdRateLabel = UILabel()
+            usdRateLabel.font = contentFont
+            usdRateLabel.numberOfLines = 0
+            usdRateLabel.text = """
+            Test 2
+            Test 3
+            Test 4
+            """
+            usdRateLabel.translatesAutoresizingMaskIntoConstraints = false
+            usdRateView.addSubview(usdRateLabel)
+            
+            NSLayoutConstraint.activate([
+                usdRateLabel.leadingAnchor.constraint(equalTo: usdRateTitleLabel.trailingAnchor, constant: 0),
+                usdRateLabel.topAnchor.constraint(equalTo: usdRateView.topAnchor, constant: 0),
+                usdRateLabel.bottomAnchor.constraint(equalTo: usdRateView.bottomAnchor, constant: 0)
+            ])*/
+            
+            // Field content
+            usdInterestRate = UITextField()
+            usdInterestRate!.borderStyle = .roundedRect
+            usdInterestRate!.keyboardType = .numbersAndPunctuation
+            usdInterestRate!.font = contentFont
+            usdInterestRate!.translatesAutoresizingMaskIntoConstraints = false
+            usdRateView.addSubview(usdInterestRate!)
+            
+            NSLayoutConstraint.activate([
+                usdInterestRate!.leadingAnchor.constraint(equalTo: usdRateTitleLabel.trailingAnchor, constant: 0),
+                usdInterestRate!.trailingAnchor.constraint(equalTo: usdRateView.trailingAnchor, constant: 0),
+                usdInterestRate!.topAnchor.constraint(equalTo: usdRateView.topAnchor, constant: 0),
+                usdInterestRate!.bottomAnchor.constraint(equalTo: usdRateView.bottomAnchor, constant: 0),
+                usdInterestRate!.heightAnchor.constraint(equalToConstant: 25)
+            ])
+        }
+        
+        var shariaInterestRate: UITextField?
+        if data.allowed_rate.contains("Syariah") {
+            // Interest Rate Sharia
+            let shariaRateView = UIView()
+            shariaRateView.translatesAutoresizingMaskIntoConstraints = false
+            rateStackView.addArrangedSubview(shariaRateView)
+            
+            let shariaRateTitleLabel = UILabel()
+            shariaRateTitleLabel.text = "\(localize("interest_rate")) Syariah"
+            shariaRateTitleLabel.font = titleFont
+            shariaRateTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+            shariaRateView.addSubview(shariaRateTitleLabel)
+            
+            NSLayoutConstraint.activate([
+                shariaRateTitleLabel.widthAnchor.constraint(equalToConstant: titleWidth),
+                shariaRateTitleLabel.leadingAnchor.constraint(equalTo: shariaRateView.leadingAnchor, constant: 0),
+                shariaRateTitleLabel.centerYAnchor.constraint(equalTo: shariaRateView.centerYAnchor)
+            ])
+            // Label Content
+            /*let shariaRateLabel = UILabel()
+            shariaRateLabel.font = contentFont
+            shariaRateLabel.numberOfLines = 0
+            shariaRateLabel.text = """
+            Test 2
+            Test 3
+            Test 4
+            """
+            shariaRateLabel.translatesAutoresizingMaskIntoConstraints = false
+            shariaRateView.addSubview(usdRateLabel)
+            
+            NSLayoutConstraint.activate([
+                shariaRateLabel.leadingAnchor.constraint(equalTo: shariaRateTitleLabel.trailingAnchor, constant: 0),
+                shariaRateLabel.topAnchor.constraint(equalTo: shariaRateView.topAnchor, constant: 0),
+                shariaRateLabel.bottomAnchor.constraint(equalTo: shariaRateView.bottomAnchor, constant: 0)
+            ])*/
+            
+            // Field content
+            shariaInterestRate = UITextField()
+            shariaInterestRate!.borderStyle = .roundedRect
+            shariaInterestRate!.keyboardType = .numbersAndPunctuation
+            shariaInterestRate!.font = contentFont
+            shariaInterestRate!.translatesAutoresizingMaskIntoConstraints = false
+            shariaRateView.addSubview(shariaInterestRate!)
+            
+            NSLayoutConstraint.activate([
+                shariaInterestRate!.leadingAnchor.constraint(equalTo: shariaRateTitleLabel.trailingAnchor, constant: 0),
+                shariaInterestRate!.trailingAnchor.constraint(equalTo: shariaRateView.trailingAnchor, constant: 0),
+                shariaInterestRate!.topAnchor.constraint(equalTo: shariaRateView.topAnchor, constant: 0),
+                shariaInterestRate!.bottomAnchor.constraint(equalTo: shariaRateView.bottomAnchor, constant: 0),
+                shariaInterestRate!.heightAnchor.constraint(equalToConstant: 25)
+            ])
+        }
         
         NSLayoutConstraint.activate([
-            tenor.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -90),
-            period.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 23),
+            rateStackView.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 15),
+            rateStackView.bottomAnchor.constraint(equalTo: rateView.bottomAnchor, constant: -15),
+            rateStackView.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 15),
+            rateStackView.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -15),
+            tenorView.heightAnchor.constraint(equalToConstant: 25),
+            tenorTitle.leadingAnchor.constraint(equalTo: tenorView.leadingAnchor, constant: 0),
+            tenorTitle.widthAnchor.constraint(equalToConstant: titleWidth),
+            tenorTitle.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor),
+            tenor.leadingAnchor.constraint(equalTo: tenorTitle.trailingAnchor, constant: 0),
+            tenor.trailingAnchor.constraint(equalTo: tenorView.trailingAnchor, constant: -80),
+            //tenor.topAnchor.constraint(equalTo: tenorView.topAnchor, constant: 0),
+            //tenor.heightAnchor.constraint(equalToConstant: 25),
+            tenor.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor),
             period.leadingAnchor.constraint(equalTo: tenor.trailingAnchor, constant: 5),
-            deleteView.widthAnchor.constraint(equalToConstant: 25),
-            deleteView.heightAnchor.constraint(equalToConstant: 25),
-            deleteView.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 20),
-            deleteView.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -15),
-            deleteImageView.leadingAnchor.constraint(equalTo: deleteView.leadingAnchor, constant: 5),
-            deleteImageView.trailingAnchor.constraint(equalTo: deleteView.trailingAnchor, constant: -5),
-            deleteImageView.topAnchor.constraint(equalTo: deleteView.topAnchor, constant: 5),
-            deleteImageView.bottomAnchor.constraint(equalTo: deleteView.bottomAnchor, constant: -5),
+            period.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor),
+            deleteButton.widthAnchor.constraint(equalToConstant: 25),
+            deleteButton.heightAnchor.constraint(equalToConstant: 25),
+            deleteButton.trailingAnchor.constraint(equalTo: tenorView.trailingAnchor, constant: 0),
+            deleteButton.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor)
         ])
+        
+        let addHeight: CGFloat = 120
+        interestRateStackViewHeight.constant += addHeight
+        
+        currentHeight += addHeight
+        setHeight(currentHeight)
+        
+        let interestRate = InterestRate(idx: interestRateIdx, tenorType: tenorType, tenorField: tenor, idrField: idrInterestRate, usdField: usdInterestRate, shariaField: shariaInterestRate, isHidden: false)
+        interestRates.append(interestRate)
+        interestRateIdx += 1
+    }
+    
+    @objc func deleteRateButtonTapped(sender: UIButton) {
+        interestRateStackView.subviews.forEach { view in
+            if view.tag == sender.tag {
+                var rate = interestRates.filter { $0.idx == sender.tag }.first
+                if rate != nil {
+                    rate!.isHidden = true
+                    view.isHidden = true
+                    
+                    // Decrease height
+                    interestRateStackViewHeight.constant -= 140
+                    
+                    currentHeight -= CGFloat(140)
+                    setHeight(currentHeight)
+                }
+            }
+        }
     }
     
     @IBAction func submitButtonPressed(_ sender: Any) {
         var bids = [Bid]()
         var isValid = true
-        for (idx, tenor) in interestRateTenorFields.enumerated() {
-            if isInputValid(interestRateTenorFields[idx].text, "int") && isInputValid(interestRateIdrFields[idx].text, "double") &&
-                isInputValid(interestRateShariaFields[idx].text, "double") {
-                let tenor = Int(interestRateTenorFields[idx].text!)!
-                let idr = Double(interestRateIdrFields[idx].text!)
-                let usd = Double(0)
-                let sharia = Double(interestRateShariaFields[idx].text!)
-                let bid = Bid(id: tenor, auction_header_id: 0, is_accepted: "", is_winner: "", interest_rate_idr: idr, interest_rate_usd: usd, interest_rate_sharia: sharia, used_investment_value: 0, bilyet: [], choosen_rate: nil, period: interestRateTenorType[idx])
-                bids.append(bid)
-            } else {
-                isValid = false
-                break
+        for (idx, tenor) in interestRates.enumerated() {
+            if !tenor.isHidden {
+                if isInputValid(interestRates[idx].tenorField!.text, "int") && isInputValid(interestRates[idx].idrField!.text, "double") &&
+                    isInputValid(interestRates[idx].shariaField!.text, "double") {
+                    let tenor = Int(interestRates[idx].tenorField!.text!)!
+                    let idr = Double(interestRates[idx].idrField!.text!)
+                    let usd = Double(0)
+                    let sharia = Double(interestRates[idx].shariaField!.text!)
+                    let bid = Bid(id: tenor, auction_header_id: 0, is_accepted: "", is_winner: "", interest_rate_idr: idr, interest_rate_usd: usd, interest_rate_sharia: sharia, used_investment_value: 0, bilyet: [], choosen_rate: nil, period: interestRates[idx].tenorType)
+                    bids.append(bid)
+                } else {
+                    isValid = false
+                    break
+                }
             }
         }
         
@@ -582,6 +684,11 @@ class AuctionDetailNormalViewController: UIViewController {
         } else {
             showAlert("Invalid")
         }
+    }
+    
+    @objc func confirmationButtonPressed() {
+        print("presedd")
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["date": data.end_date])
     }
     
     func isInputValid(_ input: String?, _ dataType: String) -> Bool {
@@ -602,7 +709,7 @@ class AuctionDetailNormalViewController: UIViewController {
     }
     
     func showAlert(_ message: String) {
-           NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["message": message])
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["message": message])
     }
     
     func setHeight(_ height: CGFloat) {

@@ -11,6 +11,7 @@ import UIKit
 class ChangeLanguageViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var closeView: UIView!
     
@@ -45,6 +46,7 @@ class ChangeLanguageViewController: UIViewController {
 
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
+        navigationViewHeight.constant = getNavigationHeight()
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         navigationTitle.textColor = .white

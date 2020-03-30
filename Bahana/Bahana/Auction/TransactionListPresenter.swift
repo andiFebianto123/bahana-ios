@@ -12,7 +12,7 @@ import SwiftyJSON
 
 protocol TransactionListDelegate {
     func openLoginPage()
-    func setData(_ data: [Transaction])
+    func setData(_ data: [Transaction], _ page: Int)
 }
 
 class TransactionListPresenter {
@@ -23,28 +23,28 @@ class TransactionListPresenter {
         self.delegate = delegate
     }
     
-    func getTransaction(_ status: String, _ issue_date: String?, maturity_date: String?, break_date: String?, lastId: Int? = nil) {
+    func getTransaction(_ filter: [String: String], lastId: Int? = nil, _ page: Int) {
         // Get transaction
         var url = "transaction?"
         
         // Status parameter
         //if status == "ACC" || status == "REJ" || status == "NEC" {
-            url += "status=\(status.replacingOccurrences(of: " ", with: "%20"))&"
+        url += "status=\(filter["status"]!.replacingOccurrences(of: " ", with: "%20"))&"
         //}
         
         // Issue date parameter
-        if issue_date != nil {
-            url += "issue_date=\(issue_date!.replacingOccurrences(of: " ", with: "%20"))&"
+        if filter["issue_date"] != nil {
+            url += "issue_date=\(filter["issue_date"]!.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Maturity date parameter
-        if maturity_date != nil {
-            url += "maturity_date=\(maturity_date!.replacingOccurrences(of: " ", with: "%20"))&"
+        if filter["maturity_date"] != nil {
+            url += "maturity_date=\(filter["maturity_date"]!.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Issue date parameter
-        if break_date != nil {
-            url += "break_date=\(break_date!.replacingOccurrences(of: " ", with: "%20"))&"
+        if filter["break_date"] != nil {
+            url += "break_date=\(filter["break_date"]!.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Pagination
@@ -53,7 +53,6 @@ class TransactionListPresenter {
             url += pageUrl
         }
         
-        print(url)
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:
@@ -61,6 +60,7 @@ class TransactionListPresenter {
                     //self.delegate?.openLoginPage()
                 } else {
                     let result = JSON(response.result.value!)
+                    //print(result)
                     var transactions = [Transaction]()
                     for trans in result.arrayValue {
                         let id = trans["id"].intValue
@@ -80,8 +80,7 @@ class TransactionListPresenter {
                         
                         transactions.append(transaction)
                     }
-                    self.delegate?.setData(transactions)
-                    //print(result)
+                    self.delegate?.setData(transactions, page)
                 }
             case .failure(let error):
                 print(error)

@@ -42,8 +42,6 @@ class AuctionDetailDirectViewController: UIViewController {
     @IBOutlet weak var confirmButton: UIButton!
     @IBOutlet weak var footerLabel: UILabel!
     
-    var loadingView = UIView()
-    
     var presenter: AuctionDetailDirectPresenter!
     
     var id = Int()
@@ -53,26 +51,6 @@ class AuctionDetailDirectViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        // Set loading view
-        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
-        loadingView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(loadingView)
-        view.bringSubviewToFront(loadingView)
-        
-        let spinner = UIActivityIndicatorView()
-        spinner.color = .black
-        spinner.startAnimating()
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        loadingView.addSubview(spinner)
-        
-        NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
-            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
-            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
-        ])
         
         titleLabel.text = localize("direct_auction").uppercased()
         titleLabel.textColor = primaryColor
@@ -122,11 +100,7 @@ class AuctionDetailDirectViewController: UIViewController {
     */
 
     func showLoading(_ show: Bool) {
-        if show {
-            loadingView.isHidden = false
-        } else {
-            loadingView.isHidden = true
-        }
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailLoading"), object: nil, userInfo: ["isShow": show])
     }
     
     func setContent() {

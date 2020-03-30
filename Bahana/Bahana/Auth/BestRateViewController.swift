@@ -96,6 +96,8 @@ class BestRateViewController: FormViewController {
             row.value = !isDataEmpty("breakable_policy") ? data["breakable_policy"]! as! String : nil
             row.add(ruleSet: idrRules)
             row.hidden = isIdrHidden == true ? true : false
+        }.cellUpdate { cell, row in
+            cell.textLabel?.attributedText = self.requiredField(localize("breakable_policy"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -121,6 +123,8 @@ class BestRateViewController: FormViewController {
             //$0.placeholder = "Nomor Rekening"
             $0.add(ruleSet: idrRules)
             $0.hidden = isIdrHidden == true ? true : false
+        }.cellUpdate { cell, row in
+            cell.titleLabel?.attributedText = self.requiredField(localize("account_number"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -135,6 +139,8 @@ class BestRateViewController: FormViewController {
             $0.value = !isDataEmpty("account_name") ? data["account_name"]! as! String : nil
             $0.add(ruleSet: idrRules)
             $0.hidden = isIdrHidden == true ? true : false
+        }.cellUpdate { cell, row in
+            cell.titleLabel?.attributedText = self.requiredField(localize("account_name"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -183,6 +189,14 @@ class BestRateViewController: FormViewController {
             row.value = !isDataEmpty("usd_breakable_policy") ? data["usd_breakable_policy"]! as! String : nil
             row.add(ruleSet: usdRules)
             row.hidden = isUsdHidden == true ? true : false
+        }.cellUpdate { cell, row in
+            cell.textLabel?.attributedText = self.requiredField(localize("breakable_policy"))
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< TextAreaRow() {
             $0.title = localize("breakable_policy_notes")
@@ -198,6 +212,14 @@ class BestRateViewController: FormViewController {
             $0.value = !isDataEmpty("usd_account_number") ? data["usd_account_number"]! as! String : nil
             $0.add(ruleSet: usdRules)
             $0.hidden = isUsdHidden == true ? true : false
+        }.cellUpdate { cell, row in
+            cell.titleLabel?.attributedText = self.requiredField(localize("account_number"))
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< TextRow() {
             $0.title = localize("account_name")
@@ -206,6 +228,14 @@ class BestRateViewController: FormViewController {
             $0.value = !isDataEmpty("usd_account_name") ? data["usd_account_name"]! as! String : nil
             $0.add(ruleSet: usdRules)
             $0.hidden = isUsdHidden == true ? true : false
+        }.cellUpdate { cell, row in
+            cell.titleLabel?.attributedText = self.requiredField(localize("account_name"))
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< DecimalRow() {
             $0.title = localize("month_rate_1")
@@ -248,6 +278,14 @@ class BestRateViewController: FormViewController {
             row.value = !isDataEmpty("sharia_breakable_policy") ? data["sharia_breakable_policy"]! as! String : nil
             row.add(ruleSet: shariaRules)
             row.hidden = isShariaHidden == true ? true : false
+        }.cellUpdate { cell, row in
+            cell.textLabel?.attributedText = self.requiredField(localize("breakable_policy"))
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< TextAreaRow() {
             $0.title = localize("breakable_policy_notes")
@@ -263,6 +301,14 @@ class BestRateViewController: FormViewController {
             $0.value = !isDataEmpty("sharia_account_number") ? data["sharia_account_number"]! as! String : nil
             $0.add(ruleSet: shariaRules)
             $0.hidden = isShariaHidden == true ? true : false
+        }.cellUpdate { cell, row in
+            cell.titleLabel?.attributedText = self.requiredField(localize("account_number"))
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< TextRow() {
             $0.title = localize("account_name")
@@ -271,6 +317,14 @@ class BestRateViewController: FormViewController {
             $0.value = !isDataEmpty("sharia_account_name") ? data["sharia_account_name"]! as! String : nil
             $0.add(ruleSet: shariaRules)
             $0.hidden = isShariaHidden == true ? true : false
+        }.cellUpdate { cell, row in
+            cell.titleLabel?.attributedText = self.requiredField(localize("account_name"))
+        }.onRowValidationChanged { cell, row in
+            if !row.isValid {
+                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                    self.errors.append("\(row.title!) \(validationMsg)")
+                }
+            }
         }
         <<< DecimalRow() {
             $0.title = localize("month_rate_1")
@@ -333,6 +387,19 @@ class BestRateViewController: FormViewController {
         } else {
             loadingView.isHidden = true
         }
+    }
+    
+    func requiredField(_ str: String) -> NSAttributedString {
+        let mutableAttributedString = NSMutableAttributedString()
+        
+        let redColor = [NSAttributedString.Key.foregroundColor: UIColor.red]
+        let blackColor = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        let requiredAsterisk = NSAttributedString(string: "*", attributes: redColor)
+        let title = NSAttributedString(string: str, attributes: blackColor)
+        mutableAttributedString.append(title)
+        mutableAttributedString.append(requiredAsterisk)
+        
+        return mutableAttributedString
     }
     
     func showValidationAlert(title: String, message: String) {

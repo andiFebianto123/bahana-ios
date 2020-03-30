@@ -186,6 +186,34 @@ func getUnreadNotificationCount(completion: @escaping (_ count: Int) -> Void) {
     }
 }
 
+func getDeviceScreenSize() -> Double {
+    switch UIScreen.main.nativeBounds.height {
+    case 1136:
+        return 4
+    case 1334:
+        return 4.7
+    case 1920, 2208:
+        return 5.5
+    case 2436:
+        return 5.8
+    case 1792:
+        return 6.1
+    case 2688:
+        return 6.5
+    default:
+        return 0
+    }
+}
+
+func getNavigationHeight() -> CGFloat {
+    switch getDeviceScreenSize() {
+    case 4, 4.7, 5.5:
+        return 64
+    default:
+        return 84
+    }
+}
+
 func UIColorFromHex(rgbValue:UInt32, alpha:Double=1.0) -> UIColor {
     let red = CGFloat((rgbValue & 0xFF0000) >> 16)/256.0
     let green = CGFloat((rgbValue & 0xFF00) >> 8)/256.0

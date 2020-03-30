@@ -78,13 +78,11 @@ class ProfileViewController: FormViewController {
         <<< TextRow() {
             $0.title = localize("fullname")
             $0.tag = "name"
-            //$0.cell.titleLabel?.attributedText = requiredField("Nama Lengkap")
             //$0.placeholder = "Nama Lengkap"
             $0.add(rule: RuleRequired())
             $0.value = !isDataEmpty("name") ? data["name"]! as! String : nil
         }.cellUpdate { cell, row in
-            //cell.titleLabel?.attributedText = self.requiredField("Nama Lengkap")
-            //cell.titleLabel?.sizeToFit()
+            cell.titleLabel?.attributedText = self.requiredField(localize("fullname"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -98,6 +96,8 @@ class ProfileViewController: FormViewController {
             $0.add(rule: RuleRequired())
             $0.add(rule: RuleEmail())
             $0.value = !isDataEmpty("email") ? data["email"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.titleLabel?.attributedText = self.requiredField(localize("email"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -110,6 +110,8 @@ class ProfileViewController: FormViewController {
             $0.tag = "phone"
             $0.add(rule: RuleRequired())
             $0.value = !isDataEmpty("phone") ? data["phone"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.titleLabel?.attributedText = self.requiredField(localize("phone_number"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -122,6 +124,8 @@ class ProfileViewController: FormViewController {
             $0.tag = "pic_alternative"
             $0.add(rule: RuleRequired())
             $0.value = !isDataEmpty("pic_alternative") ? data["pic_alternative"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.titleLabel?.attributedText = self.requiredField(localize("alternative_pic"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -134,6 +138,8 @@ class ProfileViewController: FormViewController {
             $0.tag = "phone_alternative"
             $0.add(rule: RuleRequired())
             $0.value = !isDataEmpty("phone_alternative") ? data["phone_alternative"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.titleLabel?.attributedText = self.requiredField(localize("alternative_phone"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -224,6 +230,8 @@ class ProfileViewController: FormViewController {
             $0.tag = "bank_branch_address"
             $0.add(rule: RuleRequired())
             $0.value = !isDataEmpty("address") ? data["address"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.titleLabel?.attributedText = self.requiredField(localize("bank_branch_address"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -237,6 +245,8 @@ class ProfileViewController: FormViewController {
             row.options = self.options["bank_type"]
             row.add(rule: RuleRequired())
             row.value = !isDataEmpty("bank_type") ? data["bank_type"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.textLabel!.attributedText = self.requiredField(localize("bank_type"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -250,6 +260,8 @@ class ProfileViewController: FormViewController {
             row.options = self.options["foreign_exchange"]
             row.add(rule: RuleRequired())
             row.value = !isDataEmpty("foreign_exchange") ? data["foreign_exchange"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.textLabel!.attributedText = self.requiredField(localize("foreign_exchange"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -263,6 +275,8 @@ class ProfileViewController: FormViewController {
             row.options = self.options["book"]
             row.add(rule: RuleRequired())
             row.value = !isDataEmpty("book") ? data["book"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.textLabel!.attributedText = self.requiredField(localize("book"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -276,6 +290,8 @@ class ProfileViewController: FormViewController {
             row.options = self.options["sharia"]
             row.add(rule: RuleRequired())
             row.value = !isDataEmpty("sharia") ? data["sharia"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.textLabel!.attributedText = self.requiredField(localize("sharia"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -289,6 +305,8 @@ class ProfileViewController: FormViewController {
             row.options = self.options["interest_day_count_convertion"]
             row.add(rule: RuleRequired())
             row.value = !isDataEmpty("interest_day_count_convertion") ? data["interest_day_count_convertion"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.textLabel!.attributedText = self.requiredField(localize("interest_day_count_convertion"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -302,6 +320,8 @@ class ProfileViewController: FormViewController {
             row.options = self.options["end_date"]
             row.add(rule: RuleRequired())
             row.value = !isDataEmpty("end_date") ? data["end_date"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.textLabel!.attributedText = self.requiredField(localize("end_date"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -315,6 +335,8 @@ class ProfileViewController: FormViewController {
             row.options = self.options["return_to_start_date"]
             row.add(rule: RuleRequired())
             row.value = !isDataEmpty("return_to_start_date") ? data["return_to_start_date"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.textLabel!.attributedText = self.requiredField(localize("return_to_start_date"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -328,6 +350,8 @@ class ProfileViewController: FormViewController {
             row.options = self.options["holiday_interest"]
             row.add(rule: RuleRequired())
             row.value = !isDataEmpty("holiday_interest") ? data["holiday_interest"]! as! String : nil
+        }.cellUpdate { cell, row in
+            cell.textLabel!.attributedText = self.requiredField(localize("holiday_interest"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
