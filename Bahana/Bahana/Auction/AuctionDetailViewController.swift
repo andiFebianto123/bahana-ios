@@ -70,6 +70,7 @@ class AuctionDetailViewController: UIViewController {
         }
         
         // Set loading view
+        //loadingView.isHidden = true
         loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loadingView)

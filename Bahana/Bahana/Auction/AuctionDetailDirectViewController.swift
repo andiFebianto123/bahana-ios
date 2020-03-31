@@ -24,7 +24,6 @@ class AuctionDetailDirectViewController: UIViewController {
     @IBOutlet weak var picCustodianLabel: UILabel!
     @IBOutlet weak var detailTitleLabel: UILabel!
     @IBOutlet weak var detailView: UIView!
-    @IBOutlet weak var detailViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tenorTitleLabel: UILabel!
     @IBOutlet weak var tenorLabel: UILabel!
     @IBOutlet weak var interestRateTitleLabel: UILabel!
@@ -144,7 +143,7 @@ class AuctionDetailDirectViewController: UIViewController {
             bilyet += "- IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
         }
         let cnt = CGFloat(data.bilyet.count)
-        detailViewHeight.constant += (CGFloat(25) * cnt)
+        //detailViewHeight.constant += (CGFloat(25) * cnt - 1)
         bilyetLabel.text = bilyet
         noteLabel.text = data.notes
         

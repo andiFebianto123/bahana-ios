@@ -21,14 +21,14 @@ class NotificationPresenter {
         self.delegate = delegate
     }
     
-    func getData(lastId: Int? = nil, _ page: Int) {
+    func getData(lastId: Int? = nil, lastDate: String? = nil, _ page: Int) {
         var url = "notification?"
         
-        if lastId != nil {
-            url += "last_id=\(lastId!)"
+        if lastId != nil && lastDate != nil {
+            let date = lastDate!.replacingOccurrences(of: " ", with: "%20")
+            url += "last_id=\(lastId!)&last_date=\(date)"
         }
-        print(url)
-        
+        //print(url)
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:

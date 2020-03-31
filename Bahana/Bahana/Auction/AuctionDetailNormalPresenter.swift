@@ -90,7 +90,7 @@ class AuctionDetailNormalPresenter {
         }
         /*
         let fundType = ""
-        let view = 1
+        let view = 2
         let bilyet1 = [Bilyet(quantity: 10000000, issue_date: "2019-12-18 00:00:00", maturity_date: "2020-02-18 00:00:00")]
         let bilyet2 = [Bilyet(quantity: 5000000, issue_date: "2019-12-18 00:00:00", maturity_date: "2020-01-07 00:00:00"), Bilyet(quantity: 5000000, issue_date: "2019-12-18 00:00:00", maturity_date: "2020-01-07 00:00:00")]
         let bilyet3 = [Bilyet(quantity: 10000000, issue_date: "2019-12-18 00:00:00", maturity_date: "2020-03-18 00:00:00")]

@@ -45,7 +45,7 @@ class AuctionDetailMatureViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        titleLabel.text = localize("direct_auction").uppercased()
+        titleLabel.text = localize("mature").uppercased()
         titleLabel.textColor = primaryColor
         statusView.layer.cornerRadius = 10
         let cardBackgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)

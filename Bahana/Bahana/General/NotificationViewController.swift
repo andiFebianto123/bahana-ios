@@ -65,7 +65,7 @@ class NotificationViewController: UIViewController {
         setNavigationItems()
         
         presenter = NotificationPresenter(delegate: self)
-        getData(lastId: nil)
+        getData(lastId: nil, lastDate: nil)
     }
     
 
@@ -100,8 +100,8 @@ class NotificationViewController: UIViewController {
         
     }
     
-    func getData(lastId: Int?, page: Int = 1) {
-        presenter.getData(lastId: lastId, page)
+    func getData(lastId: Int?, lastDate: String?, page: Int = 1) {
+        presenter.getData(lastId: lastId, lastDate: lastDate, page)
     }
     
     func showLoading(_ show: Bool) {
@@ -126,14 +126,15 @@ extension NotificationViewController: UITableViewDataSource {
         if indexPath.row == data.count - 1 && loadFinished && !stopFetch {
             page += 1
             loadFinished = false
-            let lastId = data[indexPath.row].id
-            self.getData(lastId: lastId, page: page)
+            let lastData = data[indexPath.row]
+            let lastId = lastData.id
+            let lastDate = lastData.available_at
+            self.getData(lastId: lastId, lastDate: lastDate, page: page)
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationTableViewCell
         let notification = data[indexPath.row]
         cell.setData(notification)
-        cell.notificationTitle.text! += " \(indexPath.row)"
         return cell
     }
 }

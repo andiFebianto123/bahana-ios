@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import LanguageManager_iOS
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -125,6 +125,7 @@
 "auction_detail" = "Auction Detail";
 "direct_auction" = "Direct Auction";
 "rollover" = "Rollover";
+"mature" = "Mature";
 "history" = "History";
 "transaction" = "Transaction";
 "transaction_detail" = "Transaction Detail";
