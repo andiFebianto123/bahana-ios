@@ -45,6 +45,9 @@ class AuctionDetailMatureViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        let titleFont = UIFont.systemFont(ofSize: 9)
+        let contentFont = UIFont.boldSystemFont(ofSize: 11)
+        
         titleLabel.text = localize("mature").uppercased()
         titleLabel.textColor = primaryColor
         statusView.layer.cornerRadius = 10
@@ -55,9 +58,18 @@ class AuctionDetailMatureViewController: UIViewController {
         portfolioView.layer.shadowOffset = CGSize(width: 0, height: 0)
         portfolioView.layer.shadowRadius = 4
         portfolioView.layer.shadowOpacity = 0.5
+        fundNameTitleLabel.font = titleFont
+        fundNameTitleLabel.textColor = titleLabelColor
         fundNameTitleLabel.text = localize("fund_name")
+        fundNameLabel.font = contentFont
+        custodianBankTitleLabel.font = titleFont
+        custodianBankTitleLabel.textColor = titleLabelColor
         custodianBankTitleLabel.text = localize("custodian_bank")
+        custodianBankLabel.font = contentFont
+        picCustodianTitleLabel.font = titleFont
+        picCustodianTitleLabel.textColor = titleLabelColor
         picCustodianTitleLabel.text = localize("pic_custodian")
+        picCustodianLabel.font = contentFont
         detailTitleLabel.textColor = primaryColor
         detailView.backgroundColor = cardBackgroundColor
         detailView.layer.cornerRadius = 5
@@ -65,10 +77,18 @@ class AuctionDetailMatureViewController: UIViewController {
         detailView.layer.shadowOffset = CGSize(width: 0, height: 0)
         detailView.layer.shadowRadius = 4
         detailView.layer.shadowOpacity = 0.5
+        tenorTitleLabel.font = titleFont
         tenorTitleLabel.text = localize("tenor")
+        tenorLabel.font = contentFont
+        interestRateTitleLabel.font = titleFont
         interestRateTitleLabel.text = localize("interest_rate")
+        interestRateLabel.font = contentFont
+        investmentTitleLabel.font = titleFont
         investmentTitleLabel.text = localize("investment")
+        investmentLabel.font = contentFont
+        periodTitleLabel.font = titleFont
         periodTitleLabel.text = localize("bilyet")
+        periodLabel.font = contentFont
         
         presenter = AuctionDetailMaturePresenter(delegate: self)
         presenter.getAuction(id)

@@ -69,6 +69,9 @@ class AuctionDetailNormalViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = backgroundColor
         
+        let titleFont = UIFont.systemFont(ofSize: 9)
+        let contentFont = UIFont.boldSystemFont(ofSize: 11)
+        
         titleLabel.text = localize("auction").uppercased()
         titleLabel.textColor = primaryColor
         statusView.layer.cornerRadius = 10
@@ -79,11 +82,26 @@ class AuctionDetailNormalViewController: UIViewController {
         portfolioView.layer.shadowOffset = CGSize(width: 0, height: 0)
         portfolioView.layer.shadowRadius = 4
         portfolioView.layer.shadowOpacity = 0.5
+        fundNameTitleLabel.font = titleFont
+        fundNameTitleLabel.textColor = titleLabelColor
         fundNameTitleLabel.text = localize("fund_name")
+        fundNameLabel.font = contentFont
+        investmentTitleLabel.font = titleFont
+        investmentTitleLabel.textColor = titleLabelColor
         investmentTitleLabel.text = localize("investment")
+        investmentLabel.font = contentFont
+        placementDateTitleLabel.font = titleFont
+        placementDateTitleLabel.textColor = titleLabelColor
         placementDateTitleLabel.text = localize("placement_date")
+        placementDateLabel.font = contentFont
+        custodianBankTitleLabel.font = titleFont
+        custodianBankTitleLabel.textColor = titleLabelColor
         custodianBankTitleLabel.text = localize("custodian_bank")
+        custodianBankLabel.font = contentFont
+        picCustodianTitleLabel.font = titleFont
+        picCustodianTitleLabel.textColor = titleLabelColor
         picCustodianTitleLabel.text = localize("pic_custodian")
+        picCustodianLabel.font = contentFont
         noteTitleLabel.text = localize("notes").uppercased()
         noteTitleLabel.textColor = primaryColor
         interestRateTitleLabel.text = localize("interest_rate").uppercased()
@@ -187,8 +205,8 @@ class AuctionDetailNormalViewController: UIViewController {
             var rateViewHeight: CGFloat = 50
             //rateView.translatesAutoresizingMaskIntoConstraints = false
             
-            let titleFont = UIFont.boldSystemFont(ofSize: 12)
-            let contentFont = UIFont.systemFont(ofSize: 12)
+            let titleFont = UIFont.boldSystemFont(ofSize: 10)
+            let contentFont = UIFont.systemFont(ofSize: 10)
             
             let statusTitle = UILabel()
             statusTitle.text = localize("status")
@@ -239,8 +257,8 @@ class AuctionDetailNormalViewController: UIViewController {
                 } else {
                     interestRateContent += "\n"
                 }
-                rateViewHeight += 15
-                interestRateViewHeight += 15
+                rateViewHeight += 10
+                interestRateViewHeight += 10
             }
             if dt.interest_rate_usd != nil {
                 interestRateContent += "(USD) \(dt.interest_rate_usd!)%"
@@ -249,8 +267,8 @@ class AuctionDetailNormalViewController: UIViewController {
                 } else {
                     interestRateContent += "\n"
                 }
-                rateViewHeight += 15
-                interestRateViewHeight += 15
+                rateViewHeight += 10
+                interestRateViewHeight += 10
             }
             if dt.interest_rate_sharia != nil {
                 interestRateContent += "(Sharia) \(dt.interest_rate_sharia!)%"
@@ -259,8 +277,8 @@ class AuctionDetailNormalViewController: UIViewController {
                 } else {
                     interestRateContent += "\n"
                 }
-                rateViewHeight += 15
-                interestRateViewHeight += 15
+                rateViewHeight += 10
+                interestRateViewHeight += 10
             }
             let interestRate = UILabel()
             interestRate.text = interestRateContent
@@ -324,11 +342,16 @@ class AuctionDetailNormalViewController: UIViewController {
                 bilyetStackView.translatesAutoresizingMaskIntoConstraints = false
                 rateView.addSubview(bilyetStackView)
                 
+                let bilyetTitleView = UIView()
+                bilyetTitleView.backgroundColor = .clear
+                bilyetTitleView.translatesAutoresizingMaskIntoConstraints = false
+                bilyetStackView.addArrangedSubview(bilyetTitleView)
+                
                 let bilyetTitle = UILabel()
                 bilyetTitle.text = localize("bilyet")
                 bilyetTitle.font = titleFont
                 bilyetTitle.translatesAutoresizingMaskIntoConstraints = false
-                bilyetStackView.addArrangedSubview(bilyetTitle)
+                bilyetTitleView.addSubview(bilyetTitle)
                
                 var bilyetStr = """
                 """
@@ -361,9 +384,12 @@ class AuctionDetailNormalViewController: UIViewController {
                     bilyetStackView.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -15),
                     //bilyetView.bottomAnchor.constraint(equalTo: rateView.bottomAnchor, constant: -15),
                     //bilyetStackView.heightAnchor.constraint(equalToConstant: bilyetViewHeight),
-                    bilyetTitle.leadingAnchor.constraint(equalTo: bilyetStackView.leadingAnchor, constant: 0),
-                    bilyetTitle.topAnchor.constraint(equalTo: bilyetStackView.topAnchor, constant: 0),
-                    bilyetTitle.widthAnchor.constraint(equalToConstant: 110),
+                    bilyetTitleView.leadingAnchor.constraint(equalTo: bilyetStackView.leadingAnchor, constant: 0),
+                    bilyetTitleView.topAnchor.constraint(equalTo: bilyetStackView.topAnchor, constant: 0),
+                    bilyetTitleView.bottomAnchor.constraint(equalTo: bilyetStackView.bottomAnchor, constant: 0),
+                    bilyetTitleView.widthAnchor.constraint(equalToConstant: 110),
+                    bilyetTitle.leadingAnchor.constraint(equalTo: bilyetTitleView.leadingAnchor, constant: 0),
+                    bilyetTitle.topAnchor.constraint(equalTo: bilyetTitleView.topAnchor, constant: 0),
                     bilyet.leadingAnchor.constraint(equalTo: bilyetTitle.trailingAnchor, constant: 0),
                     bilyet.trailingAnchor.constraint(equalTo: bilyetStackView.trailingAnchor, constant: 0),
                     bilyet.topAnchor.constraint(equalTo: bilyetStackView.topAnchor, constant: 0),
@@ -372,8 +398,8 @@ class AuctionDetailNormalViewController: UIViewController {
                 
                 bilyetTitle.sizeToFit()
                 
-                var bilyetViewHeight: CGFloat = 30
-                rateViewHeight += CGFloat(60) + (bilyetViewHeight * cnt - 1)
+                var bilyetViewHeight: CGFloat = 20
+                rateViewHeight += CGFloat(50) + (bilyetViewHeight * cnt - 1)
                 
                 if self.data.view == 2 && dt.is_accepted == "pending" {
                     let confirmButton = UIButton()
@@ -426,8 +452,8 @@ class AuctionDetailNormalViewController: UIViewController {
         rateStackView.translatesAutoresizingMaskIntoConstraints = false
         rateView.addSubview(rateStackView)
         
-        let titleFont = UIFont.boldSystemFont(ofSize: 12)
-        let contentFont = UIFont.systemFont(ofSize: 12)
+        let titleFont = UIFont.boldSystemFont(ofSize: 10)
+        let contentFont = UIFont.systemFont(ofSize: 10)
         let titleWidth: CGFloat = 150
         
         // Tenor

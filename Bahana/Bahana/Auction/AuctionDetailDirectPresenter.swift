@@ -44,7 +44,7 @@ class AuctionDetailDirectPresenter {
                     let portfolio = auct["portfolio"].stringValue
                     let portfolio_short = auct["portfolio_short"].stringValue
                     let fund_type = auct["fund_type"].stringValue
-                    let revision_rate_rm = auct["revision_rate_rm"].stringValue
+                    let revision_rate_rm = auct["revision_rate_rm"] != JSON.null ? auct["revision_rate_rm"].stringValue : nil
                     let interest_rate = auct["interest_rate"].doubleValue
                     let notes = auct["notes"].stringValue
                     let pic_custodian = auct["pic_custodian"] != JSON.null ? auct["pic_custodian"].stringValue : nil

@@ -146,7 +146,7 @@
 "ongoing_auction" = "ONGOING AUCTION";
 "need_confirmation" = "NEED CONFIRMATION";
 "no_information_at_the_moment" = "No information at the moment.";
-"please_update_best_rate" = "Please update your best rate";
+"please_update_best_rate" = "Please update your best rate information";
 "confirmation_leave_page" = "Are you sure you want to leave this page?";
 "phone_must_be_number" = "Phone must be number";
 "update_success" = "Update success";

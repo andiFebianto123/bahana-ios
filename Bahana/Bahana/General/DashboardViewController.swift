@@ -20,12 +20,12 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var completedAuctionLabel: UILabel!
     @IBOutlet weak var completedAuctionUnitLabel: UILabel!
     @IBOutlet weak var ongoingAuctionView: UIView!
-    @IBOutlet weak var ongoingAuctionWidth: NSLayoutConstraint!
+    //@IBOutlet weak var ongoingAuctionWidth: NSLayoutConstraint!
     @IBOutlet weak var ongoingAuctionTitleLabel: UILabel!
     @IBOutlet weak var ongoingAuctionLabel: UILabel!
     @IBOutlet weak var ongoingAuctionUnitLabel: UILabel!
     @IBOutlet weak var needConfirmationView: UIView!
-    @IBOutlet weak var needConfirmationWidth: NSLayoutConstraint!
+    //@IBOutlet weak var needConfirmationWidth: NSLayoutConstraint!
     @IBOutlet weak var needConfirmationTitleLabel: UILabel!
     @IBOutlet weak var needConfirmationLabel: UILabel!
     @IBOutlet weak var needConfirmationUnitLabel: UILabel!
@@ -87,20 +87,33 @@ class DashboardViewController: UIViewController {
         needConfirmationView.layer.shadowRadius = 4
         needConfirmationView.layer.shadowOpacity = 0.5
         
-        let redColor = UIColor.red
+        let titleFont = UIFont.systemFont(ofSize: 10)
+        let unitAmountFont = UIFont.boldSystemFont(ofSize: 21)
+        let unitFont = UIFont.boldSystemFont(ofSize: 14)
         
-        completedAuctionLabel.textColor = redColor
-        completedAuctionUnitLabel.textColor = redColor
-        ongoingAuctionLabel.textColor = redColor
-        ongoingAuctionUnitLabel.textColor = redColor
-        needConfirmationLabel.textColor = redColor
-        needConfirmationUnitLabel.textColor = redColor
+        titleLabel.textColor = primaryColor
+        completedAuctionTitleLabel.font = titleFont
+        completedAuctionLabel.textColor = primaryColor
+        completedAuctionLabel.font = unitAmountFont
+        completedAuctionUnitLabel.textColor = primaryColor
+        completedAuctionUnitLabel.font = unitFont
+        ongoingAuctionTitleLabel.font = titleFont
+        ongoingAuctionLabel.textColor = primaryColor
+        ongoingAuctionLabel.font = unitAmountFont
+        ongoingAuctionUnitLabel.textColor = primaryColor
+        ongoingAuctionUnitLabel.font = unitFont
+        needConfirmationTitleLabel.font = titleFont
+        needConfirmationLabel.textColor = primaryColor
+        needConfirmationLabel.font = unitAmountFont
+        needConfirmationUnitLabel.textColor = primaryColor
+        needConfirmationUnitLabel.font = unitFont
         
         let screenWidth = UIScreen.main.bounds.width
-        ongoingAuctionWidth.constant = (screenWidth / 2) - 30
-        needConfirmationWidth.constant = (screenWidth / 2) - 30
+        //ongoingAuctionWidth.constant = (screenWidth / 2) - 30
+        //needConfirmationWidth.constant = (screenWidth / 2) - 30
         
         informationTitle.textColor = primaryColor
+        informationTitle.text = localize("information").uppercased()
         
         presenter = DashboardPresenter(delegate: self)
         presenter.getData()

@@ -51,6 +51,9 @@ class AuctionDetailDirectViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        let titleFont = UIFont.systemFont(ofSize: 9)
+        let contentFont = UIFont.boldSystemFont(ofSize: 11)
+        
         titleLabel.text = localize("direct_auction").uppercased()
         titleLabel.textColor = primaryColor
         statusView.layer.cornerRadius = 10
@@ -61,9 +64,18 @@ class AuctionDetailDirectViewController: UIViewController {
         portfolioView.layer.shadowOffset = CGSize(width: 0, height: 0)
         portfolioView.layer.shadowRadius = 4
         portfolioView.layer.shadowOpacity = 0.5
+        fundNameTitleLabel.font = titleFont
+        fundNameTitleLabel.textColor = titleLabelColor
         fundNameTitleLabel.text = localize("fund_name")
+        fundNameLabel.font = contentFont
+        custodianBankTitleLabel.font = titleFont
+        custodianBankTitleLabel.textColor = titleLabelColor
         custodianBankTitleLabel.text = localize("custodian_bank")
+        custodianBankLabel.font = contentFont
+        picCustodianTitleLabel.font = titleFont
+        picCustodianTitleLabel.textColor = titleLabelColor
         picCustodianTitleLabel.text = localize("pic_custodian")
+        picCustodianLabel.font = contentFont
         detailTitleLabel.textColor = primaryColor
         detailView.backgroundColor = cardBackgroundColor
         detailView.layer.cornerRadius = 5
@@ -71,10 +83,18 @@ class AuctionDetailDirectViewController: UIViewController {
         detailView.layer.shadowOffset = CGSize(width: 0, height: 0)
         detailView.layer.shadowRadius = 4
         detailView.layer.shadowOpacity = 0.5
+        tenorTitleLabel.font = titleFont
         tenorTitleLabel.text = localize("tenor")
+        tenorLabel.font = contentFont
+        interestRateTitleLabel.font = titleFont
         interestRateTitleLabel.text = localize("interest_rate")
+        interestRateLabel.font = contentFont
+        investmentTitleLabel.font = titleFont
         investmentTitleLabel.text = localize("investment")
+        investmentLabel.font = contentFont
+        bilyetTitleLabel.font = titleFont
         bilyetTitleLabel.text = localize("bilyet")
+        bilyetLabel.font = contentFont
         noteTitleLabel.textColor = primaryColor
         noteTitleLabel.text = localize("notes").uppercased()
         revisionRateTitleLabel.text = localize("revision_rate")
@@ -135,15 +155,14 @@ class AuctionDetailDirectViewController: UIViewController {
         
         // Detail
         tenorLabel.text = data.period
-        interestRateLabel.text = data.revision_rate_rm != nil ? "\(data.revision_rate_rm)" : "-"
+        interestRateLabel.text = data.revision_rate_rm != nil ? "\(data.revision_rate_rm!)" : "-"
         investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
         var bilyet = """
         """
         for bilyetArr in data.bilyet {
             bilyet += "- IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
         }
-        let cnt = CGFloat(data.bilyet.count)
-        //detailViewHeight.constant += (CGFloat(25) * cnt - 1)
+        
         bilyetLabel.text = bilyet
         noteLabel.text = data.notes
         

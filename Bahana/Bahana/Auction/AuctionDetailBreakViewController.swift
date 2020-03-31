@@ -59,6 +59,9 @@ class AuctionDetailBreakViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
+        let titleFont = UIFont.systemFont(ofSize: 9)
+        let contentFont = UIFont.boldSystemFont(ofSize: 11)
+        
         titleLabel.text = localize("break").uppercased()
         titleLabel.textColor = primaryColor
         auctionEndLabel.textColor = primaryColor
@@ -70,9 +73,18 @@ class AuctionDetailBreakViewController: UIViewController {
         portfolioView.layer.shadowOffset = CGSize(width: 0, height: 0)
         portfolioView.layer.shadowRadius = 4
         portfolioView.layer.shadowOpacity = 0.5
+        fundNameTitleLabel.font = titleFont
+        fundNameTitleLabel.textColor = titleLabelColor
         fundNameTitleLabel.text = localize("fund_name")
+        fundNameLabel.font = contentFont
+        custodianBankTitleLabel.font = titleFont
+        custodianBankTitleLabel.textColor = titleLabelColor
         custodianBankTitleLabel.text = localize("custodian_bank")
+        custodianBankLabel.font = contentFont
+        picCustodianTitleLabel.font = titleFont
+        picCustodianTitleLabel.textColor = titleLabelColor
         picCustodianTitleLabel.text = localize("pic_custodian")
+        picCustodianLabel.font = contentFont
         detailTitleLabel.textColor = primaryColor
         detailView.backgroundColor = cardBackgroundColor
         detailView.layer.cornerRadius = 5
@@ -80,12 +92,24 @@ class AuctionDetailBreakViewController: UIViewController {
         detailView.layer.shadowOffset = CGSize(width: 0, height: 0)
         detailView.layer.shadowRadius = 4
         detailView.layer.shadowOpacity = 0.5
+        tenorTitleLabel.font = titleFont
         tenorTitleLabel.text = localize("tenor")
+        tenorLabel.font = contentFont
+        interestRateTitleLabel.font = titleFont
         interestRateTitleLabel.text = localize("interest_rate")
+        interestRateLabel.font = contentFont
+        breakRateTitleLabel.font = titleFont
         breakRateTitleLabel.text = localize("break_rate")
+        breakRateLabel.font = contentFont
+        investmentTitleLabel.font = titleFont
         investmentTitleLabel.text = localize("investment")
+        investmentLabel.font = contentFont
+        periodTitleLabel.font = titleFont
         periodTitleLabel.text = localize("period")
+        periodLabel.font = contentFont
+        breakDateTitleLabel.font = titleFont
         breakDateTitleLabel.text = localize("break_date")
+        breakDateLabel.font = contentFont
         policyTitleLabel.textColor = primaryColor
         policyTitleLabel.text = localize("policy").uppercased()
         policyView.backgroundColor = cardBackgroundColor
@@ -94,8 +118,12 @@ class AuctionDetailBreakViewController: UIViewController {
         policyView.layer.shadowOffset = CGSize(width: 0, height: 0)
         policyView.layer.shadowRadius = 4
         policyView.layer.shadowOpacity = 0.5
+        breakablePolicyTitleLabel.font = titleFont
         breakablePolicyTitleLabel.text = localize("breakable_policy")
+        breakablePolicyLabel.font = contentFont
+        policyNoteTitleLabel.font = titleFont
         policyNoteTitleLabel.text = localize("policy_notes")
+        policyNoteLabel.font = contentFont
         breakRateTitle2Label.textColor = primaryColor
         breakRateTitle2Label.text = localize("break_rate").uppercased()
         breakRateTextField.keyboardType = .numbersAndPunctuation

@@ -23,7 +23,16 @@ class LoginPresenter {
     }
     
     func submit(_ email: String, _ password: String) {
-        let lang = "in"
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        
         let parameters: Parameters = [
             "email": email,
             "password": password

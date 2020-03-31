@@ -23,7 +23,16 @@ class RegisterPresenter {
     }
     
     func submit() {
-        let lang = "in"
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        
         let parameters: Parameters = [
             "fullname": getLocalData(key: "name"),
             "email": getLocalData(key: "email"),

@@ -27,7 +27,6 @@ class AuctionListTableViewCell: UITableViewCell {
     @IBOutlet weak var tenorLabel: UILabel!
     @IBOutlet weak var endTitleLabel: UILabel!
     @IBOutlet weak var endLabel: UILabel!
-    @IBOutlet weak var rightView: UIView!
     
     var pageType: String!
     var alreadySet: Bool = false
@@ -49,9 +48,9 @@ class AuctionListTableViewCell: UITableViewCell {
         statusView.layer.cornerRadius = 5
         statusLabel.font = UIFont.boldSystemFont(ofSize: 12)
         
-        let titleFont = UIFont.systemFont(ofSize: 10)
+        let titleFont = UIFont.systemFont(ofSize: 9)
         let titleColor = titleLabelColor
-        let contentFont = UIFont.boldSystemFont(ofSize: 14)
+        let contentFont = UIFont.boldSystemFont(ofSize: 11)
             
         fundNameTitleLabel.font = titleFont
         fundNameTitleLabel.textColor = titleColor
@@ -179,14 +178,11 @@ class AuctionListTableViewCell: UITableViewCell {
     
     func setAuctionType(_ type: String) {
         //if !alreadySet {
-            typeLabel.text = type.uppercased()
+            typeLabel.text = type.replacingOccurrences(of: "-", with: " ").uppercased()
             let typeTextWidth = typeLabel.intrinsicContentSize.width
             typeViewWidth.constant = typeTextWidth + 10
         
             mainView.backgroundColor = UIColor.white
-            typeView.backgroundColor = UIColor.white
-            leftView.backgroundColor = UIColor.white
-            rightView.backgroundColor = UIColor.white
         
             switch type {
             case "break":
@@ -196,9 +192,6 @@ class AuctionListTableViewCell: UITableViewCell {
                 placementDateTitleLabel.text = localize("maturity_date")
             case "mature":
                 mainView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-                typeView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-                leftView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
-                rightView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
                 break
             default:
                 break

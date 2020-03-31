@@ -19,7 +19,7 @@ struct AuctionDetailDirect {
     var portfolio:String
     var portfolio_short: String
     var fund_type: String
-    var revision_rate_rm: String
+    var revision_rate_rm: String?
     var interest_rate: Double
     var notes: String
     var pic_custodian: String?

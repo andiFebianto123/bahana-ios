@@ -23,7 +23,15 @@ class ForgotPasswordPresenter {
     }
     
     func submit(_ email: String) {
-        let lang = "in"
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
         
         Alamofire.request(WEB_API_URL + "api/v1/forgot-password?email=\(email)&lang=\(lang)", method: .post).responseJSON { response in
             switch response.result {

@@ -151,13 +151,13 @@ class SettingsViewController: UIViewController {
     }
     
     func setViewText() {
-        fullnameTitleLabel.text = localize("fullname")
-        contactTitleLabel.text = localize("email_and_contact")
-        bestRateLabel.text =  localize("edit_best_rate")
-        contactLabel.text = localize("contact")
-        faqLabel.text = localize("faq")
-        languageLabel.text = localize("language")
-        logoutLabel.text = localize("logout")
+        fullnameTitleLabel.text = localize("fullname").uppercased()
+        contactTitleLabel.text = localize("email_and_contact").uppercased()
+        bestRateLabel.text =  localize("edit_best_rate").uppercased()
+        contactLabel.text = localize("contact").uppercased()
+        faqLabel.text = localize("faq").uppercased()
+        languageLabel.text = localize("language").uppercased()
+        logoutLabel.text = localize("logout").uppercased()
     }
     
     func showAlert(title: String, message: String) {

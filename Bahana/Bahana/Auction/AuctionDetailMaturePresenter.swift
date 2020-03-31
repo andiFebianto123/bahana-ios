@@ -31,7 +31,7 @@ class AuctionDetailMaturePresenter {
                 } else {
                     let res = JSON(response.result.value!)
                     let auct = res
-                    print(res)
+                    //print(res)
                     let id = auct["id"].intValue
                     let auction_name = auct["auction_name"].stringValue
                     let quantity = auct["quantity"].doubleValue
