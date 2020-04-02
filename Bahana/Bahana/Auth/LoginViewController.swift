@@ -43,25 +43,25 @@ class LoginViewController: UIViewController {
         languageView.layer.masksToBounds = true
         languageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToChangeLanguage)))
         languageLabel.textColor = UIColor.white
-        emailLabel.font = UIFont.systemFont(ofSize: 10)
+        emailLabel.font = UIFont.systemFont(ofSize: 12)
         emailField.placeholder = localize("email")
         emailField.borderStyle = .none
         emailField.backgroundColor = .white
         emailField.leftViewMode = .always
         let emailView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
         emailView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        let emailImageView = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
+        let emailImageView = UIImageView(frame: CGRect(x: 5, y: 0, width: 20, height: 20))
         emailImageView.image = UIImage(named: "users")
         emailImageView.contentMode = .scaleAspectFit
         emailView.addSubview(emailImageView)
         emailField.leftView = emailView
-        passwordLabel.font = UIFont.systemFont(ofSize: 10)
+        passwordLabel.font = UIFont.systemFont(ofSize: 12)
         passwordField.placeholder = localize("password")
         passwordField.borderStyle = .none
         passwordField.backgroundColor = .white
         passwordField.isSecureTextEntry = true
         let passwordView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
-        let passwordImageView = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
+        let passwordImageView = UIImageView(frame: CGRect(x: 5, y: 0, width: 20, height: 20))
         passwordImageView.image = UIImage(named: "key")
         passwordImageView.contentMode = .scaleAspectFit
         passwordView.addSubview(passwordImageView)
@@ -73,14 +73,14 @@ class LoginViewController: UIViewController {
         submitButton.setTitleColor(UIColor.white, for: .normal)
         let fpTap = UITapGestureRecognizer(target: self, action: #selector(goToForgotPassword))
         forgotPasswordView.addGestureRecognizer(fpTap)
-        forgotPasswordLabel.font = UIFont.italicSystemFont(ofSize: 10)
+        forgotPasswordLabel.font = UIFont.italicSystemFont(ofSize: 11)
         forgotPasswordLabel.textColor = UIColor.red
-        orLabel.font = UIFont.systemFont(ofSize: 10)
+        orLabel.font = UIFont.systemFont(ofSize: 12)
         registerButton.layer.cornerRadius = 3
         registerButton.layer.masksToBounds = true
         registerButton.backgroundColor = UIColor.black
         registerButton.setTitleColor(UIColor.white, for: .normal)
-        versionLabel.font = UIFont.systemFont(ofSize: 10)
+        versionLabel.font = UIFont.boldSystemFont(ofSize: 11)
         
         presenter = LoginPresenter(delegate: self)
         
@@ -95,10 +95,10 @@ class LoginViewController: UIViewController {
         }
         emailLabel.text = localize("email")
         passwordLabel.text = localize("password")
-        submitButton.setTitle(localize("login"), for: .normal)
-        forgotPasswordLabel.text = localize("forgot_your_password")
+        submitButton.setTitle(localize("login").uppercased(), for: .normal)
+        forgotPasswordLabel.text = localize("forgot_your_password").uppercased()
         orLabel.text = localize("or")
-        registerButton.setTitle(localize("register"), for: .normal)
+        registerButton.setTitle(localize("register").uppercased(), for: .normal)
         versionLabel.text = String.localizedStringWithFormat(localize("app_version"), getAppVersion())
     }
 

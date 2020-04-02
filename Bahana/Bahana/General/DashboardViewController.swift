@@ -87,7 +87,7 @@ class DashboardViewController: UIViewController {
         needConfirmationView.layer.shadowRadius = 4
         needConfirmationView.layer.shadowOpacity = 0.5
         
-        let titleFont = UIFont.systemFont(ofSize: 10)
+        let titleFont = UIFont.systemFont(ofSize: 12)
         let unitAmountFont = UIFont.boldSystemFont(ofSize: 21)
         let unitFont = UIFont.boldSystemFont(ofSize: 14)
         
@@ -178,7 +178,7 @@ class DashboardViewController: UIViewController {
     }
     
     func setViewText() {
-        titleLabel.text = localize("summary_auction")
+        titleLabel.text = localize("summary_auction").uppercased()
         completedAuctionTitleLabel.text = localize("completed_auction")
         ongoingAuctionTitleLabel.text = localize("ongoing_auction")
         needConfirmationTitleLabel.text = localize("need_confirmation")

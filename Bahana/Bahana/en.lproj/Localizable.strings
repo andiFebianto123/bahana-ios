@@ -39,7 +39,7 @@
 
 "indonesia" = "ID";
 "english" = "EN";
-"app_version" = "VERSI APP - %@";
+"app_version" = "APP VERSION - %@";
 
 "or" = "Or";
 "personal_information" = "Personal Information";

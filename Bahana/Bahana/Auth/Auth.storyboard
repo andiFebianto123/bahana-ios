@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -127,20 +127,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SsU-6c-27l">
-                                <rect key="frame" x="162" y="605" width="90" height="30"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo_red_new" translatesAutoresizingMaskIntoConstraints="NO" id="VCn-qd-nge">
-                                        <rect key="frame" x="0.0" y="0.0" width="90" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="A22-sA-yVc"/>
-                                    <constraint firstAttribute="width" constant="90" id="rW6-Lo-Lg8"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4yI-Tx-xAx">
                                 <rect key="frame" x="50" y="454" width="314" height="30"/>
                                 <subviews>
@@ -172,6 +158,20 @@
                                     <constraint firstAttribute="height" constant="1" id="6X1-w0-XzJ"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SsU-6c-27l">
+                                <rect key="frame" x="140" y="608" width="144" height="40"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo_red_new" translatesAutoresizingMaskIntoConstraints="NO" id="VCn-qd-nge">
+                                        <rect key="frame" x="5" y="0.0" width="135" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="A22-sA-yVc"/>
+                                    <constraint firstAttribute="width" constant="144" id="rW6-Lo-Lg8"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -182,7 +182,7 @@
                             <constraint firstItem="giB-Gn-Fpi" firstAttribute="top" secondItem="m0q-I1-pAC" secondAttribute="bottom" constant="10" id="5Lc-qd-XJN"/>
                             <constraint firstItem="xSS-Mh-Yqy" firstAttribute="leading" secondItem="8Yg-DB-bCw" secondAttribute="leading" id="75l-hw-zS3"/>
                             <constraint firstItem="SRm-19-1Pj" firstAttribute="top" secondItem="4yI-Tx-xAx" secondAttribute="bottom" constant="16" id="7zF-dF-Kj7"/>
-                            <constraint firstItem="SsU-6c-27l" firstAttribute="centerX" secondItem="AXE-Cs-yEN" secondAttribute="centerX" id="9E6-Ru-VPB"/>
+                            <constraint firstItem="SsU-6c-27l" firstAttribute="centerX" secondItem="AXE-Cs-yEN" secondAttribute="centerX" constant="5" id="9E6-Ru-VPB"/>
                             <constraint firstItem="8Yg-DB-bCw" firstAttribute="trailing" secondItem="RVn-qx-RcZ" secondAttribute="trailing" constant="20" id="AAe-ud-OP7"/>
                             <constraint firstItem="uwU-JT-ik0" firstAttribute="top" secondItem="vbz-7t-W5C" secondAttribute="bottom" constant="30" id="BOa-Wq-g5L"/>
                             <constraint firstItem="RVn-qx-RcZ" firstAttribute="top" secondItem="8Yg-DB-bCw" secondAttribute="top" constant="20" id="CLy-CN-A0y"/>
@@ -190,7 +190,7 @@
                             <constraint firstItem="8Yg-DB-bCw" firstAttribute="trailing" secondItem="bOp-nr-oFO" secondAttribute="trailing" constant="30" id="FiB-lh-gUo"/>
                             <constraint firstItem="uwU-JT-ik0" firstAttribute="leading" secondItem="8Yg-DB-bCw" secondAttribute="leading" constant="30" id="GMj-Ge-XbJ"/>
                             <constraint firstItem="Clg-u3-o2m" firstAttribute="top" secondItem="8Yg-DB-bCw" secondAttribute="top" constant="80" id="Hds-4b-yo9"/>
-                            <constraint firstItem="SsU-6c-27l" firstAttribute="top" secondItem="hpq-qV-9Ii" secondAttribute="bottom" constant="5" id="KAD-tg-Guy"/>
+                            <constraint firstItem="SsU-6c-27l" firstAttribute="top" secondItem="hpq-qV-9Ii" secondAttribute="bottom" constant="8" id="KAD-tg-Guy"/>
                             <constraint firstItem="8Yg-DB-bCw" firstAttribute="trailing" secondItem="giB-Gn-Fpi" secondAttribute="trailing" constant="30" id="Luo-Bb-7ac"/>
                             <constraint firstItem="Gth-Kj-Ydm" firstAttribute="top" secondItem="4yI-Tx-xAx" secondAttribute="bottom" constant="8" id="Mbt-nE-9s8"/>
                             <constraint firstItem="m0q-I1-pAC" firstAttribute="leading" secondItem="8Yg-DB-bCw" secondAttribute="leading" constant="30" id="OM9-2X-Ztk"/>
@@ -385,7 +385,7 @@
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x9y-Zc-Tc3">
                                                 <rect key="frame" x="0.0" y="50" width="414" height="652"/>
                                                 <connections>
-                                                    <segue destination="iYQ-4G-MUW" kind="embed" id="aGw-Lt-Ks5"/>
+                                                    <segue destination="iYQ-4G-MUW" kind="embed" id="9IB-mQ-8Pw"/>
                                                 </connections>
                                             </containerView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a6a-Fx-g7i">

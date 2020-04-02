@@ -17,11 +17,11 @@
 "revised" = "Revised";
 "confirm" = "Confirm";
 "done" = "Done";
-"login" = "Login";
-"forgot_your_password" = "Forgot Your Password?";
+"login" = "Masuk";
+"forgot_your_password" = "Lupa Sandi Anda?";
 "forgot_password_title" = "Forgot Password";
 "reset_password" = "Reset Password";
-"register" = "Daftar disini";
+"register" = "Daftar";
 "registration" = "Registrasi";
 "registration_form" = "Form Registrasi";
 "best_rate" = "Best Rate";
@@ -64,7 +64,7 @@
 "end_date" = "End date";
 "return_to_start_date" = "Return to start date";
 "holiday_interest" = "Holiday Interest";
-"password" = "Password";
+"password" = "Sandi";
 "password_confirmation" = "Password Confirmation";
 "placement" = "%@ Placement";
 "breakable_policy" = "Breakable Policy";
