@@ -83,11 +83,11 @@ class RegisterViewController: UIViewController {
         
         let label = UILabel()
         if viewTo == "" {
-            label.text = localize("registration")
+            label.text = localize("registration").uppercased()
         } else if viewTo == "profile" {
-            label.text = localize("profile")
+            label.text = localize("profile").uppercased()
         } else if viewTo == "best_rate" {
-            label.text = localize("best_rate")
+            label.text = localize("best_rate").uppercased()
         }
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16)
@@ -204,7 +204,9 @@ extension RegisterViewController: UICollectionViewDataSource {
         switch indexPath.row {
         case 0:
             cell.number.text = "1"
+            cell.number.font = UIFont.systemFont(ofSize: 9)
             cell.name.text = localize("registration_form")
+            cell.name.font = UIFont.systemFont(ofSize: 9)
             if currentViewIdx >= 0 {
                 cell.setActive()
             } else {
@@ -212,7 +214,9 @@ extension RegisterViewController: UICollectionViewDataSource {
             }
         case 1:
             cell.number.text = "2"
+            cell.number.font = UIFont.systemFont(ofSize: 9)
             cell.name.text = localize("best_rate")
+            cell.name.font = UIFont.systemFont(ofSize: 9)
             if currentViewIdx >= 1 {
                 cell.setActive()
             } else {
@@ -220,7 +224,9 @@ extension RegisterViewController: UICollectionViewDataSource {
             }
         case 2:
             cell.number.text = "3"
+            cell.number.font = UIFont.systemFont(ofSize: 9)
             cell.name.text = localize("terms_and_conditions")
+            cell.name.font = UIFont.systemFont(ofSize: 9)
             if currentViewIdx == 2 {
                 cell.setActive()
             } else {
@@ -238,7 +244,7 @@ extension RegisterViewController: UICollectionViewDataSource {
 extension RegisterViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screenSize = UIScreen.main.bounds
-        return CGSize(width: screenSize.width / 3 - 20, height: 50)
+        return CGSize(width: (screenSize.width - 30) / 3, height: 50)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

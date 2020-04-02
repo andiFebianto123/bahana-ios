@@ -34,7 +34,7 @@ class ForgotPasswordViewController: UIViewController {
         submitButton.layer.masksToBounds = true
         submitButton.backgroundColor = UIColor.red
         submitButton.setTitleColor(UIColor.white, for: .normal)
-        submitButton.setTitle(localize("reset_password"), for: .normal)
+        submitButton.setTitle(localize("reset_password").uppercased(), for: .normal)
         
         presenter = ForgotPasswordPresenter(delegate: self)
     }
@@ -55,7 +55,7 @@ class ForgotPasswordViewController: UIViewController {
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let label = UILabel()
-        label.text = localize("forgot_password_title")
+        label.text = localize("forgot_password_title").uppercased()
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = UIColor.white

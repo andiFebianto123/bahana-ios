@@ -365,6 +365,8 @@ class ProfileViewController: FormViewController {
             $0.tag = "password"
             $0.add(rule: RuleRequired())
             $0.add(rule: RuleMinLength(minLength: 6))
+        }.cellUpdate { cell, row in
+            cell.textLabel!.attributedText = self.requiredField(localize("password"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -379,6 +381,8 @@ class ProfileViewController: FormViewController {
             $0.add(rule: RuleRequired())
             $0.add(rule: RuleMinLength(minLength: 6))
             $0.add(rule: RuleEqualsToRow(form: form, tag: "password"))
+        }.cellUpdate { cell, row in
+            cell.textLabel!.attributedText = self.requiredField(localize("password_confirmation"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -418,7 +422,7 @@ class ProfileViewController: FormViewController {
         
         let redColor = [NSAttributedString.Key.foregroundColor: UIColor.red]
         let blackColor = [NSAttributedString.Key.foregroundColor: UIColor.black]
-        let requiredAsterisk = NSAttributedString(string: "*", attributes: redColor)
+        let requiredAsterisk = NSAttributedString(string: " *", attributes: redColor)
         let title = NSAttributedString(string: str, attributes: blackColor)
         mutableAttributedString.append(title)
         mutableAttributedString.append(requiredAsterisk)
