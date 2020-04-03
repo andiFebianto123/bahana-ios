@@ -118,14 +118,14 @@ class RegisterViewController: UIViewController {
     
     
     func loadMainView(index: Int) {
-        previousLabel.text = "< \(localize("prev"))"
-        nextLabel.text = "\(localize("next")) >"
+        previousLabel.text = "< \(localize("prev").uppercased())"
+        nextLabel.text = "\(localize("next").uppercased()) >"
         if index == 0 {
             previousView.isHidden = true
         } else if index == 1 {
             previousView.isHidden = false
         } else if index == 2 {
-            nextLabel.text = localize("send")
+            nextLabel.text = localize("send").uppercased()
         }
         
         // Load view by tab index
