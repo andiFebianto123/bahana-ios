@@ -22,27 +22,33 @@ class TransactionListViewController: UIViewController {
     var loadingView = UIView()
     var filterListBackgroundView = UIView()
     
+    var refreshControl = UIRefreshControl()
+    
     var presenter: TransactionListPresenter!
     
+    var fundField = UITextField()
     var statusField = UITextField()
     var issueDateField = UITextField()
     var maturityDateField = UITextField()
     var breakDateField = UITextField()
+    var outstandingSwitch = UISwitch()
     
     var stopFetch: Bool = false
     var loadFinished: Bool = false
     
+    var fundOptions = [String]()
+    
     let statusOptions =  [
-        "ALL", "ACTIVE", "BREAK", "CANCELED", "MATURE", localize("used_in_break_auction"), localize("used_in_ro_auction"), "ROLLOVER"
+        "All", "Active", "Break", "Canceled", "Mature", localize("used_in_break_auction"), localize("used_in_ro_auction"), "Rollover"
     ]
     let issueDateOptions = [
-        "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
+        "Any Time", "Today", "Yesterday", "This Week", "This Month", "This Year"
     ]
     let maturityDateOptions = [
-        "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
+        "Any Time", "Today", "Yesterday", "This Week", "This Month", "This Year"
     ]
     let breakDateOptions = [
-        "NONE", "ANY TIME", "TODAY", "YESTERDAY", "THIS WEEK", "THIS MONTH", "THIS YEAR"
+        "None", "Any Time", "Today", "Yesterday", "This Week", "This Month", "This Year"
     ]
     
     var transactionID = Int()
@@ -83,6 +89,9 @@ class TransactionListViewController: UIViewController {
             spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
+        
+        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
         
         filterView.layer.cornerRadius = 3
         filterView.backgroundColor = UIColorFromHex(rgbValue: 0x3f3f3f)
@@ -165,12 +174,21 @@ class TransactionListViewController: UIViewController {
         filterLabel.text = localize("filter_transaction").uppercased()
     }
     
+    @objc func refresh(sender:AnyObject) {
+        data.removeAll()
+        page = 1
+        showLoading(true)
+        getData(lastId: nil)
+    }
+    
     func getData(lastId: Int?, page: Int = 1) {
         let filter: [String: String] = [
+            "portfolio": fundField.text!,
             "status": statusField.text!,
             "issue_date": issueDateField.text!,
             "maturity_date": maturityDateField.text!,
-            "break_date": breakDateField.text!
+            "break_date": breakDateField.text!,
+            "outstanding": outstandingSwitch.isOn ? "true" : "false"
         ]
         
         presenter.getTransaction(filter, lastId: lastId, page)
@@ -180,99 +198,209 @@ class TransactionListViewController: UIViewController {
         filterListBackgroundView = UIView()
         filterListBackgroundView.isHidden = true
         filterListBackgroundView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        filterListBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(filterListBackgroundView)
         
         let filterListView = UIView()
         filterListView.backgroundColor = .white
         filterListView.layer.cornerRadius = 3
+        filterListView.translatesAutoresizingMaskIntoConstraints = false
         filterListBackgroundView.addSubview(filterListView)
         
-        //Title
+        // Title
         let title = UILabel()
         title.font = UIFont.systemFont(ofSize: 18)
         title.text = localize("filter_transaction")
+        title.translatesAutoresizingMaskIntoConstraints = false
         filterListView.addSubview(title)
         
-        let titleFont = UIFont.systemFont(ofSize: 13)
+        // Stack view
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        filterListView.addSubview(stackView)
         
-        //Status
+        let titleFont = UIFont.systemFont(ofSize: 13)
+        let contentFont = UIFont.systemFont(ofSize: 14)
+        
+        // Fund
+        let fundView = UIView()
+        fundView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(fundView)
+        let fundTitle = UILabel()
+        fundTitle.font = titleFont
+        fundTitle.textColor = .lightGray
+        fundTitle.text = localize("fund")
+        fundTitle.translatesAutoresizingMaskIntoConstraints = false
+        fundView.addSubview(fundTitle)
+        fundField = UITextField()
+        fundField.tag = 1
+        fundField.isUserInteractionEnabled = true
+        fundField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        fundField.font = contentFont
+        //fundField.text = fundOptions.first
+        fundField.translatesAutoresizingMaskIntoConstraints = false
+        fundView.addSubview(fundField)
+        
+        NSLayoutConstraint.activate([
+            fundView.heightAnchor.constraint(equalToConstant: 30),
+            fundTitle.leadingAnchor.constraint(equalTo: fundView.leadingAnchor, constant: 0),
+            fundTitle.centerYAnchor.constraint(equalTo: fundView.centerYAnchor),
+            fundField.trailingAnchor.constraint(equalTo: fundView.trailingAnchor, constant: 0),
+            fundField.centerYAnchor.constraint(equalTo: fundView.centerYAnchor)
+        ])
+        
+        // Status
+        let statusView = UIView()
+        statusView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(statusView)
         let statusTitle = UILabel()
         statusTitle.font = titleFont
         statusTitle.textColor = .lightGray
         statusTitle.text = localize("status")
-        filterListView.addSubview(statusTitle)
+        statusTitle.translatesAutoresizingMaskIntoConstraints = false
+        statusView.addSubview(statusTitle)
         statusField = UITextField()
-        statusField.tag = 1
+        statusField.tag = 2
         statusField.isUserInteractionEnabled = true
         statusField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        statusField.font = contentFont
         statusField.text = statusOptions.first
-        filterListView.addSubview(statusField)
+        statusField.translatesAutoresizingMaskIntoConstraints = false
+        statusView.addSubview(statusField)
         
-        //Issue date
+        NSLayoutConstraint.activate([
+            statusView.heightAnchor.constraint(equalToConstant: 30),
+            statusTitle.leadingAnchor.constraint(equalTo: statusView.leadingAnchor, constant: 0),
+            statusTitle.centerYAnchor.constraint(equalTo: statusView.centerYAnchor),
+            statusField.trailingAnchor.constraint(equalTo: statusView.trailingAnchor, constant: 0),
+            statusField.centerYAnchor.constraint(equalTo: statusView.centerYAnchor)
+        ])
+        
+        // Issue date
+        let issueDateView = UIView()
+        issueDateView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(issueDateView)
         let issueDateTitle = UILabel()
         issueDateTitle.font = titleFont
         issueDateTitle.textColor = .lightGray
         issueDateTitle.text = localize("issue_date")
-        filterListView.addSubview(issueDateTitle)
+        issueDateTitle.translatesAutoresizingMaskIntoConstraints = false
+        issueDateView.addSubview(issueDateTitle)
         issueDateField = UITextField()
-        issueDateField.tag = 2
+        issueDateField.tag = 3
         issueDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        issueDateField.font = contentFont
         issueDateField.text = issueDateOptions.first
-        filterListView.addSubview(issueDateField)
+        issueDateField.translatesAutoresizingMaskIntoConstraints = false
+        issueDateView.addSubview(issueDateField)
         
-        //Maturity date
+        NSLayoutConstraint.activate([
+            issueDateView.heightAnchor.constraint(equalToConstant: 30),
+            issueDateTitle.leadingAnchor.constraint(equalTo: issueDateView.leadingAnchor, constant: 0),
+            issueDateTitle.centerYAnchor.constraint(equalTo: issueDateView.centerYAnchor),
+            issueDateField.trailingAnchor.constraint(equalTo: issueDateView.trailingAnchor, constant: 0),
+            issueDateField.centerYAnchor.constraint(equalTo: issueDateView.centerYAnchor)
+        ])
+        
+        // Maturity date
+        let maturityDateView = UIView()
+        maturityDateView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(maturityDateView)
         let maturityDateTitle = UILabel()
         maturityDateTitle.font = titleFont
         maturityDateTitle.textColor = .lightGray
         maturityDateTitle.text = localize("maturity_date")
-        filterListView.addSubview(maturityDateTitle)
+        maturityDateTitle.translatesAutoresizingMaskIntoConstraints = false
+        maturityDateView.addSubview(maturityDateTitle)
         maturityDateField = UITextField()
-        maturityDateField.tag = 3
+        maturityDateField.tag = 4
         maturityDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        maturityDateField.font = contentFont
         maturityDateField.text = maturityDateOptions.first
-        filterListView.addSubview(maturityDateField)
+        maturityDateField.translatesAutoresizingMaskIntoConstraints = false
+        maturityDateView.addSubview(maturityDateField)
         
-        //Break date
+        NSLayoutConstraint.activate([
+            maturityDateView.heightAnchor.constraint(equalToConstant: 30),
+            maturityDateTitle.leadingAnchor.constraint(equalTo: maturityDateView.leadingAnchor, constant: 0),
+            maturityDateTitle.centerYAnchor.constraint(equalTo: maturityDateView.centerYAnchor),
+            maturityDateField.trailingAnchor.constraint(equalTo: maturityDateView.trailingAnchor, constant: 0),
+            maturityDateField.centerYAnchor.constraint(equalTo: maturityDateView.centerYAnchor)
+        ])
+        
+        // Break date
+        let breakDateView = UIView()
+        breakDateView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(breakDateView)
         let breakDateTitle = UILabel()
         breakDateTitle.font = titleFont
         breakDateTitle.textColor = .lightGray
         breakDateTitle.text = localize("break_date")
-        filterListView.addSubview(breakDateTitle)
+        breakDateTitle.translatesAutoresizingMaskIntoConstraints = false
+        breakDateView.addSubview(breakDateTitle)
         breakDateField = UITextField()
-        breakDateField.tag = 4
+        breakDateField.tag = 5
         breakDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        breakDateField.font = contentFont
         breakDateField.text = breakDateOptions.first
-        filterListView.addSubview(breakDateField)
+        breakDateField.translatesAutoresizingMaskIntoConstraints = false
+        breakDateView.addSubview(breakDateField)
         
-        //Cancel button
+        NSLayoutConstraint.activate([
+            breakDateView.heightAnchor.constraint(equalToConstant: 30),
+            breakDateTitle.leadingAnchor.constraint(equalTo: breakDateView.leadingAnchor, constant: 0),
+            breakDateTitle.centerYAnchor.constraint(equalTo: breakDateView.centerYAnchor),
+            breakDateField.trailingAnchor.constraint(equalTo: breakDateView.trailingAnchor, constant: 0),
+            breakDateField.centerYAnchor.constraint(equalTo: breakDateView.centerYAnchor)
+        ])
+        
+        // Outstanding
+        let outstandingView = UIView()
+        outstandingView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.addArrangedSubview(outstandingView)
+        let outstandingTitle = UILabel()
+        outstandingTitle.font = contentFont
+        outstandingTitle.text = localize("outstanding").uppercased()
+        outstandingTitle.translatesAutoresizingMaskIntoConstraints = false
+        outstandingView.addSubview(outstandingTitle)
+        outstandingSwitch = UISwitch()
+        outstandingSwitch.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        outstandingSwitch.translatesAutoresizingMaskIntoConstraints = false
+        outstandingView.addSubview(outstandingSwitch)
+        
+        NSLayoutConstraint.activate([
+            outstandingView.heightAnchor.constraint(equalToConstant: 30),
+            outstandingSwitch.leadingAnchor.constraint(equalTo: outstandingView.leadingAnchor, constant: -10),
+            outstandingSwitch.centerYAnchor.constraint(equalTo: outstandingView.centerYAnchor),
+            outstandingTitle.leadingAnchor.constraint(equalTo: outstandingSwitch.trailingAnchor, constant: 10),
+            outstandingTitle.centerYAnchor.constraint(equalTo: outstandingView.centerYAnchor),
+        ])
+        
+        let buttonsView = UIView()
+        buttonsView.translatesAutoresizingMaskIntoConstraints = false
+        filterListView.addSubview(buttonsView)
+        
+        // Cancel button
         let cancelButton = UIButton()
         cancelButton.setTitleColor(.systemYellow, for: .normal)
+        cancelButton.titleLabel?.font = contentFont
         cancelButton.setTitle(localize("cancel").uppercased(), for: .normal)
         let closeTap = UITapGestureRecognizer(target: self, action: #selector(closeFilter))
         cancelButton.addGestureRecognizer(closeTap)
-        filterListView.addSubview(cancelButton)
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        buttonsView.addSubview(cancelButton)
         
-        //Submit button
+        // Submit button
         let submitButton = UIButton()
         submitButton.setTitleColor(.systemYellow, for: .normal)
+        submitButton.titleLabel?.font = contentFont
         submitButton.setTitle(localize("filter").uppercased(), for: .normal)
         let submitTap = UITapGestureRecognizer(target: self, action: #selector(submitFilter))
         submitButton.addGestureRecognizer(submitTap)
-        filterListView.addSubview(submitButton)
-        
-        filterListBackgroundView.translatesAutoresizingMaskIntoConstraints = false
-        filterListView.translatesAutoresizingMaskIntoConstraints = false
-        title.translatesAutoresizingMaskIntoConstraints = false
-        statusTitle.translatesAutoresizingMaskIntoConstraints = false
-        statusField.translatesAutoresizingMaskIntoConstraints = false
-        issueDateTitle.translatesAutoresizingMaskIntoConstraints = false
-        issueDateField.translatesAutoresizingMaskIntoConstraints = false
-        maturityDateTitle.translatesAutoresizingMaskIntoConstraints = false
-        maturityDateField.translatesAutoresizingMaskIntoConstraints = false
-        breakDateTitle.translatesAutoresizingMaskIntoConstraints = false
-        breakDateField.translatesAutoresizingMaskIntoConstraints = false
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false
         submitButton.translatesAutoresizingMaskIntoConstraints = false
+        buttonsView.addSubview(submitButton)
         
         NSLayoutConstraint.activate([
             filterListBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -282,29 +410,20 @@ class TransactionListViewController: UIViewController {
             filterListView.centerYAnchor.constraint(equalTo: filterListBackgroundView.centerYAnchor, constant: 0),
             filterListView.leadingAnchor.constraint(equalTo: filterListBackgroundView.leadingAnchor, constant: 25),
             filterListView.trailingAnchor.constraint(equalTo: filterListBackgroundView.trailingAnchor, constant: -25),
-            filterListView.heightAnchor.constraint(equalToConstant: 300),
             title.topAnchor.constraint(equalTo: filterListView.topAnchor, constant: 20),
             title.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
-            statusTitle.topAnchor.constraint(equalTo: filterListView.topAnchor, constant: 70),
-            statusTitle.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
-            statusField.topAnchor.constraint(equalTo: filterListView.topAnchor, constant: 72),
-            statusField.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
-            issueDateTitle.topAnchor.constraint(equalTo: statusTitle.bottomAnchor, constant: 30),
-            issueDateTitle.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
-            issueDateField.topAnchor.constraint(equalTo: statusField.bottomAnchor, constant: 22),
-            issueDateField.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
-            maturityDateTitle.topAnchor.constraint(equalTo: issueDateTitle.bottomAnchor, constant: 30),
-            maturityDateTitle.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
-            maturityDateField.topAnchor.constraint(equalTo: issueDateField.bottomAnchor, constant: 22),
-            maturityDateField.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
-            breakDateTitle.topAnchor.constraint(equalTo: maturityDateTitle.bottomAnchor, constant: 30),
-            breakDateTitle.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
-            breakDateField.topAnchor.constraint(equalTo: maturityDateField.bottomAnchor, constant: 22),
-            breakDateField.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
-            cancelButton.trailingAnchor.constraint(equalTo: submitButton.trailingAnchor, constant: -100),
-            cancelButton.bottomAnchor.constraint(equalTo: filterListView.bottomAnchor, constant: -20),
-            submitButton.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
-            submitButton.bottomAnchor.constraint(equalTo: filterListView.bottomAnchor, constant: -20),
+            stackView.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 20),
+            stackView.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
+            buttonsView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
+            buttonsView.leadingAnchor.constraint(equalTo: filterListView.leadingAnchor, constant: 20),
+            buttonsView.trailingAnchor.constraint(equalTo: filterListView.trailingAnchor, constant: -20),
+            buttonsView.heightAnchor.constraint(equalToConstant: 30),
+            cancelButton.trailingAnchor.constraint(equalTo: submitButton.leadingAnchor, constant: -20),
+            cancelButton.centerYAnchor.constraint(equalTo: buttonsView.centerYAnchor),
+            submitButton.trailingAnchor.constraint(equalTo: buttonsView.trailingAnchor, constant: 0),
+            submitButton.centerYAnchor.constraint(equalTo: buttonsView.centerYAnchor),
+            filterListView.bottomAnchor.constraint(equalTo: buttonsView.bottomAnchor, constant: 20),
         ])
     }
     
@@ -342,15 +461,18 @@ class TransactionListViewController: UIViewController {
         let tag = (sender.view?.tag)!
         switch tag {
         case 1:
+            // Fund
+            options = fundOptions
+        case 2:
             // Status
             options = statusOptions
-        case 2:
+        case 3:
             // Issue date
             options = issueDateOptions
-        case 3:
+        case 4:
             // Maturity date
             options = maturityDateOptions
-        case 4:
+        case 5:
             // Break date
             options = breakDateOptions
         default:
@@ -372,12 +494,14 @@ class TransactionListViewController: UIViewController {
     func optionChoosed(_ tag: Int, _ option: String) {
         switch tag {
         case 1:
-            statusField.text = option
+            fundField.text = option
         case 2:
-            issueDateField.text = option
+            statusField.text = option
         case 3:
-            maturityDateField.text = option
+            issueDateField.text = option
         case 4:
+            maturityDateField.text = option
+        case 5:
             breakDateField.text = option
         default:
             break
@@ -438,6 +562,7 @@ extension TransactionListViewController: TransactionListDelegate {
             }
             showLoading(false)
             loadFinished = true
+            refreshControl.endRefreshing()
             tableView.reloadData()
         }
     }

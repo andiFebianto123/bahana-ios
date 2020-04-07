@@ -12,7 +12,7 @@ import SwiftyJSON
 
 //let WEB_API_URL = "http://localhost:8000/"
 //let WEB_API_URL = "http://192.168.1.25:8000/"
-let WEB_API_URL = "http://192.168.100.5/bahana/public/"
+let WEB_API_URL = "http://159.65.15.108/bahana/public/"
 
 let primaryColor = UIColorFromHex(rgbValue: 0xd7181f)
 let backgroundColor = UIColorFromHex(rgbValue: 0xeeeeee)
@@ -167,6 +167,7 @@ func toIdrBio(_ number: Double) -> String {
 
 func checkPercentage(_ number: Double) -> String {
     let numToStr = number.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", number) : String(number)
+    
     return numToStr
 }
 
@@ -211,7 +212,26 @@ func getDeviceScreenSize() -> Double {
     }
 }
 
+func getSafeAreaInset(_ pos: String) -> CGFloat {
+    var topPadding: CGFloat = 20
+    var bottomPadding: CGFloat = 0
+    if #available(iOS 11.0, *) {
+        let window = UIApplication.shared.keyWindow
+        topPadding = (window?.safeAreaInsets.top)!
+        bottomPadding = (window?.safeAreaInsets.bottom)!
+    }
+    
+    if pos == "top" {
+        return topPadding
+    } else if pos == "bottom" {
+        return bottomPadding
+    } else {
+        return 0
+    }
+}
+
 func getNavigationHeight() -> CGFloat {
+    //return getSafeAreaInset("top") + 20
     switch getDeviceScreenSize() {
     case 4, 4.7, 5.5:
         return 64

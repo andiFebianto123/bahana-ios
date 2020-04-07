@@ -33,7 +33,7 @@ class TermsAndConditionsViewController: UIViewController {
         NSLayoutConstraint.activate([
             webView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
             webView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 20),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 20)
         ])
         

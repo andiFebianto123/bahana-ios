@@ -56,8 +56,9 @@ class AuctionDetailRolloverViewController: UIViewController {
         let titleFont = UIFont.systemFont(ofSize: 9)
         let contentFont = UIFont.boldSystemFont(ofSize: 11)
         
-        titleLabel.text = localize("rollover")
+        titleLabel.text = localize("rollover").uppercased()
         titleLabel.textColor = primaryColor
+        auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
         let cardBackgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
         portfolioView.backgroundColor = cardBackgroundColor
@@ -105,6 +106,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         newPeriodLabel.font = contentFont
         interestRateTitleLabel.textColor = primaryColor
         interestRateTitleLabel.text = localize("interest_rate").uppercased()
+        interestRateTextField.placeholder = localize("interest_rate").uppercased()
         submitButton.setTitle(localize("submit").uppercased(), for: .normal)
         submitButton.backgroundColor = primaryColor
         confirmButton.setTitle(localize("confirm").uppercased(), for: .normal)
@@ -140,10 +142,10 @@ class AuctionDetailRolloverViewController: UIViewController {
         }
         
         if convertStringToDatetime(data.end_date)! > Date() {
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
+            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_bidding_rm)!)
             
             let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-            let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
+            let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
             auctionEndLabel.text = "\(localize("ends_in")): \(hour) \(minute)"
             
             if countdown["hour"]! < 1 {

@@ -43,7 +43,7 @@ class AuctionListTableViewCell: UITableViewCell {
         mainView.layer.shadowRadius = 4
         mainView.layer.shadowOpacity = 0.5
         
-        typeView.layer.cornerRadius = 3
+        //typeView.layer.cornerRadius = 3
         typeLabel.font = UIFont.boldSystemFont(ofSize: 12)
         statusView.layer.cornerRadius = 5
         statusLabel.font = UIFont.boldSystemFont(ofSize: 12)
@@ -94,12 +94,11 @@ class AuctionListTableViewCell: UITableViewCell {
         setStatus(auction.status)
         fundNameLabel.text = auction.portfolio_short
         tenorLabel.text = auction.period
+        var investment = "IDR \(toIdrBio(auction.investment_range_start))"
         if auction.investment_range_end > 0 {
-            investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start)) - \(toIdrBio(auction.investment_range_end))"
-            
-        } else {
-           investmentLabel.text = "IDR \(toIdrBio(auction.investment_range_start))"
+            investment += " - \(toIdrBio(auction.investment_range_end))"
         }
+        investmentLabel.text = investment
         
         if auction.type == "auction" || auction.type == "direct auction" {
             
@@ -123,7 +122,7 @@ class AuctionListTableViewCell: UITableViewCell {
             let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
             if countdown["hour"]! > 0 {
                 let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-                let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
+                let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
                 endLabel.text = "\(hour) \(minute)"
             } else {
                 endLabel.text = ""
@@ -146,8 +145,12 @@ class AuctionListTableViewCell: UITableViewCell {
             typeView.backgroundColor = UIColorFromHex(rgbValue: 0x65d663)
         case "Canceled":
             typeView.backgroundColor = UIColorFromHex(rgbValue: 0x3e3e3e)
+        case "Break":
+            typeView.backgroundColor = primaryColor
         case "Used in Break Auction":
             typeView.backgroundColor = UIColorFromHex(rgbValue: 0x990000)
+        case "Used in RO Auction":
+            typeView.backgroundColor = UIColor.brown
         case "Mature":
             typeView.backgroundColor = UIColorFromHex(rgbValue: 0x2d91ff)
         default:

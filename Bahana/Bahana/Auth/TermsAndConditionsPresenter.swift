@@ -25,12 +25,12 @@ class TermsAndConditionsPresenter {
         Alamofire.request(WEB_API_URL + "api/v1/term-and-conditions").responseJSON { response in
             switch response.result {
             case .success:
-                let title = "<div style='font-size: 20px;'><b>Dengan ini saya menyatakan bahwa :</b><br />"
+                let title = "<div style='font-size: 40px; margin-left: 5px;'><b>Dengan ini saya menyatakan bahwa :</b><br />"
                 let result = JSON(response.result.value!)
-                let checkbox = "<br /><input type='checkbox' id='agreement' onclick='test()' style='transform: scale(2)'> Ya, saya menyetujui segala ketentuan yang telah ditetapkan.</div>"
+                let checkbox = "<br /><input type='checkbox' id='agreement' onclick='agree()' style='transform: scale(2.2); margin-right: 10px;'> Ya, saya menyetujui segala ketentuan yang telah ditetapkan.</div>"
                 let script = """
                     <script>
-                    function test() {
+                    function agree() {
                         var checked = document.querySelector('#agreement').checked;
                         window.webkit.messageHandlers.jsHandler.postMessage(checked);
                     }

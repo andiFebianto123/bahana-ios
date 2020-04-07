@@ -24,6 +24,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var versionLabel: UILabel!
     
+    var loadingView = UIView()
+    
     var presenter: LoginPresenter!
     
     override func viewDidLoad() {
@@ -33,6 +35,29 @@ class LoginViewController: UIViewController {
         setupToHideKeyboardOnTapOnView()
         
         setViewText()
+        
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
+        
+        showLoading(false)
         
         backgroundImageView.image = UIImage(named: "bg")
         backgroundImageView.contentMode = .scaleToFill
@@ -44,8 +69,10 @@ class LoginViewController: UIViewController {
         languageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToChangeLanguage)))
         languageLabel.textColor = UIColor.white
         emailLabel.font = UIFont.systemFont(ofSize: 12)
-        emailField.placeholder = localize("email")
-        emailField.borderStyle = .none
+        emailField.layer.borderWidth = 1
+        emailField.layer.borderColor = UIColor.white.cgColor
+        emailField.layer.cornerRadius = 3
+        emailField.layer.masksToBounds = true
         emailField.backgroundColor = .white
         emailField.leftViewMode = .always
         let emailView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
@@ -56,8 +83,9 @@ class LoginViewController: UIViewController {
         emailView.addSubview(emailImageView)
         emailField.leftView = emailView
         passwordLabel.font = UIFont.systemFont(ofSize: 12)
-        passwordField.placeholder = localize("password")
-        passwordField.borderStyle = .none
+        passwordField.layer.borderWidth = 1
+        passwordField.layer.borderColor = UIColor.white.cgColor
+        passwordField.layer.cornerRadius = 3
         passwordField.backgroundColor = .white
         passwordField.isSecureTextEntry = true
         let passwordView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
@@ -94,7 +122,9 @@ class LoginViewController: UIViewController {
             languageLabel.text = localize("english")
         }
         emailLabel.text = localize("email")
+        emailField.placeholder = localize("email")
         passwordLabel.text = localize("password")
+        passwordField.placeholder = localize("password")
         submitButton.setTitle(localize("login").uppercased(), for: .normal)
         forgotPasswordLabel.text = localize("forgot_your_password").uppercased()
         orLabel.text = localize("or")
@@ -118,7 +148,16 @@ class LoginViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
+    }
+    
     @IBAction func loginButtonPressed(_ sender: Any) {
+        showLoading(true)
         presenter.submit(emailField.text!, passwordField.text!)
     }
     
@@ -143,6 +182,7 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController: LoginDelegate {
     func isLoginSuccess(_ isSuccess: Bool, _ message: String) {
+        showLoading(false)
         if isSuccess {
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             let homeViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "GeneralTabBar") as UIViewController

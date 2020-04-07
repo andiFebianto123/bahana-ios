@@ -25,6 +25,8 @@ class AuctionListViewController: UIViewController {
     
     var loadingView = UIView()
     
+    var refreshControl = UIRefreshControl()
+    
     var presenter: AuctionListPresenter!
     
     var pageType: String!
@@ -71,6 +73,9 @@ class AuctionListViewController: UIViewController {
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
         
+        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+        
         let statusTap = UITapGestureRecognizer(target: self, action: #selector(statusFieldTapped))
         statusTextField.addGestureRecognizer(statusTap)
         statusTextField.borderStyle = .none
@@ -109,6 +114,7 @@ class AuctionListViewController: UIViewController {
         tableView.delegate = self
         
         presenter = AuctionListPresenter(delegate: self)
+        showLoading(true)
         getData(lastId: nil, lastDate: nil, lastType: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
@@ -187,6 +193,13 @@ class AuctionListViewController: UIViewController {
         }
     }
     
+    @objc func refresh(sender:AnyObject) {
+        data.removeAll()
+        page = 1
+        showLoading(true)
+        self.getData(lastId: nil, lastDate: nil, lastType: nil)
+    }
+    
     @objc func showNotification() {
         performSegue(withIdentifier: "showNotification", sender: self)
     }
@@ -242,6 +255,7 @@ class AuctionListViewController: UIViewController {
     @IBAction func showButtonPressed(_ sender: Any) {
         data.removeAll()
         page = 1
+        showLoading(true)
         self.getData(lastId: nil, lastDate: nil, lastType: nil)
     }
     
@@ -301,6 +315,7 @@ extension AuctionListViewController: AuctionListDelegate {
             }
             showLoading(false)
             loadFinished = true
+            refreshControl.endRefreshing()
             tableView.reloadData()
         }
     }

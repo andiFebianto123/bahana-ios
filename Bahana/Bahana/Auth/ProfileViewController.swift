@@ -157,7 +157,15 @@ class ProfileViewController: FormViewController {
             $0.displayValueFor = { value in
                 return value?.name
             }
+            $0.disabled = isRegisterPage == true ? false : true
             $0.add(rule: RuleRequired())
+        }.cellUpdate { cell, row in
+            if !self.isRegisterPage {
+                cell.textLabel?.textColor = .black
+                cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+                cell.detailTextLabel?.textColor = .black
+                cell.detailTextLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+            }
         }.onChange { row in
             // Get bank branchs after bank choosed
             self.presenter.getBankBranch((row.value?.id)!)
@@ -194,12 +202,23 @@ class ProfileViewController: FormViewController {
             }
             $0.disabled = .function(["bank"], { form -> Bool in
                 if form.rowBy(tag: "bank")?.baseValue != nil {
-                    return false
+                    if self.isRegisterPage == true {
+                        return false
+                    } else {
+                        return true
+                    }
                 } else {
                     return true
                 }
             })
             $0.add(rule: RuleRequired())
+        }.cellUpdate { cell, row in
+            if !self.isRegisterPage {
+                cell.textLabel?.textColor = .black
+                cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+                cell.detailTextLabel?.textColor = .black
+                cell.detailTextLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+            }
         }.onCellSelection { cell, row in
             row.options = self.branchs
         }.onRowValidationChanged { cell, row in
@@ -366,7 +385,9 @@ class ProfileViewController: FormViewController {
             $0.add(rule: RuleRequired())
             $0.add(rule: RuleMinLength(minLength: 6))
         }.cellUpdate { cell, row in
-            cell.textLabel!.attributedText = self.requiredField(localize("password"))
+            if self.isRegisterPage {
+                cell.textLabel!.attributedText = self.requiredField(localize("password"))
+            }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -382,7 +403,9 @@ class ProfileViewController: FormViewController {
             $0.add(rule: RuleMinLength(minLength: 6))
             $0.add(rule: RuleEqualsToRow(form: form, tag: "password"))
         }.cellUpdate { cell, row in
-            cell.textLabel!.attributedText = self.requiredField(localize("password_confirmation"))
+            if self.isRegisterPage {
+                cell.textLabel!.attributedText = self.requiredField(localize("password_confirmation"))
+            }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
                 for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
@@ -502,9 +525,13 @@ class ProfileViewController: FormViewController {
                     
                     
                 } else {
-                    var msg = String()
+                    //var msg = String()
+                    var msg = localize("fill_required_field")
                     for error in errors {
-                        msg += "\(error)\n"
+                        //msg += "\(error)\n"
+                        if error == "\(localize("password_confirmation")) Fields don't match!" {
+                            msg += "\n\(localize("password_not_match"))"
+                        }
                     }
                     
                     showValidationAlert(title: localize("information"), message: msg)

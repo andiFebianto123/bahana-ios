@@ -27,6 +27,11 @@ class TransactionListPresenter {
         // Get transaction
         var url = "transaction?"
         
+        // Fund parameter
+        if filter["portfolio"] != nil {
+            url += "portfolio=\(filter["portfolio"]!.replacingOccurrences(of: " ", with: "%20"))&"
+        }
+        
         // Status parameter
         //if status == "ACC" || status == "REJ" || status == "NEC" {
         url += "status=\(filter["status"]!.replacingOccurrences(of: " ", with: "%20"))&"
@@ -45,6 +50,11 @@ class TransactionListPresenter {
         // Issue date parameter
         if filter["break_date"] != nil {
             url += "break_date=\(filter["break_date"]!.replacingOccurrences(of: " ", with: "%20"))&"
+        }
+        
+        // Outstanding parameter
+        if filter["outstanding"] != nil {
+            url += "outstanding=\(filter["outstanding"]!)"
         }
         
         // Pagination

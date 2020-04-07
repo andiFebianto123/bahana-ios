@@ -74,6 +74,7 @@ class AuctionDetailNormalViewController: UIViewController {
         
         titleLabel.text = localize("auction").uppercased()
         titleLabel.textColor = primaryColor
+        auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
         let cardBackgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
         portfolioView.backgroundColor = cardBackgroundColor
@@ -114,6 +115,7 @@ class AuctionDetailNormalViewController: UIViewController {
         interestRateAddMonthButton.layer.cornerRadius = 5
         maxPlacementTitleLabel.text = localize("max_placement")
         maxPlacementTitleLabel.textColor = primaryColor
+        maxPlacementTextField.placeholder = localize("max_placement")
         submitButton.backgroundColor = primaryColor
         submitButton.setTitleColor(.white, for: .normal)
         submitButton.layer.cornerRadius = 5
@@ -148,10 +150,10 @@ class AuctionDetailNormalViewController: UIViewController {
         }
         
         if convertStringToDatetime(data.end_date)! > Date() {
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
+            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_bidding_rm)!)
             
             let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-            let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
+            let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
             auctionEndLabel.text = "\(localize("ends_in")): \(hour) \(minute)"
             
             if countdown["hour"]! < 1 {
@@ -165,8 +167,11 @@ class AuctionDetailNormalViewController: UIViewController {
         
         // Portfolio
         fundNameLabel.text = data.portfolio
-        //investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start)) - \(toIdrBio(data.investment_range_end != nil ? data.investment_range_end! : 0))"
-        investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
+        var investment = "IDR \(toIdrBio(data.investment_range_start))"
+        if data.investment_range_end != nil {
+            investment += " - \(toIdrBio(data.investment_range_end!))"
+        }
+        investmentLabel.text = investment
         placementDateLabel.text = convertDateToString(convertStringToDatetime(data.start_date)!)
         custodianBankLabel.text = data.custodian_bank != nil ? data.custodian_bank : "-"
         picCustodianLabel.text = data.pic_custodian != nil ? data.pic_custodian : "-"
@@ -251,7 +256,7 @@ class AuctionDetailNormalViewController: UIViewController {
             """
             var interestRateViewHeight: CGFloat = 5
             if dt.interest_rate_idr != nil {
-                interestRateContent += "(IDR) \(dt.interest_rate_idr!)%"
+                interestRateContent += "(IDR) \(checkPercentage(dt.interest_rate_idr!)) %"
                 if dt.choosen_rate != nil && dt.choosen_rate == "IDR" {
                     interestRateContent += " [Chosen Rate]\n"
                 } else {
@@ -261,7 +266,7 @@ class AuctionDetailNormalViewController: UIViewController {
                 interestRateViewHeight += 10
             }
             if dt.interest_rate_usd != nil {
-                interestRateContent += "(USD) \(dt.interest_rate_usd!)%"
+                interestRateContent += "(USD) \(checkPercentage(dt.interest_rate_usd!)) %"
                 if dt.choosen_rate != nil && dt.choosen_rate == "USD" {
                     interestRateContent += " [Chosen Rate]\n"
                 } else {
@@ -271,7 +276,7 @@ class AuctionDetailNormalViewController: UIViewController {
                 interestRateViewHeight += 10
             }
             if dt.interest_rate_sharia != nil {
-                interestRateContent += "(Sharia) \(dt.interest_rate_sharia!)%"
+                interestRateContent += "(Sharia) \(checkPercentage(dt.interest_rate_sharia!)) %"
                 if dt.choosen_rate != nil && dt.choosen_rate == "Sharia" {
                     interestRateContent += " [Chosen Rate]\n"
                 } else {
@@ -356,7 +361,7 @@ class AuctionDetailNormalViewController: UIViewController {
                 var bilyetStr = """
                 """
                 for bilyetArr in dt.bilyet {
-                    bilyetStr += "- IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
+                    bilyetStr += "\u{2022} IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
                 }
                 let cnt = CGFloat(dt.bilyet.count)
                 

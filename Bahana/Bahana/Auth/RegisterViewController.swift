@@ -85,9 +85,9 @@ class RegisterViewController: UIViewController {
         if viewTo == "" {
             label.text = localize("registration").uppercased()
         } else if viewTo == "profile" {
-            label.text = localize("profile").uppercased()
+            label.text = localize("edit_profile").uppercased()
         } else if viewTo == "best_rate" {
-            label.text = localize("best_rate").uppercased()
+            label.text = localize("edit_best_rate").uppercased()
         }
         label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16)

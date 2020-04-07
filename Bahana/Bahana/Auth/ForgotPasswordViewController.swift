@@ -14,6 +14,8 @@ class ForgotPasswordViewController: UIViewController {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var submitButton: UIButton!
     
+    var loadingView = UIView()
+    
     var presenter: ForgotPasswordPresenter!
     
     override func viewDidLoad() {
@@ -23,13 +25,42 @@ class ForgotPasswordViewController: UIViewController {
         setNavigationItems()
         setupToHideKeyboardOnTapOnView()
         
+        view.backgroundColor = backgroundColor
+        
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
+        
+        showLoading(false)
+        
         emailLabel.font = UIFont.systemFont(ofSize: 12)
         emailLabel.text = localize("email")
         emailField.leftViewMode = .always
-        let emailImageView = UIImageView(frame: CGRect(x: 10, y: 0, width: 20, height: 20))
-        //emailImageView.image = UIImage(systemName: "person.and.person")
-        emailField.leftView = emailImageView
-        //emailField.placeholder = localize("email")
+        let emailView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 20))
+        emailView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        let emailImageView = UIImageView(frame: CGRect(x: 5, y: 0, width: 20, height: 20))
+        emailImageView.image = UIImage(named: "users")
+        emailImageView.contentMode = .scaleAspectFit
+        emailView.addSubview(emailImageView)
+        emailField.leftView = emailView
+        emailField.placeholder = localize("email")
         submitButton.layer.cornerRadius = 3
         submitButton.layer.masksToBounds = true
         submitButton.backgroundColor = UIColor.red
@@ -84,13 +115,23 @@ class ForgotPasswordViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
+    }
+    
     @IBAction func submitButtonPressed(_ sender: Any) {
+        showLoading(true)
         presenter.submit(emailField.text!)
     }
 }
 
 extension ForgotPasswordViewController: ForgotPasswordDelegate {
     func isSubmitSuccess(_ isSuccess: Bool, _ message: String) {
+        showLoading(false)
         showAlert(title: localize("information"), message: message)
     }
 }

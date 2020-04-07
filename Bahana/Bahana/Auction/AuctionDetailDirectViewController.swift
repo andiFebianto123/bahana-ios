@@ -56,6 +56,7 @@ class AuctionDetailDirectViewController: UIViewController {
         
         titleLabel.text = localize("direct_auction").uppercased()
         titleLabel.textColor = primaryColor
+        auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
         let cardBackgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
         portfolioView.backgroundColor = cardBackgroundColor
@@ -133,10 +134,10 @@ class AuctionDetailDirectViewController: UIViewController {
         }
         
         if convertStringToDatetime(data.end_date)! > Date() {
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
+            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_bidding_rm)!)
             
             let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-            let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
+            let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
             auctionEndLabel.text = "\(localize("ends_in")): \(hour) \(minute)"
             
             if countdown["hour"]! < 1 {
@@ -155,12 +156,17 @@ class AuctionDetailDirectViewController: UIViewController {
         
         // Detail
         tenorLabel.text = data.period
-        interestRateLabel.text = data.revision_rate_rm != nil ? "\(data.revision_rate_rm!)" : "-"
+        var interestRate = "-"
+        
+        if data.revision_rate_rm != nil {
+            interestRate = "\(checkPercentage(Double(data.revision_rate_rm!)!)) %"
+        }
+        interestRateLabel.text = interestRate
         investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
         var bilyet = """
         """
         for bilyetArr in data.bilyet {
-            bilyet += "- IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
+            bilyet += "\u{2022} IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
         }
         
         bilyetLabel.text = bilyet

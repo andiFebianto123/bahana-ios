@@ -37,7 +37,7 @@ class ProfilePresenter {
                     let bank = Bank.init(id: String(res["id"].intValue), name: res["bank_name"].stringValue, code: res["bank_code"].stringValue)
                     banks.append(bank)
                 }
-                self.delegate?.setBanks(banks)
+                self.delegate?.setBanks(banks.reversed())
             case .failure(let error):
                 self.delegate?.getDataFail()
             }
@@ -60,7 +60,7 @@ class ProfilePresenter {
                         branchs.append(branch)
                     }
                 }
-                self.delegate?.setBankBranchs(branchs)
+                self.delegate?.setBankBranchs(branchs.reversed())
             case .failure(let error):
                 self.delegate?.getDataFail()
             }

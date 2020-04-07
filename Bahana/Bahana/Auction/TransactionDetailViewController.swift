@@ -130,8 +130,12 @@ class TransactionDetailViewController: UIViewController {
             transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x65d663)
         case "Canceled":
             transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x3e3e3e)
+        case "Break":
+            transactionStatusView.backgroundColor = primaryColor
         case "Used in Break Auction":
             transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x990000)
+        case "Used in RO Auction":
+            transactionStatusView.backgroundColor = UIColor.brown
         case "Mature":
             transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x2d91ff)
         default:
@@ -142,7 +146,7 @@ class TransactionDetailViewController: UIViewController {
         var interest_rate = "-"
         if data.coupon_rate != nil {
             let newCouponRate = Double(data.coupon_rate!)
-            interest_rate = newCouponRate!.truncatingRemainder(dividingBy: 1) == 0 ? "\(String(format: "%.0f", newCouponRate!)) %" : "\(data.coupon_rate!) %"
+            interest_rate = "\(checkPercentage(newCouponRate!)) %"
         }
        
         setGeneralInformation([
@@ -153,13 +157,14 @@ class TransactionDetailViewController: UIViewController {
             TransactionContent(title: localize("tenor"), content: data.period),
             TransactionContent(title: localize("issue_date"), content: convertDateToString(convertStringToDatetime(data.issue_date))),
             TransactionContent(title: localize("maturity_date"), content: convertDateToString(convertStringToDatetime(data.maturity_date)!)),
-            TransactionContent(title: localize("interest_rate"), content: interest_rate),
-            TransactionContent(title: localize("break_date"), content: convertDateToString(convertStringToDatetime(data.break_maturity_date)))
+            TransactionContent(title: localize("interest_rate"), content: interest_rate)
         ])
         
         if data.break_maturity_date != nil {
+            let breakRate = Double(data.break_coupon_rate!)
             setBreakInformation([
-                TransactionContent(title: localize("break_rate"), content: "\(data.break_coupon_rate) %")
+                TransactionContent(title: localize("break_date"), content: convertDateToString(convertStringToDatetime(data.break_maturity_date))),
+                TransactionContent(title: localize("break_rate"), content: "\(checkPercentage(breakRate!)) %")
             ])
         }
     }

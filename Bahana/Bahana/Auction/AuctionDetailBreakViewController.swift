@@ -64,7 +64,7 @@ class AuctionDetailBreakViewController: UIViewController {
         
         titleLabel.text = localize("break").uppercased()
         titleLabel.textColor = primaryColor
-        auctionEndLabel.textColor = primaryColor
+        //auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
         let cardBackgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
         portfolioView.backgroundColor = cardBackgroundColor
@@ -185,8 +185,8 @@ class AuctionDetailBreakViewController: UIViewController {
         
         // Detail
         tenorLabel.text = data.period
-        interestRateLabel.text = "\(data.previous_interest_rate) %"
-        breakRateLabel.text = data.last_bid_rate! != nil ? "\(data.last_bid_rate!) %" : "-"
+        interestRateLabel.text = "\(checkPercentage(data.previous_interest_rate)) %"
+        breakRateLabel.text = data.last_bid_rate! != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
         investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
         periodLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.previous_maturity_date)!)!)"
         breakDateLabel.text = convertDateToString(convertStringToDatetime(data.break_maturity_date)!)
