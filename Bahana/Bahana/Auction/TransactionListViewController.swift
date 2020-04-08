@@ -566,4 +566,8 @@ extension TransactionListViewController: TransactionListDelegate {
             tableView.reloadData()
         }
     }
+    
+    func setFunds(_ data: [String]) {
+        self.fundOptions = data
+    }
 }

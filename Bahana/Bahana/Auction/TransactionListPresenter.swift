@@ -13,6 +13,7 @@ import SwiftyJSON
 protocol TransactionListDelegate {
     func openLoginPage()
     func setData(_ data: [Transaction], _ page: Int)
+    func setFunds(_ data: [String])
 }
 
 class TransactionListPresenter {
@@ -25,7 +26,7 @@ class TransactionListPresenter {
     
     func getTransaction(_ filter: [String: String], lastId: Int? = nil, _ page: Int) {
         // Get transaction
-        var url = "transaction?"
+        var url = "transaction-new?"
         
         // Fund parameter
         if filter["portfolio"] != nil {
@@ -72,7 +73,7 @@ class TransactionListPresenter {
                     let result = JSON(response.result.value!)
                     //print(result)
                     var transactions = [Transaction]()
-                    for trans in result.arrayValue {
+                    for trans in result["transactions"].arrayValue {
                         let id = trans["id"].intValue
                         let qty = trans["quantity"].doubleValue
                         let issue_date = trans["issue_date"].stringValue
@@ -90,6 +91,14 @@ class TransactionListPresenter {
                         
                         transactions.append(transaction)
                     }
+                    
+                    var funds = [String]()
+                    for fund in result["portfolios"].arrayValue {
+                        funds.append(fund.stringValue)
+                    }
+                    
+                    self.delegate?.setFunds(funds)
+                    
                     self.delegate?.setData(transactions, page)
                 }
             case .failure(let error):

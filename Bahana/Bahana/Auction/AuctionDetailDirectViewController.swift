@@ -176,9 +176,7 @@ class AuctionDetailDirectViewController: UIViewController {
         if data.view == 0 {
             revisionRateStackView.isHidden = true
         } else if data.view == 1 {
-            revisionRateTitleLabel.isHidden = true
-            revisionRateTextField.isHidden = true
-            revisedButton.isHidden = true
+            //
         } else if data.view == 2 {
             confirmButton.isHidden = true
         }

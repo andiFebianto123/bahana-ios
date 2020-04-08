@@ -181,6 +181,10 @@ class AuctionDetailNormalViewController: UIViewController {
         
         setBids(data.bids)
         
+        for detail in data.details {
+            addInterestRate(detail.td_period_type, false, detail.td_period)
+        }
+        
         // Action
         if data.view == 0 || data.view == 1 {
             interestRateParentStackView.isHidden = true
@@ -437,14 +441,14 @@ class AuctionDetailNormalViewController: UIViewController {
     }
     
     @IBAction func addInterestRateDayButtonPressed(_ sender: Any) {
-        addInterestRate("day")
+        addInterestRate("day", true)
     }
     
     @IBAction func addInterestRateMonthButtonPressed(_ sender: Any) {
-        addInterestRate("month")
+        addInterestRate("month", true)
     }
     
-    func addInterestRate(_ tenorType: String) {
+    func addInterestRate(_ tenorType: String, _ canEditTenor: Bool, _ period: Int? = nil) {
         let rateView = UIView()
         rateView.tag = interestRateIdx
         rateView.backgroundColor = .white
@@ -454,6 +458,7 @@ class AuctionDetailNormalViewController: UIViewController {
         let rateStackView = UIStackView()
         rateStackView.axis = .vertical
         rateStackView.spacing = 10
+        rateStackView.distribution = .fillEqually
         rateStackView.translatesAutoresizingMaskIntoConstraints = false
         rateView.addSubview(rateStackView)
         
@@ -470,32 +475,75 @@ class AuctionDetailNormalViewController: UIViewController {
         tenorTitle.font = titleFont
         tenorTitle.translatesAutoresizingMaskIntoConstraints = false
         tenorView.addSubview(tenorTitle)
-        let tenor = UITextField()
-        tenor.borderStyle = .roundedRect
-        tenor.keyboardType = .numbersAndPunctuation
-        tenor.font = contentFont
-        tenor.translatesAutoresizingMaskIntoConstraints = false
-        tenorView.addSubview(tenor)
         
-        let period = UILabel()
-        if tenorType == "day" {
-            period.text = "Day(s)"
-        } else if tenorType == "month" {
-            period.text = "Month(s)"
+        NSLayoutConstraint.activate([
+            tenorView.heightAnchor.constraint(equalToConstant: 25),
+            tenorTitle.leadingAnchor.constraint(equalTo: tenorView.leadingAnchor, constant: 0),
+            tenorTitle.widthAnchor.constraint(equalToConstant: titleWidth),
+            tenorTitle.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor)
+        ])
+        
+        var tenor: UITextField?
+        if canEditTenor {
+            tenor = UITextField()
+            tenor!.borderStyle = .roundedRect
+            tenor!.keyboardType = .numbersAndPunctuation
+            tenor!.font = contentFont
+            tenor!.translatesAutoresizingMaskIntoConstraints = false
+            tenorView.addSubview(tenor!)
+            
+            let period = UILabel()
+            if tenorType == "day" {
+                period.text = "Day(s)"
+            } else if tenorType == "month" {
+                period.text = "Month(s)"
+            }
+            period.font = UIFont.systemFont(ofSize: 14)
+            period.textColor = UIColor.lightGray
+            period.translatesAutoresizingMaskIntoConstraints = false
+            tenorView.addSubview(period)
+            let deleteButton = UIButton()
+            deleteButton.layer.cornerRadius = 3
+            deleteButton.backgroundColor = .red
+            deleteButton.setImage(UIImage(named: "icon_trash_can"), for: .normal)
+            deleteButton.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+            deleteButton.tag = interestRateIdx
+            deleteButton.addTarget(self, action: #selector(deleteRateButtonTapped(sender:)), for: .touchUpInside)
+            deleteButton.translatesAutoresizingMaskIntoConstraints = false
+            tenorView.addSubview(deleteButton)
+            
+            NSLayoutConstraint.activate([
+                tenor!.leadingAnchor.constraint(equalTo: tenorTitle.trailingAnchor, constant: 0),
+                tenor!.trailingAnchor.constraint(equalTo: tenorView.trailingAnchor, constant: -80),
+                //tenor.topAnchor.constraint(equalTo: tenorView.topAnchor, constant: 0),
+                //tenor.heightAnchor.constraint(equalToConstant: 25),
+                tenor!.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor),
+                period.leadingAnchor.constraint(equalTo: tenor!.trailingAnchor, constant: 5),
+                period.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor),
+                deleteButton.widthAnchor.constraint(equalToConstant: 25),
+                deleteButton.heightAnchor.constraint(equalToConstant: 25),
+                deleteButton.trailingAnchor.constraint(equalTo: tenorView.trailingAnchor, constant: 0),
+                deleteButton.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor)
+            ])
+        } else {
+            let tenor = UILabel()
+            var periodType = String()
+            if tenorType == "day" {
+                periodType = period! > 1 ? "Days" : "Day"
+            } else if tenorType == "month" {
+                periodType = period! > 1 ? "Months" : "Month"
+            }
+            tenor.text = "\(period!) \(periodType)"
+            tenor.font = contentFont
+            tenor.translatesAutoresizingMaskIntoConstraints = false
+            tenorView.addSubview(tenor)
+            
+            NSLayoutConstraint.activate([
+                tenor.leadingAnchor.constraint(equalTo: tenorTitle.trailingAnchor, constant: 0),
+                tenor.trailingAnchor.constraint(equalTo: tenorView.trailingAnchor, constant: 0),
+                tenor.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor)
+            ])
         }
-        period.font = UIFont.systemFont(ofSize: 14)
-        period.textColor = UIColor.lightGray
-        period.translatesAutoresizingMaskIntoConstraints = false
-        tenorView.addSubview(period)
-        let deleteButton = UIButton()
-        deleteButton.layer.cornerRadius = 3
-        deleteButton.backgroundColor = .red
-        deleteButton.setImage(UIImage(named: "icon_trash_can"), for: .normal)
-        deleteButton.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        deleteButton.tag = interestRateIdx
-        deleteButton.addTarget(self, action: #selector(deleteRateButtonTapped(sender:)), for: .touchUpInside)
-        deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        tenorView.addSubview(deleteButton)
         
         var idrInterestRate: UITextField?
         if data.allowed_rate.contains("IDR") {
@@ -540,6 +588,27 @@ class AuctionDetailNormalViewController: UIViewController {
             idrInterestRate!.font = contentFont
             idrInterestRate!.translatesAutoresizingMaskIntoConstraints = false
             idrRateView.addSubview(idrInterestRate!)
+            
+            var defaultRate: String?
+            if tenorType == "month" && !canEditTenor {
+                switch period! {
+                case 1:
+                    if data.default_rate.month_rate_1 != nil {
+                        defaultRate = "\(data.default_rate.month_rate_1!)"
+                    }
+                case 3:
+                    if data.default_rate.month_rate_3 != nil {
+                        defaultRate = "\(data.default_rate.month_rate_3!)"
+                    }
+                case 6:
+                    if data.default_rate.month_rate_6 != nil {
+                        defaultRate = "\(data.default_rate.month_rate_6!)"
+                    }
+                default:
+                    break
+                }
+            }
+            idrInterestRate?.text = defaultRate
             
             NSLayoutConstraint.activate([
                 idrInterestRate!.leadingAnchor.constraint(equalTo: idrRateTitleLabel.trailingAnchor, constant: 0),
@@ -594,6 +663,27 @@ class AuctionDetailNormalViewController: UIViewController {
             usdInterestRate!.translatesAutoresizingMaskIntoConstraints = false
             usdRateView.addSubview(usdInterestRate!)
             
+            var defaultRate: String?
+            if tenorType == "month" && !canEditTenor {
+                switch period! {
+                case 1:
+                    if data.default_rate.month_rate_1_usd != nil {
+                        defaultRate = "\(data.default_rate.month_rate_1_usd!)"
+                    }
+                case 3:
+                    if data.default_rate.month_rate_3_usd != nil {
+                        defaultRate = "\(data.default_rate.month_rate_3_usd!)"
+                    }
+                case 6:
+                    if data.default_rate.month_rate_6_usd != nil {
+                        defaultRate = "\(data.default_rate.month_rate_6_usd!)"
+                    }
+                default:
+                    break
+                }
+            }
+            usdInterestRate?.text = defaultRate
+            
             NSLayoutConstraint.activate([
                 usdInterestRate!.leadingAnchor.constraint(equalTo: usdRateTitleLabel.trailingAnchor, constant: 0),
                 usdInterestRate!.trailingAnchor.constraint(equalTo: usdRateView.trailingAnchor, constant: 0),
@@ -647,6 +737,27 @@ class AuctionDetailNormalViewController: UIViewController {
             shariaInterestRate!.translatesAutoresizingMaskIntoConstraints = false
             shariaRateView.addSubview(shariaInterestRate!)
             
+            var defaultRate: String?
+            if tenorType == "month" && !canEditTenor {
+                switch period! {
+                case 1:
+                    if data.default_rate.month_rate_1_sharia != nil {
+                        defaultRate = "\(data.default_rate.month_rate_1_sharia!)"
+                    }
+                case 3:
+                    if data.default_rate.month_rate_3_sharia != nil {
+                        defaultRate = "\(data.default_rate.month_rate_3_sharia!)"
+                    }
+                case 6:
+                    if data.default_rate.month_rate_6_sharia != nil {
+                        defaultRate = "\(data.default_rate.month_rate_6_sharia!)"
+                    }
+                default:
+                    break
+                }
+            }
+            usdInterestRate?.text = defaultRate
+            
             NSLayoutConstraint.activate([
                 shariaInterestRate!.leadingAnchor.constraint(equalTo: shariaRateTitleLabel.trailingAnchor, constant: 0),
                 shariaInterestRate!.trailingAnchor.constraint(equalTo: shariaRateView.trailingAnchor, constant: 0),
@@ -661,21 +772,6 @@ class AuctionDetailNormalViewController: UIViewController {
             rateStackView.bottomAnchor.constraint(equalTo: rateView.bottomAnchor, constant: -15),
             rateStackView.leadingAnchor.constraint(equalTo: rateView.leadingAnchor, constant: 15),
             rateStackView.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -15),
-            tenorView.heightAnchor.constraint(equalToConstant: 25),
-            tenorTitle.leadingAnchor.constraint(equalTo: tenorView.leadingAnchor, constant: 0),
-            tenorTitle.widthAnchor.constraint(equalToConstant: titleWidth),
-            tenorTitle.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor),
-            tenor.leadingAnchor.constraint(equalTo: tenorTitle.trailingAnchor, constant: 0),
-            tenor.trailingAnchor.constraint(equalTo: tenorView.trailingAnchor, constant: -80),
-            //tenor.topAnchor.constraint(equalTo: tenorView.topAnchor, constant: 0),
-            //tenor.heightAnchor.constraint(equalToConstant: 25),
-            tenor.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor),
-            period.leadingAnchor.constraint(equalTo: tenor.trailingAnchor, constant: 5),
-            period.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor),
-            deleteButton.widthAnchor.constraint(equalToConstant: 25),
-            deleteButton.heightAnchor.constraint(equalToConstant: 25),
-            deleteButton.trailingAnchor.constraint(equalTo: tenorView.trailingAnchor, constant: 0),
-            deleteButton.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor)
         ])
         
         let addHeight: CGFloat = 120

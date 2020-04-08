@@ -32,7 +32,7 @@ class AuctionDetailNormalPresenter {
                 } else {
                     let res = JSON(response.result.value!)
                     let auct = res["auction"]
-                    print(auct)
+                    //print(auct)
                     
                     let id = auct["id"].intValue
                     let auction_name = auct["auction_name"].stringValue
@@ -49,7 +49,6 @@ class AuctionDetailNormalPresenter {
                     let portfolio = auct["portfolio"].stringValue
                     let portfolio_short = auct["portfolio_short"].stringValue
                     let view = auct["view"].intValue
-                    //let view = 2
                     let status = auct["status"].stringValue
                     let issue_date = auct["issue_date"].stringValue
                     
