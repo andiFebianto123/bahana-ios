@@ -59,8 +59,8 @@ class AuctionDetailBreakViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        let titleFont = UIFont.systemFont(ofSize: 9)
-        let contentFont = UIFont.boldSystemFont(ofSize: 11)
+        let titleFont = UIFont.systemFont(ofSize: 11)
+        let contentFont = UIFont.boldSystemFont(ofSize: 12)
         
         titleLabel.text = localize("break").uppercased()
         titleLabel.textColor = primaryColor

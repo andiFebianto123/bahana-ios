@@ -204,9 +204,9 @@ extension RegisterViewController: UICollectionViewDataSource {
         switch indexPath.row {
         case 0:
             cell.number.text = "1"
-            cell.number.font = UIFont.systemFont(ofSize: 9)
+            cell.number.font = UIFont.systemFont(ofSize: 11)
             cell.name.text = localize("registration_form")
-            cell.name.font = UIFont.systemFont(ofSize: 9)
+            cell.name.font = UIFont.systemFont(ofSize: 11)
             if currentViewIdx >= 0 {
                 cell.setActive()
             } else {
@@ -214,9 +214,9 @@ extension RegisterViewController: UICollectionViewDataSource {
             }
         case 1:
             cell.number.text = "2"
-            cell.number.font = UIFont.systemFont(ofSize: 9)
+            cell.number.font = UIFont.systemFont(ofSize: 11)
             cell.name.text = localize("best_rate")
-            cell.name.font = UIFont.systemFont(ofSize: 9)
+            cell.name.font = UIFont.systemFont(ofSize: 11)
             if currentViewIdx >= 1 {
                 cell.setActive()
             } else {
@@ -224,9 +224,9 @@ extension RegisterViewController: UICollectionViewDataSource {
             }
         case 2:
             cell.number.text = "3"
-            cell.number.font = UIFont.systemFont(ofSize: 9)
+            cell.number.font = UIFont.systemFont(ofSize: 11)
             cell.name.text = localize("terms_and_conditions")
-            cell.name.font = UIFont.systemFont(ofSize: 9)
+            cell.name.font = UIFont.systemFont(ofSize: 11)
             if currentViewIdx == 2 {
                 cell.setActive()
             } else {

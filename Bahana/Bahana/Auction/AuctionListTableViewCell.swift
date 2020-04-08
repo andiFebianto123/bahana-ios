@@ -48,9 +48,9 @@ class AuctionListTableViewCell: UITableViewCell {
         statusView.layer.cornerRadius = 5
         statusLabel.font = UIFont.boldSystemFont(ofSize: 12)
         
-        let titleFont = UIFont.systemFont(ofSize: 9)
+        let titleFont = UIFont.systemFont(ofSize: 11)
         let titleColor = titleLabelColor
-        let contentFont = UIFont.boldSystemFont(ofSize: 11)
+        let contentFont = UIFont.boldSystemFont(ofSize: 12)
             
         fundNameTitleLabel.font = titleFont
         fundNameTitleLabel.textColor = titleColor

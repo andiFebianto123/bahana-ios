@@ -54,10 +54,16 @@ class BestRateViewController: FormViewController {
         ])
         
         presenter = BestRatePresenter(delegate: self)
-        presenter.getOptions()
+        //presenter.getOptions()
         
         NotificationCenter.default.addObserver(self, selector: #selector(isRegisterPage(notification:)), name: Notification.Name("RegisterPage"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(save(notification:)), name: Notification.Name("RegisterNext"), object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        showLoading(true)
+        presenter.getOptions()
     }
     
     func showConnectionAlert(title: String, message: String) {
@@ -86,6 +92,8 @@ class BestRateViewController: FormViewController {
         if isShariaRequired {
             shariaRules.add(rule: RuleRequired())
         }
+        
+        form.removeAll()
         
         form
         +++ Section(!isIdrHidden ? String.localizedStringWithFormat(localize("placement"), "IDR") : "")
@@ -497,6 +505,13 @@ class BestRateViewController: FormViewController {
         var sharia = String()
         var foreign_exchange = String()
         
+        isIdrRequired = false
+        isUsdRequired = false
+        isShariaRequired = false
+        isIdrHidden = false
+        isUsdHidden = false
+        isShariaHidden = false
+        
         if isRegisterPage {
             // Get from user default
             sharia = getLocalData(key: "sharia")
@@ -507,30 +522,30 @@ class BestRateViewController: FormViewController {
             foreign_exchange = data["foreign_exchange"]! as! String
         }
         
-        if foreign_exchange == "yes" && sharia == "Yes UUS" {
+        if foreign_exchange == "Yes" && sharia == "Yes UUS" {
             isIdrRequired = true
             isUsdRequired = true
             isShariaRequired = false
-        } else if foreign_exchange == "yes" && sharia == "Yes Umum" {
+        } else if foreign_exchange == "Yes" && sharia == "Yes Umum" {
             isIdrRequired = false
             isUsdRequired = true
             isShariaRequired = true
             isIdrHidden = true
-        } else if foreign_exchange == "yes" && sharia == "No" {
+        } else if foreign_exchange == "Yes" && sharia == "No" {
             isIdrRequired = true
             isUsdRequired = true
             isShariaRequired = false
             isShariaHidden = true
-        } else if foreign_exchange == "no" && sharia == "Yes UUS" {
+        } else if foreign_exchange == "No" && sharia == "Yes UUS" {
             isIdrRequired = true
             isUsdRequired = false
             isShariaRequired = false
-        } else if foreign_exchange == "no" && sharia == "Yes Umum" {
+        } else if foreign_exchange == "No" && sharia == "Yes Umum" {
             isIdrRequired = false
             isUsdRequired = false
             isShariaRequired = true
             isIdrHidden = true
-        } else if foreign_exchange == "no" && sharia == "No" {
+        } else if foreign_exchange == "No" && sharia == "No" {
             isIdrRequired = true
             isUsdRequired = false
             isShariaRequired = false
