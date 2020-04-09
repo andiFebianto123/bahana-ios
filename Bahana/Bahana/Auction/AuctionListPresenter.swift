@@ -45,7 +45,12 @@ class AuctionListPresenter {
         
         // Add status parameter
         if filter["status"] == "ACC" || filter["status"] == "REJ" || filter["status"] == "NEC" {
-            url += "status=\(filter["status"])&"
+            url += "status=\(filter["status"]!)&"
+        }
+        
+        // Add type parameter
+        if filter["type"] != nil {
+            url += "type=\(filter["type"]!.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Pagination
@@ -54,7 +59,7 @@ class AuctionListPresenter {
             let pageUrl = "last_id=\(lastId!)&last_date=\(date)&"
             url += pageUrl
         }
-        
+        //print(url)
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:
@@ -78,7 +83,12 @@ class AuctionListPresenter {
                         let custodian_bank = auct["custodian_bank"] != JSON.null ? auct["custodian_bank"].stringValue : nil
                         let type = auct["type"].stringValue
                         let status = auct["status"].stringValue
-                        let maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
+                        var maturity_date: String?
+                        if type == "auction" || type == "direct-auction" {
+                            maturity_date = auct["end_bidding_rm"] != JSON.null ? auct["end_bidding_rm"].stringValue : nil
+                        } else {
+                            maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
+                        }
                         let period = auct["period"].stringValue
                         
                         let auction = Auction(id: id, auction_name: auction_name, portfolio: portfolio, portfolio_short: portfolio_short, pic_custodian: pic_custodian, custodian_bank: custodian_bank, investment_range_start: investment_range_start, investment_range_end: investment_range_end, start_date: start_date, end_date: end_date, break_maturity_date: break_maturity_date, maturity_date: maturity_date, period: period, type: type, status: status)

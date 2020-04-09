@@ -252,6 +252,8 @@ extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
     }
     
     func isPosted(_ isSuccess: Bool, _ message: String) {
+        //presenter.getAuction(id)
         showAlert(message)
+        navigationController?.popViewController(animated: true)
     }
 }

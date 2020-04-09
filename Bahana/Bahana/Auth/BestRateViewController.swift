@@ -521,31 +521,32 @@ class BestRateViewController: FormViewController {
             sharia = data["sharia"]! as! String
             foreign_exchange = data["foreign_exchange"]! as! String
         }
+        foreign_exchange = foreign_exchange.lowercased()
         
-        if foreign_exchange == "Yes" && sharia == "Yes UUS" {
+        if foreign_exchange == "yes" && sharia == "Yes UUS" {
             isIdrRequired = true
             isUsdRequired = true
             isShariaRequired = false
-        } else if foreign_exchange == "Yes" && sharia == "Yes Umum" {
+        } else if foreign_exchange == "yes" && sharia == "Yes Umum" {
             isIdrRequired = false
             isUsdRequired = true
             isShariaRequired = true
             isIdrHidden = true
-        } else if foreign_exchange == "Yes" && sharia == "No" {
+        } else if foreign_exchange == "yes" && sharia == "No" {
             isIdrRequired = true
             isUsdRequired = true
             isShariaRequired = false
             isShariaHidden = true
-        } else if foreign_exchange == "No" && sharia == "Yes UUS" {
+        } else if foreign_exchange == "no" && sharia == "Yes UUS" {
             isIdrRequired = true
             isUsdRequired = false
             isShariaRequired = false
-        } else if foreign_exchange == "No" && sharia == "Yes Umum" {
+        } else if foreign_exchange == "no" && sharia == "Yes Umum" {
             isIdrRequired = false
             isUsdRequired = false
             isShariaRequired = true
             isIdrHidden = true
-        } else if foreign_exchange == "No" && sharia == "No" {
+        } else if foreign_exchange == "no" && sharia == "No" {
             isIdrRequired = true
             isUsdRequired = false
             isShariaRequired = false

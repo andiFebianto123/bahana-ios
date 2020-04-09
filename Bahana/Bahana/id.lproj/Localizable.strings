@@ -120,7 +120,7 @@
 "new_period" = "New Period";
 "policy" = "Policy";
 "notes" = "Notes";
-"max_placement" = "MAX PLACEMENT (Optional)";
+"max_placement" = "Additional Notes (Optional)";
 
 "home" = "Beranda";
 "auction" = "Auction";

@@ -80,6 +80,7 @@ class AuctionListViewController: UIViewController {
         statusTextField.addGestureRecognizer(statusTap)
         statusTextField.borderStyle = .none
         statusTextField.rightViewMode = .always
+        statusTextField.placeholder = " Status"
         let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 10))
         let dropdownImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         dropdownImageView.contentMode = .center
@@ -91,6 +92,7 @@ class AuctionListViewController: UIViewController {
         typeTextField.addGestureRecognizer(typeTap)
         typeTextField.borderStyle = .none
         typeTextField.rightViewMode = .always
+        typeTextField.placeholder = " Type"
         let dropdownView2 = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 10))
         let dropdownImageView2 = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         dropdownImageView2.contentMode = .center
@@ -114,10 +116,15 @@ class AuctionListViewController: UIViewController {
         tableView.delegate = self
         
         presenter = AuctionListPresenter(delegate: self)
-        showLoading(true)
-        getData(lastId: nil, lastDate: nil, lastType: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        page = 1
+        showLoading(true)
+        self.getData(lastId: nil, lastDate: nil, lastType: nil)
     }
     
     // MARK: - Navigation
@@ -194,9 +201,10 @@ class AuctionListViewController: UIViewController {
     }
     
     @objc func refresh(sender:AnyObject) {
-        data.removeAll()
         page = 1
         showLoading(true)
+        self.data.removeAll()
+        tableView.reloadData()
         self.getData(lastId: nil, lastDate: nil, lastType: nil)
     }
     
@@ -244,18 +252,19 @@ class AuctionListViewController: UIViewController {
     func optionChoosed(_ field: String, _ option: String) {
         switch field {
         case "status":
-            statusTextField.text = option
+            statusTextField.text = "\(option)"
         case "type":
-            typeTextField.text = option
+            typeTextField.text = "\(option)"
         default:
             break
         }
     }
 
     @IBAction func showButtonPressed(_ sender: Any) {
-        data.removeAll()
         page = 1
         showLoading(true)
+        self.data.removeAll()
+        tableView.reloadData()
         self.getData(lastId: nil, lastDate: nil, lastType: nil)
     }
     
@@ -293,7 +302,7 @@ extension AuctionListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 170
+        return 175
     }
 }
 

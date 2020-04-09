@@ -112,6 +112,10 @@ class AuctionListTableViewCell: UITableViewCell {
             }
             
             endLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
+        } else if auction.type == "mature" {
+            placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.maturity_date)!)
+            endTitleLabel.isHidden = true
+            endLabel.isHidden = true
         } else {
             if pageType == "auction" {
                 placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
@@ -119,12 +123,13 @@ class AuctionListTableViewCell: UITableViewCell {
                 placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
             }
             
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
+            let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.maturity_date)!)
             if countdown["hour"]! > 0 {
                 let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
                 let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
                 endLabel.text = "\(hour) \(minute)"
             } else {
+                endTitleLabel.isHidden = true
                 endLabel.text = ""
             }
         }
@@ -168,8 +173,6 @@ class AuctionListTableViewCell: UITableViewCell {
     func setStatus(_ status: String) {
         //if !alreadySet {
             if status != "-" {
-                statusLabel.text = status
-            } else if status == "ACC" {
                 statusLabel.text = status
             } else {
                 statusView.isHidden = true

@@ -160,6 +160,8 @@ class AuctionDetailDirectViewController: UIViewController {
         
         if data.revision_rate_rm != nil {
             interestRate = "\(checkPercentage(Double(data.revision_rate_rm!)!)) %"
+        } else {
+            interestRate = "\(checkPercentage(data.interest_rate)) %"
         }
         interestRateLabel.text = interestRate
         investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
@@ -227,6 +229,8 @@ extension AuctionDetailDirectViewController: AuctionDetailDirectDelegate {
     }
     
     func isPosted(_ isSuccess: Bool, _ message: String) {
+        //presenter.getAuction(id)
         showAlert(message)
+        navigationController?.popViewController(animated: true)
     }
 }

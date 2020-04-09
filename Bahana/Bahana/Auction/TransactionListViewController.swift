@@ -108,12 +108,17 @@ class TransactionListViewController: UIViewController {
         tableView.delegate = self
         
         presenter = TransactionListPresenter(delegate: self)
-        showLoading(true)
-        getData(lastId: nil)
         
         setFilter()
         
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        page = 1
+        showLoading(true)
+        getData(lastId: nil)
     }
     
     // MARK: - Navigation
@@ -175,9 +180,10 @@ class TransactionListViewController: UIViewController {
     }
     
     @objc func refresh(sender:AnyObject) {
-        data.removeAll()
         page = 1
         showLoading(true)
+        self.data.removeAll()
+        tableView.reloadData()
         getData(lastId: nil)
     }
     
@@ -449,9 +455,10 @@ class TransactionListViewController: UIViewController {
     
     @objc func submitFilter() {
         closeFilter()
-        data.removeAll()
         page = 1
         showLoading(true)
+        self.data.removeAll()
+        tableView.reloadData()
         getData(lastId: nil)
     }
     

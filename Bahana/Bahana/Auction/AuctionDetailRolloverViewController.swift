@@ -142,7 +142,8 @@ class AuctionDetailRolloverViewController: UIViewController {
         }
         
         if convertStringToDatetime(data.end_date)! > Date() {
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_bidding_rm)!)
+            
+            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
             
             let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
             let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
@@ -227,6 +228,8 @@ extension AuctionDetailRolloverViewController: AuctionDetailRolloverDelegate {
     }
     
     func isPosted(_ isSuccess: Bool, _ message: String) {
+        //presenter.getAuction(id)
         showAlert(message)
+        navigationController?.popViewController(animated: true)
     }
 }

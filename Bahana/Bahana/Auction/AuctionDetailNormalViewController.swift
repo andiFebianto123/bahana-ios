@@ -11,6 +11,7 @@ import UIKit
 struct InterestRate {
     var idx: Int
     var tenorType: String
+    var tenor: Int?
     var tenorField: UITextField?
     var idrField: UITextField?
     var usdField: UITextField?
@@ -113,7 +114,7 @@ class AuctionDetailNormalViewController: UIViewController {
         interestRateAddMonthButton.backgroundColor = UIColorFromHex(rgbValue: 0x63cb7c)
         interestRateAddMonthButton.setTitleColor(UIColorFromHex(rgbValue: 0x2b890f), for: .normal)
         interestRateAddMonthButton.layer.cornerRadius = 5
-        maxPlacementTitleLabel.text = localize("max_placement")
+        maxPlacementTitleLabel.text = localize("max_placement").uppercased()
         maxPlacementTitleLabel.textColor = primaryColor
         maxPlacementTextField.placeholder = localize("max_placement")
         submitButton.backgroundColor = primaryColor
@@ -483,14 +484,14 @@ class AuctionDetailNormalViewController: UIViewController {
             tenorTitle.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor)
         ])
         
-        var tenor: UITextField?
+        var tenorField: UITextField?
         if canEditTenor {
-            tenor = UITextField()
-            tenor!.borderStyle = .roundedRect
-            tenor!.keyboardType = .numbersAndPunctuation
-            tenor!.font = contentFont
-            tenor!.translatesAutoresizingMaskIntoConstraints = false
-            tenorView.addSubview(tenor!)
+            tenorField = UITextField()
+            tenorField!.borderStyle = .roundedRect
+            tenorField!.keyboardType = .numbersAndPunctuation
+            tenorField!.font = contentFont
+            tenorField!.translatesAutoresizingMaskIntoConstraints = false
+            tenorView.addSubview(tenorField!)
             
             let period = UILabel()
             if tenorType == "day" {
@@ -513,12 +514,12 @@ class AuctionDetailNormalViewController: UIViewController {
             tenorView.addSubview(deleteButton)
             
             NSLayoutConstraint.activate([
-                tenor!.leadingAnchor.constraint(equalTo: tenorTitle.trailingAnchor, constant: 0),
-                tenor!.trailingAnchor.constraint(equalTo: tenorView.trailingAnchor, constant: -80),
+                tenorField!.leadingAnchor.constraint(equalTo: tenorTitle.trailingAnchor, constant: 0),
+                tenorField!.trailingAnchor.constraint(equalTo: tenorView.trailingAnchor, constant: -80),
                 //tenor.topAnchor.constraint(equalTo: tenorView.topAnchor, constant: 0),
                 //tenor.heightAnchor.constraint(equalToConstant: 25),
-                tenor!.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor),
-                period.leadingAnchor.constraint(equalTo: tenor!.trailingAnchor, constant: 5),
+                tenorField!.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor),
+                period.leadingAnchor.constraint(equalTo: tenorField!.trailingAnchor, constant: 5),
                 period.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor),
                 deleteButton.widthAnchor.constraint(equalToConstant: 25),
                 deleteButton.heightAnchor.constraint(equalToConstant: 25),
@@ -780,7 +781,7 @@ class AuctionDetailNormalViewController: UIViewController {
         currentHeight += addHeight
         setHeight(currentHeight)
         
-        let interestRate = InterestRate(idx: interestRateIdx, tenorType: tenorType, tenorField: tenor, idrField: idrInterestRate, usdField: usdInterestRate, shariaField: shariaInterestRate, isHidden: false)
+        let interestRate = InterestRate(idx: interestRateIdx, tenorType: tenorType, tenor: period, tenorField: tenorField, idrField: idrInterestRate, usdField: usdInterestRate, shariaField: shariaInterestRate, isHidden: false)
         interestRates.append(interestRate)
         interestRateIdx += 1
     }
@@ -808,9 +809,20 @@ class AuctionDetailNormalViewController: UIViewController {
         var isValid = true
         for (idx, tenor) in interestRates.enumerated() {
             if !tenor.isHidden {
-                if isInputValid(interestRates[idx].tenorField!.text, "int") && isInputValid(interestRates[idx].idrField!.text, "double") &&
-                    isInputValid(interestRates[idx].shariaField!.text, "double") {
-                    let tenor = Int(interestRates[idx].tenorField!.text!)!
+                var isTenorValid: Bool!
+                var tenor: Int!
+                if interestRates[idx].tenor != nil {
+                    isTenorValid = true
+                    tenor = interestRates[idx].tenor!
+                } else {
+                    isTenorValid = isInputValid(interestRates[idx].tenorField!.text, "int")
+                    if isTenorValid {
+                        tenor = Int(interestRates[idx].tenorField!.text!)!
+                    }
+                }
+                let isIdrValid = isInputValid(interestRates[idx].idrField!.text, "double")
+                let isShariaValid = isInputValid(interestRates[idx].shariaField!.text, "double")
+                if isTenorValid && isIdrValid && isShariaValid {
                     let idr = Double(interestRates[idx].idrField!.text!)
                     let usd = Double(0)
                     let sharia = Double(interestRates[idx].shariaField!.text!)
@@ -831,7 +843,6 @@ class AuctionDetailNormalViewController: UIViewController {
     }
     
     @objc func confirmationButtonPressed() {
-        print("presedd")
         NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["date": data.end_date])
     }
     
@@ -869,7 +880,9 @@ extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
     }
     
     func isPosted(_ isSuccess: Bool, _ message: String) {
+        //presenter.getAuction(id)
         showAlert(message)
+        navigationController?.popViewController(animated: true)
     }
 }
 

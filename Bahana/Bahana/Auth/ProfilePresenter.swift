@@ -133,8 +133,14 @@ class ProfilePresenter {
             switch response.result {
             case .success:
                 let result = JSON(response.result.value!)
+                
                 let bank = result["bank"] != JSON.null ? Bank(id: result["bank"]["id"].stringValue, name: result["bank"]["bank_name"].stringValue, code: result["bank"]["bank_code"].stringValue) : nil
-                let bank_branch = result["branch"] != JSON.null ? BankBranch(id: result["branch"]["id"].stringValue, name: result["branch"]["branch_name"].stringValue, code: result["branch"]["branch_code"].stringValue) : nil
+                var branch_name = result["branch"]["branch_name"].stringValue
+                if result["branch"]["issuers"].arrayValue.count > 0 {
+                    let issuers = result["branch"]["issuers"].arrayValue.first
+                    branch_name = issuers!["description"].stringValue
+                }
+                let bank_branch = result["branch"] != JSON.null ? BankBranch(id: result["branch"]["id"].stringValue, name: branch_name, code: result["branch"]["branch_code"].stringValue) : nil
                 let data: [String: Any] = [
                     "name": result["fullname"] != JSON.null ? result["fullname"].stringValue : nil,
                     "email": result["email"] != JSON.null ? result["email"].stringValue : nil,

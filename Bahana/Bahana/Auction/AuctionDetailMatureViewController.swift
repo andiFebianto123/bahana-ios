@@ -87,7 +87,7 @@ class AuctionDetailMatureViewController: UIViewController {
         investmentTitleLabel.text = localize("investment")
         investmentLabel.font = contentFont
         periodTitleLabel.font = titleFont
-        periodTitleLabel.text = localize("bilyet")
+        periodTitleLabel.text = localize("period")
         periodLabel.font = contentFont
         
         presenter = AuctionDetailMaturePresenter(delegate: self)
@@ -128,7 +128,7 @@ class AuctionDetailMatureViewController: UIViewController {
         
         // Detail
         tenorLabel.text = data.period
-        interestRateLabel.text = "\(checkPercentage(data.coupon_rate))"
+        interestRateLabel.text = "\(checkPercentage(data.coupon_rate)) %"
         investmentLabel.text = "IDR \(toIdrBio(data.quantity))"
         periodLabel.text = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
         
