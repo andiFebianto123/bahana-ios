@@ -595,15 +595,15 @@ class AuctionDetailNormalViewController: UIViewController {
                 switch period! {
                 case 1:
                     if data.default_rate.month_rate_1 != nil {
-                        defaultRate = "\(data.default_rate.month_rate_1!)"
+                        defaultRate = checkPercentage(data.default_rate.month_rate_1!)
                     }
                 case 3:
                     if data.default_rate.month_rate_3 != nil {
-                        defaultRate = "\(data.default_rate.month_rate_3!)"
+                        defaultRate = checkPercentage(data.default_rate.month_rate_3!)
                     }
                 case 6:
                     if data.default_rate.month_rate_6 != nil {
-                        defaultRate = "\(data.default_rate.month_rate_6!)"
+                        defaultRate = checkPercentage(data.default_rate.month_rate_6!)
                     }
                 default:
                     break
@@ -669,15 +669,15 @@ class AuctionDetailNormalViewController: UIViewController {
                 switch period! {
                 case 1:
                     if data.default_rate.month_rate_1_usd != nil {
-                        defaultRate = "\(data.default_rate.month_rate_1_usd!)"
+                        defaultRate = checkPercentage(data.default_rate.month_rate_1_usd!)
                     }
                 case 3:
                     if data.default_rate.month_rate_3_usd != nil {
-                        defaultRate = "\(data.default_rate.month_rate_3_usd!)"
+                        defaultRate = checkPercentage(data.default_rate.month_rate_3_usd!)
                     }
                 case 6:
                     if data.default_rate.month_rate_6_usd != nil {
-                        defaultRate = "\(data.default_rate.month_rate_6_usd!)"
+                        defaultRate = checkPercentage(data.default_rate.month_rate_6_usd!)
                     }
                 default:
                     break
@@ -743,21 +743,21 @@ class AuctionDetailNormalViewController: UIViewController {
                 switch period! {
                 case 1:
                     if data.default_rate.month_rate_1_sharia != nil {
-                        defaultRate = "\(data.default_rate.month_rate_1_sharia!)"
+                        defaultRate = checkPercentage(data.default_rate.month_rate_1_sharia!)
                     }
                 case 3:
                     if data.default_rate.month_rate_3_sharia != nil {
-                        defaultRate = "\(data.default_rate.month_rate_3_sharia!)"
+                        defaultRate = checkPercentage(data.default_rate.month_rate_3_sharia!)
                     }
                 case 6:
                     if data.default_rate.month_rate_6_sharia != nil {
-                        defaultRate = "\(data.default_rate.month_rate_6_sharia!)"
+                        defaultRate = checkPercentage(data.default_rate.month_rate_6_sharia!)
                     }
                 default:
                     break
                 }
             }
-            usdInterestRate?.text = defaultRate
+            shariaInterestRate?.text = defaultRate
             
             NSLayoutConstraint.activate([
                 shariaInterestRate!.leadingAnchor.constraint(equalTo: shariaRateTitleLabel.trailingAnchor, constant: 0),
