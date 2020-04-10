@@ -200,6 +200,25 @@ class AuctionListViewController: UIViewController {
         }
     }
     
+    func setTableBackgroundView() {
+        let customView = UIView()
+        
+        let text = UILabel()
+        text.text = "No data available"
+        text.textColor = UIColor.gray
+        text.font = UIFont.systemFont(ofSize: 13)
+        customView.addSubview(text)
+        
+        text.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            text.centerXAnchor.constraint(equalTo: customView.centerXAnchor),
+            text.centerYAnchor.constraint(equalTo: customView.centerYAnchor, constant: 0),
+        ])
+        
+        tableView.backgroundView = customView
+    }
+    
     @objc func refresh(sender:AnyObject) {
         page = 1
         showLoading(true)
@@ -314,6 +333,7 @@ extension AuctionListViewController: AuctionListDelegate {
     }
     
     func setData(_ data: [Auction], _ page: Int) {
+        tableView.backgroundView = UIView()
         if data.count > 0 && self.page == page {
             for dt in data {
                 self.data.append(dt)
@@ -326,6 +346,11 @@ extension AuctionListViewController: AuctionListDelegate {
             loadFinished = true
             refreshControl.endRefreshing()
             tableView.reloadData()
+        }
+        
+        if self.data.count == 0 {
+            showLoading(false)
+            setTableBackgroundView()
         }
     }
 }

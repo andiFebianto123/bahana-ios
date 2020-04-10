@@ -122,12 +122,16 @@ class AuctionListTableViewCell: UITableViewCell {
             } else if pageType == "history" {
                 placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
             }
-            
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.maturity_date)!)
-            if countdown["hour"]! > 0 {
-                let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-                let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
-                endLabel.text = "\(hour) \(minute)"
+            if auction.maturity_date != nil {
+                let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.maturity_date)!)
+                if countdown["hour"]! > 0 {
+                    let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
+                    let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
+                    endLabel.text = "\(hour) \(minute)"
+                } else {
+                    endTitleLabel.isHidden = true
+                    endLabel.text = ""
+                }
             } else {
                 endTitleLabel.isHidden = true
                 endLabel.text = ""

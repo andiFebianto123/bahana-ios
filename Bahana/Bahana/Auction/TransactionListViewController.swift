@@ -21,6 +21,9 @@ class TransactionListViewController: UIViewController {
     
     var loadingView = UIView()
     var filterListBackgroundView = UIView()
+    var filterListView = UIView()
+    
+    var pickerView = UIPickerView()
     
     var refreshControl = UIRefreshControl()
     
@@ -36,8 +39,13 @@ class TransactionListViewController: UIViewController {
     var stopFetch: Bool = false
     var loadFinished: Bool = false
     
-    var fundOptions = [String]()
+    var isFilterReady = false
+    var currentFieldTag: Int!
+    var currentOptionChoosed: String!
     
+    var pickerOptions = [String]()
+    
+    var fundOptions = [String]()
     let statusOptions =  [
         "All", "Active", "Break", "Canceled", "Mature", localize("used_in_break_auction"), localize("used_in_ro_auction"), "Rollover"
     ]
@@ -109,8 +117,6 @@ class TransactionListViewController: UIViewController {
         
         presenter = TransactionListPresenter(delegate: self)
         
-        setFilter()
-        
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
     }
     
@@ -175,6 +181,25 @@ class TransactionListViewController: UIViewController {
         notificationView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showNotification)))
     }
     
+    func setTableBackgroundView() {
+        let customView = UIView()
+        
+        let text = UILabel()
+        text.text = "No data available"
+        text.textColor = UIColor.gray
+        text.font = UIFont.systemFont(ofSize: 13)
+        customView.addSubview(text)
+        
+        text.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            text.centerXAnchor.constraint(equalTo: customView.centerXAnchor),
+            text.centerYAnchor.constraint(equalTo: customView.centerYAnchor, constant: 0),
+        ])
+        
+        tableView.backgroundView = customView
+    }
+    
     func setViewText() {
         filterLabel.text = localize("filter_transaction").uppercased()
     }
@@ -207,8 +232,26 @@ class TransactionListViewController: UIViewController {
         filterListBackgroundView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(filterListBackgroundView)
         
-        let filterListView = UIView()
+        // Set picker view
+        pickerView.backgroundColor = UIColor.white
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = .black
+        toolBar.sizeToFit()
+
+        let doneBarButton = UIBarButtonItem(title: localize("done"), style: .plain, target: self, action: #selector(self.doneTapped))
+        let spaceBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelBarButton = UIBarButtonItem(title: localize("cancel"), style: .plain, target: self, action: #selector(self.cancelTapped))
+
+        toolBar.setItems([cancelBarButton, spaceBarButton, doneBarButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
         filterListView.backgroundColor = .white
+        filterListView.isHidden = true
         filterListView.layer.cornerRadius = 3
         filterListView.translatesAutoresizingMaskIntoConstraints = false
         filterListBackgroundView.addSubview(filterListView)
@@ -242,10 +285,11 @@ class TransactionListViewController: UIViewController {
         fundView.addSubview(fundTitle)
         fundField = UITextField()
         fundField.tag = 1
-        fundField.isUserInteractionEnabled = true
-        fundField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        fundField.delegate = self
+        fundField.inputView = self.pickerView
+        fundField.inputAccessoryView = toolBar
         fundField.font = contentFont
-        //fundField.text = fundOptions.first
+        fundField.text = fundOptions.first
         fundField.translatesAutoresizingMaskIntoConstraints = false
         fundView.addSubview(fundField)
         
@@ -269,8 +313,9 @@ class TransactionListViewController: UIViewController {
         statusView.addSubview(statusTitle)
         statusField = UITextField()
         statusField.tag = 2
-        statusField.isUserInteractionEnabled = true
-        statusField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        statusField.delegate = self
+        statusField.inputView = self.pickerView
+        statusField.inputAccessoryView = toolBar
         statusField.font = contentFont
         statusField.text = statusOptions.first
         statusField.translatesAutoresizingMaskIntoConstraints = false
@@ -296,7 +341,9 @@ class TransactionListViewController: UIViewController {
         issueDateView.addSubview(issueDateTitle)
         issueDateField = UITextField()
         issueDateField.tag = 3
-        issueDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        issueDateField.delegate = self
+        issueDateField.inputView = self.pickerView
+        issueDateField.inputAccessoryView = toolBar
         issueDateField.font = contentFont
         issueDateField.text = issueDateOptions.first
         issueDateField.translatesAutoresizingMaskIntoConstraints = false
@@ -322,7 +369,9 @@ class TransactionListViewController: UIViewController {
         maturityDateView.addSubview(maturityDateTitle)
         maturityDateField = UITextField()
         maturityDateField.tag = 4
-        maturityDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        maturityDateField.delegate = self
+        maturityDateField.inputView = self.pickerView
+        maturityDateField.inputAccessoryView = toolBar
         maturityDateField.font = contentFont
         maturityDateField.text = maturityDateOptions.first
         maturityDateField.translatesAutoresizingMaskIntoConstraints = false
@@ -348,7 +397,9 @@ class TransactionListViewController: UIViewController {
         breakDateView.addSubview(breakDateTitle)
         breakDateField = UITextField()
         breakDateField.tag = 5
-        breakDateField.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showOptions(_:))))
+        breakDateField.delegate = self
+        breakDateField.inputView = self.pickerView
+        breakDateField.inputAccessoryView = toolBar
         breakDateField.font = contentFont
         breakDateField.text = breakDateOptions.first
         breakDateField.translatesAutoresizingMaskIntoConstraints = false
@@ -431,6 +482,10 @@ class TransactionListViewController: UIViewController {
             submitButton.centerYAnchor.constraint(equalTo: buttonsView.centerYAnchor),
             filterListView.bottomAnchor.constraint(equalTo: buttonsView.bottomAnchor, constant: 20),
         ])
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.isFilterReady = true
+        }
     }
     
     func showLoading(_ show: Bool) {
@@ -447,10 +502,14 @@ class TransactionListViewController: UIViewController {
     
     @objc func closeFilter() {
         filterListBackgroundView.isHidden = true
+        filterListView.isHidden = true
     }
     
     @objc func showFilter() {
-        filterListBackgroundView.isHidden = false
+        if isFilterReady {
+            filterListBackgroundView.isHidden = false
+            filterListView.isHidden = false
+        }
     }
     
     @objc func submitFilter() {
@@ -462,57 +521,35 @@ class TransactionListViewController: UIViewController {
         getData(lastId: nil)
     }
     
-    @objc func showOptions(_ sender: UITapGestureRecognizer) {
-        var options = [String]()
-        
-        let tag = (sender.view?.tag)!
-        switch tag {
-        case 1:
-            // Fund
-            options = fundOptions
-        case 2:
-            // Status
-            options = statusOptions
-        case 3:
-            // Issue date
-            options = issueDateOptions
-        case 4:
-            // Maturity date
-            options = maturityDateOptions
-        case 5:
-            // Break date
-            options = breakDateOptions
-        default:
-            break
-        }
-        
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        
-        for option in options {
-            alert.addAction(UIAlertAction(title: option, style: .default, handler: { action in
-                self.optionChoosed(tag, option)
-            }))
-        }
-        alert.addAction(UIAlertAction(title: localize("cancel"), style: .default, handler: nil))
-        
-        self.present(alert, animated: true)
-    }
-    
     func optionChoosed(_ tag: Int, _ option: String) {
         switch tag {
         case 1:
+            fundField.text = ""
             fundField.text = option
         case 2:
+            statusField.text = ""
             statusField.text = option
         case 3:
+            issueDateField.text = ""
             issueDateField.text = option
         case 4:
+            maturityDateField.text = ""
             maturityDateField.text = option
         case 5:
+            breakDateField.text = ""
             breakDateField.text = option
         default:
             break
         }
+    }
+    
+    @objc func doneTapped() {
+        self.view.endEditing(true)
+        optionChoosed(currentFieldTag, currentOptionChoosed)
+    }
+
+    @objc func cancelTapped() {
+        self.view.endEditing(true)
     }
     
     @objc func languageChanged() {
@@ -551,6 +588,67 @@ extension TransactionListViewController: UITableViewDelegate {
     }
 }
 
+extension TransactionListViewController : UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        var options = [String]()
+        var currentText: String?
+        
+        let tag = textField.tag
+        currentFieldTag = tag
+        switch tag {
+        case 1:
+            // Fund
+            options = fundOptions
+            currentText = fundField.text
+        case 2:
+            // Status
+            options = statusOptions
+            currentText = statusField.text
+        case 3:
+            // Issue date
+            options = issueDateOptions
+            currentText = issueDateField.text
+        case 4:
+            // Maturity date
+            options = maturityDateOptions
+            currentText = maturityDateField.text
+        case 5:
+            // Break date
+            options = breakDateOptions
+            currentText = breakDateField.text
+        default:
+            break
+        }
+        pickerOptions = options
+        
+        self.pickerView.reloadAllComponents()
+        
+        if let idx = pickerOptions.firstIndex(where: { $0 == currentText! }) {
+            pickerView.selectRow(idx, inComponent: 0, animated: true)
+        }
+    }
+}
+
+extension TransactionListViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerOptions.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerOptions[row]
+    }
+}
+
+extension TransactionListViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        currentOptionChoosed = pickerOptions[row]
+    }
+}
+
 extension TransactionListViewController: TransactionListDelegate {
     func openLoginPage() {
         let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
@@ -559,6 +657,7 @@ extension TransactionListViewController: TransactionListDelegate {
     }
     
     func setData(_ data: [Transaction], _ page: Int) {
+        tableView.backgroundView = UIView()
         if data.count > 0 && self.page == page {
             for dt in data {
                 self.data.append(dt)
@@ -572,9 +671,15 @@ extension TransactionListViewController: TransactionListDelegate {
             refreshControl.endRefreshing()
             tableView.reloadData()
         }
+        
+        if self.data.count == 0 {
+            showLoading(false)
+            setTableBackgroundView()
+        }
     }
     
     func setFunds(_ data: [String]) {
         self.fundOptions = data
+        setFilter()
     }
 }

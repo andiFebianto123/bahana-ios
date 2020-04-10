@@ -125,7 +125,7 @@ class AuctionListPresenter {
         
         // Add status parameter
         if filter["status"] == "ACC" || filter["status"] == "REJ" || filter["status"] == "NEC" {
-            url += "status=\(filter["status"])&"
+            url += "status=\(filter["status"]!)&"
         }
         
         // Pagination
