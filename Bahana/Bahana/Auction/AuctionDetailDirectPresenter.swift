@@ -69,24 +69,4 @@ class AuctionDetailDirectPresenter {
             }
         }
     }
-    
-    func reviseAuction(_ id: Int, _ rate: Double) {
-        let parameters: Parameters = [
-            "revision_rate": rate
-        ]
-        
-        Alamofire.request(WEB_API_URL + "api/v1/direct-auction/\(id)/revision", method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
-            switch response.result {
-            case .success:
-                let res = JSON(response.result.value!)
-                if response.response?.statusCode == 200 {
-                    self.delegate?.isPosted(true, res["message"].stringValue)
-                } else {
-                    self.delegate?.isPosted(false, res["message"].stringValue)
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
 }

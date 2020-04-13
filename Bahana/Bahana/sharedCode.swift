@@ -10,8 +10,8 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-let WEB_API_URL = "http://localhost:8000/"
-//let WEB_API_URL = "http://192.168.8.107:8000/"
+//let WEB_API_URL = "http://localhost:8000/"
+let WEB_API_URL = "http://192.168.8.104:8000/"
 //let WEB_API_URL = "http://159.65.15.108/bahana/public/"
 
 let primaryColor = UIColorFromHex(rgbValue: 0xd7181f)
@@ -231,7 +231,6 @@ func getSafeAreaInset(_ pos: String) -> CGFloat {
 }
 
 func getNavigationHeight() -> CGFloat {
-    //return getSafeAreaInset("top") + 20
     switch getDeviceScreenSize() {
     case 4, 4.7, 5.5:
         return 64

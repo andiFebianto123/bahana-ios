@@ -34,6 +34,8 @@ class AuctionDetailDirectViewController: UIViewController {
     @IBOutlet weak var bilyetLabel: UILabel!
     @IBOutlet weak var noteTitleLabel: UILabel!
     @IBOutlet weak var noteLabel: UILabel!
+    @IBOutlet weak var messageTitleLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var revisionRateStackView: UIStackView!
     @IBOutlet weak var revisionRateTitleLabel: UILabel!
     @IBOutlet weak var revisionRateTextField: UITextField!
@@ -98,11 +100,17 @@ class AuctionDetailDirectViewController: UIViewController {
         bilyetLabel.font = contentFont
         noteTitleLabel.textColor = primaryColor
         noteTitleLabel.text = localize("notes").uppercased()
+        messageTitleLabel.textColor = primaryColor
+        messageTitleLabel.text = localize("message").uppercased()
+        revisionRateTitleLabel.textColor = primaryColor
         revisionRateTitleLabel.text = localize("revision_rate")
+        revisionRateTextField.keyboardType = .numbersAndPunctuation
         revisedButton.setTitle(localize("revised").uppercased(), for: .normal)
         revisedButton.backgroundColor = primaryColor
         confirmButton.setTitle(localize("confirm").uppercased(), for: .normal)
         confirmButton.backgroundColor = UIColorFromHex(rgbValue: 0x2a91ff)
+        
+        view.isHidden = true
         
         presenter = AuctionDetailDirectPresenter(delegate: self)
         presenter.getAuction(id)
@@ -138,7 +146,7 @@ class AuctionDetailDirectViewController: UIViewController {
             
             let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
             let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
-            auctionEndLabel.text = "\(localize("ends_in")): \(hour) \(minute)"
+            auctionEndLabel.text = "\(localize("ends_bid_in")): \(hour) \(minute)"
             
             if countdown["hour"]! < 1 {
                 auctionEndLabel.textColor = primaryColor
@@ -173,6 +181,7 @@ class AuctionDetailDirectViewController: UIViewController {
         
         bilyetLabel.text = bilyet
         noteLabel.text = data.notes
+        messageLabel.text = data.message
         
         // Action
         if data.view == 0 {
@@ -183,19 +192,24 @@ class AuctionDetailDirectViewController: UIViewController {
             confirmButton.isHidden = true
         }
         
-        let footerDate = convertDateToString(convertStringToDatetime(data.start_date)!, format: "ddMMyy")!
+        // Footer
+        let mutableAttributedString = NSMutableAttributedString()
         
-        footerLabel.text = """
-        \(localize("auction_detail_footer"))
-        Ref Code : PP.\(data.portfolio_short).\(footerDate)
-        """
+        let topTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        let bottomTextAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 8), NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        
+        let topText = NSAttributedString(string: localize("auction_detail_footer"), attributes: topTextAttribute)
+        mutableAttributedString.append(topText)
+        let bottomText = NSAttributedString(string: "\nRef Code : \(data.auction_name)", attributes: bottomTextAttribute)
+        mutableAttributedString.append(bottomText)
+        
+        footerLabel.attributedText = mutableAttributedString
     }
     
     func validateForm() -> Bool {
-        if revisionRateTextField.text! == nil ||
-            revisionRateTextField.text! != nil && Double(revisionRateTextField.text!) == nil ||
+        if revisionRateTextField.text != nil && Double(revisionRateTextField.text!) == nil ||
         Double(revisionRateTextField.text!) != nil && Double(revisionRateTextField.text!)! < 0.0 || Double(revisionRateTextField.text!)! > 99.9 {
-            showAlert("Rate not valid")
+            showAlert("The revision rate field is required")
             return false
         } else {
             return true
@@ -210,13 +224,23 @@ class AuctionDetailDirectViewController: UIViewController {
     
     @IBAction func reviseButtonPressed(_ sender: Any) {
         if validateForm() {
-            let rate = Double(revisionRateTextField.text!)!
-            presenter.reviseAuction(id, rate)
+            let rate = revisionRateTextField.text != nil ? Double(revisionRateTextField.text!)! : nil
+            
+            let param: [String: String] = [
+                "type": "revise_rate",
+                "revisionRate": rate != nil ? "\(rate)" : ""
+            ]
+            
+            NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["data": param])
         }
     }
     
     @IBAction func confirmationButtonPressed(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["date": data.end_date])
+        let param: [String: String] = [
+            "type": "choosen_winner"
+        ]
+        
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["data": param])
     }
     
 }
@@ -224,6 +248,7 @@ class AuctionDetailDirectViewController: UIViewController {
 extension AuctionDetailDirectViewController: AuctionDetailDirectDelegate {
     func setData(_ data: AuctionDetailDirect) {
         self.data = data
+        view.isHidden = false
         showLoading(false)
         setContent()
     }

@@ -101,7 +101,8 @@
 "issue_date" = "Issue Date";
 "maturity_date" = "Maturity Date";
 "tenor" = "Tenor";
-"ends_in" = "Ends Bid in";
+"ends_bid_in" = "Ends Bid in";
+"ends_auction_in" = "Ends Auction in";
 "break_date" = "Break Date";
 "accepted" = "Accepted";
 "pending" = "Pending";
@@ -120,6 +121,7 @@
 "new_period" = "New Period";
 "policy" = "Policy";
 "notes" = "Notes";
+"message" = "Message";
 "max_placement" = "Additional Notes (Optional)";
 
 "home" = "Home";
@@ -155,6 +157,7 @@
 "update_success" = "Update success";
 "confirmation_choosen_bidder" = "Are you sure you want to be the choosen bidder?";
 "confirmation_choosen_winner" = "Are you sure you want to be the winner?";
+"confirmation_revise_rate" = "Are you sure you want to revised the rate?";
 "confirmation_change_end_date" = "Are you sure you want to change end date to";
 "auction_detail_footer" = "Any error or mismatch, please directly contact Bahana TCW";
 "confirmation_change_language" = "Are you sure you want to change the language to %@?";

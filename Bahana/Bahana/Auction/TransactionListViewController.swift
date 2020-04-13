@@ -73,6 +73,7 @@ class TransactionListViewController: UIViewController {
         // Do any additional setup after loading the view.
         setNavigationItems()
         setViewText()
+        setFilter()
         
         tableBackgroundView.backgroundColor = backgroundColor
         view.backgroundColor = backgroundColor
@@ -289,7 +290,6 @@ class TransactionListViewController: UIViewController {
         fundField.inputView = self.pickerView
         fundField.inputAccessoryView = toolBar
         fundField.font = contentFont
-        fundField.text = fundOptions.first
         fundField.translatesAutoresizingMaskIntoConstraints = false
         fundView.addSubview(fundField)
         
@@ -317,7 +317,6 @@ class TransactionListViewController: UIViewController {
         statusField.inputView = self.pickerView
         statusField.inputAccessoryView = toolBar
         statusField.font = contentFont
-        statusField.text = statusOptions.first
         statusField.translatesAutoresizingMaskIntoConstraints = false
         statusView.addSubview(statusField)
         
@@ -345,7 +344,6 @@ class TransactionListViewController: UIViewController {
         issueDateField.inputView = self.pickerView
         issueDateField.inputAccessoryView = toolBar
         issueDateField.font = contentFont
-        issueDateField.text = issueDateOptions.first
         issueDateField.translatesAutoresizingMaskIntoConstraints = false
         issueDateView.addSubview(issueDateField)
         
@@ -373,7 +371,6 @@ class TransactionListViewController: UIViewController {
         maturityDateField.inputView = self.pickerView
         maturityDateField.inputAccessoryView = toolBar
         maturityDateField.font = contentFont
-        maturityDateField.text = maturityDateOptions.first
         maturityDateField.translatesAutoresizingMaskIntoConstraints = false
         maturityDateView.addSubview(maturityDateField)
         
@@ -401,7 +398,6 @@ class TransactionListViewController: UIViewController {
         breakDateField.inputView = self.pickerView
         breakDateField.inputAccessoryView = toolBar
         breakDateField.font = contentFont
-        breakDateField.text = breakDateOptions.first
         breakDateField.translatesAutoresizingMaskIntoConstraints = false
         breakDateView.addSubview(breakDateField)
         
@@ -482,10 +478,6 @@ class TransactionListViewController: UIViewController {
             submitButton.centerYAnchor.constraint(equalTo: buttonsView.centerYAnchor),
             filterListView.bottomAnchor.constraint(equalTo: buttonsView.bottomAnchor, constant: 20),
         ])
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.isFilterReady = true
-        }
     }
     
     func showLoading(_ show: Bool) {
@@ -507,6 +499,26 @@ class TransactionListViewController: UIViewController {
     
     @objc func showFilter() {
         if isFilterReady {
+            if fundField.text == "" {
+                fundField.text = fundOptions.first
+            }
+            
+            if statusField.text == "" {
+                statusField.text = statusOptions.first
+            }
+            
+            if issueDateField.text == "" {
+                issueDateField.text = issueDateOptions.first
+            }
+            
+            if maturityDateField.text == "" {
+                maturityDateField.text = maturityDateOptions.first
+            }
+            
+            if breakDateField.text == "" {
+                breakDateField.text = breakDateOptions.first
+            }
+            
             filterListBackgroundView.isHidden = false
             filterListView.isHidden = false
         }
@@ -524,19 +536,14 @@ class TransactionListViewController: UIViewController {
     func optionChoosed(_ tag: Int, _ option: String) {
         switch tag {
         case 1:
-            fundField.text = ""
             fundField.text = option
         case 2:
-            statusField.text = ""
             statusField.text = option
         case 3:
-            issueDateField.text = ""
             issueDateField.text = option
         case 4:
-            maturityDateField.text = ""
             maturityDateField.text = option
         case 5:
-            breakDateField.text = ""
             breakDateField.text = option
         default:
             break
@@ -680,6 +687,8 @@ extension TransactionListViewController: TransactionListDelegate {
     
     func setFunds(_ data: [String]) {
         self.fundOptions = data
-        setFilter()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.isFilterReady = true
+        }
     }
 }

@@ -29,20 +29,19 @@ class AuctionDetailConfirmationPresenter {
             "request_maturity_date": maturityDate != nil ? maturityDate! : ""
         ]
         switch type {
-            case "AUCTION":
+            case "auction":
                 url += "auction/\(id)/confirm/\(getLocalData(key: "user_id"))"
-            case "DIRECT AUCTION":
+            case "direct-auction":
                 url += "direct-auction/\(id)/confirm"
-            case "BREAK":
+            case "break":
                 url += "break/\(id)/confirm"
-            case "ROLLOVER":
+            case "rollover":
                 url += "rollover/\(id)/confirm"
             default:
                 break
         }
-        print(parameters)
         
-        Alamofire.request(WEB_API_URL + url, method: .get, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + url, method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:
                 let result = JSON(response.result.value!)
@@ -50,6 +49,26 @@ class AuctionDetailConfirmationPresenter {
                     self.delegate?.isConfirmed(true, result["message"].stringValue)
                 } else {
                     self.delegate?.isConfirmed(false, result["message"].stringValue)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func reviseAuction(_ id: Int, _ rate: Double?) {
+        let parameters: Parameters = [
+            "revision_rate": rate != nil ? rate : ""
+        ]
+        
+        Alamofire.request(WEB_API_URL + "api/v1/direct-auction/\(id)/revision", method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
+            switch response.result {
+            case .success:
+                let res = JSON(response.result.value!)
+                if response.response?.statusCode == 200 {
+                    self.delegate?.isConfirmed(true, res["message"].stringValue)
+                } else {
+                    self.delegate?.isConfirmed(false, res["message"].stringValue)
                 }
             case .failure(let error):
                 print(error)

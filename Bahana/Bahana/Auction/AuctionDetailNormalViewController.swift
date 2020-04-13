@@ -121,6 +121,8 @@ class AuctionDetailNormalViewController: UIViewController {
         submitButton.setTitleColor(.white, for: .normal)
         submitButton.layer.cornerRadius = 5
         
+        view.isHidden = true
+        
         presenter = AuctionDetailNormalPresenter(delegate: self)
         presenter.getAuction(id)
     }
@@ -155,7 +157,7 @@ class AuctionDetailNormalViewController: UIViewController {
             
             let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
             let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
-            auctionEndLabel.text = "\(localize("ends_in")): \(hour) \(minute)"
+            auctionEndLabel.text = "\(localize("ends_auction_in")): \(hour) \(minute)"
             
             if countdown["hour"]! < 1 {
                 auctionEndLabel.textColor = primaryColor
@@ -195,12 +197,18 @@ class AuctionDetailNormalViewController: UIViewController {
             
         }
         
-        let footerDate = convertDateToString(convertStringToDatetime(data.start_date)!, format: "ddMMyy")!
+        // Footer
+        let mutableAttributedString = NSMutableAttributedString()
         
-        footerLabel.text = """
-        \(localize("auction_detail_footer"))
-        Ref Code : NP.\(data.portfolio_short).\(footerDate)
-        """
+        let topTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        let bottomTextAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 8), NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        
+        let topText = NSAttributedString(string: localize("auction_detail_footer"), attributes: topTextAttribute)
+        mutableAttributedString.append(topText)
+        let bottomText = NSAttributedString(string: "\nRef Code : \(data.auction_name)", attributes: bottomTextAttribute)
+        mutableAttributedString.append(bottomText)
+        
+        footerLabel.attributedText = mutableAttributedString
     }
     
     func setBids(_ bidData: [Bid]) {
@@ -216,9 +224,11 @@ class AuctionDetailNormalViewController: UIViewController {
             
             bidStackView.addArrangedSubview(rateView)
             
+            let spacing: CGFloat = 5
+            
             let rateStackView = UIStackView()
             rateStackView.axis = .vertical
-            rateStackView.spacing = 5
+            rateStackView.spacing = spacing
             rateStackView.distribution = .fill
             rateStackView.translatesAutoresizingMaskIntoConstraints = false
             rateView.addSubview(rateStackView)
@@ -279,7 +289,7 @@ class AuctionDetailNormalViewController: UIViewController {
             tenor.translatesAutoresizingMaskIntoConstraints = false
             tenorView.addSubview(tenor)
             
-            rateViewHeight += tenorHeight
+            rateViewHeight += tenorHeight + spacing
             
             NSLayoutConstraint.activate([
                 tenorTitle.leadingAnchor.constraint(equalTo: tenorView.leadingAnchor, constant: 0),
@@ -337,7 +347,7 @@ class AuctionDetailNormalViewController: UIViewController {
             interestRate.translatesAutoresizingMaskIntoConstraints = false
             interestRateView.addSubview(interestRate)
             
-            rateViewHeight += interestRateHeight
+            rateViewHeight += interestRateHeight + spacing
             
             NSLayoutConstraint.activate([
                 interestRateTitle.leadingAnchor.constraint(equalTo: interestRateView.leadingAnchor, constant: 0),
@@ -368,7 +378,7 @@ class AuctionDetailNormalViewController: UIViewController {
                 investment.translatesAutoresizingMaskIntoConstraints = false
                 investmentView.addSubview(investment)
                 
-                rateViewHeight += investmentHeight
+                rateViewHeight += investmentHeight + spacing
                 
                 let bilyetView = UIView()
                 bilyetView.backgroundColor = .clear
@@ -395,7 +405,7 @@ class AuctionDetailNormalViewController: UIViewController {
                 bilyet.translatesAutoresizingMaskIntoConstraints = false
                 bilyetView.addSubview(bilyet)
                 
-                rateViewHeight += bilyetHeight
+                rateViewHeight += bilyetHeight + spacing
                 
                 NSLayoutConstraint.activate([
                     investmentTitle.leadingAnchor.constraint(equalTo: investmentView.leadingAnchor, constant: 0),
@@ -416,7 +426,7 @@ class AuctionDetailNormalViewController: UIViewController {
                     //bilyet.bottomAnchor.constraint(equalTo: bilyetView.bottomAnchor, constant: 0)
                 ])
                 
-                if self.data.view == 2 && dt.is_accepted == "pending" {
+                if self.data.view == 1 && dt.is_accepted.lowercased() == "pending" {
                     let confirmButton = UIButton()
                     confirmButton.setTitle(localize("confirm"), for: .normal)
                     confirmButton.setTitleColor(UIColor.white, for: .normal)
@@ -427,11 +437,13 @@ class AuctionDetailNormalViewController: UIViewController {
                     confirmButton.translatesAutoresizingMaskIntoConstraints = false
                     rateStackView.addArrangedSubview(confirmButton)
                     
+                    let confirmButtonHeight: CGFloat = 30
+                    
                     NSLayoutConstraint.activate([
-                        confirmButton.heightAnchor.constraint(equalToConstant: 30)
+                        confirmButton.heightAnchor.constraint(equalToConstant: confirmButtonHeight)
                     ])
                     
-                    rateViewHeight += 30
+                    rateViewHeight += confirmButtonHeight + spacing
                 }
             }
             
@@ -442,7 +454,7 @@ class AuctionDetailNormalViewController: UIViewController {
                 rateStackView.bottomAnchor.constraint(equalTo: rateView.bottomAnchor, constant: -20),
             ])
             
-            bidStackViewHeight.constant += rateViewHeight + 30
+            bidStackViewHeight.constant += rateViewHeight + 40 + bidStackView.spacing
             totalRateViewHeight += rateViewHeight
         }
         
@@ -834,7 +846,7 @@ class AuctionDetailNormalViewController: UIViewController {
     
     @IBAction func submitButtonPressed(_ sender: Any) {
         var bids = [Bid]()
-        var isValid = true
+        //var isValid = true
         for (idx, tenor) in interestRates.enumerated() {
             if !tenor.isHidden {
                 var isTenorValid: Bool!
@@ -848,30 +860,44 @@ class AuctionDetailNormalViewController: UIViewController {
                         tenor = Int(interestRates[idx].tenorField!.text!)!
                     }
                 }
-                let isIdrValid = isInputValid(interestRates[idx].idrField!.text, "double")
-                let isShariaValid = isInputValid(interestRates[idx].shariaField!.text, "double")
-                if isTenorValid && isIdrValid && isShariaValid {
-                    let idr = Double(interestRates[idx].idrField!.text!)
-                    let usd = Double(0)
-                    let sharia = Double(interestRates[idx].shariaField!.text!)
+                
+                var isIdrValid: Bool = false
+                if interestRates[idx].idrField != nil {
+                    isIdrValid = isInputValid(interestRates[idx].idrField!.text, "double")
+                }
+                
+                var isUsdValid: Bool = false
+                if interestRates[idx].usdField != nil {
+                    isUsdValid = isInputValid(interestRates[idx].usdField!.text, "double")
+                }
+                
+                var isShariaValid: Bool = false
+                if interestRates[idx].shariaField != nil {
+                    isShariaValid = isInputValid(interestRates[idx].shariaField!.text, "double")
+                }
+                
+                if isTenorValid && isIdrValid || isUsdValid || isShariaValid {
+                    let idr = isIdrValid ? Double(interestRates[idx].idrField!.text!) : nil
+                    let usd = isUsdValid ? Double(interestRates[idx].usdField!.text!) : nil
+                    let sharia = isShariaValid ? Double(interestRates[idx].shariaField!.text!) : nil
                     let bid = Bid(id: tenor, auction_header_id: 0, is_accepted: "", is_winner: "", interest_rate_idr: idr, interest_rate_usd: usd, interest_rate_sharia: sharia, used_investment_value: 0, bilyet: [], choosen_rate: nil, period: interestRates[idx].tenorType)
                     bids.append(bid)
                 } else {
-                    isValid = false
-                    break
+                    //isValid = false
+                    continue
                 }
             }
         }
         
-        if isValid {
-            presenter.saveAuction(id, bids, maxPlacementTextField != nil ? maxPlacementTextField.text! : "")
-        } else {
-            showAlert("Invalid")
-        }
+        presenter.saveAuction(id, bids, maxPlacementTextField != nil ? maxPlacementTextField.text! : "")
     }
     
     @objc func confirmationButtonPressed() {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["date": data.end_date])
+        let param: [String: String] = [
+            "type": "choosen_winner",
+        ]
+        
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["data": param])
     }
     
     func isInputValid(_ input: String?, _ dataType: String) -> Bool {
@@ -903,6 +929,7 @@ class AuctionDetailNormalViewController: UIViewController {
 extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
     func setData(_ data: AuctionDetailNormal) {
         self.data = data
+        view.isHidden = false
         showLoading(false)
         setContent()
     }

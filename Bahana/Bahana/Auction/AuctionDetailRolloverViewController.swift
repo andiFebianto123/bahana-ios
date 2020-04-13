@@ -112,6 +112,8 @@ class AuctionDetailRolloverViewController: UIViewController {
         confirmButton.setTitle(localize("confirm").uppercased(), for: .normal)
         confirmButton.backgroundColor = UIColorFromHex(rgbValue: 0x2a91ff)
         
+        view.isHidden = true
+        
         presenter = AuctionDetailRolloverPresenter(delegate: self)
         presenter.getAuction(id)
     }
@@ -147,7 +149,7 @@ class AuctionDetailRolloverViewController: UIViewController {
             
             let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
             let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
-            auctionEndLabel.text = "\(localize("ends_in")): \(hour) \(minute)"
+            auctionEndLabel.text = "\(localize("ends_bid_in")): \(hour) \(minute)"
             
             if countdown["hour"]! < 1 {
                 auctionEndLabel.textColor = primaryColor
@@ -182,12 +184,18 @@ class AuctionDetailRolloverViewController: UIViewController {
             confirmButton.isHidden = true
         }
         
-        let footerDate = convertDateToString(convertStringToDatetime(data.start_date)!, format: "ddMMyy")!
+        // Footer
+        let mutableAttributedString = NSMutableAttributedString()
         
-        footerLabel.text = """
-        \(localize("auction_detail_footer"))
-        Ref Code : RO.\(data.portfolio_short).\(footerDate).\(data.id)
-        """
+        let topTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        let bottomTextAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 8), NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        
+        let topText = NSAttributedString(string: localize("auction_detail_footer"), attributes: topTextAttribute)
+        mutableAttributedString.append(topText)
+        let bottomText = NSAttributedString(string: "\nRef Code : \(data.auction_name)", attributes: bottomTextAttribute)
+        mutableAttributedString.append(bottomText)
+        
+        footerLabel.attributedText = mutableAttributedString
     }
     
     func validateForm() -> Bool {
@@ -215,7 +223,11 @@ class AuctionDetailRolloverViewController: UIViewController {
     }
     
     @IBAction func confirmationButtonPressed(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["date": data.previous_maturity_date])
+        let param: [String: String] = [
+            "type": "choosen_winner",
+        ]
+        
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["data": param])
     }
     
 }
@@ -223,6 +235,7 @@ class AuctionDetailRolloverViewController: UIViewController {
 extension AuctionDetailRolloverViewController: AuctionDetailRolloverDelegate {
     func setData(_ data: AuctionDetailRollover) {
         self.data = data
+        view.isHidden = false
         showLoading(false)
         setContent()
     }

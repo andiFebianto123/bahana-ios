@@ -24,7 +24,6 @@ class AuctionDetailMatureViewController: UIViewController {
     @IBOutlet weak var picCustodianLabel: UILabel!
     @IBOutlet weak var detailTitleLabel: UILabel!
     @IBOutlet weak var detailView: UIView!
-    @IBOutlet weak var detailViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tenorTitleLabel: UILabel!
     @IBOutlet weak var tenorLabel: UILabel!
     @IBOutlet weak var interestRateTitleLabel: UILabel!
@@ -90,6 +89,8 @@ class AuctionDetailMatureViewController: UIViewController {
         periodTitleLabel.text = localize("period")
         periodLabel.font = contentFont
         
+        view.isHidden = true
+        
         presenter = AuctionDetailMaturePresenter(delegate: self)
         presenter.getAuction(id)
     }
@@ -132,11 +133,9 @@ class AuctionDetailMatureViewController: UIViewController {
         investmentLabel.text = "IDR \(toIdrBio(data.quantity))"
         periodLabel.text = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
         
-        let footerDate = convertDateToString(convertStringToDatetime(data.maturity_date)!, format: "ddMMyy")!
-        
         footerLabel.text = """
         \(localize("auction_detail_footer"))
-        Ref Code : MA.\(data.portfolio).\(footerDate).\(data.id)
+        Ref Code : MA.\(data.auction_name)
         """
     }
 }
@@ -145,6 +144,7 @@ class AuctionDetailMatureViewController: UIViewController {
 extension AuctionDetailMatureViewController: AuctionDetailMatureDelegate {
     func setData(_ data: AuctionDetailMature) {
         self.data = data
+        view.isHidden = false
         showLoading(false)
         setContent()
     }

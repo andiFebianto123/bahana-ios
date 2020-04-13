@@ -132,6 +132,8 @@ class AuctionDetailBreakViewController: UIViewController {
         confirmButton.setTitle(localize("confirm"), for: .normal)
         confirmButton.backgroundColor = UIColorFromHex(rgbValue: 0x2a91ff)
         
+        view.isHidden = true
+        
         presenter = AuctionDetailBreakPresenter(delegate: self)
         presenter.getAuction(id)
     }
@@ -207,12 +209,17 @@ class AuctionDetailBreakViewController: UIViewController {
         }
         
         // Footer
-        let footerDate = convertDateToString(convertStringToDatetime(data.break_maturity_date)!, format: "ddMMyy")!
+        let mutableAttributedString = NSMutableAttributedString()
         
-        footerLabel.text = """
-        \(localize("auction_detail_footer"))
-        Ref Code : BR.\(data.portfolio_short).\(footerDate).\(data.id)
-        """
+        let topTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        let bottomTextAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 8), NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        
+        let topText = NSAttributedString(string: localize("auction_detail_footer"), attributes: topTextAttribute)
+        mutableAttributedString.append(topText)
+        let bottomText = NSAttributedString(string: "\nRef Code : \(data.auction_name)", attributes: bottomTextAttribute)
+        mutableAttributedString.append(bottomText)
+        
+        footerLabel.attributedText = mutableAttributedString
     }
     
     func validateForm() -> Bool {
@@ -240,20 +247,24 @@ class AuctionDetailBreakViewController: UIViewController {
     }
     
     @IBAction func confirmationButtonPressed(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["date": ""])
+        let param: [String: String] = [
+            "type": "choosen_bidder",
+        ]
+        
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["data": param])
     }
 }
 
 extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
     func setData(_ data: AuctionDetailBreak) {
         self.data = data
+        view.isHidden = false
         showLoading(false)
         setContent()
     }
     
     func isPosted(_ isSuccess: Bool, _ message: String) {
-        //presenter.getAuction(id)
+        presenter.getAuction(id)
         showAlert(message)
-        navigationController?.popViewController(animated: true)
     }
 }

@@ -27,6 +27,8 @@ class AuctionDetailViewController: UIViewController {
     var auctionID: Int!
     var auctionType: String!
     var auctionRequestMaturityDate: String?
+    var revisionRate: Double?
+    var confirmationType: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +72,7 @@ class AuctionDetailViewController: UIViewController {
         }
         
         // Set loading view
-        loadingView.isHidden = true
+        //loadingView.isHidden = true
         loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loadingView)
@@ -118,7 +120,8 @@ class AuctionDetailViewController: UIViewController {
             if let destinationVC = segue.destination as? AuctionDetailConfirmationViewController {
                 destinationVC.auctionID = auctionID
                 destinationVC.auctionType = auctionType
-                destinationVC.auctionRequestMaturityDate = auctionRequestMaturityDate
+                destinationVC.confirmationType = confirmationType
+                destinationVC.revisionRate = revisionRate
             }
         }
     }
@@ -157,13 +160,15 @@ class AuctionDetailViewController: UIViewController {
     }
     
     @objc func showConfirmation(notification: Notification) {
-        if let data = notification.userInfo as? [String: String] {
-            let date = data["date"]
-            if date != "" {
-                auctionRequestMaturityDate = date
+        if let userInfo = notification.userInfo as? [String: [String: String]] {
+            let data = userInfo["data"]
+            if data!["type"] != nil {
+                confirmationType = data!["type"]!
+                if data!["revisionRate"] != nil {
+                    revisionRate = Double(data!["revisionRate"]!)
+                }
+                self.performSegue(withIdentifier: "showConfirmation", sender: self)
             }
-            
-            self.performSegue(withIdentifier: "showConfirmation", sender: self)
         }
     }
     

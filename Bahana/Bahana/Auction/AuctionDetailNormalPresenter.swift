@@ -113,11 +113,12 @@ class AuctionDetailNormalPresenter {
         
         for (idx, bid) in bids.enumerated() {
             // Untuk jumlah period menggunakan id
+            let interestRateIdr =
             parameters.updateValue(bids[idx].id, forKey: "bid[\(idx)][td_period]")
             parameters.updateValue(bids[idx].period, forKey: "bid[\(idx)][td_period_type]")
-            parameters.updateValue(bids[idx].interest_rate_idr!, forKey: "bid[\(idx)][rate_idr]")
-            parameters.updateValue(bids[idx].interest_rate_usd!, forKey: "bid[\(idx)][rate_usd]")
-            parameters.updateValue(bids[idx].interest_rate_sharia!, forKey: "bid[\(idx)][rate_syariah]")
+            parameters.updateValue(bids[idx].interest_rate_idr != nil ? bids[idx].interest_rate_idr! : "", forKey: "bid[\(idx)][rate_idr]")
+            parameters.updateValue(bids[idx].interest_rate_usd != nil ? bids[idx].interest_rate_usd! : "", forKey: "bid[\(idx)][rate_usd]")
+            parameters.updateValue(bids[idx].interest_rate_sharia != nil ? bids[idx].interest_rate_sharia! : "", forKey: "bid[\(idx)][rate_syariah]")
             parameters.updateValue(placement, forKey: "bid[\(idx)][max_placement]")
         }
         

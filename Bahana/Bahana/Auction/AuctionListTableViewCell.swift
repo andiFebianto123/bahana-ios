@@ -70,7 +70,7 @@ class AuctionListTableViewCell: UITableViewCell {
         tenorLabel.font = contentFont
         endTitleLabel.font = titleFont
         endTitleLabel.textColor = titleColor
-        endTitleLabel.text = localize("ends_in")
+        endTitleLabel.text = localize("ends_bid_in")
         endLabel.font = contentFont
         
         typeView.layer.borderWidth = 1
@@ -137,6 +137,14 @@ class AuctionListTableViewCell: UITableViewCell {
                 endLabel.text = ""
             }
         }
+        
+        // Kalau auction sudah selesai dan bukan mature, background jadi abu-abu
+        
+        let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
+        
+        if pageType == "auction" && auction.type != "mature" && countdown["hour"]! <= 0 && countdown["minute"]! <= 0 {
+            mainView.backgroundColor = .gray
+        }
     }
     
     func setTransaction(_ transaction: Transaction) {
@@ -177,6 +185,7 @@ class AuctionListTableViewCell: UITableViewCell {
     func setStatus(_ status: String) {
         //if !alreadySet {
             if status != "-" {
+                statusView.isHidden = false
                 statusLabel.text = status
             } else {
                 statusView.isHidden = true
