@@ -10,9 +10,9 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-//let WEB_API_URL = "http://localhost:8000/"
-//let WEB_API_URL = "http://192.168.1.7:8000/"
-let WEB_API_URL = "http://159.65.15.108/bahana/public/"
+let WEB_API_URL = "http://localhost:8000/"
+//let WEB_API_URL = "http://192.168.8.107:8000/"
+//let WEB_API_URL = "http://159.65.15.108/bahana/public/"
 
 let primaryColor = UIColorFromHex(rgbValue: 0xd7181f)
 let backgroundColor = UIColorFromHex(rgbValue: 0xeeeeee)

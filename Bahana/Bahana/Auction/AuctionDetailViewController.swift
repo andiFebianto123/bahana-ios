@@ -70,7 +70,7 @@ class AuctionDetailViewController: UIViewController {
         }
         
         // Set loading view
-        //loadingView.isHidden = true
+        loadingView.isHidden = true
         loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loadingView)
@@ -105,7 +105,7 @@ class AuctionDetailViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showValidationAlert(notification:)), name: Notification.Name("AuctionDetailAlert"), object: nil)
         
         // Confirmation button pressed
-        NotificationCenter.default.addObserver(self, selector: #selector(showConfimation(notification:)), name: Notification.Name("AuctionDetailConfirmation"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showConfirmation(notification:)), name: Notification.Name("AuctionDetailConfirmation"), object: nil)
     }
     
     // MARK: - Navigation
@@ -156,7 +156,7 @@ class AuctionDetailViewController: UIViewController {
         }
     }
     
-    @objc func showConfimation(notification: Notification) {
+    @objc func showConfirmation(notification: Notification) {
         if let data = notification.userInfo as? [String: String] {
             let date = data["date"]
             if date != "" {

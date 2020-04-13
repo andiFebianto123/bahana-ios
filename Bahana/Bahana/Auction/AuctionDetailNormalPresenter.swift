@@ -49,6 +49,7 @@ class AuctionDetailNormalPresenter {
                     let portfolio = auct["portfolio"].stringValue
                     let portfolio_short = auct["portfolio_short"].stringValue
                     let view = auct["view"].intValue
+                    //let view = 2
                     let status = auct["status"].stringValue
                     let issue_date = auct["issue_date"].stringValue
                     
@@ -96,7 +97,7 @@ class AuctionDetailNormalPresenter {
         let bids = [
             Bid(id: 56, auction_header_id: 42, is_accepted: "yes", is_winner: "yes", interest_rate_idr: 2.79, interest_rate_usd: nil, interest_rate_sharia: nil, used_investment_value: 10000000, bilyet: bilyet1, choosen_rate: "IDR", period: "2 months"),
             Bid(id: 57, auction_header_id: 42, is_accepted: "yes", is_winner: "yes", interest_rate_idr: 1.5, interest_rate_usd: nil, interest_rate_sharia: 1, used_investment_value: 10000000, bilyet: bilyet2, choosen_rate: "Syariah", period: "20 days"),
-            Bid(id: 58, auction_header_id: 42, is_accepted: "yes", is_winner: "yes", interest_rate_idr: 2.79, interest_rate_usd: nil, interest_rate_sharia: nil, used_investment_value: 10000000, bilyet: bilyet3, choosen_rate: "IDR", period: "3 months")
+            Bid(id: 58, auction_header_id: 42, is_accepted: "pending", is_winner: "yes", interest_rate_idr: 2.79, interest_rate_usd: nil, interest_rate_sharia: nil, used_investment_value: 10000000, bilyet: bilyet3, choosen_rate: "IDR", period: "3 months")
         ]
         let details = [Detail(auction_header_id: 42, td_period: 3, td_period_type: "month", default_rate: 0, default_rate_usd: 0, default_rate_sharia: 0)]
         let allowedRates = ["IDR", "Syariah"]

@@ -2401,7 +2401,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vvu-e2-OwW">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vvu-e2-OwW">
                                         <rect key="frame" x="0.0" y="318.5" width="374" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="LuC-f7-Ylz"/>
@@ -2530,7 +2530,7 @@
     </scenes>
     <resources>
         <image name="close" width="96" height="96"/>
-        <image name="filter" width="512" height="512"/>
+        <image name="filter" width="33.333332061767578" height="33.333332061767578"/>
         <image name="icon_left" width="33.333332061767578" height="33.333332061767578"/>
         <image name="notification" width="512" height="512"/>
     </resources>
