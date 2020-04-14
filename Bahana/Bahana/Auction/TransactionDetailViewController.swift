@@ -74,11 +74,11 @@ class TransactionDetailViewController: UIViewController {
         transactionStatus.textColor = .white
         generalInformationTitle.textColor = primaryColor
         generalInformationTitle.text = localize("general_information").uppercased()
-        generalInformationView.backgroundColor = UIColorFromHex(rgbValue: 0xfee2e1)
+        generalInformationView.backgroundColor = lightRedColor
         breakInformationTitle.textColor = primaryColor
         breakInformationTitle.text = localize("break_information")
         breakInformationTitle.isHidden = true
-        breakInformationView.backgroundColor = UIColorFromHex(rgbValue: 0xfee2e1)
+        breakInformationView.backgroundColor = lightRedColor
         breakInformationView.isHidden = true
         
         presenter = TransactionDetailPresenter(delegate: self)
@@ -125,22 +125,26 @@ class TransactionDetailViewController: UIViewController {
     func setContent() {
         transactionIDLabel.text = "\(data.id)"
         
+        var backgroundColor: UIColor!
         switch data.status {
         case "Active":
-            transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x65d663)
-        case "Canceled":
-            transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x3e3e3e)
+            backgroundColor = greenColor
         case "Break":
-            transactionStatusView.backgroundColor = primaryColor
-        case "Used in Break Auction":
-            transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x990000)
-        case "Used in RO Auction":
-            transactionStatusView.backgroundColor = UIColor.brown
+            backgroundColor = primaryColor
         case "Mature":
-            transactionStatusView.backgroundColor = UIColorFromHex(rgbValue: 0x2d91ff)
+            backgroundColor = blueColor
+        case "Rollover":
+            backgroundColor = accentColor
+        case "Canceled":
+            backgroundColor = darkGreyColor
+        case "Used in RO Auction":
+            backgroundColor = darkYellowColor
+        case "Used in Break Auction":
+            backgroundColor = darkRedColor
         default:
             break
         }
+        transactionStatusView.backgroundColor = backgroundColor
         
         transactionStatus.text = data.status.uppercased()
         var interest_rate = "-"

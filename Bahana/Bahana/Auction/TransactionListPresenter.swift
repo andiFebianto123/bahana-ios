@@ -29,33 +29,33 @@ class TransactionListPresenter {
         var url = "transaction-new?"
         
         // Fund parameter
-        if filter["portfolio"] != nil {
+        if filter["portfolio"] != nil && filter["portfolio"] != "" {
             url += "portfolio=\(filter["portfolio"]!.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Status parameter
-        //if status == "ACC" || status == "REJ" || status == "NEC" {
-        url += "status=\(filter["status"]!.replacingOccurrences(of: " ", with: "%20"))&"
-        //}
+        if filter["status"] != nil && filter["status"] != "" {
+            url += "status=\(filter["status"]!.replacingOccurrences(of: " ", with: "%20"))&"
+        }
         
         // Issue date parameter
-        if filter["issue_date"] != nil {
+        if filter["issue_date"] != nil && filter["issue_date"] != "" {
             url += "issue_date=\(filter["issue_date"]!.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Maturity date parameter
-        if filter["maturity_date"] != nil {
+        if filter["maturity_date"] != nil && filter["maturity_date"] != "" {
             url += "maturity_date=\(filter["maturity_date"]!.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Issue date parameter
-        if filter["break_date"] != nil {
+        if filter["break_date"] != nil && filter["break_date"] != "" {
             url += "break_date=\(filter["break_date"]!.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Outstanding parameter
         if filter["outstanding"] != nil {
-            url += "outstanding=\(filter["outstanding"]!)"
+            url += "outstanding=\(filter["outstanding"]!)&"
         }
         
         // Pagination

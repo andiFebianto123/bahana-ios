@@ -73,14 +73,14 @@ class DashboardViewController: UIViewController {
         completedAuctionView.layer.shadowRadius = 4
         completedAuctionView.layer.shadowOpacity = 0.5
         
-        ongoingAuctionView.backgroundColor = UIColorFromHex(rgbValue: 0xfee2e1)
+        ongoingAuctionView.backgroundColor = lightRedColor
         ongoingAuctionView.layer.cornerRadius = 5
         ongoingAuctionView.layer.shadowColor = UIColor.gray.cgColor
         ongoingAuctionView.layer.shadowOffset = CGSize(width: 0, height: 0)
         ongoingAuctionView.layer.shadowRadius = 4
         ongoingAuctionView.layer.shadowOpacity = 0.5
         
-        needConfirmationView.backgroundColor = UIColorFromHex(rgbValue: 0xfee2e1)
+        needConfirmationView.backgroundColor = lightRedColor
         needConfirmationView.layer.cornerRadius = 5
         needConfirmationView.layer.shadowColor = UIColor.gray.cgColor
         needConfirmationView.layer.shadowOffset = CGSize(width: 0, height: 0)

@@ -60,7 +60,7 @@ class AuctionDetailDirectViewController: UIViewController {
         titleLabel.textColor = primaryColor
         auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
-        let cardBackgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+        let cardBackgroundColor = lightRedColor
         portfolioView.backgroundColor = cardBackgroundColor
         portfolioView.layer.cornerRadius = 5
         portfolioView.layer.shadowColor = UIColor.gray.cgColor
@@ -87,15 +87,19 @@ class AuctionDetailDirectViewController: UIViewController {
         detailView.layer.shadowRadius = 4
         detailView.layer.shadowOpacity = 0.5
         tenorTitleLabel.font = titleFont
+        tenorTitleLabel.textColor = titleLabelColor
         tenorTitleLabel.text = localize("tenor")
         tenorLabel.font = contentFont
         interestRateTitleLabel.font = titleFont
+        interestRateTitleLabel.textColor = titleLabelColor
         interestRateTitleLabel.text = localize("interest_rate")
         interestRateLabel.font = contentFont
         investmentTitleLabel.font = titleFont
+        investmentTitleLabel.textColor = titleLabelColor
         investmentTitleLabel.text = localize("investment")
         investmentLabel.font = contentFont
         bilyetTitleLabel.font = titleFont
+        bilyetTitleLabel.textColor = titleLabelColor
         bilyetTitleLabel.text = localize("bilyet")
         bilyetLabel.font = contentFont
         noteTitleLabel.textColor = primaryColor
@@ -107,8 +111,10 @@ class AuctionDetailDirectViewController: UIViewController {
         revisionRateTextField.keyboardType = .numbersAndPunctuation
         revisedButton.setTitle(localize("revised").uppercased(), for: .normal)
         revisedButton.backgroundColor = primaryColor
+        revisedButton.layer.cornerRadius = 3
         confirmButton.setTitle(localize("confirm").uppercased(), for: .normal)
-        confirmButton.backgroundColor = UIColorFromHex(rgbValue: 0x2a91ff)
+        confirmButton.backgroundColor = blueColor
+        confirmButton.layer.cornerRadius = 3
         
         view.isHidden = true
         
@@ -141,21 +147,7 @@ class AuctionDetailDirectViewController: UIViewController {
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
         }
         
-        if convertStringToDatetime(data.end_date)! > Date() {
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_bidding_rm)!)
-            
-            let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-            let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
-            auctionEndLabel.text = "\(localize("ends_bid_in")): \(hour) \(minute)"
-            
-            if countdown["hour"]! < 1 {
-                auctionEndLabel.textColor = primaryColor
-            } else {
-                auctionEndLabel.textColor = .black
-            }
-        } else {
-            auctionEndLabel.isHidden = true
-        }
+        countdown()
         
         // Portfolio
         fundNameLabel.text = data.portfolio
@@ -181,7 +173,15 @@ class AuctionDetailDirectViewController: UIViewController {
         
         bilyetLabel.text = bilyet
         noteLabel.text = data.notes
-        messageLabel.text = data.message
+        
+        if data.message != nil {
+            messageTitleLabel.isHidden = false
+            messageLabel.isHidden = false
+            messageLabel.text = data.message
+        } else {
+            messageTitleLabel.isHidden = true
+            messageLabel.isHidden = true
+        }
         
         // Action
         if data.view == 0 {
@@ -206,6 +206,40 @@ class AuctionDetailDirectViewController: UIViewController {
         footerLabel.attributedText = mutableAttributedString
     }
     
+    func countdown() {
+        if convertStringToDatetime(data.end_date)! > Date() {
+            let endBid = calculateDateDifference(Date(), convertStringToDatetime(data.end_bidding_rm)!)
+            
+            if endBid["hour"]! > 0 || endBid["minute"]! > 0 {
+                let hour = endBid["hour"]! > 1 ? "\(endBid["hour"]!) hours" : "\(endBid["hour"]!) hour"
+                let minute = endBid["minute"]! > 1 ? "\(endBid["minute"]!) mins" : "\(endBid["minute"]!) minute"
+                
+                auctionEndLabel.text = "\(localize("ends_bid_in")): \(hour) \(minute)"
+                
+                if endBid["hour"]! < 1 {
+                    auctionEndLabel.textColor = primaryColor
+                } else {
+                    auctionEndLabel.textColor = .black
+                }
+            } else {
+                let endAuction = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
+                
+                let hour = endAuction["hour"]! > 1 ? "\(endAuction["hour"]!) hours" : "\(endAuction["hour"]!) hour"
+                let minute = endAuction["minute"]! > 1 ? "\(endAuction["minute"]!) mins" : "\(endAuction["minute"]!) minute"
+                
+                auctionEndLabel.text = "\(localize("ends_auction_in")): \(hour) \(minute)"
+                
+                if endAuction["hour"]! < 1 {
+                    auctionEndLabel.textColor = primaryColor
+                } else {
+                    auctionEndLabel.textColor = .black
+                }
+            }
+        } else {
+            auctionEndLabel.isHidden = true
+        }
+    }
+    
     func validateForm() -> Bool {
         if revisionRateTextField.text != nil && Double(revisionRateTextField.text!) == nil ||
         Double(revisionRateTextField.text!) != nil && Double(revisionRateTextField.text!)! < 0.0 || Double(revisionRateTextField.text!)! > 99.9 {
@@ -218,8 +252,13 @@ class AuctionDetailDirectViewController: UIViewController {
         return false
     }
     
-    func showAlert(_ message: String) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["message": message])
+    func showAlert(_ message: String, _ isBackToList: Bool = false) {
+        let param: [String: String] = [
+            "message": message,
+            "isBackToList": isBackToList ? "true" : "false"
+        ]
+        
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["data": param])
     }
     
     @IBAction func reviseButtonPressed(_ sender: Any) {
@@ -255,7 +294,6 @@ extension AuctionDetailDirectViewController: AuctionDetailDirectDelegate {
     
     func isPosted(_ isSuccess: Bool, _ message: String) {
         //presenter.getAuction(id)
-        showAlert(message)
-        navigationController?.popViewController(animated: true)
+        showAlert(message, isSuccess)
     }
 }

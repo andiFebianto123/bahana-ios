@@ -11,12 +11,24 @@ import Alamofire
 import SwiftyJSON
 
 //let WEB_API_URL = "http://localhost:8000/"
-let WEB_API_URL = "http://192.168.8.104:8000/"
-//let WEB_API_URL = "http://159.65.15.108/bahana/public/"
+//let WEB_API_URL = "http://192.168.8.106:8000/"
+let WEB_API_URL = "http://159.65.15.108/bahana/public/"
 
+// Colors
 let primaryColor = UIColorFromHex(rgbValue: 0xd7181f)
 let backgroundColor = UIColorFromHex(rgbValue: 0xeeeeee)
-let titleLabelColor = UIColorFromHex(rgbValue: 0xaeaeae)
+let titleLabelColor = UIColorFromHex(rgbValue: 0xa7a7a7)
+let accentColor = UIColorFromHex(rgbValue: 0xffc74d)
+let blueColor = UIColorFromHex(rgbValue: 0x3e99ff)
+let darkGreyColor = UIColorFromHex(rgbValue: 0x3f3f3f)
+let darkRedColor = UIColorFromHex(rgbValue: 0x8b171a)
+let darkYellowColor = UIColorFromHex(rgbValue: 0x9b870c)
+let greenColor = UIColorFromHex(rgbValue: 0x87cc62)
+let hintColor = UIColorFromHex(rgbValue: 0x000000)
+let lightGreenColor = UIColorFromHex(rgbValue: 0x90ee90)
+let primaryDarkColor = UIColorFromHex(rgbValue: 0xc0151c)
+let lightGreyColor = UIColorFromHex(rgbValue: 0xd3d3d3)
+let lightRedColor = UIColorFromHex(rgbValue: 0xfee1e1)
 
 func setLocalData(_ data: [String:String]) {
     data.forEach {

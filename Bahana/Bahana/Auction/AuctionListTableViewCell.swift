@@ -70,7 +70,7 @@ class AuctionListTableViewCell: UITableViewCell {
         tenorLabel.font = contentFont
         endTitleLabel.font = titleFont
         endTitleLabel.textColor = titleColor
-        endTitleLabel.text = localize("ends_bid_in")
+        endTitleLabel.text = localize("ends_in")
         endLabel.font = contentFont
         
         typeView.layer.borderWidth = 1
@@ -122,20 +122,8 @@ class AuctionListTableViewCell: UITableViewCell {
             } else if pageType == "history" {
                 placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
             }
-            if auction.maturity_date != nil {
-                let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.maturity_date)!)
-                if countdown["hour"]! > 0 {
-                    let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-                    let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
-                    endLabel.text = "\(hour) \(minute)"
-                } else {
-                    endTitleLabel.isHidden = true
-                    endLabel.text = ""
-                }
-            } else {
-                endTitleLabel.isHidden = true
-                endLabel.text = ""
-            }
+            
+            countdown(auction)
         }
         
         // Kalau auction sudah selesai dan bukan mature, background jadi abu-abu
@@ -143,7 +131,7 @@ class AuctionListTableViewCell: UITableViewCell {
         let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
         
         if pageType == "auction" && auction.type != "mature" && countdown["hour"]! <= 0 && countdown["minute"]! <= 0 {
-            mainView.backgroundColor = .gray
+            mainView.backgroundColor = lightGreyColor
         }
     }
     
@@ -157,22 +145,27 @@ class AuctionListTableViewCell: UITableViewCell {
         typeViewWidth.constant = typeTextWidth + 10
         typeLabel.textColor = .white
         typeView.layer.borderWidth = 0
+        
+        var backgroundColor: UIColor!
         switch transaction.status {
         case "Active":
-            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x65d663)
-        case "Canceled":
-            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x3e3e3e)
+            backgroundColor = greenColor
         case "Break":
-            typeView.backgroundColor = primaryColor
-        case "Used in Break Auction":
-            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x990000)
-        case "Used in RO Auction":
-            typeView.backgroundColor = UIColor.brown
+            backgroundColor = primaryColor
         case "Mature":
-            typeView.backgroundColor = UIColorFromHex(rgbValue: 0x2d91ff)
+            backgroundColor = blueColor
+        case "Rollover":
+            backgroundColor = accentColor
+        case "Canceled":
+            backgroundColor = darkGreyColor
+        case "Used in RO Auction":
+            backgroundColor = darkYellowColor
+        case "Used in Break Auction":
+            backgroundColor = darkRedColor
         default:
             break
         }
+        typeView.backgroundColor = backgroundColor
         
         setStatus("-")
         fundNameLabel.text = transaction.portfolio
@@ -210,7 +203,7 @@ class AuctionListTableViewCell: UITableViewCell {
             case "rollover":
                 placementDateTitleLabel.text = localize("maturity_date")
             case "mature":
-                mainView.backgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+                mainView.backgroundColor = lightRedColor
                 break
             default:
                 break
@@ -218,5 +211,38 @@ class AuctionListTableViewCell: UITableViewCell {
             
             //alreadySet = true
         //}
+    }
+    
+    func countdown(_ auction: Auction) {
+        if auction.maturity_date != nil {
+            let endBid = calculateDateDifference(Date(), convertStringToDatetime(auction.maturity_date!)!)
+            
+            if endBid["hour"]! > 0 || endBid["minute"]! > 0 {
+                let hour = endBid["hour"]! > 1 ? "\(endBid["hour"]!) hours" : "\(endBid["hour"]!) hour"
+                let minute = endBid["minute"]! > 1 ? "\(endBid["minute"]!) mins" : "\(endBid["minute"]!) minute"
+                endLabel.text = "\(hour) \(minute)"
+                if endBid["hour"]! == 0 {
+                    endLabel.textColor = primaryColor
+                }
+            } else {
+                let endAuction = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
+                
+                if endAuction["hour"]! > 0 || endAuction["minute"]! > 0 {
+                    let hour = endAuction["hour"]! > 1 ? "\(endAuction["hour"]!) hours" : "\(endAuction["hour"]!) hour"
+                    let minute = endAuction["minute"]! > 1 ? "\(endAuction["minute"]!) mins" : "\(endAuction["minute"]!) minute"
+                    endLabel.text = "\(hour) \(minute)"
+                    
+                    if endAuction["hour"]! == 0 {
+                        endLabel.textColor = primaryColor
+                    }
+                } else {
+                    endTitleLabel.isHidden = true
+                    endLabel.text = ""
+                }
+            }
+        } else {
+            endTitleLabel.isHidden = true
+            endLabel.text = ""
+        }
     }
 }

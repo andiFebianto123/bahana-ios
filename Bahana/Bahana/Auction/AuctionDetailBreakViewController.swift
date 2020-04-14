@@ -66,7 +66,7 @@ class AuctionDetailBreakViewController: UIViewController {
         titleLabel.textColor = primaryColor
         //auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
-        let cardBackgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+        let cardBackgroundColor = lightRedColor
         portfolioView.backgroundColor = cardBackgroundColor
         portfolioView.layer.cornerRadius = 5
         portfolioView.layer.shadowColor = UIColor.gray.cgColor
@@ -93,21 +93,27 @@ class AuctionDetailBreakViewController: UIViewController {
         detailView.layer.shadowRadius = 4
         detailView.layer.shadowOpacity = 0.5
         tenorTitleLabel.font = titleFont
+        tenorTitleLabel.textColor = titleLabelColor
         tenorTitleLabel.text = localize("tenor")
         tenorLabel.font = contentFont
         interestRateTitleLabel.font = titleFont
+        interestRateTitleLabel.textColor = titleLabelColor
         interestRateTitleLabel.text = localize("interest_rate")
         interestRateLabel.font = contentFont
         breakRateTitleLabel.font = titleFont
+        breakRateTitleLabel.textColor = titleLabelColor
         breakRateTitleLabel.text = localize("break_rate")
         breakRateLabel.font = contentFont
         investmentTitleLabel.font = titleFont
+        investmentTitleLabel.textColor = titleLabelColor
         investmentTitleLabel.text = localize("investment")
         investmentLabel.font = contentFont
         periodTitleLabel.font = titleFont
+        periodTitleLabel.textColor = titleLabelColor
         periodTitleLabel.text = localize("period")
         periodLabel.font = contentFont
         breakDateTitleLabel.font = titleFont
+        breakDateTitleLabel.textColor = titleLabelColor
         breakDateTitleLabel.text = localize("break_date")
         breakDateLabel.font = contentFont
         policyTitleLabel.textColor = primaryColor
@@ -119,18 +125,23 @@ class AuctionDetailBreakViewController: UIViewController {
         policyView.layer.shadowRadius = 4
         policyView.layer.shadowOpacity = 0.5
         breakablePolicyTitleLabel.font = titleFont
+        breakablePolicyTitleLabel.textColor = titleLabelColor
         breakablePolicyTitleLabel.text = localize("breakable_policy")
         breakablePolicyLabel.font = contentFont
         policyNoteTitleLabel.font = titleFont
+        policyNoteTitleLabel.textColor = titleLabelColor
         policyNoteTitleLabel.text = localize("policy_notes")
         policyNoteLabel.font = contentFont
         breakRateTitle2Label.textColor = primaryColor
         breakRateTitle2Label.text = localize("break_rate").uppercased()
+        breakRateTextField.placeholder = localize("break_rate")
         breakRateTextField.keyboardType = .numbersAndPunctuation
         submitButton.setTitle(localize("submit").uppercased(), for: .normal)
         submitButton.backgroundColor = primaryColor
+        submitButton.layer.cornerRadius = 3
         confirmButton.setTitle(localize("confirm"), for: .normal)
-        confirmButton.backgroundColor = UIColorFromHex(rgbValue: 0x2a91ff)
+        confirmButton.backgroundColor = blueColor
+        confirmButton.layer.cornerRadius = 3
         
         view.isHidden = true
         
@@ -162,23 +173,8 @@ class AuctionDetailBreakViewController: UIViewController {
             statusLabel.text = data.status
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
         }
-        /*
-        if convertStringToDatetime(data.end_date)! > Date() {
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
-            
-            let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-            let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) minutes" : "\(countdown["minute"]!) minute"
-            auctionEndLabel.text = "\(localize("ends_in")): \(hour) \(minute)"
-            
-            if countdown["hour"]! < 1 {
-                auctionEndLabel.textColor = primaryColor
-            } else {
-                auctionEndLabel.textColor = .black
-            }
-        } else {
-            auctionEndLabel.isHidden = true
-        }*/
-        auctionEndLabel.isHidden = true
+        
+        countdown()
         
         // Portfolio
         fundNameLabel.text = data.portfolio
@@ -222,6 +218,41 @@ class AuctionDetailBreakViewController: UIViewController {
         footerLabel.attributedText = mutableAttributedString
     }
     
+    func countdown() {
+        /*if convertStringToDatetime(data.end_date)! > Date() {
+            let endBid = calculateDateDifference(Date(), convertStringToDatetime(data.end_bidding_rm)!)
+            
+            if endBid["hour"]! > 0 || endBid["minute"]! > 0 {
+                let hour = endBid["hour"]! > 1 ? "\(endBid["hour"]!) hours" : "\(endBid["hour"]!) hour"
+                let minute = endBid["minute"]! > 1 ? "\(endBid["minute"]!) mins" : "\(endBid["minute"]!) minute"
+                
+                auctionEndLabel.text = "\(localize("ends_bid_in")): \(hour) \(minute)"
+                
+                if endBid["hour"]! < 1 {
+                    auctionEndLabel.textColor = primaryColor
+                } else {
+                    auctionEndLabel.textColor = .black
+                }
+            } else {
+                let endAuction = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
+                
+                let hour = endAuction["hour"]! > 1 ? "\(endAuction["hour"]!) hours" : "\(endAuction["hour"]!) hour"
+                let minute = endAuction["minute"]! > 1 ? "\(endAuction["minute"]!) mins" : "\(endAuction["minute"]!) minute"
+                
+                auctionEndLabel.text = "\(localize("ends_auction_in")): \(hour) \(minute)"
+                
+                if endAuction["hour"]! < 1 {
+                    auctionEndLabel.textColor = primaryColor
+                } else {
+                    auctionEndLabel.textColor = .black
+                }
+            }
+        } else {
+            auctionEndLabel.isHidden = true
+        }*/
+        auctionEndLabel.isHidden = true
+    }
+    
     func validateForm() -> Bool {
         if breakRateTextField.text! == nil ||
             breakRateTextField.text! != nil && Double(breakRateTextField.text!) == nil ||
@@ -235,8 +266,13 @@ class AuctionDetailBreakViewController: UIViewController {
         return false
     }
     
-    func showAlert(_ message: String) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["message": message])
+    func showAlert(_ message: String, _ isBackToList: Bool = false) {
+        let param: [String: String] = [
+            "message": message,
+            "isBackToList": isBackToList ? "true" : "false"
+        ]
+        
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["data": param])
     }
     
     @IBAction func submitButtonPressed(_ sender: Any) {
@@ -264,7 +300,7 @@ extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
     }
     
     func isPosted(_ isSuccess: Bool, _ message: String) {
-        presenter.getAuction(id)
-        showAlert(message)
+        //presenter.getAuction(id)
+        showAlert(message, isSuccess)
     }
 }

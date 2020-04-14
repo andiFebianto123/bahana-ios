@@ -77,7 +77,7 @@ class AuctionDetailNormalViewController: UIViewController {
         titleLabel.textColor = primaryColor
         auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
-        let cardBackgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+        let cardBackgroundColor = lightRedColor
         portfolioView.backgroundColor = cardBackgroundColor
         portfolioView.layer.cornerRadius = 5
         portfolioView.layer.shadowColor = UIColor.gray.cgColor
@@ -108,18 +108,20 @@ class AuctionDetailNormalViewController: UIViewController {
         noteTitleLabel.textColor = primaryColor
         interestRateTitleLabel.text = localize("interest_rate").uppercased()
         interestRateTitleLabel.textColor = primaryColor
-        interestRateAddDayButton.backgroundColor = UIColorFromHex(rgbValue: 0x87cc62)
-        interestRateAddDayButton.setTitleColor(UIColorFromHex(rgbValue: 0x318803), for: .normal)
+        interestRateAddDayButton.backgroundColor = lightGreenColor
+        interestRateAddDayButton.setTitleColor(UIColorFromHex(rgbValue: 0x308a00), for: .normal)
+        interestRateAddDayButton.setTitle(localize("add_rate_day"), for: .normal)
         interestRateAddDayButton.layer.cornerRadius = 5
-        interestRateAddMonthButton.backgroundColor = UIColorFromHex(rgbValue: 0x63cb7c)
-        interestRateAddMonthButton.setTitleColor(UIColorFromHex(rgbValue: 0x2b890f), for: .normal)
+        interestRateAddMonthButton.backgroundColor = greenColor
+        interestRateAddMonthButton.setTitleColor(UIColorFromHex(rgbValue: 0x308a00), for: .normal)
+        interestRateAddMonthButton.setTitle(localize("add_rate_month"), for: .normal)
         interestRateAddMonthButton.layer.cornerRadius = 5
         maxPlacementTitleLabel.text = localize("max_placement").uppercased()
         maxPlacementTitleLabel.textColor = primaryColor
         maxPlacementTextField.placeholder = localize("max_placement")
         submitButton.backgroundColor = primaryColor
         submitButton.setTitleColor(.white, for: .normal)
-        submitButton.layer.cornerRadius = 5
+        submitButton.layer.cornerRadius = 3
         
         view.isHidden = true
         
@@ -152,21 +154,7 @@ class AuctionDetailNormalViewController: UIViewController {
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
         }
         
-        if convertStringToDatetime(data.end_date)! > Date() {
-            let countdown = calculateDateDifference(Date(), convertStringToDatetime(data.end_bidding_rm)!)
-            
-            let hour = countdown["hour"]! > 1 ? "\(countdown["hour"]!) hours" : "\(countdown["hour"]!) hour"
-            let minute = countdown["minute"]! > 1 ? "\(countdown["minute"]!) mins" : "\(countdown["minute"]!) minute"
-            auctionEndLabel.text = "\(localize("ends_auction_in")): \(hour) \(minute)"
-            
-            if countdown["hour"]! < 1 {
-                auctionEndLabel.textColor = primaryColor
-            } else {
-                auctionEndLabel.textColor = .black
-            }
-        } else {
-            auctionEndLabel.isHidden = true
-        }
+        countdown()
         
         // Portfolio
         fundNameLabel.text = data.portfolio
@@ -211,12 +199,46 @@ class AuctionDetailNormalViewController: UIViewController {
         footerLabel.attributedText = mutableAttributedString
     }
     
+    func countdown() {
+        if convertStringToDatetime(data.end_date)! > Date() {
+            let endBid = calculateDateDifference(Date(), convertStringToDatetime(data.end_bidding_rm)!)
+            
+            if endBid["hour"]! > 0 || endBid["minute"]! > 0 {
+                let hour = endBid["hour"]! > 1 ? "\(endBid["hour"]!) hours" : "\(endBid["hour"]!) hour"
+                let minute = endBid["minute"]! > 1 ? "\(endBid["minute"]!) mins" : "\(endBid["minute"]!) minute"
+                
+                auctionEndLabel.text = "\(localize("ends_bid_in")): \(hour) \(minute)"
+                
+                if endBid["hour"]! < 1 {
+                    auctionEndLabel.textColor = primaryColor
+                } else {
+                    auctionEndLabel.textColor = .black
+                }
+            } else {
+                let endAuction = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
+                
+                let hour = endAuction["hour"]! > 1 ? "\(endAuction["hour"]!) hours" : "\(endAuction["hour"]!) hour"
+                let minute = endAuction["minute"]! > 1 ? "\(endAuction["minute"]!) mins" : "\(endAuction["minute"]!) minute"
+                
+                auctionEndLabel.text = "\(localize("ends_auction_in")): \(hour) \(minute)"
+                
+                if endAuction["hour"]! < 1 {
+                    auctionEndLabel.textColor = primaryColor
+                } else {
+                    auctionEndLabel.textColor = .black
+                }
+            }
+        } else {
+            auctionEndLabel.isHidden = true
+        }
+    }
+    
     func setBids(_ bidData: [Bid]) {
         var totalRateViewHeight: CGFloat = 0
         for dt in bidData {
             let rateView = UIView()
             if dt.is_winner == "yes" {
-                rateView.backgroundColor = UIColorFromHex(rgbValue: 0xb4eeb4)
+                rateView.backgroundColor = lightGreenColor
             } else {
                 rateView.backgroundColor = .white
             }
@@ -431,7 +453,7 @@ class AuctionDetailNormalViewController: UIViewController {
                     confirmButton.setTitle(localize("confirm"), for: .normal)
                     confirmButton.setTitleColor(UIColor.white, for: .normal)
                     confirmButton.titleLabel?.font = contentFont
-                    confirmButton.backgroundColor = UIColorFromHex(rgbValue: 0x2a91ff)
+                    confirmButton.backgroundColor = blueColor
                     confirmButton.layer.cornerRadius = 3
                     confirmButton.addTarget(self, action: #selector(confirmationButtonPressed), for: .touchUpInside)
                     confirmButton.translatesAutoresizingMaskIntoConstraints = false
@@ -506,7 +528,7 @@ class AuctionDetailNormalViewController: UIViewController {
             tenorTitle.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor)
         ])
         
-        let fieldHeight: CGFloat = 50
+        let fieldHeight: CGFloat = 60
         
         var tenorField: UITextField?
         if canEditTenor {
@@ -917,8 +939,13 @@ class AuctionDetailNormalViewController: UIViewController {
         return false
     }
     
-    func showAlert(_ message: String) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["message": message])
+    func showAlert(_ message: String, _ isBackToList: Bool = false) {
+        let param: [String: String] = [
+            "message": message,
+            "isBackToList": isBackToList ? "true" : "false"
+        ]
+        
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["data": param])
     }
     
     func setHeight(_ height: CGFloat) {
@@ -936,8 +963,7 @@ extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
     
     func isPosted(_ isSuccess: Bool, _ message: String) {
         //presenter.getAuction(id)
-        showAlert(message)
-        navigationController?.popViewController(animated: true)
+        showAlert(message, isSuccess)
     }
 }
 

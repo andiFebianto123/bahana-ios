@@ -26,7 +26,6 @@ class AuctionDetailViewController: UIViewController {
     
     var auctionID: Int!
     var auctionType: String!
-    var auctionRequestMaturityDate: String?
     var revisionRate: Double?
     var confirmationType: String!
     
@@ -173,15 +172,24 @@ class AuctionDetailViewController: UIViewController {
     }
     
     @objc func showValidationAlert(notification: Notification) {
-        if let data = notification.userInfo as? [String: String] {
-            let message = data["message"]!
-            showAlert(title: localize("information"), message: message)
+        if let userInfo = notification.userInfo as? [String: [String: String]] {
+            let data = userInfo["data"]
+            let message = data!["message"]!
+            var isBackToList: Bool = false
+            if data!["isBackToList"] != nil && data!["isBackToList"] == "true" {
+                isBackToList = true
+            }
+            showAlert(title: localize("information"), message: message, isBackToList)
         }
     }
     
-    func showAlert(title: String, message: String) {
+    func showAlert(title: String, message: String, _ isBackToList: Bool) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
+            if isBackToList {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }))
         self.present(alert, animated: true, completion: nil)
     }
 }

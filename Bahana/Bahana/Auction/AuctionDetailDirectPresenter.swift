@@ -51,7 +51,7 @@ class AuctionDetailDirectPresenter {
                     let custodian_bank = auct["custodian_bank"] != JSON.null ? auct["custodian_bank"].stringValue : nil
                     let period = auct["period"].stringValue
                     let status = auct["status"].stringValue
-                    let message = auct["message"].stringValue
+                    let message = auct["message"] != JSON.null ? auct["message"].stringValue : nil
                     let view = auct["view"].intValue
                     
                     var bilyets = [Bilyet]()

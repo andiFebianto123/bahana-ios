@@ -101,8 +101,9 @@
 "issue_date" = "Issue Date";
 "maturity_date" = "Maturity Date";
 "tenor" = "Tenor";
-"ends_bid_in" = "Ends Bid in";
-"ends_auction_in" = "Ends Auction in";
+"ends_in" = "Ends in";
+"ends_bid_in" = "Ends bid in";
+"ends_auction_in" = "Ends auction in";
 "break_date" = "Break Date";
 "accepted" = "Accepted";
 "pending" = "Pending";
@@ -123,6 +124,8 @@
 "notes" = "Notes";
 "message" = "Message";
 "max_placement" = "Additional Notes (Optional)";
+"add_rate_day" = "Add Rate (Day)";
+"add_rate_month" = "Add Rate (Month)";
 
 "home" = "Beranda";
 "auction" = "Auction";

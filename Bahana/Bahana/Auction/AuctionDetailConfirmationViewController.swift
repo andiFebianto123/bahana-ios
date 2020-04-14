@@ -22,8 +22,6 @@ class AuctionDetailConfirmationViewController: UIViewController {
     
     var auctionID: Int!
     var auctionType: String!
-    var auctionRequestMaturityDate: String?
-    var tempAuctionRequestMaturityDate: String?
     var revisionRate: Double?
     var confirmationType: String!
     
@@ -48,10 +46,10 @@ class AuctionDetailConfirmationViewController: UIViewController {
         noButton.backgroundColor = primaryColor
         noButton.setTitleColor(.white, for: .normal)
         
-        yesButton.backgroundColor = UIColorFromHex(rgbValue: 0x85cc63)
+        yesButton.backgroundColor = greenColor
         yesButton.setTitleColor(.white, for: .normal)
         
-        changeEndDateButton.backgroundColor = UIColorFromHex(rgbValue: 0xffc74e)
+        changeEndDateButton.backgroundColor = accentColor
         changeEndDateButton.setTitleColor(.white, for: .normal)
         
         if confirmationType == "choosen_bidder" {
@@ -63,7 +61,6 @@ class AuctionDetailConfirmationViewController: UIViewController {
             confirmationLabel.text = localize("confirmation_revise_rate")
         }
         
-        tempAuctionRequestMaturityDate = auctionRequestMaturityDate
         setDatePicker()
         
         presenter = AuctionDetailConfirmationPresenter(delegate: self)
@@ -88,7 +85,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
     func setDatePicker() {
         datePicker.datePickerMode = .date
         //datePicker.date = auctionRequestMaturityDate != nil ? convertStringToDatetime(auctionRequestMaturityDate!)! : Date()
-        datePicker.addTarget(self, action: #selector(dateChanged(sender:)), for: .valueChanged)
+        //datePicker.addTarget(self, action: #selector(dateChanged(sender:)), for: .valueChanged)
         
         let toolbar = UIToolbar()
         toolbar.barStyle = .default
@@ -108,9 +105,13 @@ class AuctionDetailConfirmationViewController: UIViewController {
         textField.inputAccessoryView = toolbar
     }
     
-    func showAlert(title: String, message: String) {
+    func showAlert(title: String, message: String, _ isReturnToDetail: Bool = false) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
+            if isReturnToDetail {
+                self.goBack()
+            }
+        }))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -118,7 +119,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
         if self.confirmationType == "revise_rate" {
             goBack()
         } else {
-            presenter.confirm(auctionID, auctionType, false, auctionRequestMaturityDate)
+            presenter.confirm(auctionID, auctionType, false, nil)
         }
     }
     
@@ -126,7 +127,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
         if self.confirmationType == "revise_rate" {
             presenter.reviseAuction(self.auctionID, self.revisionRate)
         } else {
-            presenter.confirm(auctionID, auctionType, true, auctionRequestMaturityDate)
+            presenter.confirm(auctionID, auctionType, true, nil)
         }
     }
     
@@ -140,7 +141,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
     
     @objc func dateChanged(sender: UIDatePicker) {
         let date = convertDateToString(datePicker.date)
-        auctionRequestMaturityDate = date!
+        //auctionRequestMaturityDate = date!
     }
     
     @objc func closePicker() {
@@ -149,21 +150,18 @@ class AuctionDetailConfirmationViewController: UIViewController {
     
     @objc func donePicker() {
         textField.resignFirstResponder()
-        showConfirmationAlert(auctionRequestMaturityDate!)
+        let date = convertDateToString(datePicker.date)!
+        showConfirmationAlert(date)
     }
     
     func showConfirmationAlert(_ date: String) {
         let alert = UIAlertController(title: localize("information"), message: "\(localize("confirmation_change_end_date")) \(date)?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("no"), style: .default, handler: { action in
-            self.auctionRequestMaturityDate = self.tempAuctionRequestMaturityDate
+            
         }))
         alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
-            self.auctionRequestMaturityDate = convertDateToString(self.datePicker.date)
-            if self.confirmationType == "revise_rate" {
-                self.presenter.reviseAuction(self.auctionID, self.revisionRate)
-            } else {
-                self.presenter.confirm(self.auctionID, self.auctionType, true, self.auctionRequestMaturityDate)
-            }
+            let maturityDate = convertDateToString(self.datePicker.date, format: "yyyy-MM-dd")
+            self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate)
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -171,6 +169,6 @@ class AuctionDetailConfirmationViewController: UIViewController {
 
 extension AuctionDetailConfirmationViewController: AuctionDetailConfirmationDelegate {
     func isConfirmed(_ isConfirmed: Bool, _ message: String) {
-        showAlert(title: localize("information"), message: message)
+        showAlert(title: localize("information"), message: message, isConfirmed)
     }
 }

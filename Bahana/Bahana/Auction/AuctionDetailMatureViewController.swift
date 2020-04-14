@@ -50,7 +50,7 @@ class AuctionDetailMatureViewController: UIViewController {
         titleLabel.text = localize("mature").uppercased()
         titleLabel.textColor = primaryColor
         statusView.layer.cornerRadius = 10
-        let cardBackgroundColor = UIColorFromHex(rgbValue: 0xffe0e0)
+        let cardBackgroundColor = lightRedColor
         portfolioView.backgroundColor = cardBackgroundColor
         portfolioView.layer.cornerRadius = 5
         portfolioView.layer.shadowColor = UIColor.gray.cgColor

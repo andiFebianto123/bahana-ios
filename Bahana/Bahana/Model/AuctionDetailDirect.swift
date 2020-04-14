@@ -27,6 +27,6 @@ struct AuctionDetailDirect {
     var period: String
     var bilyet: [Bilyet]
     var status: String
-    var message: String
+    var message: String?
     var view: Int
 }

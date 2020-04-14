@@ -73,7 +73,7 @@ class AuctionListViewController: UIViewController {
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
         
-        refreshControl.addTarget(self, action: #selector(refresh(sender:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableView.addSubview(refreshControl)
         
         let statusTap = UITapGestureRecognizer(target: self, action: #selector(statusFieldTapped))
@@ -110,7 +110,7 @@ class AuctionListViewController: UIViewController {
         
         tableView.register(UINib(nibName: "AuctionListTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
-        tableView.backgroundColor = UIColorFromHex(rgbValue: 0xecf0f5)
+        tableView.backgroundColor = backgroundColor
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -122,9 +122,7 @@ class AuctionListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        page = 1
-        showLoading(true)
-        self.getData(lastId: nil, lastDate: nil, lastType: nil)
+        refresh()
     }
     
     // MARK: - Navigation
@@ -219,7 +217,7 @@ class AuctionListViewController: UIViewController {
         tableView.backgroundView = customView
     }
     
-    @objc func refresh(sender:AnyObject) {
+    @objc func refresh() {
         page = 1
         showLoading(true)
         self.data.removeAll()

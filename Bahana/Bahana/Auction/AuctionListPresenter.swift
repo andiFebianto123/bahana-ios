@@ -44,12 +44,12 @@ class AuctionListPresenter {
         }
         
         // Add status parameter
-        if filter["status"] == "ACC" || filter["status"] == "REJ" || filter["status"] == "NEC" {
+        if filter["status"] != nil && filter["status"] != "" && filter["status"] == "ACC" || filter["status"] == "REJ" || filter["status"] == "NEC" {
             url += "status=\(filter["status"]!)&"
         }
         
         // Add type parameter
-        if filter["type"] != nil {
+        if filter["type"] != nil && filter["type"] != "" {
             url += "type=\(filter["type"]!.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
@@ -124,8 +124,13 @@ class AuctionListPresenter {
         }
         
         // Add status parameter
-        if filter["status"] == "ACC" || filter["status"] == "REJ" || filter["status"] == "NEC" {
+        if filter["status"] != nil && filter["status"] != "" && filter["status"] == "ACC" || filter["status"] == "REJ" || filter["status"] == "NEC" {
             url += "status=\(filter["status"]!)&"
+        }
+        
+        // Add type parameter
+        if filter["type"] != nil && filter["type"] != "" {
+            url += "type=\(filter["type"]!.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Pagination
