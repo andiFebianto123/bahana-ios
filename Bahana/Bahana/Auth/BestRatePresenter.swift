@@ -12,8 +12,8 @@ import SwiftyJSON
 
 protocol BestRateDelegate {
     func setOptions(_ data: [String:[String]])
-    func getDataFail()
     func setData(_ data: [String: Any]?)
+    func getDataFail()
     func isUpdateSuccess(_ isSuccess: Bool, _ message: String)
 }
 
@@ -84,29 +84,29 @@ class BestRatePresenter {
         }
     }
     
-    func updateBasePlacement(_ data: [String: Any]) {
+    func updateBasePlacement(_ data: [String: String]) {
         let parameters: Parameters = [
-            "breakable_policy": data["idr_breakable_policy"] as! String,
-            "breakable_policy_notes": data["idr_breakable_policy_notes"] as! String,
-            "account_number": data["idr_account_number"] as! String,
-            "account_name": data["idr_account_name"] as! String,
-            "month_rate_1": data["idr_month_rate_1"] as! Double,
-            "month_rate_3": data["idr_month_rate_3"] as! Double,
-            "month_rate_6": data["idr_month_rate_6"] as! Double,
-            "breakable_policy_usd": data["usd_breakable_policy"] as! String,
-            "breakable_policy_notes_usd": data["usd_breakable_policy_notes"] as! String,
-            "account_number_usd": data["usd_account_number"] as! String,
-            "account_name_usd": data["usd_account_name"] as! String,
-            "month_rate_1_usd": data["usd_month_rate_1"] as! Double,
-            "month_rate_3_usd": data["usd_month_rate_3"] as! Double,
-            "month_rate_6_usd": data["usd_month_rate_6"] as! Double,
-            "breakable_policy_syariah": data["sharia_breakable_policy"] as! String,
-            "breakable_policy_notes_syariah": data["sharia_breakable_policy_notes"] as! String,
-            "account_number_syariah": data["sharia_account_number"] as! String,
-            "account_name_syariah": data["sharia_account_name"] as! String,
-            "month_rate_1_syariah": data["sharia_month_rate_1"] as! Double,
-            "month_rate_3_syariah": data["sharia_month_rate_3"] as! Double,
-            "month_rate_6_syariah": data["sharia_month_rate_6"] as! Double,
+            "breakable_policy": data["idr_breakable_policy"]!,
+            "breakable_policy_notes": data["idr_breakable_policy_notes"]!,
+            "account_number": data["idr_account_number"]!,
+            "account_name": data["idr_account_name"]!,
+            "month_rate_1": data["idr_month_rate_1"] != "" ? data["idr_month_rate_1"]! : 0.0,
+            "month_rate_3": data["idr_month_rate_3"] != "" ? data["idr_month_rate_3"]! : 0.0,
+            "month_rate_6": data["idr_month_rate_6"] != "" ? data["idr_month_rate_1"]! : 0.0,
+            "breakable_policy_usd": data["usd_breakable_policy"]!,
+            "breakable_policy_notes_usd": data["usd_breakable_policy_notes"]!,
+            "account_number_usd": data["usd_account_number"]!,
+            "account_name_usd": data["usd_account_name"]!,
+            "month_rate_1_usd": data["usd_month_rate_1"] != "" ? data["usd_month_rate_1"]! : 0.0,
+            "month_rate_3_usd": data["usd_month_rate_3"] != "" ? data["usd_month_rate_3"]! : 0.0,
+            "month_rate_6_usd": data["usd_month_rate_6"] != "" ? data["usd_month_rate_6"]! : 0.0,
+            "breakable_policy_syariah": data["sharia_breakable_policy"]!,
+            "breakable_policy_notes_syariah": data["sharia_breakable_policy_notes"]!,
+            "account_number_syariah": data["sharia_account_number"]!,
+            "account_name_syariah": data["sharia_account_name"]!,
+            "month_rate_1_syariah": data["sharia_month_rate_1"] != "" ? data["sharia_month_rate_1"]! : 0.0,
+            "month_rate_3_syariah": data["sharia_month_rate_3"] != "" ? data["sharia_month_rate_3"]! : 0.0,
+            "month_rate_6_syariah": data["sharia_month_rate_6"] != "" ? data["sharia_month_rate_6"]! : 0.0,
         ]
         
         Alamofire.request(WEB_API_URL + "api/v1/base-placement/update", method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
@@ -114,7 +114,7 @@ class BestRatePresenter {
             case .success:
                 let result = JSON(response.result.value!)
                 if response.response?.statusCode == 200 {
-                    self.delegate?.isUpdateSuccess(true, localize("update_success"))
+                    self.delegate?.isUpdateSuccess(true, localize("update_best_rate_success"))
                 } else {
                     self.delegate?.isUpdateSuccess(false, result["message"].stringValue)
                 }

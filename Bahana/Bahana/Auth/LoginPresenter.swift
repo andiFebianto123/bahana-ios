@@ -61,23 +61,5 @@ class LoginPresenter {
             "access_token": jsonData["access_token"].stringValue
         ]
         setLocalData(data)
-        getInfo()
-    }
-    
-    func getInfo() {
-        // Get profile info
-        Alamofire.request(WEB_API_URL + "api/v1/me", method: .get, headers: getAuthHeaders()).responseJSON { response in
-            switch response.result {
-            case .success:
-                let result = JSON(response.result.value!)
-                setLocalData([
-                    "name": result["fullname"].stringValue,
-                    "email": result["email"].stringValue,
-                    "phone": result["phone"].stringValue
-                ])
-            case .failure(let error):
-                print(error)
-            }
-        }
     }
 }

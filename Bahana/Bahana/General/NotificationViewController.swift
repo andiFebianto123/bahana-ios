@@ -183,6 +183,12 @@ extension NotificationViewController: NotificationDelegate {
     }
     
     func isMarkAsRead(_ isRead: Bool) {
-        //
+        //tableView.reloadData()
+    }
+    
+    func openLoginPage() {
+        let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
+        let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
+        self.present(loginViewController, animated: true, completion: nil)
     }
 }

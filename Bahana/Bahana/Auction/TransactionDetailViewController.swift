@@ -60,7 +60,7 @@ class TransactionDetailViewController: UIViewController {
         loadingView.addSubview(spinner)
         
         NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
             loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -233,5 +233,11 @@ extension TransactionDetailViewController: TransactionDetailDelegate {
         self.data = data
         showLoading(false)
         setContent()
+    }
+    
+    func openLoginPage() {
+        let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
+        let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
+        self.present(loginViewController, animated: true, completion: nil)
     }
 }

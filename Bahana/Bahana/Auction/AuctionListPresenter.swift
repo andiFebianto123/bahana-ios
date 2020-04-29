@@ -64,7 +64,7 @@ class AuctionListPresenter {
             switch response.result {
             case .success:
                 if response.response?.statusCode == 401 {
-                    //self.delegate?.openLoginPage()
+                    self.delegate?.openLoginPage()
                 } else {
                     let result = JSON(response.result.value!)
                     //print(result)
@@ -145,29 +145,33 @@ class AuctionListPresenter {
             case .success:
                 let result = JSON(response.result.value!)
                 //print(result)
-                var auctions = [Auction]()
-                for auct in result["auctions"].arrayValue {
-                    let id = auct["id"].intValue
-                    let auction_name = auct["auction_name"].stringValue
-                    let portfolio = auct["portfolio"].stringValue
-                    let portfolio_short = auct["portfolio_short"].stringValue
-                    let investment_range_start = auct["investment_range_start"].doubleValue
-                    let investment_range_end = auct["investment_range_end"].doubleValue
-                    let start_date = auct["start_date"].stringValue
-                    let end_date = auct["end_date"].stringValue
-                    let break_maturity_date = auct["break_maturity_date"] != JSON.null ? auct["break_maturity_date"].stringValue : nil
-                    let pic_custodian = auct["pic_custodian"] != JSON.null ? auct["pic_custodian"].stringValue : nil
-                    let custodian_bank = auct["custodian_bank"] != JSON.null ? auct["custodian_bank"].stringValue : nil
-                    let type = auct["type"].stringValue
-                    let status = auct["status"].stringValue
-                    let maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
-                    let period = auct["period"].stringValue
+                if response.response?.statusCode == 401 {
+                    self.delegate?.openLoginPage()
+                } else {
+                    var auctions = [Auction]()
+                    for auct in result["auctions"].arrayValue {
+                        let id = auct["id"].intValue
+                        let auction_name = auct["auction_name"].stringValue
+                        let portfolio = auct["portfolio"].stringValue
+                        let portfolio_short = auct["portfolio_short"].stringValue
+                        let investment_range_start = auct["investment_range_start"].doubleValue
+                        let investment_range_end = auct["investment_range_end"].doubleValue
+                        let start_date = auct["start_date"].stringValue
+                        let end_date = auct["end_date"].stringValue
+                        let break_maturity_date = auct["break_maturity_date"] != JSON.null ? auct["break_maturity_date"].stringValue : nil
+                        let pic_custodian = auct["pic_custodian"] != JSON.null ? auct["pic_custodian"].stringValue : nil
+                        let custodian_bank = auct["custodian_bank"] != JSON.null ? auct["custodian_bank"].stringValue : nil
+                        let type = auct["type"].stringValue
+                        let status = auct["status"].stringValue
+                        let maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
+                        let period = auct["period"].stringValue
+                        
+                        let auction = Auction(id: id, auction_name: auction_name, portfolio: portfolio, portfolio_short: portfolio_short, pic_custodian: pic_custodian, custodian_bank: custodian_bank, investment_range_start: investment_range_start, investment_range_end: investment_range_end, start_date: start_date, end_date: end_date, break_maturity_date: break_maturity_date, maturity_date: maturity_date, period: period, type: type, status: status)
+                        auctions.append(auction)
+                    }
                     
-                    let auction = Auction(id: id, auction_name: auction_name, portfolio: portfolio, portfolio_short: portfolio_short, pic_custodian: pic_custodian, custodian_bank: custodian_bank, investment_range_start: investment_range_start, investment_range_end: investment_range_end, start_date: start_date, end_date: end_date, break_maturity_date: break_maturity_date, maturity_date: maturity_date, period: period, type: type, status: status)
-                    auctions.append(auction)
+                    self.delegate?.setData(auctions, page)
                 }
-                
-                self.delegate?.setData(auctions, page)
             case .failure(let error):
                 print(error)
             }

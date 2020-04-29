@@ -13,6 +13,7 @@ import SwiftyJSON
 protocol AuctionDetailRolloverDelegate {
     func setData(_ data: AuctionDetailRollover)
     func isPosted(_ isSuccess: Bool, _ message: String)
+    func openLoginPage()
 }
 
 class AuctionDetailRolloverPresenter {
@@ -28,7 +29,7 @@ class AuctionDetailRolloverPresenter {
             switch response.result {
             case .success:
                 if response.response?.statusCode == 401 {
-                    //self.delegate?.openLoginPage()
+                    self.delegate?.openLoginPage()
                 } else {
                     let res = JSON(response.result.value!)
                     let auct = res["auction"]

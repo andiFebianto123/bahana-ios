@@ -12,6 +12,8 @@ import SwiftyJSON
 
 protocol DashboardDelegate {
     func setData(_ data: [String: Any?])
+    func getDataFail()
+    func openLoginPage()
 }
 
 class DashboardPresenter {
@@ -27,7 +29,7 @@ class DashboardPresenter {
             case .success:
                 let result = JSON(response.result.value!)
                 if response.response?.statusCode == 401 {
-                    //self.delegate?.isLoginSuccess(false, result["message"].stringValue)
+                    self.delegate?.openLoginPage()
                 } else {
                     let data: [String: Any?] = [
                         "completed": result["completed"].intValue,
@@ -42,6 +44,7 @@ class DashboardPresenter {
                 }
             case .failure(let error):
                 print(error)
+                self.delegate?.getDataFail()
             }
         }
     }

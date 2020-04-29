@@ -272,4 +272,8 @@ extension AuctionDetailRolloverViewController: AuctionDetailRolloverDelegate {
         //presenter.getAuction(id)
         showAlert(message, isSuccess)
     }
+    
+    func openLoginPage() {
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailLogin"), object: nil, userInfo: nil)
+    }
 }

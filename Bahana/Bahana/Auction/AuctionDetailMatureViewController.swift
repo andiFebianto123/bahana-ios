@@ -148,4 +148,8 @@ extension AuctionDetailMatureViewController: AuctionDetailMatureDelegate {
         showLoading(false)
         setContent()
     }
+    
+    func openLoginPage() {
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailLogin"), object: nil, userInfo: nil)
+    }
 }

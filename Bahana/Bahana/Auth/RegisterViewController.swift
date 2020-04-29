@@ -13,10 +13,15 @@ class RegisterViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var topTabView: UIView!
+    @IBOutlet weak var bottomBorderView: UIView!
     @IBOutlet weak var bottomNavigationView: UIView!
     @IBOutlet weak var previousView: UIView!
+    @IBOutlet weak var previousViewWidth: NSLayoutConstraint!
     @IBOutlet weak var nextView: UIView!
+    @IBOutlet weak var nextViewWidth: NSLayoutConstraint!
+    @IBOutlet weak var previousIcon: UIImageView!
     @IBOutlet weak var previousLabel: UILabel!
+    @IBOutlet weak var nextIcon: UIImageView!
     @IBOutlet weak var nextLabel: UILabel!
     
     var presenter: RegisterPresenter!
@@ -36,8 +41,11 @@ class RegisterViewController: UIViewController {
         
         setNavigationItems()
         
-        presenter = RegisterPresenter(delegate: self)
+        bottomBorderView.backgroundColor = primaryColor
+        previousLabel.textColor = UIColor.gray
+        nextLabel.textColor = primaryColor
         
+        presenter = RegisterPresenter(delegate: self)
         
         if viewTo == "" {
             // If view is register
@@ -49,10 +57,12 @@ class RegisterViewController: UIViewController {
             loadMainView(index: 0)
         } else if viewTo == "profile" {
             topTabView.isHidden = true
+            bottomBorderView.isHidden = true
             bottomNavigationView.isHidden = true
             loadMainView(index: 0)
         } else if viewTo == "best_rate" {
             topTabView.isHidden = true
+            bottomBorderView.isHidden = true
             bottomNavigationView.isHidden = true
             loadMainView(index: 1)
         }
@@ -111,15 +121,16 @@ class RegisterViewController: UIViewController {
         let alert = UIAlertController(title: localize("information"), message: localize("confirmation_leave_page"), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("no"), style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
+            self.resetRegisterData()
+            NotificationCenter.default.post(name: Notification.Name("RegisterExit"), object: nil, userInfo: nil)
             self.dismiss(animated: true, completion: nil)
         }))
         self.present(alert, animated: true, completion: nil)
     }
     
-    
     func loadMainView(index: Int) {
-        previousLabel.text = "< \(localize("prev").uppercased())"
-        nextLabel.text = "\(localize("next").uppercased()) >"
+        previousLabel.text = localize("previous").uppercased()
+        nextLabel.text = localize("next").uppercased()
         if index == 0 {
             previousView.isHidden = true
         } else if index == 1 {
@@ -127,6 +138,9 @@ class RegisterViewController: UIViewController {
         } else if index == 2 {
             nextLabel.text = localize("send").uppercased()
         }
+        
+        previousViewWidth.constant = previousLabel.intrinsicContentSize.width + 25
+        nextViewWidth.constant = nextLabel.intrinsicContentSize.width + 25
         
         // Load view by tab index
         NotificationCenter.default.post(name: Notification.Name("RegisterTab"), object: nil, userInfo: ["idx": index])
@@ -152,10 +166,10 @@ class RegisterViewController: UIViewController {
         currentViewIdx -= 1
         if currentViewIdx == 2 && !formValid {
             nextView.isUserInteractionEnabled = false
-            nextLabel.textColor = UIColor.gray
+            //nextIcon.image = UIImage(named: "icon_chevron_right_grey")
         } else {
            nextView.isUserInteractionEnabled = true
-           nextLabel.textColor = UIColor.black
+            nextIcon.image = UIImage(named: "icon_chevron_right_red")
         }
         loadMainView(index: currentViewIdx)
         collectionView.reloadData()
@@ -165,15 +179,22 @@ class RegisterViewController: UIViewController {
         if let data = notification.userInfo as? [String: Int] {
             if let idx = data["idx"] {
                 if idx == 2 && !formValid {
+                    // Last step
                     nextView.isUserInteractionEnabled = false
-                    nextLabel.textColor = UIColor.gray
+                    nextIcon.image = nil
+                    nextViewWidth.constant = nextLabel.intrinsicContentSize.width
                 } else {
                     nextView.isUserInteractionEnabled = true
-                    nextLabel.textColor = UIColor.black
                 }
                 currentViewIdx = idx
-                loadMainView(index: idx)
-                collectionView.reloadData()
+                
+                if idx == 3 {
+                    // Submit from last step
+                    presenter.submit()
+                } else {
+                    loadMainView(index: idx)
+                    collectionView.reloadData()
+                }
             }
         }
     }
@@ -192,6 +213,53 @@ class RegisterViewController: UIViewController {
             }
         }
     }
+    
+    func resetRegisterData() {
+        let data: [String: String] = [
+            "name": "",
+            "email": "",
+            "phone": "",
+            "pic_alternative": "",
+            "phone_alternative": "",
+            "bank": "",
+            "bank_name": "",
+            "bank_branch": "",
+            "bank_branch_name": "",
+            "bank_branch_address": "",
+            "bank_type": "",
+            "foreign_exchange": "",
+            "book": "",
+            "sharia": "",
+            "interest_day_count_convertion": "",
+            "end_date": "",
+            "return_to_start_date": "",
+            "holiday_interest": "",
+            "password": "",
+            "password_confirmation": "",
+            "idr_breakable_policy": "",
+            "idr_breakable_policy_notes": "",
+            "idr_account_number": "",
+            "idr_account_name": "",
+            "idr_month_rate_1": "",
+            "idr_month_rate_3": "",
+            "idr_month_rate_6": "",
+            "usd_breakable_policy": "",
+            "usd_breakable_policy_notes": "",
+            "usd_account_number": "",
+            "usd_account_name": "",
+            "usd_month_rate_1": "",
+            "usd_month_rate_3": "",
+            "usd_month_rate_6": "",
+            "sharia_breakable_policy": "",
+            "sharia_breakable_policy_notes": "",
+            "sharia_account_number": "",
+            "sharia_account_name": "",
+            "sharia_month_rate_1": "",
+            "sharia_month_rate_3": "",
+            "sharia_month_rate_6": "",
+        ]
+        setLocalData(data)
+    }
 }
 
 extension RegisterViewController: UICollectionViewDataSource {
@@ -201,12 +269,13 @@ extension RegisterViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RegisterStepCollectionViewCell", for: indexPath) as! RegisterStepCollectionViewCell
+        let fontSize = UIFont.systemFont(ofSize: 9)
         switch indexPath.row {
         case 0:
             cell.number.text = "1"
-            cell.number.font = UIFont.systemFont(ofSize: 11)
+            cell.number.font = fontSize
             cell.name.text = localize("registration_form")
-            cell.name.font = UIFont.systemFont(ofSize: 11)
+            cell.name.font = fontSize
             if currentViewIdx >= 0 {
                 cell.setActive()
             } else {
@@ -214,9 +283,9 @@ extension RegisterViewController: UICollectionViewDataSource {
             }
         case 1:
             cell.number.text = "2"
-            cell.number.font = UIFont.systemFont(ofSize: 11)
+            cell.number.font = fontSize
             cell.name.text = localize("best_rate")
-            cell.name.font = UIFont.systemFont(ofSize: 11)
+            cell.name.font = fontSize
             if currentViewIdx >= 1 {
                 cell.setActive()
             } else {
@@ -224,9 +293,9 @@ extension RegisterViewController: UICollectionViewDataSource {
             }
         case 2:
             cell.number.text = "3"
-            cell.number.font = UIFont.systemFont(ofSize: 11)
+            cell.number.font = fontSize
             cell.name.text = localize("terms_and_conditions")
-            cell.name.font = UIFont.systemFont(ofSize: 11)
+            cell.name.font = fontSize
             if currentViewIdx == 2 {
                 cell.setActive()
             } else {
@@ -257,7 +326,14 @@ extension RegisterViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension RegisterViewController: RegisterDelegate {
-    func isRegisterSuccess(_ isSuccess: Bool) {
-        //
+    func isRegisterSuccess(_ isSuccess: Bool, _ message: String) {
+        let alert = UIAlertController(title: localize("information"), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
+            if isSuccess {
+                self.resetRegisterData()
+                self.dismiss(animated: true, completion: nil)
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 }

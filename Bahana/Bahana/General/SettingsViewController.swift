@@ -34,6 +34,8 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var logoutView: UIView!
     @IBOutlet weak var logoutLabel: UILabel!
     
+    var loadingView = UIView()
+    
     var viewTo = String()
     
     var presenter: SettingsPresenter!
@@ -44,6 +46,27 @@ class SettingsViewController: UIViewController {
         // Do any additional setup after loading the view.
         setNavigationItems()
         setViewText()
+        
+        // Set loading view
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
         
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "bg")
@@ -86,9 +109,8 @@ class SettingsViewController: UIViewController {
         logoutView.tag = 5
         logoutView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
         
-        setContent()
-        
         presenter = SettingsPresenter(delegate: self)
+        presenter.getProfile()
         
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
     }
@@ -122,11 +144,13 @@ class SettingsViewController: UIViewController {
         let badgeView = UIView()
         badgeView.backgroundColor = .lightGray
         badgeView.layer.cornerRadius = 6
+        badgeView.isHidden = true
         badgeView.translatesAutoresizingMaskIntoConstraints = false
         notificationView.addSubview(badgeView)
         
         let badgeLabel = UILabel()
         getUnreadNotificationCount() { count in
+            badgeView.isHidden = false
             if count > 99 {
                 badgeLabel.text = "99+"
             } else {
@@ -160,16 +184,24 @@ class SettingsViewController: UIViewController {
         logoutLabel.text = localize("logout").uppercased()
     }
     
+    func showLoading(_ show: Bool) {
+        if show {
+            loadingView.isHidden = false
+        } else {
+            loadingView.isHidden = true
+        }
+    }
+    
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
-    func setContent() {
-        fullnameLabel.text = getLocalData(key: "name")
-        emailLabel.text = getLocalData(key: "email")
-        phoneLabel.text = getLocalData(key: "phone")
+    func setContent(_ name: String, _ email: String, _ phone: String) {
+        fullnameLabel.text = name
+        emailLabel.text = email
+        phoneLabel.text = phone
     }
     
     @objc func showNotification() {
@@ -198,6 +230,7 @@ class SettingsViewController: UIViewController {
             performSegue(withIdentifier: "showChangeLanguage", sender: self)
         case 5:
             // Logout
+            showLoading(true)
             presenter.logout()
         default:
             break
@@ -211,11 +244,30 @@ class SettingsViewController: UIViewController {
 }
 
 extension SettingsViewController: SettingsDelegate {
+    func setProfile(_ name: String, _ email: String, _ phone: String) {
+        showLoading(false)
+        setContent(name, email, phone)
+    }
+    
     func isLogoutSuccess(_ isLoggedOut: Bool, _ message: String) {
+        showLoading(false)
         if !isLoggedOut {
             showAlert(title: localize("information"), message: message)
         } else {
             performSegue(withIdentifier: "showLogin", sender: self)
         }
+    }
+    
+    func getDataFail() {
+        showLoading(false)
+        let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func openLoginPage() {
+        let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
+        let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
+        self.present(loginViewController, animated: true, completion: nil)
     }
 }

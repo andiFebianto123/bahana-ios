@@ -8,33 +8,35 @@
 
 "back" = "Back";
 "try_again" = "Try again";
-"yes" = "Yes";
-"no" = "No";
+"yes" = "Ya";
+"no" = "Tidak";
 "ok" = "OK";
 "submit" = "Submit";
 "send" = "Send";
-"cancel" = "Cancel";
+"cancel" = "Batal";
 "revised" = "Revised";
 "confirm" = "Confirm";
 "done" = "Done";
 "login" = "Masuk";
 "forgot_your_password" = "Lupa Sandi Anda?";
-"forgot_password_title" = "Forgot Password";
+"forgot_password_title" = "Lupa Sandi";
 "reset_password" = "Reset Password";
 "register" = "Daftar";
 "registration" = "Registrasi";
 "registration_form" = "Form Registrasi";
 "best_rate" = "Best Rate";
 "edit_best_rate" = "Edit Best Rate";
-"terms_and_conditions" = "Term & Conditions";
-"previous" = "Prev";
-"next" = "Next";
+"terms_and_conditions" = "Syarat & Ketentuan";
+"previous" = "Kembali";
+"next" = "Lanjut";
 "filter" = "Filter";
+"update_profile" = "Perbarui Profil";
+"update_best_rate" = "Perbarui Best Rate";
 
 "language_en" = "English (EN)";
 "language_id" = "Bahasa Indonesia (ID)";
 
-"information" = "Information";
+"information" = "Informasi";
 "fail_to_process_data_from_server" = "Fail to process data from server";
 
 "indonesia" = "ID";
@@ -43,11 +45,11 @@
 
 "or" = "Atau";
 "personal_information" = "Data Pribadi";
-"fullname" = "Nama lengkap";
-"email" = "Email";
+"fullname" = "Nama Lengkap";
+"email" = "Alamat Email";
 "phone_number" = "Nomor Telepon";
 "alternative_pic" = "PIC Alternatif";
-"alternative_phone" = "Telepon Alternative";
+"alternative_phone" = "Telepon Alternatif";
 "bank_information" = "Informasi Bank";
 "bank" = "Bank";
 "choose_bank" = "Pilih Bank";
@@ -56,7 +58,7 @@
 "choose_bank_branch" = "Pilih Cabang";
 "new_bank_branch_name" = "Nama Cabang Baru";
 "bank_branch_address" = "Alamat Cabang";
-"bank_type" = "Bank Type";
+"bank_type" = "Tipe Bank";
 "foreign_exchange" = "Devisa";
 "book" = "Buku";
 "sharia" = "Syariah";
@@ -65,16 +67,16 @@
 "return_to_start_date" = "Kembali Tanggal Awal";
 "holiday_interest" = "Bunga Hari Libur";
 "password" = "Sandi";
-"password_confirmation" = "Password Confirmation";
-"placement" = "%@ Placement";
-"breakable_policy" = "Breakable Policy";
+"password_confirmation" = "Konfirmasi Sandi";
+"placement" = "Penempatan %@";
+"breakable_policy" = "Polis Break";
 "policy_notes" = "Policy Notes";
-"breakable_policy_notes" = "Breakable Policy Notes";
-"account_number" = "Account Number";
-"account_name" = "Account Name";
-"month_rate_1" = "Best Rate 1 Month (%)";
-"month_rate_3" = "Best Rate 3 Month (%)";
-"month_rate_6" = "Best Rate 6 Month (%)";
+"breakable_policy_notes" = "Catatan Polis";
+"account_number" = "Nomor Rekening";
+"account_name" = "A/n Rekening";
+"month_rate_1" = "Best Rate 1 Bulan (%)";
+"month_rate_3" = "Best Rate 3 Bulan (%)";
+"month_rate_6" = "Best Rate 6 Bulan (%)";
 
 "fund" = "Fund";
 "status" = "Status";
@@ -92,6 +94,10 @@
 "this_week" = "This week";
 "this_month" = "This month";
 "this_year" = "This year";
+"hour" = "%@ jam";
+"hours" = "%@ jam";
+"minute" = "%@ menit";
+"minutes" = "%@ menit";
 
 "fund_name" = "Fund name";
 "investment" = "Investment (BIO)";
@@ -137,7 +143,7 @@
 "transaction" = "Transaction";
 "transaction_detail" = "Transaction Detail";
 "profile" = "Profil";
-"edit_profile" = "Edit Profil";
+"edit_profile" = "Ubah Profil";
 "notification" = "Notification";
 "contact" = "Contact";
 "faq" = "FAQ";
@@ -155,14 +161,33 @@
 "need_confirmation" = "NEED CONFIRMATION";
 "no_information_at_the_moment" = "No information at the moment.";
 "please_update_best_rate" = "Please update your best rate information";
-"confirmation_leave_page" = "Are you sure you want to leave this page?";
-"phone_must_be_number" = "Phone must be number";
-"update_success" = "Update success";
+"confirmation_leave_page" = "Apakah anda yakin ingin meninggalkan halaman ini?";
+"input_must_be_number" = "%@ harus berupa angka";
+"update_profile_success" = "Berhasil memperbarui profil anda";
+"update_best_rate_success" = "Berhasil memperbarui best rate anda";
 "confirmation_choosen_bidder" = "Are you sure you want to be the choosen bidder?";
 "confirmation_choosen_winner" = "Are you sure you want to be the winner?";
 "confirmation_revise_rate" = "Are you sure you want to revised the rate?";
 "confirmation_change_end_date" = "Are you sure you want to change end date to";
 "auction_detail_footer" = "Any error or mismatch, please directly contact Bahana TCW";
-"confirmation_change_language" = "Are you sure you want to change the language to %@?";
+"confirmation_change_language" = "Apakah anda yakin ingin mengubah bahasa menjadi %@?";
 "fill_required_field" = "Mohon isi semua bidang isian yang wajib diisi";
+"email_required" = "Mohon mengisi alamat email";
+"email_not_valid" = "Email harus berupa alamat email yang valid";
+"password_character_not_enough" = "Sandi minimal berisi 6 karakter";
 "password_not_match" = "Sandi dan konfirmasi sandi harus sama";
+"rate_out_of_range" = "Rate %@ bulan (%@) harus bernilai antara 0 dan 100";
+"cannot_connect_to_server" = "Gagal memproses data dari server";
+
+"january" = "Jan";
+"february" = "Feb";
+"march" = "Mar";
+"april" = "Apr";
+"may" = "Mei";
+"june" = "Jun";
+"july" = "Jul";
+"august" = "Agt";
+"september" = "Sep";
+"october" = "Okt";
+"november" = "Nop";
+"december" = "Des";

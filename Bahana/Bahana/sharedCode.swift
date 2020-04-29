@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 //let WEB_API_URL = "http://localhost:8000/"
-//let WEB_API_URL = "http://192.168.8.106:8000/"
+//let WEB_API_URL = "http://192.168.8.105:8000/"
 let WEB_API_URL = "http://159.65.15.108/bahana/public/"
 
 // Colors
@@ -111,6 +111,8 @@ func convertStringToDate(_ str: String) -> Date? {
     let date = DateFormatter()
     date.dateFormat = "yyyy-MM-dd"
     let time = date.date(from: str)
+    //date.dateFormat = "MM"
+    //print(date.string(from: time!))
     return time
 }
 
@@ -125,13 +127,54 @@ func convertStringToDatetime(_ str: String?) -> Date? {
     }
 }
 
-func convertDateToString(_ date: Date?, format: String = "dd MMM yy") -> String? {
+func convertDateToString(_ date: Date?, format: String = "dd MM yy") -> String? {
     if date != nil {
-        let str = DateFormatter()
+        let formatter = DateFormatter()
         //str.dateFormat = "yyyy-MM-dd"
-        str.dateFormat = format
-        let time = str.string(from: date!)
-        return time
+        var newDate = String()
+        let formats = format.components(separatedBy: " ")
+        for (idx, f) in formats.enumerated() {
+            formatter.dateFormat = f
+            var str = formatter.string(from: date!)
+            
+            if f == "MM" {
+                switch str {
+                case "01":
+                    str = localize("january")
+                case "02":
+                    str = localize("february")
+                case "03":
+                    str = localize("march")
+                case "04":
+                    str = localize("april")
+                case "05":
+                    str = localize("may")
+                case "06":
+                    str = localize("june")
+                case "07":
+                    str = localize("july")
+                case "08":
+                    str = localize("august")
+                case "09":
+                    str = localize("september")
+                case "10":
+                    str = localize("october")
+                case "11":
+                    str = localize("november")
+                case "12":
+                    str = localize("december")
+                default:
+                    break
+                }
+            }
+            
+            if idx == formats.count - 1 {
+                newDate += "\(str)"
+            } else {
+                newDate += "\(str) "
+            }
+        }
+        return newDate
     } else {
         return nil
     }
@@ -257,6 +300,13 @@ func UIColorFromHex(rgbValue:UInt32, alpha:Double=1.0) -> UIColor {
     let blue = CGFloat(rgbValue & 0xFF)/256.0
     
     return UIColor(red:red, green:green, blue:blue, alpha:CGFloat(alpha))
+}
+
+func isEmailValid(_ email: String) -> Bool {
+    let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+    let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+    return emailPred.evaluate(with: email)
 }
 
 extension String {

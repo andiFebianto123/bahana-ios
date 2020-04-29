@@ -124,8 +124,16 @@ class ForgotPasswordViewController: UIViewController {
     }
     
     @IBAction func submitButtonPressed(_ sender: Any) {
-        showLoading(true)
-        presenter.submit(emailField.text!)
+        if emailField.text!.isEmpty {
+            // Email empty
+            showAlert(title: localize("information"), message: localize("email_required"))
+        } else if !emailField.text!.isEmpty && !isEmailValid(emailField.text!) {
+            // Email not valid
+            showAlert(title: localize("information"), message: localize("email_not_valid"))
+        } else {
+            showLoading(true)
+            presenter.submit(emailField.text!)
+        }
     }
 }
 

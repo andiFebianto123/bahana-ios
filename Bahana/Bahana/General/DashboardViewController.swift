@@ -32,8 +32,11 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var informationTitle: UILabel!
     @IBOutlet weak var informationContentView: UIView!
     @IBOutlet weak var informationContent: UILabel!
+    @IBOutlet weak var informationContentChevron: UIImageView!
     
     var loadingView = UIView()
+    
+    var refreshControl = UIRefreshControl()
     
     var presenter: DashboardPresenter!
     
@@ -45,6 +48,9 @@ class DashboardViewController: UIViewController {
         setViewText()
         
         view.backgroundColor = backgroundColor
+        
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        //view.addSubview(refreshControl)
         
         // Set loading view
         loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
@@ -95,16 +101,19 @@ class DashboardViewController: UIViewController {
         completedAuctionTitleLabel.font = titleFont
         completedAuctionLabel.textColor = primaryColor
         completedAuctionLabel.font = unitAmountFont
+        completedAuctionLabel.text = "-"
         completedAuctionUnitLabel.textColor = primaryColor
         completedAuctionUnitLabel.font = unitFont
         ongoingAuctionTitleLabel.font = titleFont
         ongoingAuctionLabel.textColor = primaryColor
         ongoingAuctionLabel.font = unitAmountFont
+        ongoingAuctionLabel.text = "-"
         ongoingAuctionUnitLabel.textColor = primaryColor
         ongoingAuctionUnitLabel.font = unitFont
         needConfirmationTitleLabel.font = titleFont
         needConfirmationLabel.textColor = primaryColor
         needConfirmationLabel.font = unitAmountFont
+        needConfirmationLabel.text = "-"
         needConfirmationUnitLabel.textColor = primaryColor
         needConfirmationUnitLabel.font = unitFont
         
@@ -114,6 +123,9 @@ class DashboardViewController: UIViewController {
         
         informationTitle.textColor = primaryColor
         informationTitle.text = localize("information").uppercased()
+        informationContentView.backgroundColor = backgroundColor
+        informationContent.text = "-"
+        informationContentChevron.isHidden = true
         
         presenter = DashboardPresenter(delegate: self)
         presenter.getData()
@@ -149,11 +161,13 @@ class DashboardViewController: UIViewController {
         let badgeView = UIView()
         badgeView.backgroundColor = .lightGray
         badgeView.layer.cornerRadius = 6
+        badgeView.isHidden = true
         badgeView.translatesAutoresizingMaskIntoConstraints = false
         notificationView.addSubview(badgeView)
         
         let badgeLabel = UILabel()
         getUnreadNotificationCount() { count in
+            badgeView.isHidden = false
             if count > 99 {
                 badgeLabel.text = "99+"
             } else {
@@ -191,6 +205,10 @@ class DashboardViewController: UIViewController {
         } else {
             loadingView.isHidden = true
         }
+    }
+    
+    @objc func refresh() {
+        presenter.getData()
     }
     
     @objc func showNotification() {
@@ -234,9 +252,24 @@ extension DashboardViewController: DashboardDelegate {
             informationContentView.backgroundColor = UIColor.white
             informationContent.text = localize("please_update_best_rate")
             informationContentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showBestRate)))
+            informationContentChevron.isHidden = false
         } else {
             informationContentView.backgroundColor = backgroundColor
             informationContent.text = localize("no_information_at_the_moment")
+            informationContentChevron.isHidden = true
         }
+    }
+    
+    func getDataFail() {
+        showLoading(false)
+        let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func openLoginPage() {
+        let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
+        let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
+        self.present(loginViewController, animated: true, completion: nil)
     }
 }

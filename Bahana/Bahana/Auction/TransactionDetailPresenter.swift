@@ -12,6 +12,7 @@ import SwiftyJSON
 
 protocol TransactionDetailDelegate {
     func setData(_ data: Transaction)
+    func openLoginPage()
 }
 
 class TransactionDetailPresenter {
@@ -28,7 +29,7 @@ class TransactionDetailPresenter {
             switch response.result {
             case .success:
                 if response.response?.statusCode == 401 {
-                    //self.delegate?.openLoginPage()
+                    self.delegate?.openLoginPage()
                 } else {
                     let trans = JSON(response.result.value!)
                     

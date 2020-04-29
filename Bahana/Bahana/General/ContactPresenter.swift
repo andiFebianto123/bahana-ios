@@ -11,6 +11,8 @@ import SwiftyJSON
 
 protocol ContactDelegate {
     func setData(_ data: [Contact])
+    func getDataFail()
+    func openLoginPage()
 }
 
 class ContactPresenter {
@@ -26,7 +28,7 @@ class ContactPresenter {
             case .success:
                 let result = JSON(response.result.value!)
                 if response.response?.statusCode == 401 {
-                    //
+                    self.delegate?.openLoginPage()
                 } else {
                     var contacts = [Contact]()
                     for contact in result.arrayValue {
@@ -40,6 +42,7 @@ class ContactPresenter {
                 }
             case .failure(let error):
                 print(error)
+                self.delegate?.getDataFail()
             }
         }
     }

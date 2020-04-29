@@ -19,6 +19,8 @@ class FaqViewController: UIViewController {
     
     var loadingView = UIView()
     
+    var refreshControl = UIRefreshControl()
+    
     var presenter: FaqPresenter!
     
     var data = [Faq]()
@@ -43,13 +45,16 @@ class FaqViewController: UIViewController {
         loadingView.addSubview(spinner)
         
         NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
             loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
+        
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.addSubview(refreshControl)
         
         searchBar.delegate = self
         
@@ -60,7 +65,7 @@ class FaqViewController: UIViewController {
         tableView.register(UINib(nibName: "FaqTableViewCell", bundle: nil), forCellReuseIdentifier: "FaqTableViewCell")
         
         presenter = FaqPresenter(delegate: self)
-        presenter.getData()
+        refresh()
     }
     
 
@@ -92,6 +97,11 @@ class FaqViewController: UIViewController {
         } else {
             loadingView.isHidden = true
         }
+    }
+    
+    @objc func refresh() {
+        showLoading(true)
+        presenter.getData()
     }
     
     @objc func close() {
@@ -153,7 +163,22 @@ extension FaqViewController: FaqDelegate {
     func setData(_ data: [Faq]) {
         self.data = data
         self.tempData = data
+        refreshControl.endRefreshing()
         showLoading(false)
         tableView.reloadData()
+    }
+    
+    func getDataFail() {
+        refreshControl.endRefreshing()
+        showLoading(false)
+        let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func openLoginPage() {
+        let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
+        let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
+        self.present(loginViewController, animated: true, completion: nil)
     }
 }

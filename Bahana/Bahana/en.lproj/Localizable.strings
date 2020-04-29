@@ -30,6 +30,8 @@
 "previous" = "Prev";
 "next" = "Next";
 "filter" = "Filter";
+"update_profile" = "Update Profile";
+"update_best_rate" = "Update Best Rate";
 
 "language_en" = "English (EN)";
 "language_id" = "Bahasa Indonesia (ID)";
@@ -92,6 +94,10 @@
 "this_week" = "This week";
 "this_month" = "This month";
 "this_year" = "This year";
+"hour" = "%@ hour";
+"hours" = "%@ hours";
+"minute" = "%@ minute";
+"minutes" = "%@ mins";
 
 "fund_name" = "Fund name";
 "investment" = "Investment (BIO)";
@@ -156,8 +162,9 @@
 "no_information_at_the_moment" = "No information at the moment.";
 "please_update_best_rate" = "Please update your best rate information";
 "confirmation_leave_page" = "Are you sure you want to leave this page?";
-"phone_must_be_number" = "Phone must be number";
-"update_success" = "Update success";
+"input_must_be_number" = "The %@ must be a valid number";
+"update_profile_success" = "Successfully update your profile";
+"update_best_rate_success" = "Successfully update your best rate";
 "confirmation_choosen_bidder" = "Are you sure you want to be the choosen bidder?";
 "confirmation_choosen_winner" = "Are you sure you want to be the winner?";
 "confirmation_revise_rate" = "Are you sure you want to revised the rate?";
@@ -165,4 +172,22 @@
 "auction_detail_footer" = "Any error or mismatch, please directly contact Bahana TCW";
 "confirmation_change_language" = "Are you sure you want to change the language to %@?";
 "fill_required_field" = "Please fill all the required field";
+"email_required" = "The email field is required";
+"email_not_valid" = "The email field must be a valid email address";
+"password_character_not_enough" = "The password field must be at least 6 characters";
 "password_not_match" = "The password field and confirm password field must match";
+"rate_out_of_range" = "The %@ month rate (%@) field must be between 0 and 100";
+"cannot_connect_to_server" = "Failed to process data from the server";
+
+"january" = "Jan";
+"february" = "Feb";
+"march" = "Mar";
+"april" = "Apr";
+"may" = "May";
+"june" = "Jun";
+"july" = "Jul";
+"august" = "Aug";
+"september" = "Sep";
+"october" = "Oct";
+"november" = "Nov";
+"december" = "Dec";

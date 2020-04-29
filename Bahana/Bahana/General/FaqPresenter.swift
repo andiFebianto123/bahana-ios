@@ -12,6 +12,8 @@ import SwiftyJSON
 
 protocol FaqDelegate {
     func setData(_ data: [Faq])
+    func getDataFail()
+    func openLoginPage()
 }
 
 class FaqPresenter {
@@ -27,7 +29,7 @@ class FaqPresenter {
             case .success:
                 let result = JSON(response.result.value!)
                 if response.response?.statusCode == 401 {
-                    //
+                    self.delegate?.openLoginPage()
                 } else {
                     var faqs = [Faq]()
                     for faq in result.arrayValue {
@@ -44,6 +46,7 @@ class FaqPresenter {
                 }
             case .failure(let error):
                 print(error)
+                self.delegate?.getDataFail()
             }
         }
     }

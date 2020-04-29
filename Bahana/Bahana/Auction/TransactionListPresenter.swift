@@ -68,7 +68,7 @@ class TransactionListPresenter {
             switch response.result {
             case .success:
                 if response.response?.statusCode == 401 {
-                    //self.delegate?.openLoginPage()
+                    self.delegate?.openLoginPage()
                 } else {
                     let result = JSON(response.result.value!)
                     //print(result)

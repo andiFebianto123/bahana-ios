@@ -11,11 +11,11 @@ import Alamofire
 import SwiftyJSON
 
 protocol ProfileDelegate {
-    func setBanks(_ data: [Bank])
-    func setBankBranchs(_ data: [BankBranch])
+    func setParentBanks(_ data: [Bank])
+    func setParentBankBranchs(_ data: [BankBranch])
     func setOptions(_ data: [String:[String]])
+    func setProfile(_ data: [String: Any])
     func getDataFail()
-    func setData(_ data: [String: Any])
     func isUpdateSuccess(_ isSuccess: Bool, _ message: String)
 }
 
@@ -25,6 +25,46 @@ class ProfilePresenter {
     
     init(delegate: ProfileDelegate){
         self.delegate = delegate
+    }
+    
+    func getParentBank() {
+        Alamofire.request(WEB_API_URL + "api/v1/parent-bank").responseJSON { response in
+            switch response.result {
+            case .success:
+                let result = JSON(response.result.value!)
+                var banks = [Bank]()
+                for res in result.arrayValue {
+                    let bank = Bank.init(id: String(res["id"].intValue), name: res["parent_bank_name"].stringValue, code: res["parent_bank_code"].stringValue)
+                    banks.append(bank)
+                }
+                self.delegate?.setParentBanks(banks)
+            case .failure(let error):
+                self.delegate?.getDataFail()
+            }
+        }
+    }
+    
+    func getParentBankBranch(_ id: String) {
+        Alamofire.request(WEB_API_URL + "api/v1/parent-bank/\(id)/branch").responseJSON { response in
+            switch response.result {
+            case .success:
+                let result = JSON(response.result.value!)
+                var branchs = [BankBranch]()
+                for res in result.arrayValue {
+                    if res["issuers"].arrayValue.count > 0 {
+                        let firstIssuer = res["issuers"].arrayValue.first
+                        let branch = BankBranch.init(id: String(res["id"].intValue), name: firstIssuer!["description"].stringValue, code: res["branch_code"].stringValue)
+                        branchs.append(branch)
+                    } else {
+                        let branch = BankBranch.init(id: String(res["id"].intValue), name: res["branch_name"].stringValue, code: res["branch_code"].stringValue)
+                        branchs.append(branch)
+                    }
+                }
+                self.delegate?.setParentBankBranchs(branchs)
+            case .failure(let error):
+                self.delegate?.getDataFail()
+            }
+        }
     }
     
     func getBank() {
@@ -37,7 +77,7 @@ class ProfilePresenter {
                     let bank = Bank.init(id: String(res["id"].intValue), name: res["bank_name"].stringValue, code: res["bank_code"].stringValue)
                     banks.append(bank)
                 }
-                self.delegate?.setBanks(banks.reversed())
+                //self.delegate?.setBanks(banks.reversed())
             case .failure(let error):
                 self.delegate?.getDataFail()
             }
@@ -60,7 +100,7 @@ class ProfilePresenter {
                         branchs.append(branch)
                     }
                 }
-                self.delegate?.setBankBranchs(branchs.reversed())
+                //self.delegate?.setBankBranchs(branchs.reversed())
             case .failure(let error):
                 self.delegate?.getDataFail()
             }
@@ -81,8 +121,8 @@ class ProfilePresenter {
                 
                 // Devisa
                 options["foreign_exchange"] = [
-                    "Yes",
-                    "No"
+                    "No",
+                    "Yes"
                 ]
                 
                 // Book
@@ -111,8 +151,8 @@ class ProfilePresenter {
                 
                 // Return to start date
                 options["return_to_start_date"] = [
-                    "Yes",
-                    "No"
+                    "No",
+                    "Yes"
                 ]
                 
                 // Holiday interest
@@ -160,7 +200,7 @@ class ProfilePresenter {
                     "holiday_interest": result["branch"]["holiday_interest"] != JSON.null ? result["branch"]["holiday_interest"].stringValue : nil,
                 ]
                 
-                self.delegate?.setData(data)
+                self.delegate?.setProfile(data)
             case .failure(let error):
                 self.delegate?.getDataFail()
             }
@@ -170,26 +210,26 @@ class ProfilePresenter {
     func updateProfile(_ data: [String: String]) {
         
         let parameters: Parameters = [
-            "fullname": data["name"] as! String,
-            "email": data["email"] as! String,
-            "phone": data["phone"] as! String,
-            "other_name": data["pic_alternative"] as! String,
-            "other_phone": data["phone_alternative"] as! String,
-            "parent_bank_id": data["bank"] as! String,
-            "bank_name": data["bank_name"] as! String,
-            "branch_id": data["bank_branch"] as! String,
-            "branch_name": data["bank_branch_name"] as! String,
-            "address": data["bank_branch_address"] as! String,
-            "bank_type": data["bank_type"] as! String,
-            "devisa": data["foreign_exchange"] as! String,
-            "buku": data["book"] as! String,
-            "sharia": data["sharia"] as! String,
-            "interest_day_count_convertion": data["interest_day_count_convertion"] as! String,
-            "end_date": data["end_date"] as! String,
-            "return_start_date": data["return_to_start_date"] as! String,
-            "holiday_interest": data["holiday_interest"] as! String,
-            "password": data["password"] as! String,
-            "password_confirmation": data["password_confirmation"] as! String,
+            "fullname": data["name"]!,
+            "email": data["email"]!,
+            "phone": data["phone"]!,
+            "other_name": data["pic_alternative"]!,
+            "other_phone": data["phone_alternative"]!,
+            "parent_bank_id": data["bank"]!,
+            "bank_name": data["bank_name"]!,
+            "branch_id": data["bank_branch"]!,
+            "branch_name": data["bank_branch_name"]!,
+            "address": data["bank_branch_address"]!,
+            "bank_type": data["bank_type"]!,
+            "devisa": data["foreign_exchange"]!,
+            "buku": data["book"]!,
+            "sharia": data["sharia"]!,
+            "interest_day_count_convertion": data["interest_day_count_convertion"]!,
+            "end_date": data["end_date"]!,
+            "return_start_date": data["return_to_start_date"]!,
+            "holiday_interest": data["holiday_interest"]!,
+            "password": data["password"]!,
+            "password_confirmation": data["password_confirmation"]!,
         ]
         
         Alamofire.request(WEB_API_URL + "api/v1/me", method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
@@ -197,7 +237,7 @@ class ProfilePresenter {
             case .success:
                 let result = JSON(response.result.value!)
                 if response.response?.statusCode == 200 {
-                    self.delegate?.isUpdateSuccess(true, localize("update_success"))
+                    self.delegate?.isUpdateSuccess(true, localize("update_profile_success"))
                 } else {
                     self.delegate?.isUpdateSuccess(false, result["message"].stringValue)
                 }

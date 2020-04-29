@@ -12,6 +12,7 @@ import WebKit
 class TermsAndConditionsViewController: UIViewController {
 
     var webView: WKWebView!
+    var activityIndicatorView = UIActivityIndicatorView()
     
     var presenter: TermsAndConditionsPresenter!
     
@@ -37,6 +38,15 @@ class TermsAndConditionsViewController: UIViewController {
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 20)
         ])
         
+        webView.addSubview(activityIndicatorView)
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            activityIndicatorView.centerXAnchor.constraint(equalTo: webView.centerXAnchor, constant: 0),
+            activityIndicatorView.centerYAnchor.constraint(equalTo: webView.centerYAnchor, constant: 0),
+        ])
+        activityIndicatorView.startAnimating()
+        
         presenter = TermsAndConditionsPresenter(delegate: self)
         presenter.getTC()
         
@@ -55,7 +65,12 @@ class TermsAndConditionsViewController: UIViewController {
     */
     
     @objc func verify(notification:Notification) {
-        NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["step": 3])
+        if let data = notification.userInfo as? [String: Int] {
+            let idx = data["idx"]!
+            if idx == 2 {
+                NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 3])
+            }
+        }
     }
 }
 
@@ -78,6 +93,7 @@ extension TermsAndConditionsViewController: WKScriptMessageHandler {
 
 extension TermsAndConditionsViewController: TermsAndConditionsDelegate {
     func setData(_ data: String) {
+        activityIndicatorView.stopAnimating()
         webView.loadHTMLString(data, baseURL: nil)
     }
 }

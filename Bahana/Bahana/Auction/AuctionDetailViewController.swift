@@ -84,7 +84,7 @@ class AuctionDetailViewController: UIViewController {
         loadingView.addSubview(spinner)
         
         NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
             loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -107,6 +107,9 @@ class AuctionDetailViewController: UIViewController {
         
         // Confirmation button pressed
         NotificationCenter.default.addObserver(self, selector: #selector(showConfirmation(notification:)), name: Notification.Name("AuctionDetailConfirmation"), object: nil)
+        
+        // Open login page
+        NotificationCenter.default.addObserver(self, selector: #selector(openLoginPage), name: Notification.Name("AuctionDetailLogin"), object: nil)
     }
     
     // MARK: - Navigation
@@ -181,6 +184,12 @@ class AuctionDetailViewController: UIViewController {
             }
             showAlert(title: localize("information"), message: message, isBackToList)
         }
+    }
+    
+    @objc func openLoginPage() {
+        let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
+        let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
+        self.present(loginViewController, animated: true, completion: nil)
     }
     
     func showAlert(title: String, message: String, _ isBackToList: Bool) {

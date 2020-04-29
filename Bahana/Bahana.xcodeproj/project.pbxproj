@@ -306,8 +306,8 @@
 		BCC95AD623EADCA400515773 /* General */ = {
 			isa = PBXGroup;
 			children = (
-				BCC95AD423EADBEC00515773 /* DashboardViewController.swift */,
 				BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */,
+				BCC95AD423EADBEC00515773 /* DashboardViewController.swift */,
 				BC27FF8924053B00002E1188 /* DashboardPresenter.swift */,
 				BCC0A6332406707F00B8FA2F /* SettingsViewController.swift */,
 				BC190B66240E77F100D11011 /* SettingsPresenter.swift */,

@@ -152,11 +152,13 @@ class TransactionListViewController: UIViewController {
         let badgeView = UIView()
         badgeView.backgroundColor = .lightGray
         badgeView.layer.cornerRadius = 6
+        badgeView.isHidden = true
         badgeView.translatesAutoresizingMaskIntoConstraints = false
         notificationView.addSubview(badgeView)
         
         let badgeLabel = UILabel()
         getUnreadNotificationCount() { count in
+            badgeView.isHidden = false
             if count > 99 {
                 badgeLabel.text = "99+"
             } else {

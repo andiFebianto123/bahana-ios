@@ -14,6 +14,8 @@ class ContactViewController: UIViewController {
     
     var loadingView = UIView()
     
+    var refreshControl = UIRefreshControl()
+    
     var presenter: ContactPresenter!
     
     var data = [Contact]()
@@ -45,13 +47,16 @@ class ContactViewController: UIViewController {
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
         
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.addSubview(refreshControl)
+        
         tableView.backgroundColor = backgroundColor
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
         
         presenter = ContactPresenter(delegate: self)
-        presenter.getData()
+        refresh()
     }
     
 
@@ -98,6 +103,11 @@ class ContactViewController: UIViewController {
         }
     }
     
+    @objc func refresh() {
+        showLoading(true)
+        presenter.getData()
+    }
+    
     @objc func close() {
         self.dismiss(animated: true, completion: nil)
     }
@@ -127,7 +137,22 @@ extension ContactViewController: UITableViewDelegate {
 extension ContactViewController: ContactDelegate {
     func setData(_ data: [Contact]) {
         self.data = data
+        refreshControl.endRefreshing()
         showLoading(false)
         tableView.reloadData()
+    }
+    
+    func getDataFail() {
+        refreshControl.endRefreshing()
+        showLoading(false)
+        let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func openLoginPage() {
+        let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
+        let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
+        self.present(loginViewController, animated: true, completion: nil)
     }
 }
