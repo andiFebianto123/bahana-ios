@@ -12,6 +12,7 @@ import SwiftyJSON
 protocol NotificationDelegate {
     func setData(_ data: [NotificationModel], _ page: Int)
     func isMarkAsRead(_ isRead: Bool)
+    func getDataFail()
 }
 
 class NotificationPresenter {
@@ -60,6 +61,7 @@ class NotificationPresenter {
                 }
             case .failure(let error):
                 print(error)
+                self.delegate?.getDataFail()
             }
         }
     }

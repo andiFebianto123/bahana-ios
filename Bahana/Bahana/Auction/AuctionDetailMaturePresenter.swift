@@ -11,6 +11,7 @@ import SwiftyJSON
 
 protocol AuctionDetailMatureDelegate {
     func setData(_ data: AuctionDetailMature)
+    func getDataFail()
     //func isPosted(_ isSuccess: Bool, _ message: String)
     func openLoginPage()
 }
@@ -23,8 +24,19 @@ class AuctionDetailMaturePresenter {
     }
     
     func getAuction(_ id: Int) {
+        // Lang
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        
         // Get auction
-        Alamofire.request(WEB_API_URL + "api/v1/mature-auction/\(id)", method: .get, headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/mature-auction/\(id)?lang=\(lang)", method: .get, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:
                 if response.response?.statusCode == 401 {
@@ -51,6 +63,7 @@ class AuctionDetailMaturePresenter {
                 }
             case .failure(let error):
                 print(error)
+                self.delegate?.getDataFail()
             }
         }
     }

@@ -133,10 +133,27 @@ class AuctionDetailMatureViewController: UIViewController {
         investmentLabel.text = "IDR \(toIdrBio(data.quantity))"
         periodLabel.text = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
         
-        footerLabel.text = """
-        \(localize("auction_detail_footer"))
-        Ref Code : MA.\(data.auction_name)
-        """
+        // Footer
+        let mutableAttributedString = NSMutableAttributedString()
+        
+        let topTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        let bottomTextAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 8), NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        
+        let topText = NSAttributedString(string: localize("auction_detail_footer"), attributes: topTextAttribute)
+        mutableAttributedString.append(topText)
+        let bottomText = NSAttributedString(string: "\n\(localize("ref_code"))\(data.auction_name)", attributes: bottomTextAttribute)
+        mutableAttributedString.append(bottomText)
+        
+        footerLabel.attributedText = mutableAttributedString
+    }
+    
+    func showAlert(_ message: String, _ isBackToList: Bool = false) {
+        let param: [String: String] = [
+            "message": message,
+            "isBackToList": isBackToList ? "true" : "false"
+        ]
+        
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["data": param])
     }
 }
 
@@ -147,6 +164,11 @@ extension AuctionDetailMatureViewController: AuctionDetailMatureDelegate {
         view.isHidden = false
         showLoading(false)
         setContent()
+    }
+    
+    func getDataFail() {
+        showLoading(false)
+        showAlert(localize("cannot_connect_to_server"))
     }
     
     func openLoginPage() {

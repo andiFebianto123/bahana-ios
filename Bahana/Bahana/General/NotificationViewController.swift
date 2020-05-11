@@ -18,6 +18,8 @@ class NotificationViewController: UIViewController {
     
     var loadingView = UIView()
     
+    var refreshControl = UIRefreshControl()
+    
     var presenter: NotificationPresenter!
     
     var data = [NotificationModel]()
@@ -48,13 +50,16 @@ class NotificationViewController: UIViewController {
         loadingView.addSubview(spinner)
         
         NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
             loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
+        
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.addSubview(refreshControl)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -65,7 +70,7 @@ class NotificationViewController: UIViewController {
         setNavigationItems()
         
         presenter = NotificationPresenter(delegate: self)
-        getData(lastId: nil, lastDate: nil)
+        refresh()
     }
     
 
@@ -110,6 +115,14 @@ class NotificationViewController: UIViewController {
         } else {
             loadingView.isHidden = true
         }
+    }
+    
+    @objc func refresh() {
+        page = 1
+        showLoading(true)
+        self.data.removeAll()
+        tableView.reloadData()
+        getData(lastId: nil, lastDate: nil)
     }
     
     @objc func close() {
@@ -176,6 +189,7 @@ extension NotificationViewController: NotificationDelegate {
             if data.count < dataPerPage {
                 stopFetch = true
             }
+            refreshControl.endRefreshing()
             showLoading(false)
             loadFinished = true
             tableView.reloadData()
@@ -184,6 +198,14 @@ extension NotificationViewController: NotificationDelegate {
     
     func isMarkAsRead(_ isRead: Bool) {
         //tableView.reloadData()
+    }
+    
+    func getDataFail() {
+        refreshControl.endRefreshing()
+        showLoading(false)
+        let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func openLoginPage() {

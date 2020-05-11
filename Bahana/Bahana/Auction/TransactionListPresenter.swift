@@ -14,6 +14,7 @@ protocol TransactionListDelegate {
     func openLoginPage()
     func setData(_ data: [Transaction], _ page: Int)
     func setFunds(_ data: [String])
+    func getDataFail()
 }
 
 class TransactionListPresenter {
@@ -28,29 +29,49 @@ class TransactionListPresenter {
         // Get transaction
         var url = "transaction-new?"
         
+        // Lang
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        url += "lang=\(lang)&"
+        
         // Fund parameter
-        if filter["portfolio"] != nil && filter["portfolio"] != "" {
+        if filter["portfolio"] != nil && filter["portfolio"] != "" && filter["portfolio"] != localize("all") {
             url += "portfolio=\(filter["portfolio"]!.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Status parameter
         if filter["status"] != nil && filter["status"] != "" {
-            url += "status=\(filter["status"]!.replacingOccurrences(of: " ", with: "%20"))&"
+            //let status = localize(filter["status"]!)
+            let status = filter["status"]!
+            url += "status=\(status.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Issue date parameter
         if filter["issue_date"] != nil && filter["issue_date"] != "" {
-            url += "issue_date=\(filter["issue_date"]!.replacingOccurrences(of: " ", with: "%20"))&"
+            //let issueDate = localize(filter["issue_date"]!)
+            let issueDate = filter["issue_date"]!
+            url += "issue_date=\(issueDate.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Maturity date parameter
         if filter["maturity_date"] != nil && filter["maturity_date"] != "" {
-            url += "maturity_date=\(filter["maturity_date"]!.replacingOccurrences(of: " ", with: "%20"))&"
+            //let maturityDate = localize(filter["maturity_date"]!)
+            let maturityDate = filter["maturity_date"]!
+            url += "maturity_date=\(maturityDate.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Issue date parameter
         if filter["break_date"] != nil && filter["break_date"] != "" {
-            url += "break_date=\(filter["break_date"]!.replacingOccurrences(of: " ", with: "%20"))&"
+            //let breakDate = localize(filter["break_date"]!)
+            let breakDate = filter["break_date"]!
+            url += "break_date=\(breakDate.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Outstanding parameter
@@ -63,7 +84,7 @@ class TransactionListPresenter {
             let pageUrl = "last_id=\(lastId!)&"
             url += pageUrl
         }
-        
+        //print(url)
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:
@@ -93,6 +114,7 @@ class TransactionListPresenter {
                     }
                     
                     var funds = [String]()
+                    funds.append(localize("all"))
                     for fund in result["portfolios"].arrayValue {
                         funds.append(fund.stringValue)
                     }
@@ -103,6 +125,7 @@ class TransactionListPresenter {
                 }
             case .failure(let error):
                 print(error)
+                self.delegate?.getDataFail()
             }
         }
     }

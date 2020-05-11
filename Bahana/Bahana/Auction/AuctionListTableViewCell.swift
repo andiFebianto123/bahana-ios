@@ -141,31 +141,40 @@ class AuctionListTableViewCell: UITableViewCell {
         endTitleLabel.text = localize("maturity_date")
         
         // Transaction type
-        typeLabel.text = transaction.status.uppercased()
+        var title = String()
+        var backgroundColor: UIColor!
+        switch transaction.status {
+        case "Active":
+            title = localize("active")
+            backgroundColor = greenColor
+        case "Break":
+            title = localize("break")
+            backgroundColor = primaryColor
+        case "Mature":
+            title = localize("mature")
+            backgroundColor = blueColor
+        case "Rollover":
+            title = localize("rollover")
+            backgroundColor = accentColor
+        case "Canceled":
+            title = localize("canceled")
+            backgroundColor = darkGreyColor
+        case "Used in RO Auction":
+            title = localize("used_in_ro_auction")
+            backgroundColor = darkYellowColor
+        case "Used in Break Auction":
+            title = localize("used_in_break_auction")
+            backgroundColor = darkRedColor
+        default:
+            break
+        }
+        typeLabel.text = title.uppercased()
+        
         let typeTextWidth = typeLabel.intrinsicContentSize.width
         typeViewWidth.constant = typeTextWidth + 10
         typeLabel.textColor = .white
         typeView.layer.borderWidth = 0
         
-        var backgroundColor: UIColor!
-        switch transaction.status {
-        case "Active":
-            backgroundColor = greenColor
-        case "Break":
-            backgroundColor = primaryColor
-        case "Mature":
-            backgroundColor = blueColor
-        case "Rollover":
-            backgroundColor = accentColor
-        case "Canceled":
-            backgroundColor = darkGreyColor
-        case "Used in RO Auction":
-            backgroundColor = darkYellowColor
-        case "Used in Break Auction":
-            backgroundColor = darkRedColor
-        default:
-            break
-        }
         typeView.backgroundColor = backgroundColor
         
         setStatus("-")
@@ -193,28 +202,32 @@ class AuctionListTableViewCell: UITableViewCell {
     }
     
     func setAuctionType(_ type: String) {
-        //if !alreadySet {
-            typeLabel.text = type.replacingOccurrences(of: "-", with: " ").uppercased()
-            let typeTextWidth = typeLabel.intrinsicContentSize.width
-            typeViewWidth.constant = typeTextWidth + 10
+        mainView.backgroundColor = UIColor.white
+    
+        var title = String()
+        switch type {
+        case "auction":
+            title = localize("auction")
+        case "direct-auction":
+            title = localize("direct_auction")
+        case "break":
+            title = localize("break")
+            placementDateTitleLabel.text = localize("maturity_date")
+            endTitleLabel.text = localize("break_date")
+        case "rollover":
+            title = localize("rollover")
+            placementDateTitleLabel.text = localize("maturity_date")
+        case "mature":
+            title = localize("mature")
+            mainView.backgroundColor = lightRedColor
+            break
+        default:
+            break
+        }
+        typeLabel.text = title.uppercased()
         
-            mainView.backgroundColor = UIColor.white
-        
-            switch type {
-            case "break":
-                placementDateTitleLabel.text = localize("maturity_date")
-                endTitleLabel.text = localize("break_date")
-            case "rollover":
-                placementDateTitleLabel.text = localize("maturity_date")
-            case "mature":
-                mainView.backgroundColor = lightRedColor
-                break
-            default:
-                break
-            }
-            
-            //alreadySet = true
-        //}
+        let typeTextWidth = typeLabel.intrinsicContentSize.width
+        typeViewWidth.constant = typeTextWidth + 10
     }
     
     func countdown(_ auction: Auction) {

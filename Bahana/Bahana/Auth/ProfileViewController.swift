@@ -83,6 +83,12 @@ class ProfileViewController: FormViewController {
     }
     
     func loadForm() {
+        var passwordRules = RuleSet<String>()
+        if isRegisterPage {
+            passwordRules.add(rule: RuleRequired())
+            passwordRules.add(rule: RuleMinLength(minLength: 6))
+        }
+        
         form.removeAll()
         
         form
@@ -403,8 +409,7 @@ class ProfileViewController: FormViewController {
         <<< PasswordRow("password") {
             $0.title = localize("password")
             $0.tag = "password"
-            $0.add(rule: RuleRequired())
-            $0.add(rule: RuleMinLength(minLength: 6))
+            $0.add(ruleSet: passwordRules)
         }.cellUpdate { cell, row in
             if self.isRegisterPage {
                 cell.textLabel!.attributedText = self.requiredField(localize("password"))
@@ -420,8 +425,6 @@ class ProfileViewController: FormViewController {
             $0.title = localize("password_confirmation")
             $0.tag = "password_confirmation"
             $0.placeholder = ""
-            $0.add(rule: RuleRequired())
-            //$0.add(rule: RuleMinLength(minLength: 6))
             $0.add(rule: RuleEqualsToRow(form: form, tag: "password"))
         }.cellUpdate { cell, row in
             if self.isRegisterPage {

@@ -13,6 +13,7 @@ import SwiftyJSON
 protocol AuctionListDelegate {
     func openLoginPage()
     func setData(_ data: [Auction], _ page: Int)
+    func getDataFail()
 }
 
 class AuctionListPresenter {
@@ -27,24 +28,36 @@ class AuctionListPresenter {
         // Get auction
         var url = String()
         switch filter["type"] {
-        case "ALL":
+        case localize("all").uppercased():
             url += "all-auction?"
-        case "AUCTION":
+        case localize("auction").uppercased():
             url += "auction?"
-        case "DIRECT AUCTION":
+        case localize("direct_auction").uppercased():
             url += "direct-auction?"
-        case "BREAK":
+        case localize("break").uppercased():
             url += "break?"
-        case "ROLLOVER":
+        case localize("rollover").uppercased():
             url += "rollover?"
-        case "MATURE":
+        case localize("mature").uppercased():
             url += "mature-auction?"
         default:
             url += "all-auction?"
         }
         
+        // Lang
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        url += "lang=\(lang)&"
+        
         // Add status parameter
-        if filter["status"] != nil && filter["status"] != "" && filter["status"] == "ACC" || filter["status"] == "REJ" || filter["status"] == "NEC" {
+        if filter["status"] != nil && filter["status"] != "" {
             url += "status=\(filter["status"]!)&"
         }
         
@@ -99,6 +112,7 @@ class AuctionListPresenter {
                 }
             case .failure(let error):
                 print(error)
+                self.delegate?.getDataFail()
             }
         }
     }
@@ -107,24 +121,36 @@ class AuctionListPresenter {
         // Get auction history
         var url = String()
         switch filter["type"] {
-        case "ALL":
+        case localize("all").uppercased():
             url += "all-auction-history?"
-        case "AUCTION":
+        case localize("auction").uppercased():
             url += "auction-history?"
-        case "DIRECT AUCTION":
+        case localize("direct_auction").uppercased():
             url += "direct-auction-history?"
-        case "BREAK":
+        case localize("break").uppercased():
             url += "break-history?"
-        case "ROLLOVER":
+        case localize("rollover").uppercased():
             url += "rollover-history?"
-        case "MATURE":
+        case localize("mature").uppercased():
             url += "mature-history?"
         default:
             url += "all-auction-history?"
         }
         
+        // Lang
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        url += "lang=\(lang)&"
+        
         // Add status parameter
-        if filter["status"] != nil && filter["status"] != "" && filter["status"] == "ACC" || filter["status"] == "REJ" || filter["status"] == "NEC" {
+        if filter["status"] != nil && filter["status"] != "" {
             url += "status=\(filter["status"]!)&"
         }
         
@@ -174,6 +200,7 @@ class AuctionListPresenter {
                 }
             case .failure(let error):
                 print(error)
+                self.delegate?.getDataFail()
             }
         }
     }

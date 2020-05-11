@@ -41,6 +41,18 @@ class AuctionDetailConfirmationPresenter {
                 break
         }
         
+        // Lang
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        url += "?lang=\(lang)"
+        
         Alamofire.request(WEB_API_URL + url, method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:

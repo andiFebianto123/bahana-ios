@@ -56,6 +56,7 @@ class FaqViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableView.addSubview(refreshControl)
         
+        searchBar.placeholder = localize("search_faq")
         searchBar.delegate = self
         
         tableView.backgroundColor = backgroundColor
@@ -126,7 +127,7 @@ extension FaqViewController: UITableViewDataSource {
 extension FaqViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! FaqTableViewCell
-        if cell.isExpanded {
+        if cell.isExpanded! {
             cell.shrink()
         } else {
             cell.expand()
@@ -152,10 +153,11 @@ extension FaqViewController: UISearchBarDelegate {
         } else {
             tempData = data.filter { $0.answer.lowercased().contains(searchText.lowercased()) || $0.question.lowercased().contains(searchText.lowercased()) }
         }
+        tableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        tableView.reloadData()
+        //tableView.reloadData()
     }
 }
 

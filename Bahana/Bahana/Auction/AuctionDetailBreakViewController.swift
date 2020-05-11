@@ -212,7 +212,7 @@ class AuctionDetailBreakViewController: UIViewController {
         
         let topText = NSAttributedString(string: localize("auction_detail_footer"), attributes: topTextAttribute)
         mutableAttributedString.append(topText)
-        let bottomText = NSAttributedString(string: "\nRef Code : \(data.auction_name)", attributes: bottomTextAttribute)
+        let bottomText = NSAttributedString(string: "\n\(localize("ref_code"))\(data.auction_name)", attributes: bottomTextAttribute)
         mutableAttributedString.append(bottomText)
         
         footerLabel.attributedText = mutableAttributedString
@@ -297,6 +297,11 @@ extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
         view.isHidden = false
         showLoading(false)
         setContent()
+    }
+    
+    func getDataFail() {
+        showLoading(false)
+        showAlert(localize("cannot_connect_to_server"))
     }
     
     func isPosted(_ isSuccess: Bool, _ message: String) {

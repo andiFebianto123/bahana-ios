@@ -115,6 +115,11 @@ class SettingsViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNavigationItems()
+    }
+    
 
     // MARK: - Navigation
 
@@ -134,7 +139,7 @@ class SettingsViewController: UIViewController {
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        //let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)

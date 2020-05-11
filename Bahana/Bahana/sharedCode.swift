@@ -10,9 +10,9 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-//let WEB_API_URL = "http://localhost:8000/"
+let WEB_API_URL = "http://localhost:8000/"
 //let WEB_API_URL = "http://192.168.8.105:8000/"
-let WEB_API_URL = "http://159.65.15.108/bahana/public/"
+//let WEB_API_URL = "http://159.65.15.108/bahana/public/"
 
 // Colors
 let primaryColor = UIColorFromHex(rgbValue: 0xd7181f)
@@ -44,7 +44,7 @@ func getLocalData(key: String) -> String {
     }
 }
 
-func localize(_ key: String) -> String {
+func localize(_ key: String, _ defaultLang: String? = nil) -> String {
     var lang = String()
     switch getLocalData(key: "language") {
     case "language_id":
@@ -54,6 +54,7 @@ func localize(_ key: String) -> String {
     default:
         break
     }
+    lang = defaultLang != nil ? defaultLang! : lang
     let path = Bundle.main.path(forResource: lang, ofType: "lproj")
     let bundle = Bundle(path: path!)
     return NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: "")

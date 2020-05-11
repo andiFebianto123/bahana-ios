@@ -36,6 +36,8 @@ class TransactionDetailViewController: UIViewController {
     
     var loadingView = UIView()
     
+    var refreshControl = UIRefreshControl()
+    
     var presenter: TransactionDetailPresenter!
     
     var data: Transaction!
@@ -68,7 +70,11 @@ class TransactionDetailViewController: UIViewController {
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
         
+        //refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        //tableView.addSubview(refreshControl)
+        
         transactionIDTitle.text = localize("transaction_id").uppercased()
+        transactionStatusView.backgroundColor = darkGreyColor
         transactionStatusTitle.textColor = .white
         transactionStatusTitle.text = localize("transaction_status").uppercased()
         transactionStatus.textColor = .white
@@ -125,28 +131,36 @@ class TransactionDetailViewController: UIViewController {
     func setContent() {
         transactionIDLabel.text = "\(data.id)"
         
+        var title = String()
         var backgroundColor: UIColor!
         switch data.status {
         case "Active":
+            title = localize("active")
             backgroundColor = greenColor
         case "Break":
+            title = localize("break")
             backgroundColor = primaryColor
         case "Mature":
+            title = localize("mature")
             backgroundColor = blueColor
         case "Rollover":
+            title = localize("rollover")
             backgroundColor = accentColor
         case "Canceled":
+            title = localize("canceled")
             backgroundColor = darkGreyColor
         case "Used in RO Auction":
+            title = localize("used_in_ro_auction")
             backgroundColor = darkYellowColor
         case "Used in Break Auction":
+            title = localize("used_in_break_auction")
             backgroundColor = darkRedColor
         default:
             break
         }
         transactionStatusView.backgroundColor = backgroundColor
         
-        transactionStatus.text = data.status.uppercased()
+        transactionStatus.text = title.uppercased()
         var interest_rate = "-"
         if data.coupon_rate != nil {
             let newCouponRate = Double(data.coupon_rate!)
@@ -226,6 +240,10 @@ class TransactionDetailViewController: UIViewController {
             }
         }
     }
+    
+    @objc func refresh() {
+        presenter.getTransaction(transactionID)
+    }
 }
 
 extension TransactionDetailViewController: TransactionDetailDelegate {
@@ -233,6 +251,14 @@ extension TransactionDetailViewController: TransactionDetailDelegate {
         self.data = data
         showLoading(false)
         setContent()
+    }
+    
+    func getDataFail() {
+        refreshControl.endRefreshing()
+        showLoading(false)
+        let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func openLoginPage() {

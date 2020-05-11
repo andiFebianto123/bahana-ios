@@ -33,8 +33,8 @@ class AuctionListViewController: UIViewController {
     var stopFetch: Bool = false
     var loadFinished: Bool = false
     
-    let statusOptions = ["ALL", "-", "ACC", "REJ", "NEC"]
-    let typeOptions = ["ALL", "AUCTION", "DIRECT AUCTION", "BREAK", "ROLLOVER"]
+    var statusOptions = [localize("all").uppercased(), "-", "ACC", "REJ", "NEC"]
+    let typeOptions = [localize("all").uppercased(), localize("auction").uppercased(), localize("direct_auction").uppercased(), localize("break").uppercased(), localize("rollover").uppercased(), localize("mature").uppercased()]
     
     var auctionID = Int()
     var auctionType = String()
@@ -55,8 +55,10 @@ class AuctionListViewController: UIViewController {
         // Set loading view
         loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
-        tableBackgroundView.addSubview(loadingView)
-        tableBackgroundView.bringSubviewToFront(loadingView)
+        //tableBackgroundView.addSubview(loadingView)
+        //tableBackgroundView.bringSubviewToFront(loadingView)
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
         
         let spinner = UIActivityIndicatorView()
         spinner.color = .black
@@ -65,10 +67,10 @@ class AuctionListViewController: UIViewController {
         loadingView.addSubview(spinner)
         
         NSLayoutConstraint.activate([
-            loadingView.topAnchor.constraint(equalTo: tableBackgroundView.topAnchor),
-            loadingView.leadingAnchor.constraint(equalTo: tableBackgroundView.leadingAnchor),
-            loadingView.trailingAnchor.constraint(equalTo: tableBackgroundView.trailingAnchor),
-            loadingView.bottomAnchor.constraint(equalTo: tableBackgroundView.bottomAnchor),
+            loadingView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
@@ -80,7 +82,7 @@ class AuctionListViewController: UIViewController {
         statusTextField.addGestureRecognizer(statusTap)
         statusTextField.borderStyle = .none
         statusTextField.rightViewMode = .always
-        statusTextField.placeholder = " Status"
+        statusTextField.placeholder = " \(localize("status").uppercased())"
         let dropdownView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 10))
         let dropdownImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         dropdownImageView.contentMode = .center
@@ -92,7 +94,7 @@ class AuctionListViewController: UIViewController {
         typeTextField.addGestureRecognizer(typeTap)
         typeTextField.borderStyle = .none
         typeTextField.rightViewMode = .always
-        typeTextField.placeholder = " Type"
+        typeTextField.placeholder = " \(localize("type").uppercased())"
         let dropdownView2 = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 10))
         let dropdownImageView2 = UIImageView(frame: CGRect(x: 0, y: 0, width: 10, height: 10))
         dropdownImageView2.contentMode = .center
@@ -101,12 +103,17 @@ class AuctionListViewController: UIViewController {
         dropdownView2.addSubview(dropdownImageView2)
         typeTextField.rightView = dropdownView2
         showButton.setTitleColor(UIColor.white, for: .normal)
+        showButton.setTitle(localize("show").uppercased(), for: .normal)
         showButton.backgroundColor = UIColor.black
         
         showButtonWidth.constant = 100
         let screenWidth = UIScreen.main.bounds.width
         statusTextFieldWidth.constant = (screenWidth / 2) - (showButtonWidth.constant - 50)
         typeTextFieldWidth.constant = (screenWidth / 2) - (showButtonWidth.constant - 50)
+        
+        if pageType == "history" {
+            statusOptions = statusOptions.filter{ $0 != "NEC" }
+        }
         
         tableView.register(UINib(nibName: "AuctionListTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
@@ -122,6 +129,7 @@ class AuctionListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setNavigationItems()
         refresh()
     }
     
@@ -142,7 +150,7 @@ class AuctionListViewController: UIViewController {
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        //let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
@@ -349,8 +357,17 @@ extension AuctionListViewController: AuctionListDelegate {
         }
         
         if self.data.count == 0 {
+            refreshControl.endRefreshing()
             showLoading(false)
             setTableBackgroundView()
         }
+    }
+    
+    func getDataFail() {
+        refreshControl.endRefreshing()
+        showLoading(false)
+        let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }

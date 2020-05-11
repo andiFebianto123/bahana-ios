@@ -12,6 +12,7 @@ import SwiftyJSON
 
 protocol TransactionDetailDelegate {
     func setData(_ data: Transaction)
+    func getDataFail()
     func openLoginPage()
 }
 
@@ -52,6 +53,7 @@ class TransactionDetailPresenter {
                 }
             case .failure(let error):
                 print(error)
+                self.delegate?.getDataFail()
             }
         }
     }

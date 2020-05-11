@@ -399,7 +399,7 @@ class BestRateViewController: FormViewController {
         }
         +++ Section("")
         <<< ButtonRow() {
-            $0.title = localize("update_best_rate")
+            $0.title = localize("update_best_rate").uppercased()
             $0.hidden = isRegisterPage == true ? true : false
         }.onCellSelection() { cell, row in
             self.edit()
@@ -799,7 +799,6 @@ extension BestRateViewController: BestRateDelegate {
         refreshControl.endRefreshing()
         showLoading(false)
         loadForm()
-        setFormValues()
     }
     
     func getDataFail() {

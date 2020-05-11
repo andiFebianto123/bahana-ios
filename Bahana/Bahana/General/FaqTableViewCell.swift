@@ -17,13 +17,19 @@ class FaqTableViewCell: UITableViewCell {
     @IBOutlet weak var answerTitleLabel: UILabel!
     @IBOutlet weak var answerLabel: UILabel!
     
-    var isExpanded = false
+    var isExpanded: Bool?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         self.selectionStyle = .none
         self.backgroundColor = backgroundColor
+        answerTitleLabel.font = UIFont.boldSystemFont(ofSize: 10)
+        answerTitleLabel.text = localize("answer")
+        
+        if isExpanded == nil {
+            isExpanded = false
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -49,7 +55,7 @@ class FaqTableViewCell: UITableViewCell {
     }
     
     func getHeight() -> CGFloat {
-        if isExpanded {
+        if isExpanded != nil && isExpanded! {
             return 100 + answerLabel.intrinsicContentSize.height
         } else {
             return 70

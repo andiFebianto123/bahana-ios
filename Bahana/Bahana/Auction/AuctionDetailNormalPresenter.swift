@@ -12,6 +12,7 @@ import SwiftyJSON
 
 protocol AuctionDetailNormalDelegate {
     func setData(_ data: AuctionDetailNormal)
+    func getDataFail()
     func isPosted(_ isSuccess: Bool, _ message: String)
     func openLoginPage()
 }
@@ -24,8 +25,19 @@ class AuctionDetailNormalPresenter {
     }
     
     func getAuction(_ id: Int) {
+        // Lang
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        
         // Get auction
-        Alamofire.request(WEB_API_URL + "api/v1/auction/\(id)", method: .get, headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/auction/\(id)?lang=\(lang)", method: .get, headers: getAuthHeaders()).responseJSON { response in
             switch response.result {
             case .success:
                 if response.response?.statusCode == 401 {
@@ -87,6 +99,7 @@ class AuctionDetailNormalPresenter {
                 }
             case .failure(let error):
                 print(error)
+                self.delegate?.getDataFail()
             }
         }
         /*
@@ -134,6 +147,7 @@ class AuctionDetailNormalPresenter {
                 }
             case .failure(let error):
                 print(error)
+                self.delegate?.getDataFail()
             }
         }
     }

@@ -98,19 +98,23 @@ class DashboardViewController: UIViewController {
         let unitFont = UIFont.boldSystemFont(ofSize: 14)
         
         titleLabel.textColor = primaryColor
+        titleLabel.text = localize("summary_auction").uppercased()
         completedAuctionTitleLabel.font = titleFont
+        completedAuctionTitleLabel.text = localize("completed_auction").uppercased()
         completedAuctionLabel.textColor = primaryColor
         completedAuctionLabel.font = unitAmountFont
         completedAuctionLabel.text = "-"
         completedAuctionUnitLabel.textColor = primaryColor
         completedAuctionUnitLabel.font = unitFont
         ongoingAuctionTitleLabel.font = titleFont
+        ongoingAuctionTitleLabel.text = localize("ongoing_auction").uppercased()
         ongoingAuctionLabel.textColor = primaryColor
         ongoingAuctionLabel.font = unitAmountFont
         ongoingAuctionLabel.text = "-"
         ongoingAuctionUnitLabel.textColor = primaryColor
         ongoingAuctionUnitLabel.font = unitFont
         needConfirmationTitleLabel.font = titleFont
+        needConfirmationTitleLabel.text = localize("need_confirmation").uppercased()
         needConfirmationLabel.textColor = primaryColor
         needConfirmationLabel.font = unitAmountFont
         needConfirmationLabel.text = "-"
@@ -132,6 +136,11 @@ class DashboardViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNavigationItems()
+    }
 
     // MARK: - Navigation
 
@@ -151,7 +160,7 @@ class DashboardViewController: UIViewController {
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        //let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
@@ -230,21 +239,21 @@ extension DashboardViewController: DashboardDelegate {
         showLoading(false)
         completedAuctionLabel.text = "\(data["completed"]! as! Int)"
         if data["completed"]! as! Int > 1 {
-            completedAuctionUnitLabel.text = "Auctions"
+            completedAuctionUnitLabel.text = localize("auctions")
         } else {
-            completedAuctionUnitLabel.text = "Auction"
+            completedAuctionUnitLabel.text = localize("auction")
         }
         ongoingAuctionLabel.text = "\(data["ongoing"]! as! Int)"
         if data["ongoing"]! as! Int > 1 {
-            ongoingAuctionUnitLabel.text = "Auctions"
+            ongoingAuctionUnitLabel.text = localize("auctions")
         } else {
-            ongoingAuctionUnitLabel.text = "Auction"
+            ongoingAuctionUnitLabel.text = localize("auction")
         }
         needConfirmationLabel.text = "\(data["confirmation"]! as! Int)"
         if data["confirmation"]! as! Int > 1 {
-            needConfirmationUnitLabel.text = "Auctions"
+            needConfirmationUnitLabel.text = localize("auctions")
         } else {
-            needConfirmationUnitLabel.text = "Auction"
+            needConfirmationUnitLabel.text = localize("auction")
         }
         
         let info = data["info_base_placement"]! as! Bool

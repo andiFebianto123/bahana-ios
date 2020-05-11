@@ -70,7 +70,7 @@
 "password_confirmation" = "Password Confirmation";
 "placement" = "%@ Placement";
 "breakable_policy" = "Breakable Policy";
-"policy_notes" = "Policy Notes";
+"policy_notes" = "Catatan Polis";
 "breakable_policy_notes" = "Breakable Policy Notes";
 "account_number" = "Account Number";
 "account_name" = "Account Name";
@@ -87,6 +87,9 @@
 "all" = "All";
 "active" = "Active";
 "break" = "Break";
+"canceled" = "Canceled";
+"used_in_break_auction" = "Used in Break Auction";
+"used_in_ro_auction" = "Used in RO Auction";
 "none" = "None";
 "any_time" = "Any time";
 "today" = "Today";
@@ -120,7 +123,7 @@
 "transaction_status" = "Transaction Status";
 "general_information" = "General Information";
 "break_information" = "Break Information";
-"break_rate" = "Break Rate(%)";
+"break_rate" = "Break Rate (%)";
 "bilyet" = "Bilyet (BIO)";
 "revision_rate" = "REVISION RATE (%)";
 "period" = "Period";
@@ -132,9 +135,12 @@
 "max_placement" = "Additional Notes (Optional)";
 "add_rate_day" = "Add Rate (Day)";
 "add_rate_month" = "Add Rate (Month)";
+"search_faq" = "Search FAQ...";
+"answer" = "Answer";
 
 "home" = "Home";
 "auction" = "Auction";
+"auctions" = "Auctions";
 "auction_detail" = "Auction Detail";
 "direct_auction" = "Direct Auction";
 "rollover" = "Rollover";
@@ -150,15 +156,11 @@
 "language" = "Language";
 "logout" = "Logout";
 "confirmation" = "Confirmation";
-"canceled" = "Canceled";
-"mature" = "Mature";
-"used_in_break_auction" = "Used in Break Auction";
-"used_in_ro_auction" = "Used in RO Auction";
-"email_and_contact" = "EMAIL AND CONTACT";
-"summary_auction" = "SUMMARY AUCTION";
-"completed_auction" = "COMPLETED AUCTION";
-"ongoing_auction" = "ONGOING AUCTION";
-"need_confirmation" = "NEED CONFIRMATION";
+"email_and_contact" = "Email and Contact";
+"summary_auction" = "Summary Auction";
+"completed_auction" = "Completed Auction";
+"ongoing_auction" = "Ongoing Auction";
+"need_confirmation" = "Need Confirmation";
 "no_information_at_the_moment" = "No information at the moment.";
 "please_update_best_rate" = "Please update your best rate information";
 "confirmation_leave_page" = "Are you sure you want to leave this page?";
@@ -171,6 +173,7 @@
 "confirmation_change_end_date" = "Are you sure you want to change end date to";
 "auction_detail_footer" = "Any error or mismatch, please directly contact Bahana TCW";
 "confirmation_change_language" = "Are you sure you want to change the language to %@?";
+"ref_code" = "Ref Code : ";
 "fill_required_field" = "Please fill all the required field";
 "email_required" = "The email field is required";
 "email_not_valid" = "The email field must be a valid email address";
