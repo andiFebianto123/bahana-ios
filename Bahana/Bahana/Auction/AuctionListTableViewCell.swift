@@ -188,11 +188,11 @@ class AuctionListTableViewCell: UITableViewCell {
     func setStatus(_ status: String) {
         //if !alreadySet {
             if status != "-" {
+                statusView.isHidden = false
+                
+                statusLabel.text = status
                 let statusTextWidth = statusLabel.intrinsicContentSize.width
                 statusViewWidth.constant = statusTextWidth + 10
-                
-                statusView.isHidden = false
-                statusLabel.text = status
             } else {
                 statusView.isHidden = true
             }

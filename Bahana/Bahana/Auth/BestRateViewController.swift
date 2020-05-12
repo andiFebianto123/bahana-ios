@@ -90,6 +90,9 @@ class BestRateViewController: FormViewController {
     }
     
     func loadForm() {
+        var decimalFormatter = DecimalFormatter()
+        decimalFormatter.minimumFractionDigits = 0
+        
         var idrRules = RuleSet<String>()
         if isIdrRequired {
             idrRules.add(rule: RuleRequired())
@@ -174,35 +177,35 @@ class BestRateViewController: FormViewController {
                 }
             }
         }
-        <<< DecimalRow() {
+        <<< TextRow() {
             $0.title = localize("month_rate_1")
             $0.tag = "idr_month_rate_1"
             //$0.placeholder = "Best Rate 1 Bulan (%)"
-            $0.formatter = DecimalFormatter()
-            $0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("month_rate_1") ? data["month_rate_1"]! as! Double : nil
+            //$0.formatter = decimalFormatter
+            //$0.useFormatterDuringInput = true
+            $0.value = !isDataEmpty("month_rate_1") ? data["month_rate_1"]! as! String : nil
             $0.hidden = isIdrHidden == true ? true : false
         }.cellSetup { cell, _ in
-            cell.textField.keyboardType = .numberPad
+            cell.textField.keyboardType = .numbersAndPunctuation
         }
-        <<< DecimalRow() {
+        <<< TextRow() {
             $0.title = localize("month_rate_3")
             $0.tag = "idr_month_rate_3"
             //$0.placeholder = "Best Rate 3 Bulan (%)"
-            $0.formatter = DecimalFormatter()
-            $0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("month_rate_3") ? data["month_rate_3"]! as! Double : nil
+            //$0.formatter = decimalFormatter
+            //$0.useFormatterDuringInput = true
+            $0.value = !isDataEmpty("month_rate_3") ? data["month_rate_3"]! as! String : nil
             $0.hidden = isIdrHidden == true ? true : false
         }.cellSetup { cell, _ in
-            cell.textField.keyboardType = .numberPad
+            cell.textField.keyboardType = .numbersAndPunctuation
         }
-        <<< DecimalRow() {
+        <<< TextRow() {
             $0.title = localize("month_rate_6")
             $0.tag = "idr_month_rate_6"
             //$0.placeholder = "Best Rate 6 Bulan (%)"
-            $0.formatter = DecimalFormatter()
-            $0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("month_rate_6") ? data["month_rate_6"]! as! Double : nil
+            //$0.formatter = decimalFormatter
+            //$0.useFormatterDuringInput = true
+            $0.value = !isDataEmpty("month_rate_6") ? data["month_rate_6"]! as! String : nil
             $0.hidden = isIdrHidden == true ? true : false
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numberPad
@@ -269,38 +272,38 @@ class BestRateViewController: FormViewController {
                 }
             }
         }
-        <<< DecimalRow() {
+        <<< TextRow() {
             $0.title = localize("month_rate_1")
             $0.tag = "usd_month_rate_1"
             //$0.placeholder = "Best Rate 1 Bulan (%)"
-            $0.formatter = DecimalFormatter()
-            $0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("usd_month_rate_1") ? data["usd_month_rate_1"]! as! Double : nil
+            //$0.formatter = decimalFormatter
+            //$0.useFormatterDuringInput = true
+            $0.value = !isDataEmpty("usd_month_rate_1") ? data["usd_month_rate_1"]! as! String : nil
             $0.hidden = isUsdHidden == true ? true : false
         }.cellSetup { cell, _ in
-            cell.textField.keyboardType = .numberPad
+            cell.textField.keyboardType = .numbersAndPunctuation
         }
-        <<< DecimalRow() {
+        <<< TextRow() {
             $0.title = localize("month_rate_3")
             $0.tag = "usd_month_rate_3"
             //$0.placeholder = "Best Rate 3 Bulan (%)"
-            $0.formatter = DecimalFormatter()
-            $0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("usd_month_rate_3") ? data["usd_month_rate_3"]! as! Double : nil
+            //$0.formatter = decimalFormatter
+            //$0.useFormatterDuringInput = true
+            $0.value = !isDataEmpty("usd_month_rate_3") ? data["usd_month_rate_3"]! as! String : nil
             $0.hidden = isUsdHidden == true ? true : false
         }.cellSetup { cell, _ in
-            cell.textField.keyboardType = .numberPad
+            cell.textField.keyboardType = .numbersAndPunctuation
         }
-        <<< DecimalRow() {
+        <<< TextRow() {
             $0.title = localize("month_rate_6")
             $0.tag = "usd_month_rate_6"
             //$0.placeholder = "Best Rate 6 Bulan (%)"
-            $0.formatter = DecimalFormatter()
-            $0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("usd_month_rate_6") ? data["usd_month_rate_6"]! as! Double : nil
+            //$0.formatter = decimalFormatter
+            //$0.useFormatterDuringInput = true
+            $0.value = !isDataEmpty("usd_month_rate_6") ? data["usd_month_rate_6"]! as! String : nil
             $0.hidden = isUsdHidden == true ? true : false
         }.cellSetup { cell, _ in
-            cell.textField.keyboardType = .numberPad
+            cell.textField.keyboardType = .numbersAndPunctuation
         }
         +++ Section(!isShariaHidden ? "- \(String.localizedStringWithFormat(localize("placement"), localize("sharia")))" : "")
         <<< AlertRow<String>() { row in
@@ -364,38 +367,38 @@ class BestRateViewController: FormViewController {
                 }
             }
         }
-        <<< DecimalRow() {
+        <<< TextRow() {
             $0.title = localize("month_rate_1")
             $0.tag = "sharia_month_rate_1"
             //$0.placeholder = "Best Rate 1 Bulan (%)"
-            $0.formatter = DecimalFormatter()
-            $0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("sharia_month_rate_1") ? data["sharia_month_rate_1"]! as! Double : nil
+            //$0.formatter = decimalFormatter
+            //$0.useFormatterDuringInput = true
+            $0.value = !isDataEmpty("sharia_month_rate_1") ? data["sharia_month_rate_1"]! as! String : nil
             $0.hidden = isShariaHidden == true ? true : false
         }.cellSetup { cell, _ in
-            cell.textField.keyboardType = .numberPad
+            cell.textField.keyboardType = .numbersAndPunctuation
         }
-        <<< DecimalRow() {
+        <<< TextRow() {
             $0.title = localize("month_rate_3")
             $0.tag = "sharia_month_rate_3"
             //$0.placeholder = "Best Rate 3 Bulan (%)"
-            $0.formatter = DecimalFormatter()
-            $0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("sharia_month_rate_3") ? data["sharia_month_rate_3"]! as! Double : nil
+            //$0.formatter = decimalFormatter
+            //$0.useFormatterDuringInput = true
+            $0.value = !isDataEmpty("sharia_month_rate_3") ? data["sharia_month_rate_3"]! as! String : nil
             $0.hidden = isShariaHidden == true ? true : false
         }.cellSetup { cell, _ in
-            cell.textField.keyboardType = .numberPad
+            cell.textField.keyboardType = .numbersAndPunctuation
         }
-        <<< DecimalRow() {
+        <<< TextRow() {
             $0.title = localize("month_rate_6")
             $0.tag = "sharia_month_rate_6"
             //$0.placeholder = "Best Rate 6 Bulan (%)"
-            $0.formatter = DecimalFormatter()
-            $0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("sharia_month_rate_6") ? data["sharia_month_rate_6"]! as! Double : nil
+            //$0.formatter = DecimalFormatter()
+            //$0.useFormatterDuringInput = true
+            $0.value = !isDataEmpty("sharia_month_rate_6") ? data["sharia_month_rate_6"]! as! String : nil
             $0.hidden = isShariaHidden == true ? true : false
         }.cellSetup { cell, _ in
-            cell.textField.keyboardType = .numberPad
+            cell.textField.keyboardType = .numbersAndPunctuation
         }
         +++ Section("")
         <<< ButtonRow() {
@@ -491,59 +494,40 @@ class BestRateViewController: FormViewController {
         
         // Manual Validation
         // Rate - Less equal than 100
-        if formData["idr_month_rate_1"] != nil && formData["idr_month_rate_1"]! != nil {
-            if formData["idr_month_rate_1"] as! Double > 100 {
-                errors.append(String.localizedStringWithFormat(localize("rate_out_of_range"), "1", "IDR"))
-            }
-            
+        if formData["idr_month_rate_1"] != nil && formData["idr_month_rate_1"]! != nil && formData["idr_month_rate_1"] as! String != "" {
+            validateRate(formData["idr_month_rate_1"] as! String, "1", "IDR")
         }
         
-        if formData["idr_month_rate_3"] != nil && formData["idr_month_rate_3"]! != nil {
-            if formData["idr_month_rate_3"] as! Double > 100 {
-                errors.append(String.localizedStringWithFormat(localize("rate_out_of_range"), "3", "IDR"))
-            }
+        if formData["idr_month_rate_3"] != nil && formData["idr_month_rate_3"]! != nil && formData["idr_month_rate_3"] as! String != "" {
+            validateRate(formData["idr_month_rate_3"] as! String, "3", "IDR")
         }
         
-        if formData["idr_month_rate_6"] != nil && formData["idr_month_rate_6"]! != nil {
-            if formData["idr_month_rate_6"] as! Double > 100 {
-                errors.append(String.localizedStringWithFormat(localize("rate_out_of_range"), "6", "IDR"))
-            }
+        if formData["idr_month_rate_6"] != nil && formData["idr_month_rate_6"]! != nil && formData["idr_month_rate_6"] as! String != "" {
+            validateRate(formData["idr_month_rate_6"] as! String, "6", "IDR")
         }
         
-        if formData["usd_month_rate_1"] != nil && formData["usd_month_rate_1"]! != nil {
-            if formData["usd_month_rate_1"] as! Double > 100 {
-                errors.append(String.localizedStringWithFormat(localize("rate_out_of_range"), "1", "USD"))
-            }
+        if formData["usd_month_rate_1"] != nil && formData["usd_month_rate_1"]! != nil && formData["usd_month_rate_1"] as! String != "" {
+            validateRate(formData["usd_month_rate_1"] as! String, "1", "USD")
         }
         
-        if formData["usd_month_rate_3"] != nil && formData["usd_month_rate_3"]! != nil {
-            if formData["usd_month_rate_3"] as! Double > 100 {
-                errors.append(String.localizedStringWithFormat(localize("rate_out_of_range"), "3", "USD"))
-            }
+        if formData["usd_month_rate_3"] != nil && formData["usd_month_rate_3"]! != nil && formData["usd_month_rate_3"] as! String != "" {
+            validateRate(formData["usd_month_rate_3"] as! String, "3", "USD")
         }
         
-        if formData["usd_month_rate_6"] != nil && formData["usd_month_rate_6"]! != nil {
-            if formData["usd_month_rate_6"] as! Double > 100 {
-                errors.append(String.localizedStringWithFormat(localize("rate_out_of_range"), "6", "USD"))
-            }
+        if formData["usd_month_rate_6"] != nil && formData["usd_month_rate_6"]! != nil && formData["usd_month_rate_6"] as! String != "" {
+            validateRate(formData["usd_month_rate_6"] as! String, "6", "USD")
         }
         
-        if formData["sharia_month_rate_1"] != nil && formData["sharia_month_rate_1"]! != nil {
-            if formData["sharia_month_rate_1"] as! Double > 100 {
-                errors.append(String.localizedStringWithFormat(localize("rate_out_of_range"), "1", localize("sharia")))
-            }
+        if formData["sharia_month_rate_1"] != nil && formData["sharia_month_rate_1"]! != nil && formData["sharia_month_rate_1"] as! String != "" {
+            validateRate(formData["sharia_month_rate_1"] as! String, "1", localize("sharia"))
         }
         
-        if formData["sharia_month_rate_3"] != nil && formData["sharia_month_rate_3"]! != nil {
-            if formData["sharia_month_rate_3"] as! Double > 100 {
-                errors.append(String.localizedStringWithFormat(localize("rate_out_of_range"), "3", localize("sharia")))
-            }
+        if formData["sharia_month_rate_3"] != nil && formData["sharia_month_rate_3"]! != nil && formData["sharia_month_rate_3"] as! String != "" {
+            validateRate(formData["sharia_month_rate_3"] as! String, "3", localize("sharia"))
         }
         
-        if formData["sharia_month_rate_6"] != nil && formData["sharia_month_rate_6"]! != nil {
-            if formData["sharia_month_rate_6"] as! Double > 100 {
-                errors.append(String.localizedStringWithFormat(localize("rate_out_of_range"), "6", localize("sharia")))
-            }
+        if formData["sharia_month_rate_6"] != nil && formData["sharia_month_rate_6"]! != nil && formData["sharia_month_rate_6"] as! String != "" {
+            validateRate(formData["sharia_month_rate_6"] as! String, "6", localize("sharia"))
         }
         
         // Cek kalau ada idr, usd, atau sharia yang terisi walaupun tidak required, maka akan jadi required
@@ -552,9 +536,9 @@ class BestRateViewController: FormViewController {
             let breakablePolicyNotes = formData["usd_breakable_policy_notes"] != nil && formData["usd_breakable_policy_notes"]! != nil && formData["usd_breakable_policy_notes"]! as! String != ""
             let accountNumber = formData["usd_account_number"] != nil && formData["usd_account_number"]! != nil && formData["usd_account_number"]! as! String != ""
             let accountName = formData["usd_account_name"] != nil && formData["usd_account_name"]! != nil && formData["usd_account_name"]! as! String != ""
-            let monthRate1 = formData["usd_month_rate_1"] != nil && formData["usd_month_rate_1"]! != nil
-            let monthRate3 = formData["usd_month_rate_3"] != nil && formData["usd_month_rate_3"]! != nil
-            let monthRate6 = formData["usd_month_rate_6"] != nil && formData["usd_month_rate_6"]! != nil
+            let monthRate1 = formData["usd_month_rate_1"] != nil && formData["usd_month_rate_1"]! != nil && formData["usd_month_rate_1"] as! String != ""
+            let monthRate3 = formData["usd_month_rate_3"] != nil && formData["usd_month_rate_3"]! != nil && formData["usd_month_rate_3"] as! String != ""
+            let monthRate6 = formData["usd_month_rate_6"] != nil && formData["usd_month_rate_6"]! != nil && formData["usd_month_rate_6"] as! String != ""
             
             if (breakablePolicy || breakablePolicyNotes || accountNumber || accountName || monthRate1 || monthRate3 || monthRate6) && !breakablePolicy && !accountNumber && !accountName {
                 errors.append("USD Field required!")
@@ -566,9 +550,9 @@ class BestRateViewController: FormViewController {
             let breakablePolicyNotes = formData["sharia_breakable_policy_notes"] != nil && formData["sharia_breakable_policy_notes"]! != nil && formData["sharia_breakable_policy_notes"]! as! String != ""
             let accountNumber = formData["sharia_account_number"] != nil && formData["sharia_account_number"]! != nil && formData["sharia_account_number"]! as! String != ""
             let accountName = formData["sharia_account_name"] != nil && formData["sharia_account_name"]! != nil && formData["sharia_account_name"]! as! String != ""
-            let monthRate1 = formData["sharia_month_rate_1"] != nil && formData["sharia_month_rate_1"]! != nil
-            let monthRate3 = formData["sharia_month_rate_3"] != nil && formData["sharia_month_rate_3"]! != nil
-            let monthRate6 = formData["sharia_month_rate_6"] != nil && formData["sharia_month_rate_6"]! != nil
+            let monthRate1 = formData["sharia_month_rate_1"] != nil && formData["sharia_month_rate_1"]! != nil && formData["sharia_month_rate_1"] as! String != ""
+            let monthRate3 = formData["sharia_month_rate_3"] != nil && formData["sharia_month_rate_3"]! != nil && formData["sharia_month_rate_3"] as! String != ""
+            let monthRate6 = formData["sharia_month_rate_6"] != nil && formData["sharia_month_rate_6"]! != nil && formData["sharia_month_rate_6"] as! String != ""
             
             if (breakablePolicy || breakablePolicyNotes || accountNumber || accountName || monthRate1 || monthRate3 || monthRate6) && !breakablePolicy && !accountNumber && !accountName {
                 errors.append("\(localize("sharia")) Field required!")
@@ -583,23 +567,23 @@ class BestRateViewController: FormViewController {
                 "idr_breakable_policy_notes": !isDataEmpty2("idr_breakable_policy_notes", "string") ? formData["idr_breakable_policy_notes"]! as! String : "",
                 "idr_account_number": !isDataEmpty2("idr_account_number", "string") ? formData["idr_account_number"]! as! String : "",
                 "idr_account_name": !isDataEmpty2("idr_account_name", "string") ? formData["idr_account_name"]! as! String : "",
-                "idr_month_rate_1": !isDataEmpty2("idr_month_rate_1", "double") ? String(formData["idr_month_rate_1"]! as! Double) : "",
-                "idr_month_rate_3": !isDataEmpty2("idr_month_rate_3", "double") ? String(formData["idr_month_rate_3"]! as! Double) : "",
-                "idr_month_rate_6": !isDataEmpty2("idr_month_rate_6", "double") ? String(formData["idr_month_rate_6"]! as! Double) : "",
+                "idr_month_rate_1": !isDataEmpty2("idr_month_rate_1", "string") ? formData["idr_month_rate_1"]! as! String : "",
+                "idr_month_rate_3": !isDataEmpty2("idr_month_rate_3", "string") ? formData["idr_month_rate_3"]! as! String : "",
+                "idr_month_rate_6": !isDataEmpty2("idr_month_rate_6", "string") ? formData["idr_month_rate_6"]! as! String : "",
                 "usd_breakable_policy": !isDataEmpty2("usd_breakable_policy", "string") ? formData["usd_breakable_policy"]! as! String : "",
                 "usd_breakable_policy_notes": !isDataEmpty2("usd_breakable_policy_notes", "string") ? formData["usd_breakable_policy_notes"]! as! String : "",
                 "usd_account_number": !isDataEmpty2("usd_account_number", "string") ? formData["usd_account_number"]! as! String : "",
                 "usd_account_name": !isDataEmpty2("usd_account_name", "string") ? formData["usd_account_name"]! as! String : "",
-                "usd_month_rate_1": !isDataEmpty2("usd_month_rate_1", "double") ? String(formData["usd_month_rate_1"]! as! Double) : "",
-                "usd_month_rate_3": !isDataEmpty2("usd_month_rate_3", "double") ? String(formData["usd_month_rate_3"]! as! Double) : "",
-                "usd_month_rate_6": !isDataEmpty2("usd_month_rate_6", "double") ? String(formData["usd_month_rate_6"]! as! Double) : "",
+                "usd_month_rate_1": !isDataEmpty2("usd_month_rate_1", "string") ? formData["usd_month_rate_1"]! as! String : "",
+                "usd_month_rate_3": !isDataEmpty2("usd_month_rate_3", "string") ? formData["usd_month_rate_3"]! as! String : "",
+                "usd_month_rate_6": !isDataEmpty2("usd_month_rate_6", "string") ? formData["usd_month_rate_6"]! as! String : "",
                 "sharia_breakable_policy": !isDataEmpty2("sharia_breakable_policy", "string") ? formData["sharia_breakable_policy"]! as! String : "",
                 "sharia_breakable_policy_notes": !isDataEmpty2("sharia_breakable_policy_notes", "string") ? formData["sharia_breakable_policy_notes"]! as! String : "",
                 "sharia_account_number": !isDataEmpty2("sharia_account_number", "string") ? formData["sharia_account_number"]! as! String : "",
                 "sharia_account_name": !isDataEmpty2("sharia_account_name", "string") ? formData["sharia_account_name"]! as! String : "",
-                "sharia_month_rate_1": !isDataEmpty2("sharia_month_rate_1", "double") ? String(formData["sharia_month_rate_1"]! as! Double) : "",
-                "sharia_month_rate_3": !isDataEmpty2("sharia_month_rate_3", "double") ? String(formData["sharia_month_rate_3"]! as! Double) : "",
-                "sharia_month_rate_6": !isDataEmpty2("sharia_month_rate_6", "double") ? String(formData["sharia_month_rate_6"]! as! Double) : "",
+                "sharia_month_rate_1": !isDataEmpty2("sharia_month_rate_1", "string") ? formData["sharia_month_rate_1"]! as! String : "",
+                "sharia_month_rate_3": !isDataEmpty2("sharia_month_rate_3", "string") ? formData["sharia_month_rate_3"]! as! String : "",
+                "sharia_month_rate_6": !isDataEmpty2("sharia_month_rate_6", "string") ? formData["sharia_month_rate_6"]! as! String : "",
             ]
         } else {
             var msg = String()
@@ -630,6 +614,17 @@ class BestRateViewController: FormViewController {
         }
         
         return data
+    }
+    
+    func validateRate(_ formData: String, _ tenor: String, _ placement: String) {
+        if Double(formData) == nil {
+            errors.append(String.localizedStringWithFormat(localize("rate_out_of_range"), tenor, placement))
+        } else {
+            let rate = Double(formData)!
+            if rate < 0.0 || rate > 100.0 {
+                self.errors.append(String.localizedStringWithFormat(localize("rate_out_of_range"), tenor, placement))
+            }
+        }
     }
     
     @objc func save(notification:Notification) {

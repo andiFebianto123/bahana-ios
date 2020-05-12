@@ -169,7 +169,7 @@ class ProfilePresenter {
     }
     
     func getProfile() {
-        Alamofire.request(WEB_API_URL + "api/v1/me", headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/me", headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
                 let result = JSON(response.result.value!)
@@ -232,16 +232,15 @@ class ProfilePresenter {
             "password_confirmation": data["password_confirmation"]!,
         ]
         
-        Alamofire.request(WEB_API_URL + "api/v1/me", method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
-            switch response.result {
-            case .success:
-                let result = JSON(response.result.value!)
+        Alamofire.request(WEB_API_URL + "api/v1/me", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let result = JSON.init(parseJSON: response.result.value!)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isUpdateSuccess(true, localize("update_profile_success"))
                 } else {
                     self.delegate?.isUpdateSuccess(false, result["message"].stringValue)
                 }
-            case .failure(let error):
+            } else {
                 self.delegate?.getDataFail()
             }
         }

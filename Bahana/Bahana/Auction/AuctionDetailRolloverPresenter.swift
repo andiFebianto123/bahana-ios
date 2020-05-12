@@ -37,7 +37,7 @@ class AuctionDetailRolloverPresenter {
         }
         
         // Get auction
-        Alamofire.request(WEB_API_URL + "api/v1/rollover/\(id)?lang=\(lang)", method: .get, headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/rollover/\(id)?lang=\(lang)", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
                 if response.response?.statusCode == 401 {
@@ -88,17 +88,16 @@ class AuctionDetailRolloverPresenter {
             "rate": rate
         ]
         
-        Alamofire.request(WEB_API_URL + "api/v1/rollover/\(id)/post", method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
-            switch response.result {
-            case .success:
-                let res = JSON(response.result.value!)
+        Alamofire.request(WEB_API_URL + "api/v1/rollover/\(id)/post", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let res = JSON.init(parseJSON: response.result.value!)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isPosted(true, res["message"].stringValue)
                 } else {
                     self.delegate?.isPosted(false, res["message"].stringValue)
                 }
-            case .failure(let error):
-                print(error)
+            } else {
+                print(response)
                 self.delegate?.getDataFail()
             }
         }

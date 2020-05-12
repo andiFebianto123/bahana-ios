@@ -24,7 +24,7 @@ class DashboardPresenter {
     }
     
     func getData() {
-        Alamofire.request(WEB_API_URL + "api/v1/home", method: .get, headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/home", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
                 let result = JSON(response.result.value!)

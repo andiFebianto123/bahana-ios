@@ -38,19 +38,18 @@ class LoginPresenter {
             "password": password
         ]
         
-        Alamofire.request(WEB_API_URL + "api/v1/login?lang=\(lang)", method: .post, parameters: parameters).responseJSON { response in
-            switch response.result {
-            case .success:
-                let result = JSON(response.result.value!)
-                if response.response?.statusCode == 401 {
-                    self.delegate?.isLoginSuccess(false, result["message"].stringValue)
-                } else {
+        Alamofire.request(WEB_API_URL + "api/v1/login?lang=\(lang)", method: .post, parameters: parameters, headers: getHeaders()).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let result = JSON.init(parseJSON: response.result.value!)
+                if response.response?.statusCode == 200 {
                     self.saveLoginData(result)
                     self.delegate?.isLoginSuccess(true, localize("information"))
+                } else {
+                    self.delegate?.isLoginSuccess(false, result["message"].stringValue)
                 }
-            case .failure(let error):
+            } else {
+                print(response)
                 self.delegate?.isLoginSuccess(false, localize("information"))
-                print(error)
             }
         }
     }

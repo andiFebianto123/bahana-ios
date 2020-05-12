@@ -68,13 +68,23 @@ func isLoggedIn() -> Bool {
     }
 }
 
-func getAuthHeaders() -> HTTPHeaders {
-    let token = getLocalData(key: "access_token")
-    let headers: HTTPHeaders = [
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept": "application/json",
-        "Authorization": "Bearer \(token)"
-    ]
+func getHeaders(auth: Bool = false) -> HTTPHeaders {
+    var headers: HTTPHeaders!
+    if auth {
+        let token = getLocalData(key: "access_token")
+        headers = [
+            "X-Requested-With": "XMLHttpRequest",
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "application/json",
+            "Authorization": "Bearer \(token)"
+        ]
+    } else {
+        headers = [
+            //"X-App-Version-Ios": "1.0",
+            "X-Requested-With": "XMLHttpRequest"
+        ]
+    }
+    
     return headers
 }
 
@@ -238,7 +248,7 @@ func toRp(_ number: Double) -> String {
 */
 
 func getUnreadNotificationCount(completion: @escaping (_ count: Int) -> Void) {
-    Alamofire.request(WEB_API_URL + "api/v1/notification/unread", method: .get, headers: getAuthHeaders()).responseJSON { response in
+    Alamofire.request(WEB_API_URL + "api/v1/notification/unread", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
         switch response.result {
         case .success:
             let result = JSON(response.result.value!)

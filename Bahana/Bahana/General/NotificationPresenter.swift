@@ -30,7 +30,7 @@ class NotificationPresenter {
             url += "last_id=\(lastId!)&last_date=\(date)"
         }
         //print(url)
-        Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
                 let result = JSON(response.result.value!)
@@ -67,7 +67,7 @@ class NotificationPresenter {
     }
     
     func markAsRead(_ id: Int) {
-        Alamofire.request(WEB_API_URL + "api/v1/notification/\(id)/read", method: .get, headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/notification/\(id)/read", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
                 let result = JSON(response.result.value!)

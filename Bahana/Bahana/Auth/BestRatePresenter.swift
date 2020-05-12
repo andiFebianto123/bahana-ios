@@ -47,7 +47,7 @@ class BestRatePresenter {
     }
     
     func getBasePlacement() {
-        Alamofire.request(WEB_API_URL + "api/v1/base-placement", headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/base-placement", headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
                 let result = JSON(response.result.value!)
@@ -109,16 +109,15 @@ class BestRatePresenter {
             "month_rate_6_syariah": data["sharia_month_rate_6"] != "" ? data["sharia_month_rate_6"]! : 0.0,
         ]
         
-        Alamofire.request(WEB_API_URL + "api/v1/base-placement/update", method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
-            switch response.result {
-            case .success:
-                let result = JSON(response.result.value!)
+        Alamofire.request(WEB_API_URL + "api/v1/base-placement/update", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let result = JSON.init(parseJSON: response.result.value!)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isUpdateSuccess(true, localize("update_best_rate_success"))
                 } else {
                     self.delegate?.isUpdateSuccess(false, result["message"].stringValue)
                 }
-            case .failure(let error):
+            } else {
                 self.delegate?.getDataFail()
             }
         }

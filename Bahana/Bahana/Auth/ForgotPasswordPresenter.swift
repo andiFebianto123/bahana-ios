@@ -33,18 +33,17 @@ class ForgotPasswordPresenter {
             break
         }
         
-        Alamofire.request(WEB_API_URL + "api/v1/forgot-password?email=\(email)&lang=\(lang)", method: .post).responseJSON { response in
-            switch response.result {
-            case .success:
+        Alamofire.request(WEB_API_URL + "api/v1/forgot-password?email=\(email)&lang=\(lang)", method: .post, headers: getHeaders()).responseJSON { response in
+            if response.response?.mimeType == "application/json" {
                 let result = JSON(response.result.value!)
-                if response.response?.statusCode == 404 {
-                    self.delegate?.isSubmitSuccess(false, result["message"].stringValue)
-                } else {
+                if response.response?.statusCode == 200 {
                     self.delegate?.isSubmitSuccess(true, result["message"].stringValue)
+                } else {
+                    self.delegate?.isSubmitSuccess(false, result["message"].stringValue)
                 }
-            case .failure(let error):
-                self.delegate?.isSubmitSuccess(false, "Error")
-                print(error)
+            } else {
+                print(response)
+                self.delegate?.isSubmitSuccess(false, localize("information"))
             }
         }
     }

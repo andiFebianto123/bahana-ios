@@ -171,4 +171,11 @@ extension AuctionDetailConfirmationViewController: AuctionDetailConfirmationDele
     func isConfirmed(_ isConfirmed: Bool, _ message: String) {
         showAlert(title: localize("information"), message: message, isConfirmed)
     }
+    
+    func setDataFail() {
+        //showLoading(false)
+        let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
 }

@@ -91,12 +91,12 @@
 "used_in_break_auction" = "Used in Break Auction";
 "used_in_ro_auction" = "Used in RO Auction";
 "none" = "None";
-"any_time" = "Any time";
+"any_time" = "Any Time";
 "today" = "Today";
 "yesterday" = "Yesterday";
-"this_week" = "This week";
-"this_month" = "This month";
-"this_year" = "This year";
+"this_week" = "This Week";
+"this_month" = "This Month";
+"this_year" = "This Year";
 "hour" = "%@ hour";
 "hours" = "%@ hours";
 "minute" = "%@ minute";
@@ -135,6 +135,12 @@
 "max_placement" = "Additional Notes (Optional)";
 "add_rate_day" = "Add Rate (Day)";
 "add_rate_month" = "Add Rate (Month)";
+"day" = "day";
+"days" = "days";
+"day()" = "day(s)";
+"month" = "month";
+"months" = "months";
+"month()" = "month(s)";
 "search_faq" = "Search FAQ...";
 "answer" = "Answer";
 

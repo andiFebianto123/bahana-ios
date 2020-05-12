@@ -37,7 +37,7 @@
 "language_id" = "Bahasa Indonesia (ID)";
 
 "information" = "Informasi";
-"fail_to_process_data_from_server" = "Fail to process data from server";
+"fail_to_process_data_from_server" = "Failed to process data from the server";
 
 "indonesia" = "ID";
 "english" = "EN";
@@ -70,7 +70,7 @@
 "password_confirmation" = "Konfirmasi Sandi";
 "placement" = "Penempatan %@";
 "breakable_policy" = "Polis Break";
-"policy_notes" = "Policy Notes";
+"policy_notes" = "Catatan Polis";
 "breakable_policy_notes" = "Catatan Polis";
 "account_number" = "Nomor Rekening";
 "account_name" = "A/n Rekening";
@@ -110,12 +110,12 @@
 "issue_date" = "Tanggal Pembuatan";
 "maturity_date" = "Tanggal Jatuh Tempo";
 "tenor" = "Tenor";
-"ends_in" = "Ends in";
-"ends_bid_in" = "Ends bid in";
-"ends_auction_in" = "Ends auction in";
+"ends_in" = "Selesai dalam";
+"ends_bid_in" = "Selesai menawar dalam";
+"ends_auction_in" = "Selesai melelang dalam";
 "break_date" = "Tanggal Break";
 "accepted" = "Accepted";
-"pending" = "Pending";
+"pending" = "Menunggu";
 "interest_rate" = "Suku Bunga (%)";
 "previous_interest_rate" = "Suku Bunga Sebelumnya (%)";
 "new_interest_rate" = "Suku Bunga Baru (%)";
@@ -132,25 +132,31 @@
 "policy" = "Policy";
 "notes" = "Catatan";
 "message" = "Message";
-"max_placement" = "Additional Notes (Optional)";
-"add_rate_day" = "Add Rate (Day)";
-"add_rate_month" = "Add Rate (Month)";
+"max_placement" = "Catatan Tambahan (Opsional)";
+"add_rate_day" = "Tambah Rate (Hari)";
+"add_rate_month" = "Tambah Rate (Bulan)";
+"day" = "hari";
+"days" = "hari";
+"day()" = "hari";
+"month" = "bulan";
+"months" = "bulan";
+"month()" = "bulan";
 "search_faq" = "Cari FAQ...";
 "answer" = "Jawaban";
 
 "home" = "Beranda";
 "auction" = "Lelang";
 "auctions" = "Lelang";
-"auction_detail" = "Auction Detail";
+"auction_detail" = "Detail Lelang";
 "direct_auction" = "Lelang Langsung";
 "rollover" = "Rollover";
 "mature" = "Cair";
 "history" = "Riwayat";
-"transaction" = "Transaction";
-"transaction_detail" = "Transaction Detail";
+"transaction" = "Transaksi";
+"transaction_detail" = "Detail Transaksi";
 "profile" = "Profil";
 "edit_profile" = "Ubah Profil";
-"notification" = "Notification";
+"notification" = "Notifikasi";
 "contact" = "Kontak";
 "faq" = "FAQ";
 "language" = "Bahasa";
@@ -161,7 +167,7 @@
 "completed_auction" = "Lelang Selesai";
 "ongoing_auction" = "Lelang Berjalan";
 "need_confirmation" = "Butuh Konfirmasi";
-"no_information_at_the_moment" = "No information at the moment.";
+"no_information_at_the_moment" = "Tidak ada informasi untuk saat ini";
 "please_update_best_rate" = "Mohon perbarui informasi best rate anda";
 "confirmation_leave_page" = "Apakah anda yakin ingin meninggalkan halaman ini?";
 "input_must_be_number" = "%@ harus berupa angka";

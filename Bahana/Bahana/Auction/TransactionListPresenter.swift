@@ -81,7 +81,7 @@ class TransactionListPresenter {
             url += pageUrl
         }
         //print(url)
-        Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
                 if response.response?.statusCode == 401 {

@@ -121,6 +121,7 @@ class AuctionDetailNormalViewController: UIViewController {
         maxPlacementTextField.placeholder = localize("max_placement")
         submitButton.backgroundColor = primaryColor
         submitButton.setTitleColor(.white, for: .normal)
+        submitButton.setTitle(localize("submit"), for: .normal)
         submitButton.layer.cornerRadius = 3
         
         view.isHidden = true
@@ -544,9 +545,9 @@ class AuctionDetailNormalViewController: UIViewController {
             
             let period = UILabel()
             if tenorType == "day" {
-                period.text = "Day(s)"
+                period.text = localize("day()")
             } else if tenorType == "month" {
-                period.text = "Month(s)"
+                period.text = localize("month()")
             }
             period.font = UIFont.systemFont(ofSize: 14)
             period.textColor = UIColor.lightGray
@@ -580,9 +581,9 @@ class AuctionDetailNormalViewController: UIViewController {
             let tenor = UILabel()
             var periodType = String()
             if tenorType == "day" {
-                periodType = period! > 1 ? "Days" : "Day"
+                periodType = period! > 1 ? localize("days") : localize("day")
             } else if tenorType == "month" {
-                periodType = period! > 1 ? "Months" : "Month"
+                periodType = period! > 1 ? localize("months") : localize("month")
             }
             tenor.text = "\(period!) \(periodType)"
             tenor.font = contentFont

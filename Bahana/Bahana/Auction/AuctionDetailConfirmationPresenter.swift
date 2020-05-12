@@ -12,6 +12,7 @@ import SwiftyJSON
 
 protocol AuctionDetailConfirmationDelegate {
     func isConfirmed(_ isConfirmed: Bool, _ message: String)
+    func setDataFail()
 }
 
 class AuctionDetailConfirmationPresenter {
@@ -53,17 +54,17 @@ class AuctionDetailConfirmationPresenter {
         }
         url += "?lang=\(lang)"
         
-        Alamofire.request(WEB_API_URL + url, method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
-            switch response.result {
-            case .success:
-                let result = JSON(response.result.value!)
+        Alamofire.request(WEB_API_URL + url, method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let result = JSON.init(parseJSON: response.result.value!)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isConfirmed(true, result["message"].stringValue)
                 } else {
                     self.delegate?.isConfirmed(false, result["message"].stringValue)
                 }
-            case .failure(let error):
-                print(error)
+            } else {
+                print(response)
+                self.delegate?.setDataFail()
             }
         }
     }
@@ -73,17 +74,17 @@ class AuctionDetailConfirmationPresenter {
             "revision_rate": rate != nil ? rate : ""
         ]
         
-        Alamofire.request(WEB_API_URL + "api/v1/direct-auction/\(id)/revision", method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
-            switch response.result {
-            case .success:
-                let res = JSON(response.result.value!)
+        Alamofire.request(WEB_API_URL + "api/v1/direct-auction/\(id)/revision", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let res = JSON.init(parseJSON: response.result.value!)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isConfirmed(true, res["message"].stringValue)
                 } else {
                     self.delegate?.isConfirmed(false, res["message"].stringValue)
                 }
-            case .failure(let error):
-                print(error)
+            } else {
+                print(response)
+                self.delegate?.setDataFail()
             }
         }
     }

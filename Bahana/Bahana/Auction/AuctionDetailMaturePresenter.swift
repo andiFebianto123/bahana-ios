@@ -36,7 +36,7 @@ class AuctionDetailMaturePresenter {
         }
         
         // Get auction
-        Alamofire.request(WEB_API_URL + "api/v1/mature-auction/\(id)?lang=\(lang)", method: .get, headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/mature-auction/\(id)?lang=\(lang)", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
                 if response.response?.statusCode == 401 {

@@ -37,7 +37,7 @@ class AuctionDetailBreakPresenter {
         }
         
         // Get auction
-        Alamofire.request(WEB_API_URL + "api/v1/break/\(id)?lang=\(lang)", method: .get, headers: getAuthHeaders()).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/break/\(id)?lang=\(lang)", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
                 if response.response?.statusCode == 401 {
@@ -63,8 +63,8 @@ class AuctionDetailBreakPresenter {
                     let revision_rate_admin = auct["revision_rate_admin"].stringValue
                     let last_bid_rate = auct["last_bid_rate"] != JSON.null ? auct["last_bid_rate"].doubleValue : nil
                     let status = auct["status"].stringValue
-                    //let view = auct["view"].intValue
-                    let view = 2
+                    let view = auct["view"].intValue
+                    //let view = 2
                     let message = auct["message"].stringValue
                     let breakable_policy = auct["breakable_policy"] != JSON.null ? auct["breakable_policy"].stringValue : nil
                     let policyNotes = auct["policy_notes"] != JSON.null ? auct["policy_notes"].stringValue : nil
@@ -88,17 +88,16 @@ class AuctionDetailBreakPresenter {
             "rate": rate
         ]
         
-        Alamofire.request(WEB_API_URL + "api/v1/break/\(id)/post", method: .post, parameters: parameters, headers: getAuthHeaders()).responseJSON { response in
-            switch response.result {
-            case .success:
-                let res = JSON(response.result.value!)
+        Alamofire.request(WEB_API_URL + "api/v1/break/\(id)/post", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let res = JSON.init(parseJSON: response.result.value!)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isPosted(true, res["message"].stringValue)
                 } else {
                     self.delegate?.isPosted(false, res["message"].stringValue)
                 }
-            case .failure(let error):
-                print(error)
+            } else {
+                print(response)
                 self.delegate?.getDataFail()
             }
         }
