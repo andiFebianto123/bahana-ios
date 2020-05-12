@@ -48,28 +48,24 @@ class TransactionListPresenter {
         
         // Status parameter
         if filter["status"] != nil && filter["status"] != "" {
-            //let status = localize(filter["status"]!)
             let status = filter["status"]!
             url += "status=\(status.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Issue date parameter
         if filter["issue_date"] != nil && filter["issue_date"] != "" {
-            //let issueDate = localize(filter["issue_date"]!)
             let issueDate = filter["issue_date"]!
             url += "issue_date=\(issueDate.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Maturity date parameter
         if filter["maturity_date"] != nil && filter["maturity_date"] != "" {
-            //let maturityDate = localize(filter["maturity_date"]!)
             let maturityDate = filter["maturity_date"]!
             url += "maturity_date=\(maturityDate.replacingOccurrences(of: " ", with: "%20"))&"
         }
         
         // Issue date parameter
         if filter["break_date"] != nil && filter["break_date"] != "" {
-            //let breakDate = localize(filter["break_date"]!)
             let breakDate = filter["break_date"]!
             url += "break_date=\(breakDate.replacingOccurrences(of: " ", with: "%20"))&"
         }

@@ -204,8 +204,8 @@ class AuctionDetailNormalViewController: UIViewController {
             let endBid = calculateDateDifference(Date(), convertStringToDatetime(data.end_bidding_rm)!)
             
             if endBid["hour"]! > 0 || endBid["minute"]! > 0 {
-                let hour = endBid["hour"]! > 1 ? String.localizedStringWithFormat(localize("hours"), endBid["hour"]!) : String.localizedStringWithFormat(localize("hour"), endBid["hour"]!)
-                let minute = endBid["minute"]! > 1 ? String.localizedStringWithFormat(localize("minutes"), endBid["minute"]!) : String.localizedStringWithFormat(localize("minute"), endBid["minute"]!)
+                let hour = endBid["hour"]! > 1 ? String.localizedStringWithFormat(localize("hours"), "\(endBid["hour"]!)") : String.localizedStringWithFormat(localize("hour"), "\(endBid["hour"]!)")
+                let minute = endBid["minute"]! > 1 ? String.localizedStringWithFormat(localize("minutes"), "\(endBid["minute"]!)") : String.localizedStringWithFormat(localize("minute"), "\(endBid["minute"]!)")
                 
                 auctionEndLabel.text = "\(localize("ends_bid_in")): \(hour) \(minute)"
                 
@@ -217,8 +217,8 @@ class AuctionDetailNormalViewController: UIViewController {
             } else {
                 let endAuction = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
                 
-                let hour = endAuction["hour"]! > 1 ? String.localizedStringWithFormat(localize("hours"), endAuction["hour"]!) : String.localizedStringWithFormat(localize("hour"), endAuction["hour"]!)
-                let minute = endAuction["minute"]! > 1 ? String.localizedStringWithFormat(localize("minutes"), endAuction["minute"]!) : String.localizedStringWithFormat(localize("minute"), endAuction["minute"]!)
+                let hour = endAuction["hour"]! > 1 ? String.localizedStringWithFormat(localize("hours"), "\(endAuction["hour"]!)") : String.localizedStringWithFormat(localize("hour"), "\(endAuction["hour"]!)")
+                let minute = endAuction["minute"]! > 1 ? String.localizedStringWithFormat(localize("minutes"), "\(endAuction["minute"]!)") : String.localizedStringWithFormat(localize("minute"), "\(endAuction["minute"]!)")
                 
                 auctionEndLabel.text = "\(localize("ends_auction_in")): \(hour) \(minute)"
                 

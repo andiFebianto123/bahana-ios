@@ -530,6 +530,21 @@ class ProfileViewController: FormViewController {
             bankBranchVal = "\(bankBranch.id)"
         }
         
+        if formData["password"]! != nil {
+            var isValid = false
+            let password = formData["password"] as! String
+            for pass in password {
+                if !pass.isWhitespace {
+                    isValid = true
+                    break
+                }
+            }
+            
+            if !isValid {
+                errors.append("\(localize("password")) Field required!")
+            }
+        }
+        
         var data: [String: String]?
         
         if errors.count == 0 {

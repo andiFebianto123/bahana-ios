@@ -194,6 +194,11 @@ extension NotificationViewController: NotificationDelegate {
             loadFinished = true
             tableView.reloadData()
         }
+        
+        if data.count == 0 {
+            refreshControl.endRefreshing()
+            showLoading(false)
+        }
     }
     
     func isMarkAsRead(_ isRead: Bool) {

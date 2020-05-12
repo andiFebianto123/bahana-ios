@@ -179,6 +179,8 @@ extension FaqViewController: FaqDelegate {
     }
     
     func openLoginPage() {
+        refreshControl.endRefreshing()
+        showLoading(false)
         let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
         let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
         self.present(loginViewController, animated: true, completion: nil)

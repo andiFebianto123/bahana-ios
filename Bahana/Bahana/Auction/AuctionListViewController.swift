@@ -212,7 +212,7 @@ class AuctionListViewController: UIViewController {
         let customView = UIView()
         
         let text = UILabel()
-        text.text = "No data available"
+        text.text = localize("no_data_available")
         text.textColor = UIColor.gray
         text.font = UIFont.systemFont(ofSize: 13)
         customView.addSubview(text)

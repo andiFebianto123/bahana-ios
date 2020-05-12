@@ -136,7 +136,7 @@ class RegisterViewController: UIViewController {
         } else if index == 1 {
             previousView.isHidden = false
         } else if index == 2 {
-            nextLabel.text = localize("send").uppercased()
+            nextLabel.text = localize("submit").uppercased()
         }
         
         previousViewWidth.constant = previousLabel.intrinsicContentSize.width + 25

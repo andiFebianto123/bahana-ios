@@ -11,8 +11,8 @@
 "yes" = "Ya";
 "no" = "Tidak";
 "ok" = "OK";
-"submit" = "Submit";
-"send" = "Send";
+"submit" = "Kirim";
+"send" = "Kirim";
 "cancel" = "Batal";
 "revised" = "Revised";
 "confirm" = "Confirm";
@@ -174,13 +174,14 @@
 "auction_detail_footer" = "Bila ada kesalahan data, mohon segera hubungi Bahana TCW";
 "confirmation_change_language" = "Apakah anda yakin ingin mengubah bahasa menjadi %@?";
 "ref_code" = "Kode Ref : ";
-"fill_required_field" = "Mohon isi semua bidang isian yang wajib diisi";
+"fill_required_field" = "Bidang isian best rate %@ ini (polis break, nomor rekening, a/n rekening) wajib diisi bila ada salah satu bidang isian terkait yang tidak kosong.";
 "email_required" = "Mohon mengisi alamat email";
 "email_not_valid" = "Email harus berupa alamat email yang valid";
 "password_character_not_enough" = "Sandi minimal berisi 6 karakter";
 "password_not_match" = "Sandi dan konfirmasi sandi harus sama";
 "rate_out_of_range" = "Rate %@ bulan (%@) harus bernilai antara 0 dan 100";
 "cannot_connect_to_server" = "Gagal memproses data dari server";
+"no_data_available" = "Tidak ada data tersedia";
 
 "january" = "Jan";
 "february" = "Feb";

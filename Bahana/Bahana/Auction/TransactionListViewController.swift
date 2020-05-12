@@ -8,11 +8,6 @@
 
 import UIKit
 
-struct Option {
-    var key: String?
-    var val: String
-}
-
 class TransactionListViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
@@ -46,28 +41,26 @@ class TransactionListViewController: UIViewController {
     
     var isFilterReady = false
     var currentFieldTag: Int!
-    //var currentOptionChoosed: Option?
     var currentOptionChoosed: String?
     var filters = [String: String]()
     
-    //var pickerOptions = [Option]()
     var pickerOptions = [String]()
     
     var fundOptions = [String]()
-    /*let statusOptions =  [
-        "all", "active", "break", "canceled", "mature", "used_in_break_auction", "used_in_ro_auction", "rollover"
-    ]*/
     let statusOptions =  [
-        localize("all"), localize("active"), localize("break"), localize("canceled"), localize("mature"), localize("used_in_break_auction"), localize("used_in_ro_auction"), localize("rollover")
+        "all", "active", "break", "canceled", "mature", "used_in_break_auction", "used_in_ro_auction", "rollover"
     ]
+    
     let issueDateOptions = [
-        localize("any_time"), localize("today"), localize("yesterday"), localize("this_week"), localize("this_month"), localize("this_year")
+        "any_time", "today", "yesterday", "this_week", "this_month", "this_year"
     ]
+    
     let maturityDateOptions = [
-        localize("any_time"), localize("today"), localize("yesterday"), localize("this_week"), localize("this_month"), localize("this_year")
+        "any_time", "today", "yesterday", "this_week", "this_month", "this_year"
     ]
+    
     let breakDateOptions = [
-        localize("none"), localize("any_time"), localize("today"), localize("yesterday"), localize("this_week"), localize("this_month"), localize("this_year")
+        "none", "any_time", "today", "yesterday", "this_week", "this_month", "this_year"
     ]
     
     var transactionID = Int()
@@ -198,7 +191,7 @@ class TransactionListViewController: UIViewController {
         let customView = UIView()
         
         let text = UILabel()
-        text.text = "No data available"
+        text.text = localize("no_data_available")
         text.textColor = UIColor.gray
         text.font = UIFont.systemFont(ofSize: 13)
         customView.addSubview(text)
@@ -226,14 +219,7 @@ class TransactionListViewController: UIViewController {
     }
     
     func getData(lastId: Int?, page: Int = 1) {
-        let filters = [
-            "portfolio": fundField.text!,
-            "status": statusField.text!,
-            "issue_date": issueDateField.text!,
-            "maturity_date": maturityDateField.text!,
-            "break_date": breakDateField.text!,
-            "outstanding": outstandingSwitch.isOn ? "true" : "false"
-        ]
+        filters["outstanding"] = outstandingSwitch.isOn ? "true" : "false"
         
         presenter.getTransaction(filters, lastId: lastId, page)
     }
@@ -512,23 +498,33 @@ class TransactionListViewController: UIViewController {
     @objc func showFilter() {
         if isFilterReady {
             if fundField.text == "" {
-                fundField.text = fundOptions.first
+                let opt = fundOptions.first!
+                filters["portfolio"] = opt
+                fundField.text = opt
             }
             
             if statusField.text == "" {
-                statusField.text = localize(statusOptions.first!)
+                let opt = statusOptions.first!
+                filters["status"] = localize(opt, "en")
+                statusField.text = localize(opt)
             }
             
             if issueDateField.text == "" {
-                issueDateField.text = localize(issueDateOptions.first!)
+                let opt = issueDateOptions.first!
+                filters["issue_date"] = localize(opt, "en")
+                issueDateField.text = localize(opt)
             }
             
             if maturityDateField.text == "" {
-                maturityDateField.text = localize(maturityDateOptions.first!)
+                let opt = maturityDateOptions.first!
+                filters["maturity_date"] = localize(opt, "en")
+                maturityDateField.text = localize(opt)
             }
             
             if breakDateField.text == "" {
-                breakDateField.text = localize(breakDateOptions.first!)
+                let opt = breakDateOptions.first!
+                filters["break_date"] = localize(opt, "en")
+                breakDateField.text = localize(opt)
             }
             
             filterListBackgroundView.isHidden = false
@@ -545,23 +541,29 @@ class TransactionListViewController: UIViewController {
         getData(lastId: nil)
     }
     
-    func optionChoosed(_ tag: Int, _ option: String?) {
+    func optionChoosed(_ tag: Int) {
+        let option = currentOptionChoosed
         switch tag {
         case 1:
-            //fundField.text = option != nil ? option?.val : fundOptions.first
-            fundField.text = option != nil ? option! : fundOptions.first
+            let opt = option != nil ? option! : fundOptions.first
+            filters["portfolio"] = opt
+            fundField.text = opt
         case 2:
-            //statusField.text = option != nil ? option?.val : localize(statusOptions.first!)
-            statusField.text = option != nil ? option! : localize(statusOptions.first!)
+            let opt = option != nil ? option! : statusOptions.first!
+            filters["status"] = localize(opt, "en")
+            statusField.text = localize(opt)
         case 3:
-            //issueDateField.text = option != nil ? option?.val : localize(issueDateOptions.first!)
-            issueDateField.text = option != nil ? option! : localize(issueDateOptions.first!)
+            let opt = option != nil ? option! : issueDateOptions.first!
+            filters["issue_date"] = localize(opt, "en")
+            issueDateField.text = localize(opt)
         case 4:
-            //maturityDateField.text = option != nil ? option?.val : localize(maturityDateOptions.first!)
-            maturityDateField.text = option != nil ? option! : localize(maturityDateOptions.first!)
+            let opt = option != nil ? option! : maturityDateOptions.first!
+            filters["maturity_date"] = localize(opt, "en")
+            maturityDateField.text = localize(opt)
         case 5:
-            //breakDateField.text = option != nil ? option?.val : localize(breakDateOptions.first!)
-            breakDateField.text = option != nil ? option! : localize(breakDateOptions.first!)
+            let opt = option != nil ? option! : breakDateOptions.first!
+            filters["break_date"] = localize(opt, "en")
+            breakDateField.text = localize(opt)
         default:
             break
         }
@@ -569,7 +571,7 @@ class TransactionListViewController: UIViewController {
     
     @objc func doneTapped() {
         self.view.endEditing(true)
-        optionChoosed(currentFieldTag, currentOptionChoosed)
+        optionChoosed(currentFieldTag)
     }
 
     @objc func cancelTapped() {
@@ -614,7 +616,6 @@ extension TransactionListViewController: UITableViewDelegate {
 
 extension TransactionListViewController : UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        //var options = [Option]()
         var options = [String]()
         var currentText: String?
         
@@ -623,44 +624,29 @@ extension TransactionListViewController : UITextFieldDelegate {
         switch tag {
         case 1:
             // Fund
-            /*for option in fundOptions {
-                //let opt = Option(key: nil, val: option)
-                //options.append(opt)
-            }*/
             options = fundOptions
             currentText = fundField.text
+            break
         case 2:
             // Status
-            /*for option in statusOptions {
-                //let opt = Option(key: option, val: localize(option))
-                //options.append(opt)
-            }*/
             options = statusOptions
             currentText = statusField.text
+            break
         case 3:
             // Issue date
-            /*for option in issueDateOptions {
-                //let opt = Option(key: option, val: localize(option))
-                //options.append(opt)
-            }*/
             options = issueDateOptions
             currentText = issueDateField.text
+            break
         case 4:
             // Maturity date
-            /*for option in maturityDateOptions {
-                //let opt = Option(key: option, val: localize(option))
-                //options.append(opt)
-            }*/
             options = maturityDateOptions
             currentText = maturityDateField.text
+            break
         case 5:
             // Break date
-            /*for option in breakDateOptions {
-                //let opt = Option(key: option, val: localize(option))
-                //options.append(opt)
-            }*/
             options = breakDateOptions
             currentText = breakDateField.text
+            break
         default:
             break
         }
@@ -668,8 +654,7 @@ extension TransactionListViewController : UITextFieldDelegate {
         //print(options)
         self.pickerView.reloadAllComponents()
         
-        //if let idx = pickerOptions.firstIndex(where: { $0.val == currentText! }) {
-        if let idx = pickerOptions.firstIndex(where: { $0 == currentText! }) {
+        if let idx = pickerOptions.firstIndex(where: { localize($0) == currentText! }) {
             pickerView.selectRow(idx, inComponent: 0, animated: true)
         }
     }
@@ -685,8 +670,11 @@ extension TransactionListViewController: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        //return pickerOptions[row].val
-        return pickerOptions[row]
+        if currentFieldTag == 1 {
+            return pickerOptions[row]
+        } else {
+            return localize(pickerOptions[row])
+        }
     }
 }
 

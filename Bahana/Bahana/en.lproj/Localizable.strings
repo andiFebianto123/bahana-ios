@@ -174,13 +174,14 @@
 "auction_detail_footer" = "Any error or mismatch, please directly contact Bahana TCW";
 "confirmation_change_language" = "Are you sure you want to change the language to %@?";
 "ref_code" = "Ref Code : ";
-"fill_required_field" = "Please fill all the required field";
+"fill_required_field" = "These best rate %@'s fields (breakable policy, account number, account name) is required when one of the related fields is not blank";
 "email_required" = "The email field is required";
 "email_not_valid" = "The email field must be a valid email address";
 "password_character_not_enough" = "The password field must be at least 6 characters";
 "password_not_match" = "The password field and confirm password field must match";
 "rate_out_of_range" = "The %@ month rate (%@) field must be between 0 and 100";
 "cannot_connect_to_server" = "Failed to process data from the server";
+"no_data_available" = "No data available";
 
 "january" = "Jan";
 "february" = "Feb";

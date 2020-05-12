@@ -605,17 +605,20 @@ class BestRateViewController: FormViewController {
             var msg = String()
             for error in errors {
                 //msg += "\n\(error)"
-                if error.contains("Field required!") && error.contains("IDR") && !msg.contains("\(localize("fill_required_field")) (\(String.localizedStringWithFormat(localize("placement"), "IDR")))") {
+                if error.contains("Field required!") && error.contains("IDR") && !msg.contains(String.localizedStringWithFormat(localize("fill_required_field"), "IDR")) {
                     let newline = msg != "" ? "\n" : ""
-                    msg += "\(newline)\(localize("fill_required_field")) (\(String.localizedStringWithFormat(localize("placement"), "IDR")))"
+                    //msg += "\(newline)\(localize("fill_required_field")) (\(String.localizedStringWithFormat(localize("placement"), "IDR")))"
+                    msg += "\(newline)\(String.localizedStringWithFormat(localize("fill_required_field"), "IDR"))"
                 }
-                if error.contains("Field required!") && error.contains("USD") && !msg.contains("\(localize("fill_required_field")) (\(String.localizedStringWithFormat(localize("placement"), "USD")))") {
+                if error.contains("Field required!") && error.contains("USD") && !msg.contains(String.localizedStringWithFormat(localize("fill_required_field"), "USD")) {
                     let newline = msg != "" ? "\n" : ""
-                    msg += "\(newline)\(localize("fill_required_field")) (\(String.localizedStringWithFormat(localize("placement"), "USD")))"
+                    //msg += "\(newline)\(localize("fill_required_field")) (\(String.localizedStringWithFormat(localize("placement"), "USD")))"
+                    msg += "\(newline)\(String.localizedStringWithFormat(localize("fill_required_field"), "USD"))"
                 }
-                if error.contains("Field required!") && error.contains(localize("sharia")) && !msg.contains("\(localize("fill_required_field")) (\(String.localizedStringWithFormat(localize("placement"), localize("sharia"))))") {
+                if error.contains("Field required!") && error.contains(localize("sharia")) && !msg.contains(String.localizedStringWithFormat(localize("fill_required_field"), localize("sharia"))) {
                     let newline = msg != "" ? "\n" : ""
-                    msg += "\(newline)\(localize("fill_required_field")) (\(String.localizedStringWithFormat(localize("placement"), localize("sharia"))))"
+                    //msg += "\(newline)\(localize("fill_required_field")) (\(String.localizedStringWithFormat(localize("placement"), localize("sharia"))))"
+                    msg += "\(newline)\(String.localizedStringWithFormat(localize("fill_required_field"), localize("sharia")))"
                 }
                 if !error.contains("Field required!") {
                     let newline = msg != "" ? "\n" : ""
