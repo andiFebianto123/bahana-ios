@@ -32,6 +32,9 @@ class AuctionListTableViewCell: UITableViewCell {
     var pageType: String!
     var alreadySet: Bool = false
     
+    var auction: Auction!
+    var serverHourDifference = Int()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -85,7 +88,10 @@ class AuctionListTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setAuction(_ auction: Auction) {
+    func setAuction(_ auction: Auction, _ hourDifference: Int) {
+        self.auction = auction
+        self.serverHourDifference = hourDifference
+        
         if pageType == "history" {
             endTitleLabel.isHidden = true
             endLabel.isHidden = true
@@ -124,15 +130,7 @@ class AuctionListTableViewCell: UITableViewCell {
                 placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
             }
             
-            countdown(auction)
-        }
-        
-        // Kalau auction sudah selesai dan bukan mature, background jadi abu-abu
-        
-        let countdown = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
-        
-        if pageType == "auction" && auction.type != "mature" && countdown["hour"]! <= 0 && countdown["minute"]! <= 0 {
-            mainView.backgroundColor = lightGreyColor
+            Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
         }
     }
     
@@ -230,9 +228,14 @@ class AuctionListTableViewCell: UITableViewCell {
         typeViewWidth.constant = typeTextWidth + 10
     }
     
-    func countdown(_ auction: Auction) {
+    @objc func countdown() {
+        let calendar = Calendar.current
+        let date = calendar.date(byAdding: .hour, value: -serverHourDifference, to: Date())!
+        
+        // Kalau auction sudah selesai dan bukan mature, background jadi abu-abu
+        
         if auction.maturity_date != nil {
-            let endBid = calculateDateDifference(Date(), convertStringToDatetime(auction.maturity_date!)!)
+            let endBid = calculateDateDifference(date, convertStringToDatetime(auction.maturity_date!)!)
             
             if endBid["hour"]! > 0 || endBid["minute"]! > 0 {
                 let hour = endBid["hour"]! > 1 ? String.localizedStringWithFormat(localize("hours"), "\(endBid["hour"]!)") : String.localizedStringWithFormat(localize("hour"), "\(endBid["hour"]!)")
@@ -242,7 +245,7 @@ class AuctionListTableViewCell: UITableViewCell {
                     endLabel.textColor = primaryColor
                 }
             } else {
-                let endAuction = calculateDateDifference(Date(), convertStringToDatetime(auction.end_date)!)
+                let endAuction = calculateDateDifference(date, convertStringToDatetime(auction.end_date)!)
                 
                 if endAuction["hour"]! > 0 || endAuction["minute"]! > 0 {
                     let hour = endAuction["hour"]! > 1 ? String.localizedStringWithFormat(localize("hours"), "\(endAuction["hour"]!)") : String.localizedStringWithFormat(localize("hour"), "\(endAuction["hour"]!)")
@@ -255,11 +258,16 @@ class AuctionListTableViewCell: UITableViewCell {
                 } else {
                     endTitleLabel.isHidden = true
                     endLabel.text = ""
+                    mainView.backgroundColor = lightGreyColor
                 }
             }
         } else {
             endTitleLabel.isHidden = true
             endLabel.text = ""
+            
+            if pageType == "auction" && auction.type != "mature" {
+                mainView.backgroundColor = lightGreyColor
+            }
         }
     }
 }

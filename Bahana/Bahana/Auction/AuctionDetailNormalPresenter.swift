@@ -13,6 +13,7 @@ import SwiftyJSON
 protocol AuctionDetailNormalDelegate {
     func setData(_ data: AuctionDetailNormal)
     func getDataFail()
+    func setDate(_ date: Date)
     func isPosted(_ isSuccess: Bool, _ message: String)
     func openLoginPage()
 }
@@ -44,8 +45,12 @@ class AuctionDetailNormalPresenter {
                     self.delegate?.openLoginPage()
                 } else {
                     let res = JSON(response.result.value!)
+                    //print(res)
+                    
+                    let serverDate = convertStringToDatetime(res["date"].stringValue)
+                    self.delegate?.setDate(serverDate!)
+                    
                     let auct = res["auction"]
-                    //print(auct)
                     
                     let id = auct["id"].intValue
                     let auction_name = auct["auction_name"].stringValue

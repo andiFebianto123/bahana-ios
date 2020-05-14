@@ -58,23 +58,23 @@ class BestRatePresenter {
                     "breakable_policy_notes": result["breakable_policy_notes"] != JSON.null ? result["breakable_policy_notes"].stringValue : nil,
                     "account_number": result["account_number"] != JSON.null ? result["account_number"].stringValue : nil,
                     "account_name": result["account_name"] != JSON.null ? result["account_name"].stringValue : nil,
-                    "month_rate_1": result["month_rate_1"] != JSON.null ? result["month_rate_1"].doubleValue : nil,
-                    "month_rate_3": result["month_rate_3"] != JSON.null ? result["month_rate_3"].doubleValue : nil,
-                    "month_rate_6": result["month_rate_6"] != JSON.null ? result["month_rate_6"].doubleValue : nil,
+                    "month_rate_1": result["month_rate_1"] != JSON.null ? result["month_rate_1"].stringValue : nil,
+                    "month_rate_3": result["month_rate_3"] != JSON.null ? result["month_rate_3"].stringValue : nil,
+                    "month_rate_6": result["month_rate_6"] != JSON.null ? result["month_rate_6"].stringValue : nil,
                     "usd_breakable_policy": result["breakable_policy_usd"] != JSON.null ? result["breakable_policy_usd"].stringValue : nil,
                     "usd_breakable_policy_notes": result["breakable_policy_notes_usd"] != JSON.null ? result["breakable_policy_notes_usd"].stringValue : nil,
                     "usd_account_number": result["account_number_usd"] != JSON.null ? result["account_number_usd"].stringValue : nil,
                     "usd_account_name": result["account_name_usd"] != JSON.null ? result["account_name_usd"].stringValue : nil,
-                    "usd_month_rate_1": result["month_rate_1_usd"] != JSON.null ? result["month_rate_1_usd"].doubleValue : nil,
-                    "usd_month_rate_3": result["month_rate_3_usd"] != JSON.null ? result["month_rate_3_usd"].doubleValue : nil,
-                    "usd_month_rate_6": result["month_rate_6_usd"] != JSON.null ? result["month_rate_6_usd"].doubleValue : nil,
+                    "usd_month_rate_1": result["month_rate_1_usd"] != JSON.null ? result["month_rate_1_usd"].stringValue : nil,
+                    "usd_month_rate_3": result["month_rate_3_usd"] != JSON.null ? result["month_rate_3_usd"].stringValue : nil,
+                    "usd_month_rate_6": result["month_rate_6_usd"] != JSON.null ? result["month_rate_6_usd"].stringValue : nil,
                     "sharia_breakable_policy": result["breakable_policy_syariah"] != JSON.null ? result["breakable_policy_syariah"].stringValue : nil,
                     "sharia_breakable_policy_notes": result["breakable_policy_notes_syariah"] != JSON.null ? result["breakable_policy_notes_syariah"].stringValue : nil,
                     "sharia_account_number": result["account_number_syariah"] != JSON.null ? result["account_number_syariah"].stringValue : nil,
                     "sharia_account_name": result["account_name_syariah"] != JSON.null ? result["account_name_syariah"].stringValue : nil,
-                    "sharia_month_rate_1": result["month_rate_1_syariah"] != JSON.null ? result["month_rate_1_syariah"].doubleValue : nil,
-                    "sharia_month_rate_3": result["month_rate_3_syariah"] != JSON.null ? result["month_rate_3_syariah"].doubleValue : nil,
-                    "sharia_month_rate_6": result["month_rate_6_syariah"] != JSON.null ? result["month_rate_6_syariah"].doubleValue : nil
+                    "sharia_month_rate_1": result["month_rate_1_syariah"] != JSON.null ? result["month_rate_1_syariah"].stringValue : nil,
+                    "sharia_month_rate_3": result["month_rate_3_syariah"] != JSON.null ? result["month_rate_3_syariah"].stringValue : nil,
+                    "sharia_month_rate_6": result["month_rate_6_syariah"] != JSON.null ? result["month_rate_6_syariah"].stringValue : nil
                 ]
                 
                 self.delegate?.setData(data)

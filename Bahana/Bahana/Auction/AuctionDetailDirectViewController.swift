@@ -47,6 +47,7 @@ class AuctionDetailDirectViewController: UIViewController {
     
     var id = Int()
     var data: AuctionDetailDirect!
+    var serverHourDifference = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -147,7 +148,7 @@ class AuctionDetailDirectViewController: UIViewController {
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
         }
         
-        countdown()
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
         
         // Portfolio
         fundNameLabel.text = data.portfolio
@@ -206,9 +207,12 @@ class AuctionDetailDirectViewController: UIViewController {
         footerLabel.attributedText = mutableAttributedString
     }
     
-    func countdown() {
-        if convertStringToDatetime(data.end_date)! > Date() {
-            let endBid = calculateDateDifference(Date(), convertStringToDatetime(data.end_bidding_rm)!)
+    @objc func countdown() {
+        let calendar = Calendar.current
+        let date = calendar.date(byAdding: .hour, value: -serverHourDifference, to: Date())!
+        
+        if convertStringToDatetime(data.end_date)! > date {
+            let endBid = calculateDateDifference(date, convertStringToDatetime(data.end_bidding_rm)!)
             
             if endBid["hour"]! > 0 || endBid["minute"]! > 0 {
                 let hour = endBid["hour"]! > 1 ? String.localizedStringWithFormat(localize("hours"), "\(endBid["hour"]!)") : String.localizedStringWithFormat(localize("hour"), "\(endBid["hour"]!)")
@@ -222,7 +226,7 @@ class AuctionDetailDirectViewController: UIViewController {
                     auctionEndLabel.textColor = .black
                 }
             } else {
-                let endAuction = calculateDateDifference(Date(), convertStringToDatetime(data.end_date)!)
+                let endAuction = calculateDateDifference(date, convertStringToDatetime(data.end_date)!)
                 
                 let hour = endAuction["hour"]! > 1 ? String.localizedStringWithFormat(localize("hours"), "\(endAuction["hour"]!)") : String.localizedStringWithFormat(localize("hour"), "\(endAuction["hour"]!)")
                 let minute = endAuction["minute"]! > 1 ? String.localizedStringWithFormat(localize("minutes"), "\(endAuction["minute"]!)") : String.localizedStringWithFormat(localize("minute"), "\(endAuction["minute"]!)")
@@ -231,8 +235,10 @@ class AuctionDetailDirectViewController: UIViewController {
                 
                 if endAuction["hour"]! < 1 {
                     auctionEndLabel.textColor = primaryColor
-                } else {
+                } else if endAuction["hour"]! >= 1 {
                     auctionEndLabel.textColor = .black
+                } else if endAuction["hour"]! == 0 && endAuction["minute"]! == 0 {
+                    auctionEndLabel.isHidden = true
                 }
             }
         } else {
@@ -295,6 +301,20 @@ extension AuctionDetailDirectViewController: AuctionDetailDirectDelegate {
     func getDataFail() {
         showLoading(false)
         showAlert(localize("cannot_connect_to_server"))
+    }
+    
+    func setDate(_ date: Date) {
+        let diff = calculateDateDifference(Date(), date)
+        
+        serverHourDifference = diff["hour"]!
+        
+        if diff["minute"]! > 0 {
+            if serverHourDifference < 0 {
+                serverHourDifference -= 1
+            } else {
+                serverHourDifference += 1
+            }
+        }
     }
     
     func isPosted(_ isSuccess: Bool, _ message: String) {

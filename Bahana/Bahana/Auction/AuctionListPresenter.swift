@@ -14,6 +14,7 @@ protocol AuctionListDelegate {
     func openLoginPage()
     func setData(_ data: [Auction], _ page: Int)
     func getDataFail()
+    func setDate(_ date: Date)
 }
 
 class AuctionListPresenter {
@@ -81,6 +82,10 @@ class AuctionListPresenter {
                 } else {
                     let result = JSON(response.result.value!)
                     //print(result)
+                    
+                    let serverDate = convertStringToDatetime(result["date"].stringValue)
+                    self.delegate?.setDate(serverDate!)
+                    
                     var auctions = [Auction]()
                     for auct in result["auctions"].arrayValue {
                         let id = auct["id"].intValue
@@ -169,11 +174,15 @@ class AuctionListPresenter {
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
-                let result = JSON(response.result.value!)
-                //print(result)
                 if response.response?.statusCode == 401 {
                     self.delegate?.openLoginPage()
                 } else {
+                    let result = JSON(response.result.value!)
+                    //print(result)
+                    
+                    let serverDate = convertStringToDatetime(result["date"].stringValue)
+                    self.delegate?.setDate(serverDate!)
+                    
                     var auctions = [Auction]()
                     for auct in result["auctions"].arrayValue {
                         let id = auct["id"].intValue

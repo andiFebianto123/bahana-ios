@@ -38,6 +38,7 @@ class AuctionListViewController: UIViewController {
     
     var auctionID = Int()
     var auctionType = String()
+    var serverHourDifference = Int()
     
     var data = [Auction]()
     let dataPerPage = 10
@@ -316,7 +317,7 @@ extension AuctionListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
         let auction = data[indexPath.row]
         cell.pageType = pageType
-        cell.setAuction(auction)
+        cell.setAuction(auction, serverHourDifference)
         return cell
     }
 }
@@ -369,5 +370,19 @@ extension AuctionListViewController: AuctionListDelegate {
         let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func setDate(_ date: Date) {
+        let diff = calculateDateDifference(Date(), date)
+        
+        serverHourDifference = diff["hour"]!
+        
+        if diff["minute"]! > 0 {
+            if serverHourDifference < 0 {
+                serverHourDifference -= 1
+            } else {
+                serverHourDifference += 1
+            }
+        }
     }
 }
