@@ -26,8 +26,9 @@ class AuctionDetailViewController: UIViewController {
     
     var auctionID: Int!
     var auctionType: String!
-    var revisionRate: Double?
+    var revisionRate: String?
     var confirmationType: String!
+    var confirmationID: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,6 +125,7 @@ class AuctionDetailViewController: UIViewController {
                 destinationVC.auctionType = auctionType
                 destinationVC.confirmationType = confirmationType
                 destinationVC.revisionRate = revisionRate
+                destinationVC.id = confirmationID
             }
         }
     }
@@ -167,11 +169,19 @@ class AuctionDetailViewController: UIViewController {
             if data!["type"] != nil {
                 confirmationType = data!["type"]!
                 if data!["revisionRate"] != nil {
-                    revisionRate = Double(data!["revisionRate"]!)
+                    revisionRate = data!["revisionRate"]!
                 }
+                if data!["id"] != nil {
+                    confirmationID = Int(data!["id"]!)
+                }
+                
                 self.performSegue(withIdentifier: "showConfirmation", sender: self)
             }
         }
+    }
+    
+    @IBAction func unwindToDetail( _ seg: UIStoryboardSegue) {
+        NotificationCenter.default.post(name: Notification.Name("AuctionDetailRefresh"), object: nil, userInfo: nil)
     }
     
     @objc func showValidationAlert(notification: Notification) {

@@ -20,9 +20,12 @@ class AuctionDetailConfirmationViewController: UIViewController {
     @IBOutlet weak var yesButton: UIButton!
     @IBOutlet weak var changeEndDateButton: UIButton!
     
+    var loadingView = UIView()
+    
     var auctionID: Int!
     var auctionType: String!
-    var revisionRate: Double?
+    var id: Int!
+    var revisionRate: String?
     var confirmationType: String!
     
     var textField = UITextField()
@@ -41,6 +44,28 @@ class AuctionDetailConfirmationViewController: UIViewController {
         mainView.layer.shadowRadius = 4
         mainView.layer.shadowOpacity = 0.5
         
+        // Set loading view
+        loadingView.isHidden = true
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
+        
         closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goBack)))
         
         noButton.backgroundColor = primaryColor
@@ -57,8 +82,10 @@ class AuctionDetailConfirmationViewController: UIViewController {
             changeEndDateButton.isHidden = true
         } else if confirmationType == "choosen_winner" {
             confirmationLabel.text = localize("confirmation_choosen_winner")
+            id = auctionID
         } else if confirmationType == "revise_rate" {
             confirmationLabel.text = localize("confirmation_revise_rate")
+            id = auctionID
         }
         
         setDatePicker()
@@ -105,6 +132,10 @@ class AuctionDetailConfirmationViewController: UIViewController {
         textField.inputAccessoryView = toolbar
     }
     
+    func showLoading(_ isShow: Bool) {
+        loadingView.isHidden = !isShow
+    }
+    
     func showAlert(title: String, message: String, _ isReturnToDetail: Bool = false) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
@@ -119,15 +150,18 @@ class AuctionDetailConfirmationViewController: UIViewController {
         if self.confirmationType == "revise_rate" {
             goBack()
         } else {
-            presenter.confirm(auctionID, auctionType, false, nil)
+            showLoading(true)
+            presenter.confirm(id, auctionType, false, nil)
         }
     }
     
     @IBAction func yesButtonPressed(_ sender: Any) {
+        showLoading(true)
         if self.confirmationType == "revise_rate" {
             presenter.reviseAuction(self.auctionID, self.revisionRate)
         } else {
-            presenter.confirm(auctionID, auctionType, true, nil)
+            
+            presenter.confirm(id, auctionType, true, nil)
         }
     }
     
@@ -160,8 +194,9 @@ class AuctionDetailConfirmationViewController: UIViewController {
             
         }))
         alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
+            self.showLoading(true)
             let maturityDate = convertDateToString(self.datePicker.date, format: "yyyy-MM-dd")
-            self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate)
+            self.presenter.confirm(self.id, self.auctionType, true, maturityDate)
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -169,11 +204,12 @@ class AuctionDetailConfirmationViewController: UIViewController {
 
 extension AuctionDetailConfirmationViewController: AuctionDetailConfirmationDelegate {
     func isConfirmed(_ isConfirmed: Bool, _ message: String) {
+        showLoading(false)
         showAlert(title: localize("information"), message: message, isConfirmed)
     }
     
     func setDataFail() {
-        //showLoading(false)
+        showLoading(false)
         let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)

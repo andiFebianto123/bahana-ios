@@ -45,7 +45,7 @@ class AuctionDetailNormalPresenter {
                     self.delegate?.openLoginPage()
                 } else {
                     let res = JSON(response.result.value!)
-                    //print(res)
+                    print(res)
                     
                     let serverDate = convertStringToDatetime(res["date"].stringValue)
                     self.delegate?.setDate(serverDate!)

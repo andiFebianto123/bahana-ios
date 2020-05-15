@@ -2251,9 +2251,11 @@
                         <outlet property="navigationViewHeight" destination="NrT-0T-46T" id="IxV-mU-Vhr"/>
                         <outlet property="noButton" destination="j69-tA-kDc" id="nwA-FK-6nC"/>
                         <outlet property="yesButton" destination="iNK-bl-PWB" id="8dn-uo-opa"/>
+                        <segue destination="DPd-wt-3Ec" kind="unwind" unwindAction="unwindToDetail:" id="vJJ-ar-HwU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6re-Wu-U6w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="DPd-wt-3Ec" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="3860.8695652173915" y="-700.44642857142856"/>
         </scene>

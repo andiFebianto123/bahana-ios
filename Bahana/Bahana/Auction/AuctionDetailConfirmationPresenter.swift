@@ -53,10 +53,11 @@ class AuctionDetailConfirmationPresenter {
             break
         }
         url += "?lang=\(lang)"
-        
+        print(url)
         Alamofire.request(WEB_API_URL + url, method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
             if response.response?.mimeType == "application/json" {
                 let result = JSON.init(parseJSON: response.result.value!)
+                print(result)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isConfirmed(true, result["message"].stringValue)
                 } else {
@@ -69,14 +70,22 @@ class AuctionDetailConfirmationPresenter {
         }
     }
     
-    func reviseAuction(_ id: Int, _ rate: Double?) {
+    func reviseAuction(_ id: Int, _ rate: String?) {
+        var revisionRate: Double?
+        if rate != nil {
+            let dbl = Double(rate!)
+            let dbl_ = dbl!
+            revisionRate = dbl_
+        }
+        
         let parameters: Parameters = [
-            "revision_rate": rate != nil ? rate : ""
+            "revision_rate": revisionRate != nil ? revisionRate! : ""
         ]
         
         Alamofire.request(WEB_API_URL + "api/v1/direct-auction/\(id)/revision", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
             if response.response?.mimeType == "application/json" {
                 let res = JSON.init(parseJSON: response.result.value!)
+                print(res)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isConfirmed(true, res["message"].stringValue)
                 } else {

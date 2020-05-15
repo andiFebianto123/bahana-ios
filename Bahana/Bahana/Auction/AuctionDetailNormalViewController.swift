@@ -125,13 +125,12 @@ class AuctionDetailNormalViewController: UIViewController {
         submitButton.setTitle(localize("submit"), for: .normal)
         submitButton.layer.cornerRadius = 3
         
-        view.isHidden = true
+        refresh()
         
-        presenter = AuctionDetailNormalPresenter(delegate: self)
-        presenter.getAuction(id)
+        // Refresh page
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name("AuctionDetailRefresh"), object: nil)
     }
     
-
     /*
     // MARK: - Navigation
 
@@ -141,6 +140,14 @@ class AuctionDetailNormalViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @objc func refresh() {
+        print("refresh")
+        view.isHidden = true
+        
+        presenter = AuctionDetailNormalPresenter(delegate: self)
+        presenter.getAuction(id)
+    }
     
     func showLoading(_ show: Bool) {
         NotificationCenter.default.post(name: Notification.Name("AuctionDetailLoading"), object: nil, userInfo: ["isShow": show])
@@ -242,7 +249,7 @@ class AuctionDetailNormalViewController: UIViewController {
     
     func setBids(_ bidData: [Bid]) {
         var totalRateViewHeight: CGFloat = 0
-        for dt in bidData {
+        for (idx, dt) in bidData.enumerated() {
             let rateView = UIView()
             if dt.is_winner == "yes" {
                 rateView.backgroundColor = lightGreenColor
@@ -277,9 +284,11 @@ class AuctionDetailNormalViewController: UIViewController {
             let status = UILabel()
             if dt.is_winner == "yes" {
                 if dt.is_accepted == "yes" {
-                    status.text = "Win (\(localize("accepted")))"
+                    status.text = "\(localize("win")) (\(localize("accepted")))"
+                } else if dt.is_accepted == "pending" {
+                    status.text = "\(localize("win")) (\(localize("pending")))"
                 } else {
-                    status.text = "Win (\(localize("pending")))"
+                    status.text = "\(localize("win")) (\(localize("rejected")))"
                 }
             } else {
                 status.text = localize("pending")
@@ -346,7 +355,7 @@ class AuctionDetailNormalViewController: UIViewController {
             if dt.interest_rate_idr != nil {
                 interestRateContent += "(IDR) \(checkPercentage(dt.interest_rate_idr!)) %"
                 if dt.choosen_rate != nil && dt.choosen_rate == "IDR" {
-                    interestRateContent += " [Chosen Rate]\n"
+                    interestRateContent += " [\(localize("chosen_rate"))]\n"
                 } else {
                     interestRateContent += "\n"
                 }
@@ -354,16 +363,16 @@ class AuctionDetailNormalViewController: UIViewController {
             if dt.interest_rate_usd != nil {
                 interestRateContent += "(USD) \(checkPercentage(dt.interest_rate_usd!)) %"
                 if dt.choosen_rate != nil && dt.choosen_rate == "USD" {
-                    interestRateContent += " [Chosen Rate]\n"
+                    interestRateContent += " [\(localize("chosen_rate"))]\n"
                 } else {
                     interestRateContent += "\n"
                 }
                 
             }
             if dt.interest_rate_sharia != nil {
-                interestRateContent += "(Sharia) \(checkPercentage(dt.interest_rate_sharia!)) %"
+                interestRateContent += "(\(localize("sharia"))) \(checkPercentage(dt.interest_rate_sharia!)) %"
                 if dt.choosen_rate != nil && dt.choosen_rate == "Sharia" {
-                    interestRateContent += " [Chosen Rate]\n"
+                    interestRateContent += " [\(localize("chosen_rate"))]\n"
                 } else {
                     interestRateContent += "\n"
                 }
@@ -385,7 +394,8 @@ class AuctionDetailNormalViewController: UIViewController {
                 interestRate.leadingAnchor.constraint(equalTo: interestRateTitle.trailingAnchor, constant: 0),
                 interestRate.trailingAnchor.constraint(equalTo: interestRateView.trailingAnchor, constant: 0),
                 interestRate.topAnchor.constraint(equalTo: interestRateView.topAnchor, constant: 0),
-                interestRateView.heightAnchor.constraint(equalToConstant: interestRateHeight)
+                //interestRateView.heightAnchor.constraint(equalToConstant: interestRateHeight),
+                interestRateView.bottomAnchor.constraint(equalTo: interestRate.bottomAnchor, constant: 0)
                 //interestRate.bottomAnchor.constraint(equalTo: interestRateView.bottomAnchor, constant: 0),
             ])
             
@@ -443,7 +453,8 @@ class AuctionDetailNormalViewController: UIViewController {
                     investment.leadingAnchor.constraint(equalTo: investmentTitle.trailingAnchor, constant: 0),
                     investment.trailingAnchor.constraint(equalTo: investmentView.trailingAnchor, constant: 0),
                     investment.topAnchor.constraint(equalTo: investmentView.topAnchor, constant: 0),
-                    investmentView.heightAnchor.constraint(equalToConstant: investmentHeight),
+                    investmentView.bottomAnchor.constraint(equalTo: investment.bottomAnchor, constant: 0),
+                    //investmentView.heightAnchor.constraint(equalToConstant: investmentHeight),
                     
                     bilyetTitle.leadingAnchor.constraint(equalTo: bilyetView.leadingAnchor, constant: 0),
                     bilyetTitle.topAnchor.constraint(equalTo: bilyetView.topAnchor, constant: 0),
@@ -451,18 +462,20 @@ class AuctionDetailNormalViewController: UIViewController {
                     bilyet.leadingAnchor.constraint(equalTo: bilyetTitle.trailingAnchor, constant: 0),
                     bilyet.trailingAnchor.constraint(equalTo: bilyetView.trailingAnchor, constant: 0),
                     bilyet.topAnchor.constraint(equalTo: bilyetView.topAnchor, constant: 0),
-                    bilyetView.heightAnchor.constraint(equalToConstant: bilyetHeight)
+                    //bilyetView.heightAnchor.constraint(equalToConstant: bilyetHeight),
+                    bilyetView.bottomAnchor.constraint(equalTo: bilyet.bottomAnchor, constant: 0)
                     //bilyet.bottomAnchor.constraint(equalTo: bilyetView.bottomAnchor, constant: 0)
                 ])
                 
                 if self.data.view == 1 && dt.is_accepted.lowercased() == "pending" {
                     let confirmButton = UIButton()
+                    confirmButton.tag = idx
                     confirmButton.setTitle(localize("confirm"), for: .normal)
                     confirmButton.setTitleColor(UIColor.white, for: .normal)
                     confirmButton.titleLabel?.font = contentFont
                     confirmButton.backgroundColor = blueColor
                     confirmButton.layer.cornerRadius = 3
-                    confirmButton.addTarget(self, action: #selector(confirmationButtonPressed), for: .touchUpInside)
+                    confirmButton.addTarget(self, action: #selector(confirmationButtonPressed(sender:)), for: .touchUpInside)
                     confirmButton.translatesAutoresizingMaskIntoConstraints = false
                     rateStackView.addArrangedSubview(confirmButton)
                     
@@ -483,7 +496,7 @@ class AuctionDetailNormalViewController: UIViewController {
                 rateStackView.bottomAnchor.constraint(equalTo: rateView.bottomAnchor, constant: -20),
             ])
             
-            bidStackViewHeight.constant += rateViewHeight + 40 + bidStackView.spacing
+            bidStackViewHeight.constant += rateViewHeight + 20 + bidStackView.spacing
             totalRateViewHeight += rateViewHeight
         }
         
@@ -555,7 +568,7 @@ class AuctionDetailNormalViewController: UIViewController {
             } else if tenorType == "month" {
                 period.text = localize("month()")
             }
-            period.font = UIFont.systemFont(ofSize: 14)
+            period.font = contentFont
             period.textColor = UIColor.lightGray
             period.translatesAutoresizingMaskIntoConstraints = false
             tenorView.addSubview(period)
@@ -769,7 +782,7 @@ class AuctionDetailNormalViewController: UIViewController {
             rateStackView.addArrangedSubview(shariaRateView)
             
             let shariaRateTitleLabel = UILabel()
-            shariaRateTitleLabel.text = "\(localize("interest_rate")) Syariah"
+            shariaRateTitleLabel.text = "\(localize("interest_rate")) \(localize("sharia"))"
             shariaRateTitleLabel.font = titleFont
             shariaRateTitleLabel.translatesAutoresizingMaskIntoConstraints = false
             shariaRateView.addSubview(shariaRateTitleLabel)
@@ -917,13 +930,17 @@ class AuctionDetailNormalViewController: UIViewController {
                 }
             }
         }
-        
+        showLoading(true)
         presenter.saveAuction(id, bids, maxPlacementTextField != nil ? maxPlacementTextField.text! : "")
     }
     
-    @objc func confirmationButtonPressed() {
+    @objc func confirmationButtonPressed(sender: UIButton) {
+        let idx = sender.tag
+        let bidID = data.bids[idx].id
+        
         let param: [String: String] = [
             "type": "choosen_winner",
+            "id": "\(bidID)"
         ]
         
         NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["data": param])
@@ -988,6 +1005,7 @@ extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
     }
     
     func isPosted(_ isSuccess: Bool, _ message: String) {
+        showLoading(false)
         //presenter.getAuction(id)
         showAlert(message, isSuccess)
     }

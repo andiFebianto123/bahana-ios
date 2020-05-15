@@ -14,7 +14,7 @@
 "submit" = "Kirim";
 "send" = "Kirim";
 "cancel" = "Batal";
-"revised" = "Revised";
+"revised" = "Revisi";
 "confirm" = "Konfirmasi";
 "done" = "Done";
 "login" = "Masuk";
@@ -114,8 +114,9 @@
 "ends_bid_in" = "Selesai menawar dalam";
 "ends_auction_in" = "Selesai melelang dalam";
 "break_date" = "Tanggal Break";
-"accepted" = "Accepted";
+"accepted" = "Diterima";
 "pending" = "Menunggu";
+"rejected" = "Ditolak";
 "interest_rate" = "Suku Bunga (%)";
 "previous_interest_rate" = "Suku Bunga Sebelumnya (%)";
 "new_interest_rate" = "Suku Bunga Baru (%)";
@@ -125,7 +126,7 @@
 "break_information" = "Break Information";
 "break_rate" = "Rate Break (%)";
 "bilyet" = "Bilyet (BIO)";
-"revision_rate" = "REVISION RATE (%)";
+"revision_rate" = "Rate Revisi (%)";
 "period" = "Periode";
 "previous_period" = "Periode Sebelumnya";
 "new_period" = "Periode Baru";
@@ -143,6 +144,8 @@
 "month()" = "bulan";
 "search_faq" = "Cari FAQ...";
 "answer" = "Jawaban";
+"win" = "Menang";
+"chosen_rate" = "Rate Terpilih";
 
 "home" = "Beranda";
 "auction" = "Lelang";

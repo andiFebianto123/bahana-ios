@@ -108,7 +108,7 @@ class AuctionDetailDirectViewController: UIViewController {
         messageTitleLabel.textColor = primaryColor
         messageTitleLabel.text = localize("message").uppercased()
         revisionRateTitleLabel.textColor = primaryColor
-        revisionRateTitleLabel.text = localize("revision_rate")
+        revisionRateTitleLabel.text = localize("revision_rate").uppercased()
         revisionRateTextField.keyboardType = .numbersAndPunctuation
         revisedButton.setTitle(localize("revised").uppercased(), for: .normal)
         revisedButton.backgroundColor = primaryColor
@@ -273,7 +273,7 @@ class AuctionDetailDirectViewController: UIViewController {
             
             let param: [String: String] = [
                 "type": "revise_rate",
-                "revisionRate": rate != nil ? "\(rate)" : ""
+                "revisionRate": rate != nil ? "\(rate!)" : ""
             ]
             
             NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["data": param])

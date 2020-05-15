@@ -116,6 +116,7 @@
 "break_date" = "Break Date";
 "accepted" = "Accepted";
 "pending" = "Pending";
+"rejected" = "Rejected";
 "interest_rate" = "Interest Rate (%)";
 "previous_interest_rate" = "Previous Interest Rate (%)";
 "new_interest_rate" = "New Interest Rate (%)";
@@ -125,7 +126,7 @@
 "break_information" = "Break Information";
 "break_rate" = "Break Rate (%)";
 "bilyet" = "Bilyet (BIO)";
-"revision_rate" = "REVISION RATE (%)";
+"revision_rate" = "Revision Rate (%)";
 "period" = "Period";
 "previous_period" = "Previous Period";
 "new_period" = "New Period";
@@ -143,6 +144,8 @@
 "month()" = "month(s)";
 "search_faq" = "Search FAQ...";
 "answer" = "Answer";
+"win" = "Win";
+"chosen_rate" = "Chosen Rate";
 
 "home" = "Home";
 "auction" = "Auction";
