@@ -2,7 +2,7 @@
 //  SettingsViewController.swift
 //  Bahana
 //
-//  Created by Christian Chandra on /2002/26.
+//  Created by Christian Chandra on /2005/17.
 //  Copyright © 2020 Rectmedia. All rights reserved.
 //
 
@@ -14,6 +14,8 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var notificationView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var profileView: UIView!
     @IBOutlet weak var fullnameView: UIView!
     @IBOutlet weak var fullnameTitleLabel: UILabel!
@@ -33,6 +35,8 @@ class SettingsViewController: UIViewController {
     @IBOutlet weak var languageLabel: UILabel!
     @IBOutlet weak var logoutView: UIView!
     @IBOutlet weak var logoutLabel: UILabel!
+    
+    let refreshControl = UIRefreshControl()
     
     var loadingView = UIView()
     
@@ -67,6 +71,12 @@ class SettingsViewController: UIViewController {
             spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
+        
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        scrollView.refreshControl = refreshControl
+        
+        scrollView.backgroundColor = .clear
+        contentView.backgroundColor = .clear
         
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "bg")
@@ -120,7 +130,6 @@ class SettingsViewController: UIViewController {
         setNavigationItems()
     }
     
-
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -197,6 +206,11 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    @objc func refresh() {
+        showLoading(true)
+        presenter.getProfile()
+    }
+    
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
@@ -250,11 +264,13 @@ class SettingsViewController: UIViewController {
 
 extension SettingsViewController: SettingsDelegate {
     func setProfile(_ name: String, _ email: String, _ phone: String) {
+        refreshControl.endRefreshing()
         showLoading(false)
         setContent(name, email, phone)
     }
     
     func isLogoutSuccess(_ isLoggedOut: Bool, _ message: String) {
+        refreshControl.endRefreshing()
         showLoading(false)
         if !isLoggedOut {
             showAlert(title: localize("information"), message: message)
@@ -264,6 +280,7 @@ extension SettingsViewController: SettingsDelegate {
     }
     
     func getDataFail() {
+        refreshControl.endRefreshing()
         showLoading(false)
         let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))

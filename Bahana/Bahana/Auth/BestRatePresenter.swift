@@ -92,7 +92,7 @@ class BestRatePresenter {
             "account_name": data["idr_account_name"]!,
             "month_rate_1": data["idr_month_rate_1"] != "" ? data["idr_month_rate_1"]! : 0.0,
             "month_rate_3": data["idr_month_rate_3"] != "" ? data["idr_month_rate_3"]! : 0.0,
-            "month_rate_6": data["idr_month_rate_6"] != "" ? data["idr_month_rate_1"]! : 0.0,
+            "month_rate_6": data["idr_month_rate_6"] != "" ? data["idr_month_rate_6"]! : 0.0,
             "breakable_policy_usd": data["usd_breakable_policy"]!,
             "breakable_policy_notes_usd": data["usd_breakable_policy_notes"]!,
             "account_number_usd": data["usd_account_number"]!,

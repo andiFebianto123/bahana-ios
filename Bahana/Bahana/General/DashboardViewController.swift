@@ -2,7 +2,7 @@
 //  DashboardViewController.swift
 //  Bahana
 //
-//  Created by Christian Chandra on /2002/05.
+//  Created by Christian Chandra on /2005/17.
 //  Copyright © 2020 Rectmedia. All rights reserved.
 //
 
@@ -13,6 +13,8 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var navigationTitle: UILabel!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var notificationView: UIView!
     @IBOutlet weak var completedAuctionView: UIView!
@@ -20,12 +22,10 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var completedAuctionLabel: UILabel!
     @IBOutlet weak var completedAuctionUnitLabel: UILabel!
     @IBOutlet weak var ongoingAuctionView: UIView!
-    //@IBOutlet weak var ongoingAuctionWidth: NSLayoutConstraint!
     @IBOutlet weak var ongoingAuctionTitleLabel: UILabel!
     @IBOutlet weak var ongoingAuctionLabel: UILabel!
     @IBOutlet weak var ongoingAuctionUnitLabel: UILabel!
     @IBOutlet weak var needConfirmationView: UIView!
-    //@IBOutlet weak var needConfirmationWidth: NSLayoutConstraint!
     @IBOutlet weak var needConfirmationTitleLabel: UILabel!
     @IBOutlet weak var needConfirmationLabel: UILabel!
     @IBOutlet weak var needConfirmationUnitLabel: UILabel!
@@ -34,9 +34,9 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var informationContent: UILabel!
     @IBOutlet weak var informationContentChevron: UIImageView!
     
-    var loadingView = UIView()
+    let refreshControl = UIRefreshControl()
     
-    var refreshControl = UIRefreshControl()
+    var loadingView = UIView()
     
     var presenter: DashboardPresenter!
     
@@ -48,9 +48,8 @@ class DashboardViewController: UIViewController {
         setViewText()
         
         view.backgroundColor = backgroundColor
-        
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        //view.addSubview(refreshControl)
+        scrollView.backgroundColor = backgroundColor
+        contentView.backgroundColor = backgroundColor
         
         // Set loading view
         loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
@@ -72,6 +71,9 @@ class DashboardViewController: UIViewController {
             spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
+        
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        scrollView.refreshControl = refreshControl
         
         completedAuctionView.layer.cornerRadius = 5
         completedAuctionView.layer.shadowColor = UIColor.gray.cgColor
@@ -141,7 +143,7 @@ class DashboardViewController: UIViewController {
         super.viewWillAppear(animated)
         setNavigationItems()
     }
-
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -156,7 +158,7 @@ class DashboardViewController: UIViewController {
             }
         }
     }
-    
+
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
@@ -217,6 +219,7 @@ class DashboardViewController: UIViewController {
     }
     
     @objc func refresh() {
+        showLoading(true)
         presenter.getData()
     }
     
@@ -236,6 +239,7 @@ class DashboardViewController: UIViewController {
 
 extension DashboardViewController: DashboardDelegate {
     func setData(_ data: [String : Any?]) {
+        refreshControl.endRefreshing()
         showLoading(false)
         completedAuctionLabel.text = "\(data["completed"]! as! Int)"
         if data["completed"]! as! Int > 1 {
@@ -270,6 +274,7 @@ extension DashboardViewController: DashboardDelegate {
     }
     
     func getDataFail() {
+        refreshControl.endRefreshing()
         showLoading(false)
         let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))

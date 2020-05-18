@@ -33,15 +33,14 @@ class GeneralTabBarViewController: UITabBarController {
         tabBar.tintColor = primaryColor
         
         tabBar.items![0].image = resizeImage(image: UIImage(named: "home")!, targetSize: iconSize)
-        tabBar.items![0].title = localize("home")
         tabBar.items![1].image = resizeImage(image: UIImage(named: "auction")!, targetSize: iconSize)
-        tabBar.items![1].title = localize("auction")
         tabBar.items![2].image = resizeImage(image: UIImage(named: "history")!, targetSize: iconSize)
-        tabBar.items![2].title = localize("history")
         tabBar.items![3].image = resizeImage(image: UIImage(named: "transaction")!, targetSize: iconSize)
-        tabBar.items![3].title = localize("transaction")
         tabBar.items![4].image = resizeImage(image: UIImage(named: "profile")!, targetSize: iconSize)
-        tabBar.items![4].title = localize("profile")
+        
+        setTitle()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setTitle), name: Notification.Name("LanguageChanged"), object: nil)
     }
     
 
@@ -55,4 +54,11 @@ class GeneralTabBarViewController: UITabBarController {
     }
     */
 
+    @objc func setTitle() {
+        tabBar.items![0].title = localize("home")
+        tabBar.items![1].title = localize("auction")
+        tabBar.items![2].title = localize("history")
+        tabBar.items![3].title = localize("transaction")
+        tabBar.items![4].title = localize("profile")
+    }
 }
