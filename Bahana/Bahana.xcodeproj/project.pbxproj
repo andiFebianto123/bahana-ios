@@ -68,12 +68,15 @@
 		BCC95AD323EAC15600515773 /* ForgotPasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD223EAC15600515773 /* ForgotPasswordPresenter.swift */; };
 		BCC95AD823EADD1C00515773 /* AuctionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD723EADD1C00515773 /* AuctionListViewController.swift */; };
 		BCC95ADA23EADD2D00515773 /* AuctionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD923EADD2D00515773 /* AuctionDetailViewController.swift */; };
+		BCCA0DD6247501E500955222 /* AuctionDetailNormal2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCA0DD5247501E500955222 /* AuctionDetailNormal2ViewController.swift */; };
 		BCD9FE052471745F00CE0697 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD9FE042471745F00CE0697 /* DashboardViewController.swift */; };
 		BCD9FE072471952200CE0697 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD9FE062471952100CE0697 /* SettingsViewController.swift */; };
 		BCE00CA72407865F00EDBADE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCE00CA92407865F00EDBADE /* Localizable.strings */; };
 		BCE40BF723E2AAB200034744 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCE40BF623E2AAB200034744 /* Auth.storyboard */; };
 		BCE40BF923E2AE2F00034744 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE40BF823E2AE2F00034744 /* LoginViewController.swift */; };
 		BCE4862923F152F8007961CE /* Auction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4862823F152F8007961CE /* Auction.swift */; };
+		BCE5B5BF24739EA200777502 /* AuctionListReloadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE5B5BD24739EA200777502 /* AuctionListReloadTableViewCell.swift */; };
+		BCE5B5C024739EA200777502 /* AuctionListReloadTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCE5B5BE24739EA200777502 /* AuctionListReloadTableViewCell.xib */; };
 		BCF2846123F0553800EE8FD8 /* AuctionListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF2845F23F0553800EE8FD8 /* AuctionListTableViewCell.swift */; };
 		BCF2846223F0553800EE8FD8 /* AuctionListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCF2846023F0553800EE8FD8 /* AuctionListTableViewCell.xib */; };
 		BCF7C59323EBC37B00340C4A /* GeneralTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */; };
@@ -169,6 +172,7 @@
 		BCC95AD223EAC15600515773 /* ForgotPasswordPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordPresenter.swift; sourceTree = "<group>"; };
 		BCC95AD723EADD1C00515773 /* AuctionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListViewController.swift; sourceTree = "<group>"; };
 		BCC95AD923EADD2D00515773 /* AuctionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailViewController.swift; sourceTree = "<group>"; };
+		BCCA0DD5247501E500955222 /* AuctionDetailNormal2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailNormal2ViewController.swift; sourceTree = "<group>"; };
 		BCD9FE042471745F00CE0697 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		BCD9FE062471952100CE0697 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		BCE00CA32407861300EDBADE /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Main.strings; sourceTree = "<group>"; };
@@ -178,6 +182,8 @@
 		BCE40BF623E2AAB200034744 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
 		BCE40BF823E2AE2F00034744 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BCE4862823F152F8007961CE /* Auction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auction.swift; sourceTree = "<group>"; };
+		BCE5B5BD24739EA200777502 /* AuctionListReloadTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListReloadTableViewCell.swift; sourceTree = "<group>"; };
+		BCE5B5BE24739EA200777502 /* AuctionListReloadTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionListReloadTableViewCell.xib; sourceTree = "<group>"; };
 		BCF2845F23F0553800EE8FD8 /* AuctionListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListTableViewCell.swift; sourceTree = "<group>"; };
 		BCF2846023F0553800EE8FD8 /* AuctionListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionListTableViewCell.xib; sourceTree = "<group>"; };
 		BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTabBarViewController.swift; sourceTree = "<group>"; };
@@ -299,6 +305,9 @@
 				BCA2BABD23F40BC400E219B2 /* TransactionListPresenter.swift */,
 				BCA2BABF23F40C1D00E219B2 /* TransactionDetailViewController.swift */,
 				BC14BF4E241775B300D84A0A /* TransactionDetailPresenter.swift */,
+				BCE5B5BD24739EA200777502 /* AuctionListReloadTableViewCell.swift */,
+				BCE5B5BE24739EA200777502 /* AuctionListReloadTableViewCell.xib */,
+				BCCA0DD5247501E500955222 /* AuctionDetailNormal2ViewController.swift */,
 			);
 			path = Auction;
 			sourceTree = "<group>";
@@ -435,6 +444,7 @@
 				BC472B6723E3FCB800FA2A6F /* RegisterStepCollectionViewCell.xib in Resources */,
 				BC81C14223E15D3C004DBBD3 /* Assets.xcassets in Resources */,
 				BCE40BF723E2AAB200034744 /* Auth.storyboard in Resources */,
+				BCE5B5C024739EA200777502 /* AuctionListReloadTableViewCell.xib in Resources */,
 				BCF2846223F0553800EE8FD8 /* AuctionListTableViewCell.xib in Resources */,
 				BCE00CA72407865F00EDBADE /* Localizable.strings in Resources */,
 				BC81C14023E15D3A004DBBD3 /* Main.storyboard in Resources */,
@@ -494,6 +504,7 @@
 			files = (
 				BC76798424162ED200683F2E /* NotificationTableViewCell.swift in Sources */,
 				BC5BC4C9242CB25D003A47AB /* AuctionDetailMatureViewController.swift in Sources */,
+				BCE5B5BF24739EA200777502 /* AuctionListReloadTableViewCell.swift in Sources */,
 				BC472B6123E3E3A900FA2A6F /* TermsAndConditionsViewController.swift in Sources */,
 				BCA2BABC23F40BAB00E219B2 /* TransactionListViewController.swift in Sources */,
 				BC14BF3F2417549E00D84A0A /* FaqViewController.swift in Sources */,
@@ -510,6 +521,7 @@
 				BC472B7423E44ACC00FA2A6F /* TermsAndConditionsPresenter.swift in Sources */,
 				BC472B5B23E3E1F300FA2A6F /* RegisterViewController.swift in Sources */,
 				BCFE9E162404DF8A0013909A /* AuctionDetailDirect.swift in Sources */,
+				BCCA0DD6247501E500955222 /* AuctionDetailNormal2ViewController.swift in Sources */,
 				BC067DB323E7085500605FAA /* BestRatePresenter.swift in Sources */,
 				BC14BF3D24174E8C00D84A0A /* ChangeLanguageTableViewCell.swift in Sources */,
 				BCC95ACF23EAC04600515773 /* ForgotPasswordViewController.swift in Sources */,

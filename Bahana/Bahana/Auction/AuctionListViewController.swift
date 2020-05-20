@@ -32,6 +32,7 @@ class AuctionListViewController: UIViewController {
     var pageType: String!
     var stopFetch: Bool = false
     var loadFinished: Bool = false
+    var loadFailed: Bool = false
     
     var statusOptions = [localize("all").uppercased(), "-", "ACC", "REJ", "NEC"]
     let typeOptions = [localize("all").uppercased(), localize("auction").uppercased(), localize("direct_auction").uppercased(), localize("break").uppercased(), localize("rollover").uppercased(), localize("mature").uppercased()]
@@ -117,6 +118,7 @@ class AuctionListViewController: UIViewController {
         }
         
         tableView.register(UINib(nibName: "AuctionListTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableView.register(UINib(nibName: "AuctionListReloadTableViewCell", bundle: nil), forCellReuseIdentifier: "AuctionListReloadTableViewCell")
         tableView.separatorStyle = .none
         tableView.backgroundColor = backgroundColor
         
@@ -304,7 +306,7 @@ class AuctionListViewController: UIViewController {
 
 extension AuctionListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return data.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -314,11 +316,25 @@ extension AuctionListViewController: UITableViewDataSource {
             self.getData(lastId: data[indexPath.row].id, lastDate: data[indexPath.row].end_date, lastType: data[indexPath.row].type, page: page)
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
-        let auction = data[indexPath.row]
-        cell.pageType = pageType
-        cell.setAuction(auction, serverHourDifference)
-        return cell
+        var customCell: UITableViewCell!
+        
+        if indexPath.row <= data.count - 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
+            let auction = data[indexPath.row]
+            cell.pageType = pageType
+            cell.setAuction(auction, serverHourDifference)
+            customCell = cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AuctionListReloadTableViewCell", for: indexPath) as! AuctionListReloadTableViewCell
+            cell.delegate = self
+            cell.isHidden = true
+            if loadFailed {
+                cell.isHidden = false
+            }
+            customCell = cell
+        }
+        
+        return customCell
     }
 }
 
@@ -327,10 +343,17 @@ extension AuctionListViewController: UITableViewDelegate {
         auctionID = data[indexPath.row].id
         auctionType = data[indexPath.row].type
         performSegue(withIdentifier: "showDetail", sender: self)
+        //performSegue(withIdentifier: "showAuctionNormal", sender: self)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 175
+        var height: CGFloat!
+        if indexPath.row <= data.count - 1 {
+            height = 175
+        } else {
+            height = 100
+        }
+        return height
     }
 }
 
@@ -342,6 +365,7 @@ extension AuctionListViewController: AuctionListDelegate {
     }
     
     func setData(_ data: [Auction], _ page: Int) {
+        loadFailed = false
         tableView.backgroundView = UIView()
         if data.count > 0 && self.page == page {
             for dt in data {
@@ -365,6 +389,8 @@ extension AuctionListViewController: AuctionListDelegate {
     }
     
     func getDataFail() {
+        loadFailed = true
+        tableView.reloadData()
         refreshControl.endRefreshing()
         showLoading(false)
         let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
@@ -384,5 +410,12 @@ extension AuctionListViewController: AuctionListDelegate {
                 serverHourDifference += 1
             }
         }
+    }
+}
+
+extension AuctionListViewController: AuctionListReloadDelegate {
+    func reload() {
+        let lastRow = data.last
+        self.getData(lastId: lastRow?.id, lastDate: lastRow?.end_date, lastType: lastRow?.type, page: page)
     }
 }

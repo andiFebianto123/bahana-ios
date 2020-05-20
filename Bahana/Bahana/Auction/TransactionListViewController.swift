@@ -38,6 +38,7 @@ class TransactionListViewController: UIViewController {
     
     var stopFetch: Bool = false
     var loadFinished: Bool = false
+    var loadFailed: Bool = false
     
     var isFilterReady = false
     var currentFieldTag: Int!
@@ -114,6 +115,7 @@ class TransactionListViewController: UIViewController {
         filterLabel.textColor = .white
         
         tableView.register(UINib(nibName: "AuctionListTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        tableView.register(UINib(nibName: "AuctionListReloadTableViewCell", bundle: nil), forCellReuseIdentifier: "AuctionListReloadTableViewCell")
         tableView.separatorStyle = .none
         tableView.backgroundColor = backgroundColor
         
@@ -586,7 +588,7 @@ class TransactionListViewController: UIViewController {
 
 extension TransactionListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return data.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -596,10 +598,24 @@ extension TransactionListViewController: UITableViewDataSource {
             self.getData(lastId: data[indexPath.row].id, page: page)
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
-        let transaction = data[indexPath.row]
-        cell.setTransaction(transaction)
-        return cell
+        var customCell: UITableViewCell!
+        
+        if indexPath.row <= data.count - 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AuctionListTableViewCell
+            let transaction = data[indexPath.row]
+            cell.setTransaction(transaction)
+            customCell = cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AuctionListReloadTableViewCell", for: indexPath) as! AuctionListReloadTableViewCell
+            cell.delegate = self
+            cell.isHidden = true
+            if loadFailed {
+                cell.isHidden = false
+            }
+            customCell = cell
+        }
+        
+        return customCell
     }
 }
 
@@ -610,7 +626,13 @@ extension TransactionListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 180
+        var height: CGFloat!
+        if indexPath.row <= data.count - 1 {
+            height = 180
+        } else {
+            height = 100
+        }
+        return height
     }
 }
 
@@ -692,6 +714,7 @@ extension TransactionListViewController: TransactionListDelegate {
     }
     
     func setData(_ data: [Transaction], _ page: Int) {
+        loadFailed = false
         tableView.backgroundView = UIView()
         if data.count > 0 && self.page == page {
             for dt in data {
@@ -722,10 +745,19 @@ extension TransactionListViewController: TransactionListDelegate {
     }
     
     func getDataFail() {
+        loadFailed = true
+        tableView.reloadData()
         refreshControl.endRefreshing()
         showLoading(false)
         let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension TransactionListViewController: AuctionListReloadDelegate {
+    func reload() {
+        let lastRow = data.last
+        self.getData(lastId: lastRow?.id, page: page)
     }
 }
