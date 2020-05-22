@@ -65,7 +65,7 @@ class AuctionDetailBreakViewController: UIViewController {
         
         titleLabel.text = localize("break").uppercased()
         titleLabel.textColor = primaryColor
-        //auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
         let cardBackgroundColor = lightRedColor
         portfolioView.backgroundColor = cardBackgroundColor
@@ -144,10 +144,12 @@ class AuctionDetailBreakViewController: UIViewController {
         confirmButton.backgroundColor = blueColor
         confirmButton.layer.cornerRadius = 3
         
-        view.isHidden = true
-        
         presenter = AuctionDetailBreakPresenter(delegate: self)
-        presenter.getAuction(id)
+        
+        refresh()
+        
+        // Refresh page
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name("AuctionDetailRefresh"), object: nil)
     }
     
 
@@ -161,6 +163,12 @@ class AuctionDetailBreakViewController: UIViewController {
     }
     */
 
+    @objc func refresh() {
+        view.isHidden = true
+        showLoading(true)
+        presenter.getAuction(id)
+    }
+    
     func showLoading(_ show: Bool) {
         NotificationCenter.default.post(name: Notification.Name("AuctionDetailLoading"), object: nil, userInfo: ["isShow": show])
     }
@@ -198,7 +206,7 @@ class AuctionDetailBreakViewController: UIViewController {
         if data.view == 0 {
             breakRateStackView.isHidden = true
         } else if data.view == 1 {
-            breakRateTitleLabel.isHidden = true
+            breakRateTitle2Label.isHidden = true
             breakRateTextField.isHidden = true
             submitButton.isHidden = true
         } else if data.view == 2 {
@@ -224,7 +232,13 @@ class AuctionDetailBreakViewController: UIViewController {
         let date = calendar.date(byAdding: .hour, value: -serverHourDifference, to: Date())!
         
         if convertStringToDatetime(data.end_date)! > date {
-            let endBid = calculateDateDifference(date, convertStringToDatetime(data.end_bidding_rm)!)
+            var endBid: [String: Int] = [
+                "hour": 0,
+                "minute": 0
+            ]
+            if data.end_bidding_rm != nil {
+                endBid = calculateDateDifference(date, convertStringToDatetime(data.end_bidding_rm)!)
+            }
             
             if endBid["hour"]! > 0 || endBid["minute"]! > 0 {
                 let hour = endBid["hour"]! > 1 ? String.localizedStringWithFormat(localize("hours"), "\(endBid["hour"]!)") : String.localizedStringWithFormat(localize("hour"), "\(endBid["hour"]!)")
@@ -282,6 +296,7 @@ class AuctionDetailBreakViewController: UIViewController {
     
     @IBAction func submitButtonPressed(_ sender: Any) {
         if validateForm() {
+            showLoading(true)
             let rate = Double(breakRateTextField.text!)!
             presenter.saveAuction(id, rate)
         }
@@ -304,9 +319,13 @@ extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
         showLoading(false)
     }
     
-    func getDataFail() {
+    func getDataFail(_ message: String?) {
         showLoading(false)
-        showAlert(localize("cannot_connect_to_server"))
+        var msg = localize("cannot_connect_to_server")
+        if message != nil {
+            msg = message!
+        }
+        showAlert(msg)
     }
     
     func setDate(_ date: Date) {
@@ -325,6 +344,7 @@ extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
     
     func isPosted(_ isSuccess: Bool, _ message: String) {
         //presenter.getAuction(id)
+        showLoading(false)
         showAlert(message, isSuccess)
     }
     

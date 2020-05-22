@@ -166,9 +166,13 @@ extension AuctionDetailMatureViewController: AuctionDetailMatureDelegate {
         setContent()
     }
     
-    func getDataFail() {
+    func getDataFail(_ message: String?) {
         showLoading(false)
-        showAlert(localize("cannot_connect_to_server"))
+        var msg = localize("cannot_connect_to_server")
+        if message != nil {
+            msg = message!
+        }
+        showAlert(msg)
     }
     
     func openLoginPage() {

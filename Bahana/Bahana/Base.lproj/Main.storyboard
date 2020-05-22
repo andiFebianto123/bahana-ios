@@ -133,13 +133,13 @@
                                                         <rect key="frame" x="197" y="0.0" width="177" height="90"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NEED CONFIRMATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="onA-68-on2">
-                                                                <rect key="frame" x="35" y="10" width="107.5" height="12"/>
+                                                                <rect key="frame" x="35" y="10" width="107.5" height="19"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8F-K3-kSS">
-                                                                <rect key="frame" x="82" y="25" width="13.5" height="32.5"/>
+                                                                <rect key="frame" x="82" y="32" width="13.5" height="25.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -272,6 +272,7 @@
                         <outlet property="scrollView" destination="RpM-PJ-k8c" id="iYa-C2-VCT"/>
                         <outlet property="titleLabel" destination="mRx-TS-pMq" id="G8Z-b3-sG6"/>
                         <segue destination="phh-EK-jB9" kind="show" identifier="showBestRate" id="XfU-pN-iG1"/>
+                        <segue destination="zQf-66-F44" kind="show" identifier="showNotification" id="tQc-yw-T9x"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wib-eT-NFs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1008,13 +1009,32 @@
                                             <constraint firstItem="0uR-h0-Vx8" firstAttribute="top" secondItem="IFa-mX-Oqw" secondAttribute="top" id="ydF-rJ-ysS"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HSD-DC-E3v">
+                                        <rect key="frame" x="384" y="34" width="20" height="20"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_menu_vertical" translatesAutoresizingMaskIntoConstraints="NO" id="L2E-1h-UqV">
+                                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="20" id="IIN-Eu-gJA"/>
+                                            <constraint firstItem="L2E-1h-UqV" firstAttribute="top" secondItem="HSD-DC-E3v" secondAttribute="top" id="Pmn-df-UEL"/>
+                                            <constraint firstAttribute="bottom" secondItem="L2E-1h-UqV" secondAttribute="bottom" id="TNr-4j-dKX"/>
+                                            <constraint firstItem="L2E-1h-UqV" firstAttribute="leading" secondItem="HSD-DC-E3v" secondAttribute="leading" id="cUb-lP-vFP"/>
+                                            <constraint firstAttribute="height" constant="20" id="kZL-Hw-1ai"/>
+                                            <constraint firstAttribute="trailing" secondItem="L2E-1h-UqV" secondAttribute="trailing" id="uNT-X4-NTB"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="HSD-DC-E3v" secondAttribute="bottom" constant="10" id="D5G-GX-Fe7"/>
                                     <constraint firstItem="IFa-mX-Oqw" firstAttribute="leading" secondItem="f8Y-as-NuK" secondAttribute="leading" constant="10" id="Da2-fY-QHl"/>
                                     <constraint firstAttribute="bottom" secondItem="IFa-mX-Oqw" secondAttribute="bottom" constant="5" id="G3P-2v-RdZ"/>
                                     <constraint firstAttribute="bottom" secondItem="e2h-oU-2Vj" secondAttribute="bottom" constant="12" id="Rvq-xf-odd"/>
                                     <constraint firstItem="e2h-oU-2Vj" firstAttribute="leading" secondItem="IFa-mX-Oqw" secondAttribute="trailing" constant="20" id="T9Y-ag-0RQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="HSD-DC-E3v" secondAttribute="trailing" constant="10" id="f5g-CR-btR"/>
                                     <constraint firstAttribute="height" constant="64" id="hZ5-g7-vVg"/>
                                 </constraints>
                             </view>
@@ -1033,6 +1053,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="dkT-Kf-qBo"/>
                     <connections>
+                        <outlet property="moreView" destination="HSD-DC-E3v" id="UDn-fp-Ba3"/>
                         <outlet property="navigationBackView" destination="IFa-mX-Oqw" id="TAP-rq-WYB"/>
                         <outlet property="navigationTitle" destination="e2h-oU-2Vj" id="8X4-m9-L6Y"/>
                         <outlet property="navigationView" destination="f8Y-as-NuK" id="lZ7-La-UVl"/>
@@ -1040,11 +1061,12 @@
                         <outlet property="tableView" destination="yUE-KM-FMX" id="b3U-mA-2mU"/>
                         <segue destination="qgf-A7-oTP" kind="show" identifier="showAuctionDetail" id="3ZZ-oa-Rpy"/>
                         <segue destination="PWs-Uv-sDe" kind="show" identifier="showTransactionDetail" id="iBb-D4-mEj"/>
+                        <segue destination="phh-EK-jB9" kind="show" identifier="showBestRate" id="rFm-Bx-kjg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXb-8u-Rku" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="445" y="1854"/>
+            <point key="canvasLocation" x="444.92753623188412" y="1853.5714285714284"/>
         </scene>
         <!--TransactionDetail-->
         <scene sceneID="sTh-hl-s9T">
@@ -1063,9 +1085,11 @@
         <image name="icon_checkmark" width="32" height="32"/>
         <image name="icon_chevron_right" width="30" height="30"/>
         <image name="icon_left" width="33.333332061767578" height="33.333332061767578"/>
+        <image name="icon_menu_vertical" width="32" height="32"/>
         <image name="notification" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="et4-D9-Qf5"/>
+        <segue reference="tQc-yw-T9x"/>
+        <segue reference="rFm-Bx-kjg"/>
     </inferredMetricsTieBreakers>
 </document>

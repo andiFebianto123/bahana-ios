@@ -12,7 +12,7 @@ struct AuctionDetailBreak {
     var id: Int
     var start_date: String
     var end_date: String
-    var end_bidding_rm: String
+    var end_bidding_rm: String?
     var pic_custodian: String?
     var custodian_bank: String?
     var portfolio:String

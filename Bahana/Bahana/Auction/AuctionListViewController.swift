@@ -176,6 +176,8 @@ class AuctionListViewController: UIViewController {
             badgeView.isHidden = false
             if count > 99 {
                 badgeLabel.text = "99+"
+            } else if count == 0 {
+                badgeView.isHidden = true
             } else {
                 badgeLabel.text = "\(count)"
             }

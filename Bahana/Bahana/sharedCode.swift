@@ -80,7 +80,7 @@ func getHeaders(auth: Bool = false) -> HTTPHeaders {
         ]
     } else {
         headers = [
-            //"X-App-Version-Ios": "1.0",
+            //"X-App-Version-Ios": getAppVersion(),
             "X-Requested-With": "XMLHttpRequest"
         ]
     }
@@ -253,6 +253,23 @@ func getUnreadNotificationCount(completion: @escaping (_ count: Int) -> Void) {
         case .success:
             let result = JSON(response.result.value!)
             completion(result["count"].intValue)
+        case .failure(let error):
+            print(error)
+        }
+    }
+}
+
+func isLatestVersion(completion: @escaping (_ isUpdateAvailable: Bool) -> Void) {
+    Alamofire.request(WEB_API_URL + "api/v1/version", method: .post, headers: getHeaders()).responseJSON { response in
+        switch response.result {
+        case .success:
+            let result = JSON(response.result.value!)
+            let update = result["update_ios"].stringValue
+            if update.lowercased() == "yes" {
+                completion(true)
+            } else if update.lowercased() == "no" {
+                completion(false)
+            }
         case .failure(let error):
             print(error)
         }

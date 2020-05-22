@@ -28,7 +28,7 @@ class AuctionDetailViewController: UIViewController {
     var auctionType: String!
     var revisionRate: String?
     var confirmationType: String!
-    var confirmationID: Int!
+    var confirmationID: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -181,7 +181,7 @@ class AuctionDetailViewController: UIViewController {
     }
     
     @IBAction func unwindToDetail( _ seg: UIStoryboardSegue) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailRefresh"), object: nil, userInfo: nil)
+        //
     }
     
     @objc func showValidationAlert(notification: Notification) {

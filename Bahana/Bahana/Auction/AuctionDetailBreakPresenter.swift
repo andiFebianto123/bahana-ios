@@ -12,7 +12,7 @@ import SwiftyJSON
 
 protocol AuctionDetailBreakDelegate {
     func setData(_ data: AuctionDetailBreak)
-    func getDataFail()
+    func getDataFail(_ message: String?)
     func setDate(_ date: Date)
     func isPosted(_ isSuccess: Bool, _ message: String)
     func openLoginPage()
@@ -43,6 +43,9 @@ class AuctionDetailBreakPresenter {
             case .success:
                 if response.response?.statusCode == 401 {
                     self.delegate?.openLoginPage()
+                } else if response.response?.statusCode == 404 {
+                    let res = JSON(response.result.value!)
+                    self.delegate?.getDataFail(res["message"].stringValue)
                 } else {
                     let res = JSON(response.result.value!)
                     //print(res)
@@ -55,7 +58,7 @@ class AuctionDetailBreakPresenter {
                     let id = auct["id"].intValue
                     let start_date = auct["start_date"].stringValue
                     let end_date = auct["end_date"].stringValue
-                    let end_bidding_rm = auct["end_bidding_rm"].stringValue
+                    let end_bidding_rm = auct["end_bidding_rm"] != JSON.null ? auct["end_bidding_rm"].stringValue : nil
                     let pic_custodian = auct["pic_custodian"] != JSON.null ? auct["pic_custodian"].stringValue : nil
                     let custodian_bank = auct["custodian_bank"] != JSON.null ? auct["custodian_bank"].stringValue : nil
                     let portfolio = auct["portfolio"].stringValue
@@ -84,7 +87,7 @@ class AuctionDetailBreakPresenter {
                 }
             case .failure(let error):
                 print(error)
-                self.delegate?.getDataFail()
+                self.delegate?.getDataFail(nil)
             }
         }
     }
@@ -104,7 +107,7 @@ class AuctionDetailBreakPresenter {
                 }
             } else {
                 print(response)
-                self.delegate?.getDataFail()
+                self.delegate?.getDataFail(nil)
             }
         }
     }

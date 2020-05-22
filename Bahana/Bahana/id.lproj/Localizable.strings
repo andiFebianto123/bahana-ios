@@ -112,7 +112,7 @@
 "tenor" = "Tenor";
 "ends_in" = "Selesai dalam";
 "ends_bid_in" = "Selesai menawar dalam";
-"ends_auction_in" = "Selesai melelang dalam";
+"ends_auction_in" = "Selesai lelang dalam";
 "break_date" = "Tanggal Break";
 "accepted" = "Diterima";
 "pending" = "Menunggu";
@@ -130,7 +130,7 @@
 "period" = "Periode";
 "previous_period" = "Periode Sebelumnya";
 "new_period" = "Periode Baru";
-"policy" = "Policy";
+"policy" = "Polis";
 "notes" = "Catatan";
 "message" = "Message";
 "max_placement" = "Catatan Tambahan (Opsional)";
@@ -191,6 +191,7 @@
 "rate_out_of_range" = "Rate %@ bulan (%@) harus bernilai antara 0 dan 100";
 "cannot_connect_to_server" = "Gagal memproses data dari server";
 "no_data_available" = "Tidak ada data tersedia";
+"mark_all_as_read" = "Baca semua";
 
 "january" = "Jan";
 "february" = "Feb";

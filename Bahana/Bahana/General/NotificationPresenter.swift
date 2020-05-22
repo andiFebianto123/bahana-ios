@@ -27,8 +27,21 @@ class NotificationPresenter {
         
         if lastId != nil && lastDate != nil {
             let date = lastDate!.replacingOccurrences(of: " ", with: "%20")
-            url += "last_id=\(lastId!)&last_date=\(date)"
+            url += "last_id=\(lastId!)&last_date=\(date)&"
         }
+        
+        // Lang
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        url += "lang=\(lang)&"
+        
         //print(url)
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
@@ -67,10 +80,29 @@ class NotificationPresenter {
     }
     
     func markAsRead(_ id: Int) {
-        Alamofire.request(WEB_API_URL + "api/v1/notification/\(id)/read", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
+        Alamofire.request(WEB_API_URL + "api/v1/notification/\(id)/read", method: .post, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
                 let result = JSON(response.result.value!)
+                //print(result)
+                //let message = result["message"].stringValue
+                if response.response?.statusCode == 200 {
+                    self.delegate?.isMarkAsRead(true)
+                } else {
+                    self.delegate?.isMarkAsRead(false)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func markAllAsRead() {
+        Alamofire.request(WEB_API_URL + "api/v1/notification/read", method: .post, headers: getHeaders(auth: true)).responseJSON { response in
+            switch response.result {
+            case .success:
+                let result = JSON(response.result.value!)
+                //print(result)
                 //let message = result["message"].stringValue
                 if response.response?.statusCode == 200 {
                     self.delegate?.isMarkAsRead(true)

@@ -253,10 +253,14 @@ extension TransactionDetailViewController: TransactionDetailDelegate {
         setContent()
     }
     
-    func getDataFail() {
+    func getDataFail(_ message: String?) {
         refreshControl.endRefreshing()
         showLoading(false)
-        let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
+        var msg = localize("cannot_connect_to_server")
+        if message != nil {
+            msg = message!
+        }
+        let alert = UIAlertController(title: localize("information"), message: msg, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }

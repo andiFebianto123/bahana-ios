@@ -14,6 +14,7 @@ class NotificationViewController: UIViewController {
     @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var navigationTitle: UILabel!
     @IBOutlet weak var navigationBackView: UIView!
+    @IBOutlet weak var moreView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
     var loadingView = UIView()
@@ -28,6 +29,7 @@ class NotificationViewController: UIViewController {
     
     var stopFetch: Bool = false
     var loadFinished: Bool = false
+    var loadFailed: Bool = false
     
     var auctionID: Int!
     var auctionType: String!
@@ -67,6 +69,8 @@ class NotificationViewController: UIViewController {
         tableView.backgroundColor = backgroundColor
         //tableView.estimatedRowHeight = CGFloat()
         
+        tableView.register(UINib(nibName: "AuctionListReloadTableViewCell", bundle: nil), forCellReuseIdentifier: "AuctionListReloadTableViewCell")
+        
         setNavigationItems()
         
         presenter = NotificationPresenter(delegate: self)
@@ -89,6 +93,12 @@ class NotificationViewController: UIViewController {
             if let destinationVC = segue.destination as? TransactionDetailViewController {
                 destinationVC.transactionID = transactionID
             }
+        } else if segue.identifier == "showBestRate" {
+            if let navigation = segue.destination as? UINavigationController {
+                if let destinationVC = navigation.topViewController as? RegisterViewController {
+                    destinationVC.viewTo = "best_rate"
+                }
+            }
         }
     }
 
@@ -103,6 +113,7 @@ class NotificationViewController: UIViewController {
         
         navigationBackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(close)))
         
+        moreView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(moreButtonPressed)))
     }
     
     func getData(lastId: Int?, lastDate: String?, page: Int = 1) {
@@ -125,14 +136,42 @@ class NotificationViewController: UIViewController {
         getData(lastId: nil, lastDate: nil)
     }
     
+    @objc func moreButtonPressed() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: localize("mark_all_as_read"), style: .default, handler: { action in
+            self.presenter.markAllAsRead()
+        }))
+        alert.addAction(UIAlertAction(title: localize("cancel"), style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @objc func close() {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func setTableBackgroundView() {
+        let customView = UIView()
+        
+        let text = UILabel()
+        text.text = localize("no_data_available")
+        text.textColor = UIColor.gray
+        text.font = UIFont.systemFont(ofSize: 13)
+        customView.addSubview(text)
+        
+        text.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            text.centerXAnchor.constraint(equalTo: customView.centerXAnchor),
+            text.centerYAnchor.constraint(equalTo: customView.centerYAnchor, constant: 0),
+        ])
+        
+        tableView.backgroundView = customView
     }
 }
 
 extension NotificationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return data.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -145,10 +184,24 @@ extension NotificationViewController: UITableViewDataSource {
             self.getData(lastId: lastId, lastDate: lastDate, page: page)
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationTableViewCell
-        let notification = data[indexPath.row]
-        cell.setData(notification)
-        return cell
+        var customCell: UITableViewCell!
+        
+        if indexPath.row <= data.count - 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! NotificationTableViewCell
+            let notification = data[indexPath.row]
+            cell.setData(notification)
+            customCell = cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AuctionListReloadTableViewCell", for: indexPath) as! AuctionListReloadTableViewCell
+            cell.delegate = self
+            cell.isHidden = true
+            if loadFailed {
+                cell.isHidden = false
+            }
+            customCell = cell
+        }
+        
+        return customCell
     }
 }
 
@@ -165,7 +218,7 @@ extension NotificationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let notification = data[indexPath.row]
         if notification.data != nil {
-            if notification.data!.type != "transaction" && notification.data?.sub_type != nil && notification.data!.sub_type == "detail" {
+            if notification.data!.type != "transaction" && notification.data!.type != "base-placement" && notification.data?.sub_type != nil && notification.data!.sub_type == "detail" {
                 auctionID = notification.data?.id
                 auctionType = notification.data?.type!
                 presenter.markAsRead(notification.id)
@@ -174,6 +227,8 @@ extension NotificationViewController: UITableViewDelegate {
                 transactionID = notification.data?.id
                 presenter.markAsRead(notification.id)
                 performSegue(withIdentifier: "showTransactionDetail", sender: self)
+            } else if notification.data!.type == "base-placement" {
+                performSegue(withIdentifier: "showBestRate", sender: self)
             }
         }
     }
@@ -181,6 +236,8 @@ extension NotificationViewController: UITableViewDelegate {
 
 extension NotificationViewController: NotificationDelegate {
     func setData(_ data: [NotificationModel], _ page: Int) {
+        loadFailed = false
+        tableView.backgroundView = UIView()
         if data.count > 0 && self.page == page {
             for dt in data {
                 self.data.append(dt)
@@ -195,17 +252,20 @@ extension NotificationViewController: NotificationDelegate {
             tableView.reloadData()
         }
         
-        if data.count == 0 {
+        if self.data.count == 0 {
             refreshControl.endRefreshing()
             showLoading(false)
+            setTableBackgroundView()
         }
     }
     
     func isMarkAsRead(_ isRead: Bool) {
-        //tableView.reloadData()
+        refresh()
     }
     
     func getDataFail() {
+        loadFailed = true
+        tableView.reloadData()
         refreshControl.endRefreshing()
         showLoading(false)
         let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
@@ -217,5 +277,12 @@ extension NotificationViewController: NotificationDelegate {
         let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
         let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
         self.present(loginViewController, animated: true, completion: nil)
+    }
+}
+
+extension NotificationViewController: AuctionListReloadDelegate {
+    func reload() {
+        let lastRow = data.last
+        self.getData(lastId: lastRow?.id, lastDate: lastRow?.available_at, page: page)
     }
 }

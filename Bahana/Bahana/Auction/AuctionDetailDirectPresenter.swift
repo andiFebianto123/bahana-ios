@@ -12,7 +12,7 @@ import SwiftyJSON
 
 protocol AuctionDetailDirectDelegate {
     func setData(_ data: AuctionDetailDirect)
-    func getDataFail()
+    func getDataFail(_ message: String?)
     func isPosted(_ isSuccess: Bool, _ message: String)
     func openLoginPage()
 }
@@ -42,6 +42,9 @@ class AuctionDetailDirectPresenter {
             case .success:
                 if response.response?.statusCode == 401 {
                     self.delegate?.openLoginPage()
+                } else if response.response?.statusCode == 404 {
+                    let res = JSON(response.result.value!)
+                    self.delegate?.getDataFail(res["message"].stringValue)
                 } else {
                     let res = JSON(response.result.value!)
                     let auct = res["auction"]
@@ -78,7 +81,7 @@ class AuctionDetailDirectPresenter {
                 }
             case .failure(let error):
                 print(error)
-                self.delegate?.getDataFail()
+                self.delegate?.getDataFail(nil)
             }
         }
     }

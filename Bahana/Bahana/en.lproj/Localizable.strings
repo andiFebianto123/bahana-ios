@@ -70,7 +70,7 @@
 "password_confirmation" = "Password Confirmation";
 "placement" = "%@ Placement";
 "breakable_policy" = "Breakable Policy";
-"policy_notes" = "Catatan Polis";
+"policy_notes" = "Policy Notes";
 "breakable_policy_notes" = "Breakable Policy Notes";
 "account_number" = "Account Number";
 "account_name" = "Account Name";
@@ -191,6 +191,7 @@
 "rate_out_of_range" = "The %@ month rate (%@) field must be between 0 and 100";
 "cannot_connect_to_server" = "Failed to process data from the server";
 "no_data_available" = "No data available";
+"mark_all_as_read" = "Mark all as read";
 
 "january" = "Jan";
 "february" = "Feb";

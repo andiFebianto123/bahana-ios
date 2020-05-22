@@ -24,9 +24,10 @@ class AuctionDetailConfirmationViewController: UIViewController {
     
     var auctionID: Int!
     var auctionType: String!
-    var id: Int!
+    var id: Int?
     var revisionRate: String?
     var confirmationType: String!
+    var needRefresh: Bool = false
     
     var textField = UITextField()
     var datePicker = UIDatePicker()
@@ -82,10 +83,10 @@ class AuctionDetailConfirmationViewController: UIViewController {
             changeEndDateButton.isHidden = true
         } else if confirmationType == "choosen_winner" {
             confirmationLabel.text = localize("confirmation_choosen_winner")
-            id = auctionID
+            //id = auctionID
         } else if confirmationType == "revise_rate" {
             confirmationLabel.text = localize("confirmation_revise_rate")
-            id = auctionID
+            //id = auctionID
         }
         
         setDatePicker()
@@ -151,7 +152,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
             goBack()
         } else {
             showLoading(true)
-            presenter.confirm(id, auctionType, false, nil)
+            presenter.confirm(auctionID, auctionType, false, nil, id)
         }
     }
     
@@ -161,7 +162,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
             presenter.reviseAuction(self.auctionID, self.revisionRate)
         } else {
             
-            presenter.confirm(id, auctionType, true, nil)
+            presenter.confirm(auctionID, auctionType, true, nil, id)
         }
     }
     
@@ -170,6 +171,9 @@ class AuctionDetailConfirmationViewController: UIViewController {
     }
     
     @objc func goBack() {
+        if needRefresh {
+            NotificationCenter.default.post(name: Notification.Name("AuctionDetailRefresh"), object: nil, userInfo: nil)
+        }
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -196,7 +200,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
         alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
             self.showLoading(true)
             let maturityDate = convertDateToString(self.datePicker.date, format: "yyyy-MM-dd")
-            self.presenter.confirm(self.id, self.auctionType, true, maturityDate)
+            self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate, self.id)
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -205,6 +209,9 @@ class AuctionDetailConfirmationViewController: UIViewController {
 extension AuctionDetailConfirmationViewController: AuctionDetailConfirmationDelegate {
     func isConfirmed(_ isConfirmed: Bool, _ message: String) {
         showLoading(false)
+        if isConfirmed {
+            needRefresh = true
+        }
         showAlert(title: localize("information"), message: message, isConfirmed)
     }
     

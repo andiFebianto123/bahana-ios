@@ -12,7 +12,7 @@ import SwiftyJSON
 
 protocol TransactionDetailDelegate {
     func setData(_ data: Transaction)
-    func getDataFail()
+    func getDataFail(_ message: String?)
     func openLoginPage()
 }
 
@@ -31,6 +31,9 @@ class TransactionDetailPresenter {
             case .success:
                 if response.response?.statusCode == 401 {
                     self.delegate?.openLoginPage()
+                } else if response.response?.statusCode == 404 {
+                    let res = JSON(response.result.value!)
+                    self.delegate?.getDataFail(res["message"].stringValue)
                 } else {
                     let trans = JSON(response.result.value!)
                     
@@ -53,7 +56,7 @@ class TransactionDetailPresenter {
                 }
             case .failure(let error):
                 print(error)
-                self.delegate?.getDataFail()
+                self.delegate?.getDataFail(nil)
             }
         }
     }

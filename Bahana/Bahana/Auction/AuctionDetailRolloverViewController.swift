@@ -116,10 +116,12 @@ class AuctionDetailRolloverViewController: UIViewController {
         confirmButton.backgroundColor = blueColor
         confirmButton.layer.cornerRadius = 3
         
-        view.isHidden = true
-        
         presenter = AuctionDetailRolloverPresenter(delegate: self)
-        presenter.getAuction(id)
+        
+        refresh()
+        
+        // Refresh page
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name("AuctionDetailRefresh"), object: nil)
     }
     
 
@@ -132,6 +134,12 @@ class AuctionDetailRolloverViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @objc func refresh() {
+        view.isHidden = true
+        showLoading(true)
+        presenter.getAuction(id)
+    }
     
     func showLoading(_ show: Bool) {
         NotificationCenter.default.post(name: Notification.Name("AuctionDetailLoading"), object: nil, userInfo: ["isShow": show])
@@ -263,9 +271,13 @@ extension AuctionDetailRolloverViewController: AuctionDetailRolloverDelegate {
         showLoading(false)
     }
     
-    func getDataFail() {
+    func getDataFail(_ message: String?) {
         showLoading(false)
-        showAlert(localize("cannot_connect_to_server"))
+        var msg = localize("cannot_connect_to_server")
+        if message != nil {
+            msg = message!
+        }
+        showAlert(msg)
     }
     
     func setDate(_ date: Date) {

@@ -125,6 +125,8 @@ class AuctionDetailNormalViewController: UIViewController {
         submitButton.setTitle(localize("submit"), for: .normal)
         submitButton.layer.cornerRadius = 3
         
+        presenter = AuctionDetailNormalPresenter(delegate: self)
+        
         refresh()
         
         // Refresh page
@@ -142,10 +144,8 @@ class AuctionDetailNormalViewController: UIViewController {
     */
     
     @objc func refresh() {
-        print("refresh")
         view.isHidden = true
-        
-        presenter = AuctionDetailNormalPresenter(delegate: self)
+        showLoading(true)
         presenter.getAuction(id)
     }
     
@@ -248,6 +248,10 @@ class AuctionDetailNormalViewController: UIViewController {
     }
     
     func setBids(_ bidData: [Bid]) {
+        bidStackViewHeight.constant = 0
+        for bidView in bidStackView.arrangedSubviews {
+            bidStackView.removeArrangedSubview(bidView)
+        }
         var totalRateViewHeight: CGFloat = 0
         for (idx, dt) in bidData.enumerated() {
             let rateView = UIView()
@@ -985,9 +989,13 @@ extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
         showLoading(false)
     }
     
-    func getDataFail() {
+    func getDataFail(_ message: String?) {
         showLoading(false)
-        showAlert(localize("cannot_connect_to_server"))
+        var msg = localize("cannot_connect_to_server")
+        if message != nil {
+            msg = message!
+        }
+        showAlert(msg)
     }
     
     func setDate(_ date: Date) {

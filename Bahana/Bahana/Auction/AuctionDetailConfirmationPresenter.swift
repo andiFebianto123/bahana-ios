@@ -23,7 +23,7 @@ class AuctionDetailConfirmationPresenter {
         self.delegate = delegate
     }
     
-    func confirm(_ id: Int, _ type: String, _ isAccepted: Bool, _ maturityDate: String?) {
+    func confirm(_ id: Int, _ type: String, _ isAccepted: Bool, _ maturityDate: String?, _ bidId: Int?) {
         var url = "api/v1/"
         let parameters: Parameters = [
             "is_accepted": isAccepted ? "yes" : "no",
@@ -31,7 +31,7 @@ class AuctionDetailConfirmationPresenter {
         ]
         switch type {
             case "auction":
-                url += "auction/\(id)/confirm/\(getLocalData(key: "user_id"))"
+                url += "auction/\(id)/confirm/\(bidId!)"
             case "direct-auction":
                 url += "direct-auction/\(id)/confirm"
             case "break":
@@ -53,11 +53,11 @@ class AuctionDetailConfirmationPresenter {
             break
         }
         url += "?lang=\(lang)"
-        print(url)
+        //print(url)
         Alamofire.request(WEB_API_URL + url, method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
             if response.response?.mimeType == "application/json" {
                 let result = JSON.init(parseJSON: response.result.value!)
-                print(result)
+                //print(result)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isConfirmed(true, result["message"].stringValue)
                 } else {

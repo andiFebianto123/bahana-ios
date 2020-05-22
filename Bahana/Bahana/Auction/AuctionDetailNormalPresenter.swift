@@ -12,7 +12,7 @@ import SwiftyJSON
 
 protocol AuctionDetailNormalDelegate {
     func setData(_ data: AuctionDetailNormal)
-    func getDataFail()
+    func getDataFail(_ message: String?)
     func setDate(_ date: Date)
     func isPosted(_ isSuccess: Bool, _ message: String)
     func openLoginPage()
@@ -43,9 +43,12 @@ class AuctionDetailNormalPresenter {
             case .success:
                 if response.response?.statusCode == 401 {
                     self.delegate?.openLoginPage()
+                } else if response.response?.statusCode == 404 {
+                    let res = JSON(response.result.value!)
+                    self.delegate?.getDataFail(res["message"].stringValue)
                 } else {
                     let res = JSON(response.result.value!)
-                    print(res)
+                    //print(res)
                     
                     let serverDate = convertStringToDatetime(res["date"].stringValue)
                     self.delegate?.setDate(serverDate!)
@@ -104,7 +107,7 @@ class AuctionDetailNormalPresenter {
                 }
             case .failure(let error):
                 print(error)
-                self.delegate?.getDataFail()
+                self.delegate?.getDataFail(nil)
             }
         }
         /*
@@ -151,7 +154,7 @@ class AuctionDetailNormalPresenter {
                 }
             } else {
                 print(response)
-                self.delegate?.getDataFail()
+                self.delegate?.getDataFail(nil)
             }
         }
     }
