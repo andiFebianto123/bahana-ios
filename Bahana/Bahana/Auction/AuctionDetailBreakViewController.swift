@@ -10,6 +10,13 @@ import UIKit
 
 class AuctionDetailBreakViewController: UIViewController {
 
+    @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var navigationBackView: UIView!
+    @IBOutlet weak var navigationBackImageView: UIImageView!
+    @IBOutlet weak var navigationTitle: UILabel!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var auctionEndLabel: UILabel!
     @IBOutlet weak var statusView: UIView!
@@ -49,16 +56,61 @@ class AuctionDetailBreakViewController: UIViewController {
     @IBOutlet weak var confirmButton: UIButton!
     @IBOutlet weak var footerLabel: UILabel!
     
+    var loadingView = UIView()
+    
     var presenter: AuctionDetailBreakPresenter!
     
     var id = Int()
     var data: AuctionDetailBreak!
     var serverHourDifference = Int()
     
+    var revisionRate: String?
+    var confirmationType: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        setNavigationItems()
+        
+        setupToHideKeyboardOnTapOnView()
+        
+        view.backgroundColor = backgroundColor
+        scrollView.backgroundColor = backgroundColor
+        scrollView.alwaysBounceHorizontal = false
+        
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20),
+            mainStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20),
+            mainStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            mainStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
+            mainStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0)
+        ])
+        
+        // Set loading view
+        //loadingView.isHidden = true
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
         
         let titleFont = UIFont.systemFont(ofSize: 11)
         let contentFont = UIFont.boldSystemFont(ofSize: 12)
@@ -151,26 +203,49 @@ class AuctionDetailBreakViewController: UIViewController {
         // Refresh page
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name("AuctionDetailRefresh"), object: nil)
     }
-    
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "showConfirmation" {
+            if let destinationVC = segue.destination as? AuctionDetailConfirmationViewController {
+                destinationVC.auctionID = id
+                destinationVC.auctionType = "break"
+                destinationVC.confirmationType = confirmationType
+                destinationVC.revisionRate = revisionRate
+            }
+        }
     }
-    */
+    
+    func setNavigationItems() {
+        //navigationBar.barTintColor = UIColor.red
+        //navigationController?.navigationBar.barTintColor = primaryColor
+        navigationView.backgroundColor = primaryColor
+        navigationViewHeight.constant = getNavigationHeight()
+        navigationTitle.text = localize("auction_detail").uppercased()
+        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        
+        let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
+        navigationBackImageView.image = UIImage(named: "icon_left")
+        navigationBackView.addGestureRecognizer(backTap)
+    }
+
+    @objc func backButtonPressed() {
+        self.dismiss(animated: true, completion: nil)
+        //
+    }
 
     @objc func refresh() {
-        view.isHidden = true
+        //view.isHidden = true
         showLoading(true)
         presenter.getAuction(id)
     }
     
     func showLoading(_ show: Bool) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailLoading"), object: nil, userInfo: ["isShow": show])
+        loadingView.isHidden = !show
     }
     
     func setContent() {
@@ -276,7 +351,7 @@ class AuctionDetailBreakViewController: UIViewController {
         if breakRateTextField.text! == nil ||
             breakRateTextField.text! != nil && Double(breakRateTextField.text!) == nil ||
         Double(breakRateTextField.text!) != nil && Double(breakRateTextField.text!)! < 0.0 || Double(breakRateTextField.text!)! > 99.9 {
-            showAlert("Rate not valid")
+            showAlert("Rate not valid", false)
             return false
         } else {
             return true
@@ -285,13 +360,14 @@ class AuctionDetailBreakViewController: UIViewController {
         return false
     }
     
-    func showAlert(_ message: String, _ isBackToList: Bool = false) {
-        let param: [String: String] = [
-            "message": message,
-            "isBackToList": isBackToList ? "true" : "false"
-        ]
-        
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["data": param])
+    func showAlert(_ message: String, _ isBackToList: Bool) {
+        let alert = UIAlertController(title: localize("information"), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
+            if isBackToList {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func submitButtonPressed(_ sender: Any) {
@@ -303,11 +379,9 @@ class AuctionDetailBreakViewController: UIViewController {
     }
     
     @IBAction func confirmationButtonPressed(_ sender: Any) {
-        let param: [String: String] = [
-            "type": "choosen_bidder",
-        ]
-        
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["data": param])
+        confirmationType = "chosen_bidder"
+     
+        self.performSegue(withIdentifier: "showConfirmation", sender: self)
     }
 }
 
@@ -325,7 +399,7 @@ extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
         if message != nil {
             msg = message!
         }
-        showAlert(msg)
+        showAlert(msg, false)
     }
     
     func setDate(_ date: Date) {
@@ -349,6 +423,8 @@ extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
     }
     
     func openLoginPage() {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailLogin"), object: nil, userInfo: nil)
+        let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
+        let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
+        self.present(loginViewController, animated: true, completion: nil)
     }
 }

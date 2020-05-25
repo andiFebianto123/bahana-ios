@@ -133,19 +133,19 @@
                                                         <rect key="frame" x="197" y="0.0" width="177" height="90"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NEED CONFIRMATION" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="onA-68-on2">
-                                                                <rect key="frame" x="35" y="10" width="107.5" height="19"/>
+                                                                <rect key="frame" x="35" y="10" width="107.5" height="12"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8F-K3-kSS">
-                                                                <rect key="frame" x="82" y="32" width="13.5" height="25.5"/>
+                                                                <rect key="frame" x="82" y="25" width="13.5" height="25.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auction" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o7X-X7-SkE">
-                                                                <rect key="frame" x="61" y="60.5" width="55.5" height="19.5"/>
+                                                                <rect key="frame" x="61" y="53.5" width="55.5" height="26.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -903,15 +903,55 @@
             </objects>
             <point key="canvasLocation" x="3158" y="1102"/>
         </scene>
-        <!--AuctionDetail-->
+        <!--AuctionDetailNormal-->
         <scene sceneID="0Nl-ek-1vm">
             <objects>
-                <viewControllerPlaceholder storyboardName="Auction" referencedIdentifier="AuctionDetail" id="qgf-A7-oTP" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="Auction" referencedIdentifier="AuctionDetailNormal" id="qgf-A7-oTP" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Eji-Gx-0Be"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bbO-4g-EMh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-19" y="2265"/>
+        </scene>
+        <!--AuctionDetailDirect-->
+        <scene sceneID="vF2-aG-krl">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Auction" referencedIdentifier="AuctionDetailDirect" id="aI0-OQ-f6E" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="AUQ-Ct-5EI"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tw0-ZZ-y3G" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-25" y="2324"/>
+        </scene>
+        <!--AuctionDetailBreak-->
+        <scene sceneID="09W-qJ-hSK">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Auction" referencedIdentifier="AuctionDetailBreak" id="WOC-mx-ejX" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="eCg-VP-SSz"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gKV-iZ-zVp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-20" y="2378"/>
+        </scene>
+        <!--AuctionDetailRollover-->
+        <scene sceneID="fyp-9h-yyb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Auction" referencedIdentifier="AuctionDetailRollover" id="eQn-Or-zfZ" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="VPA-92-QPH"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PTz-9R-OjZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-9" y="2427"/>
+        </scene>
+        <!--AuctionDetailMature-->
+        <scene sceneID="HFc-fl-XUb">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Auction" referencedIdentifier="AuctionDetailMature" id="B6V-ff-9p3" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="zpD-Nc-nl4"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sGO-mP-Lpd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-20" y="2481"/>
         </scene>
         <!--Notification View Controller-->
         <scene sceneID="RED-Bv-Dn2">
@@ -1059,9 +1099,13 @@
                         <outlet property="navigationView" destination="f8Y-as-NuK" id="lZ7-La-UVl"/>
                         <outlet property="navigationViewHeight" destination="hZ5-g7-vVg" id="HxN-jr-LKT"/>
                         <outlet property="tableView" destination="yUE-KM-FMX" id="b3U-mA-2mU"/>
-                        <segue destination="qgf-A7-oTP" kind="show" identifier="showAuctionDetail" id="3ZZ-oa-Rpy"/>
+                        <segue destination="qgf-A7-oTP" kind="show" identifier="showAuctionDetailNormal" id="3ZZ-oa-Rpy"/>
                         <segue destination="PWs-Uv-sDe" kind="show" identifier="showTransactionDetail" id="iBb-D4-mEj"/>
                         <segue destination="phh-EK-jB9" kind="show" identifier="showBestRate" id="rFm-Bx-kjg"/>
+                        <segue destination="aI0-OQ-f6E" kind="show" identifier="showAuctionDetailDirect" id="3aK-LZ-xGh"/>
+                        <segue destination="WOC-mx-ejX" kind="show" identifier="showAuctionDetailBreak" id="15a-fc-T8o"/>
+                        <segue destination="eQn-Or-zfZ" kind="show" identifier="showAuctionDetailRollover" id="ooR-7S-fhO"/>
+                        <segue destination="B6V-ff-9p3" kind="show" identifier="showAuctionDetailMature" id="Obd-hA-qib"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXb-8u-Rku" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

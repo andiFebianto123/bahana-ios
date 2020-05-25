@@ -21,6 +21,13 @@ struct InterestRate {
 
 class AuctionDetailNormalViewController: UIViewController {
 
+    @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var navigationBackView: UIView!
+    @IBOutlet weak var navigationBackImageView: UIImageView!
+    @IBOutlet weak var navigationTitle: UILabel!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var mainStackView: UIStackView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var auctionEndLabel: UILabel!
     @IBOutlet weak var statusView: UIView!
@@ -54,6 +61,8 @@ class AuctionDetailNormalViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var footerLabel: UILabel!
     
+    var loadingView = UIView()
+    
     var currentHeight: CGFloat!
     
     var presenter: AuctionDetailNormalPresenter!
@@ -65,11 +74,52 @@ class AuctionDetailNormalViewController: UIViewController {
     var interestRates = [InterestRate]()
     var interestRateIdx = Int()
     
+    var confirmationType: String!
+    var confirmationID: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setNavigationItems()
+        
+        setupToHideKeyboardOnTapOnView()
+        
         view.backgroundColor = backgroundColor
+        scrollView.backgroundColor = backgroundColor
+        scrollView.alwaysBounceHorizontal = false
+        
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20),
+            mainStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20),
+            mainStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
+            mainStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -20),
+            mainStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 0)
+        ])
+        
+        // Set loading view
+        //loadingView.isHidden = true
+        loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
+        
+        let spinner = UIActivityIndicatorView()
+        spinner.color = .black
+        spinner.startAnimating()
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        loadingView.addSubview(spinner)
+        
+        NSLayoutConstraint.activate([
+            loadingView.topAnchor.constraint(equalTo: navigationView.bottomAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
+        ])
         
         let titleFont = UIFont.systemFont(ofSize: 11)
         let contentFont = UIFont.boldSystemFont(ofSize: 12)
@@ -133,24 +183,48 @@ class AuctionDetailNormalViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name("AuctionDetailRefresh"), object: nil)
     }
     
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "showConfirmation" {
+            if let destinationVC = segue.destination as? AuctionDetailConfirmationViewController {
+                destinationVC.auctionID = id
+                destinationVC.auctionType = "auction"
+                destinationVC.confirmationType = confirmationType
+                destinationVC.id = confirmationID
+            }
+        }
     }
-    */
+    
+    func setNavigationItems() {
+        //navigationBar.barTintColor = UIColor.red
+        //navigationController?.navigationBar.barTintColor = primaryColor
+        navigationView.backgroundColor = primaryColor
+        navigationViewHeight.constant = getNavigationHeight()
+        navigationTitle.text = localize("auction_detail").uppercased()
+        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        
+        let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
+        navigationBackImageView.image = UIImage(named: "icon_left")
+        navigationBackView.addGestureRecognizer(backTap)
+    }
+
+    @objc func backButtonPressed() {
+        self.dismiss(animated: true, completion: nil)
+        //
+    }
     
     @objc func refresh() {
-        view.isHidden = true
+        //view.isHidden = true
         showLoading(true)
         presenter.getAuction(id)
     }
     
     func showLoading(_ show: Bool) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailLoading"), object: nil, userInfo: ["isShow": show])
+        loadingView.isHidden = !show
     }
 
     func setContent() {
@@ -358,7 +432,7 @@ class AuctionDetailNormalViewController: UIViewController {
             
             if dt.interest_rate_idr != nil {
                 interestRateContent += "(IDR) \(checkPercentage(dt.interest_rate_idr!)) %"
-                if dt.choosen_rate != nil && dt.choosen_rate == "IDR" {
+                if dt.chosen_rate != nil && dt.chosen_rate == "IDR" {
                     interestRateContent += " [\(localize("chosen_rate"))]\n"
                 } else {
                     interestRateContent += "\n"
@@ -366,7 +440,7 @@ class AuctionDetailNormalViewController: UIViewController {
             }
             if dt.interest_rate_usd != nil {
                 interestRateContent += "(USD) \(checkPercentage(dt.interest_rate_usd!)) %"
-                if dt.choosen_rate != nil && dt.choosen_rate == "USD" {
+                if dt.chosen_rate != nil && dt.chosen_rate == "USD" {
                     interestRateContent += " [\(localize("chosen_rate"))]\n"
                 } else {
                     interestRateContent += "\n"
@@ -375,7 +449,7 @@ class AuctionDetailNormalViewController: UIViewController {
             }
             if dt.interest_rate_sharia != nil {
                 interestRateContent += "(\(localize("sharia"))) \(checkPercentage(dt.interest_rate_sharia!)) %"
-                if dt.choosen_rate != nil && dt.choosen_rate == "Sharia" {
+                if dt.chosen_rate != nil && dt.chosen_rate == "Sharia" {
                     interestRateContent += " [\(localize("chosen_rate"))]\n"
                 } else {
                     interestRateContent += "\n"
@@ -504,8 +578,8 @@ class AuctionDetailNormalViewController: UIViewController {
             totalRateViewHeight += rateViewHeight
         }
         
-        currentHeight += totalRateViewHeight
-        setHeight(currentHeight)
+        //currentHeight += totalRateViewHeight
+        //setHeight(currentHeight)
     }
     
     @IBAction func addInterestRateDayButtonPressed(_ sender: Any) {
@@ -864,8 +938,8 @@ class AuctionDetailNormalViewController: UIViewController {
         
         interestRateStackViewHeight.constant += rateHeight
         
-        currentHeight += rateHeight
-        setHeight(currentHeight)
+        //currentHeight += rateHeight
+        //setHeight(currentHeight)
         
         let interestRate = InterestRate(idx: interestRateIdx, tenorType: tenorType, tenor: period, tenorField: tenorField, idrField: idrInterestRate, usdField: usdInterestRate, shariaField: shariaInterestRate, isHidden: false)
         interestRates.append(interestRate)
@@ -877,14 +951,11 @@ class AuctionDetailNormalViewController: UIViewController {
             if view.tag == sender.tag {
                 var rate = interestRates.filter { $0.idx == sender.tag }.first
                 if rate != nil {
-                    rate!.isHidden = true
+                    interestRates[sender.tag].isHidden = true
                     view.isHidden = true
                     
                     // Decrease height
                     interestRateStackViewHeight.constant -= 140
-                    
-                    currentHeight -= CGFloat(140)
-                    setHeight(currentHeight)
                 }
             }
         }
@@ -926,7 +997,7 @@ class AuctionDetailNormalViewController: UIViewController {
                     let idr = isIdrValid ? Double(interestRates[idx].idrField!.text!) : nil
                     let usd = isUsdValid ? Double(interestRates[idx].usdField!.text!) : nil
                     let sharia = isShariaValid ? Double(interestRates[idx].shariaField!.text!) : nil
-                    let bid = Bid(id: tenor, auction_header_id: 0, is_accepted: "", is_winner: "", interest_rate_idr: idr, interest_rate_usd: usd, interest_rate_sharia: sharia, used_investment_value: 0, bilyet: [], choosen_rate: nil, period: interestRates[idx].tenorType)
+                    let bid = Bid(id: tenor, auction_header_id: 0, is_accepted: "", is_winner: "", interest_rate_idr: idr, interest_rate_usd: usd, interest_rate_sharia: sharia, used_investment_value: 0, bilyet: [], chosen_rate: nil, period: interestRates[idx].tenorType)
                     bids.append(bid)
                 } else {
                     //isValid = false
@@ -942,12 +1013,10 @@ class AuctionDetailNormalViewController: UIViewController {
         let idx = sender.tag
         let bidID = data.bids[idx].id
         
-        let param: [String: String] = [
-            "type": "choosen_winner",
-            "id": "\(bidID)"
-        ]
+        confirmationType = "chosen_winner"
+        confirmationID = bidID
         
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailConfirmation"), object: nil, userInfo: ["data": param])
+        self.performSegue(withIdentifier: "showConfirmation", sender: self)
     }
     
     func isInputValid(_ input: String?, _ dataType: String) -> Bool {
@@ -967,17 +1036,14 @@ class AuctionDetailNormalViewController: UIViewController {
         return false
     }
     
-    func showAlert(_ message: String, _ isBackToList: Bool = false) {
-        let param: [String: String] = [
-            "message": message,
-            "isBackToList": isBackToList ? "true" : "false"
-        ]
-        
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailAlert"), object: nil, userInfo: ["data": param])
-    }
-    
-    func setHeight(_ height: CGFloat) {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailHeight"), object: nil, userInfo: ["height": height])
+    func showAlert(_ message: String, _ isBackToList: Bool) {
+        let alert = UIAlertController(title: localize("information"), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
+            if isBackToList {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -995,7 +1061,7 @@ extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
         if message != nil {
             msg = message!
         }
-        showAlert(msg)
+        showAlert(msg, false)
     }
     
     func setDate(_ date: Date) {
@@ -1019,7 +1085,9 @@ extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
     }
     
     func openLoginPage() {
-        NotificationCenter.default.post(name: Notification.Name("AuctionDetailLogin"), object: nil, userInfo: nil)
+        let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
+        let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
+        self.present(loginViewController, animated: true, completion: nil)
     }
 }
 

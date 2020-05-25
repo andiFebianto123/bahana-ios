@@ -19,6 +19,7 @@ class ProfileViewController: FormViewController {
     var data = [String: Any]()
     
     var isRegisterPage = false
+    var isInitialLoad = true
     
     var loadingView = UIView()
     
@@ -71,7 +72,14 @@ class ProfileViewController: FormViewController {
             NotificationCenter.default.post(name: Notification.Name("RegisterBack"), object: nil, userInfo: ["step": 1])
         }))
         alert.addAction(UIAlertAction(title: localize("try_again"), style: .default, handler: { action in
-            self.refresh()
+            if self.isInitialLoad {
+                self.refresh()
+            } else {
+                if let bankField = self.form.rowBy(tag: "bank")?.baseValue {
+                    let selectedBank = bankField as! Bank
+                    self.presenter.getParentBankBranch(selectedBank.id)
+                }
+            }
         }))
         self.present(alert, animated: true, completion: nil)
     }
@@ -664,7 +672,9 @@ class ProfileViewController: FormViewController {
 
 extension ProfileViewController: ProfileDelegate {
     func setParentBanks(_ data: [Bank]) {
-        self.banks = data
+        if self.banks.count == 0 || isInitialLoad {
+            self.banks = data
+        }
         presenter.getOptions()
     }
     
@@ -673,7 +683,10 @@ extension ProfileViewController: ProfileDelegate {
     }
     
     func setOptions(_ data: [String : [String]]) {
-        self.options = data
+        if self.options.count == 0 || isInitialLoad {
+            self.options = data
+        }
+        
         if isRegisterPage {
             refreshControl.endRefreshing()
             showLoading(false)
@@ -681,9 +694,11 @@ extension ProfileViewController: ProfileDelegate {
         } else {
             presenter.getProfile()
         }
+        isInitialLoad = false
     }
     
     func getDataFail() {
+        showLoading(false)
         showConnectionAlert(title: localize("information"), message: localize("fail_to_process_data_from_server"))
     }
     

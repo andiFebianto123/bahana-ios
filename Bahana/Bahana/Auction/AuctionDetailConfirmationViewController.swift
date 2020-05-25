@@ -78,11 +78,11 @@ class AuctionDetailConfirmationViewController: UIViewController {
         changeEndDateButton.backgroundColor = accentColor
         changeEndDateButton.setTitleColor(.white, for: .normal)
         
-        if confirmationType == "choosen_bidder" {
-            confirmationLabel.text = localize("confirmation_choosen_bidder")
+        if confirmationType == "chosen_bidder" {
+            confirmationLabel.text = localize("confirmation_chosen_bidder")
             changeEndDateButton.isHidden = true
-        } else if confirmationType == "choosen_winner" {
-            confirmationLabel.text = localize("confirmation_choosen_winner")
+        } else if confirmationType == "chosen_winner" {
+            confirmationLabel.text = localize("confirmation_chosen_winner")
             //id = auctionID
         } else if confirmationType == "revise_rate" {
             confirmationLabel.text = localize("confirmation_revise_rate")

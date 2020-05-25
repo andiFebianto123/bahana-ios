@@ -41,7 +41,7 @@ struct Bid {
     var interest_rate_sharia: Double?
     var used_investment_value: Double
     var bilyet: [Bilyet]
-    var choosen_rate : String?
+    var chosen_rate : String?
     var period: String
 }
 

@@ -84,11 +84,26 @@ class NotificationViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "showAuctionDetail" {
-            if let destinationVC = segue.destination as? AuctionDetailViewController {
-                destinationVC.auctionID = auctionID
-                destinationVC.auctionType = auctionType
+        if segue.identifier == "showAuctionDetailNormal" {
+            if let destinationVC = segue.destination as? AuctionDetailNormalViewController {
+                destinationVC.id = auctionID
             }
+        } else if segue.identifier == "showAuctionDetailDirect" {
+            if let destinationVC = segue.destination as? AuctionDetailDirectViewController {
+                destinationVC.id = auctionID
+            }
+        } else if segue.identifier == "showAuctionDetailBreak" {
+            if let destinationVC = segue.destination as? AuctionDetailBreakViewController {
+                destinationVC.id = auctionID
+            }
+        } else if segue.identifier == "showAuctionDetailRollover" {
+            if let destinationVC = segue.destination as? AuctionDetailRolloverViewController {
+                destinationVC.id = auctionID
+            }
+        } else if segue.identifier == "showAuctionDetailMature" {
+           if let destinationVC = segue.destination as? AuctionDetailMatureViewController {
+               destinationVC.id = auctionID
+           }
         } else if segue.identifier == "showTransactionDetail" {
             if let destinationVC = segue.destination as? TransactionDetailViewController {
                 destinationVC.transactionID = transactionID
@@ -222,7 +237,21 @@ extension NotificationViewController: UITableViewDelegate {
                 auctionID = notification.data?.id
                 auctionType = notification.data?.type!
                 presenter.markAsRead(notification.id)
-                performSegue(withIdentifier: "showAuctionDetail", sender: self)
+                switch notification.data?.type {
+                case "auction":
+                    performSegue(withIdentifier: "showAuctionDetailNormal", sender: self)
+                case "direct-auction":
+                    performSegue(withIdentifier: "showAuctionDetailDirect", sender: self)
+                case "break":
+                    performSegue(withIdentifier: "showAuctionDetailBreak", sender: self)
+                case "rollover":
+                    performSegue(withIdentifier: "showAuctionDetailRollover", sender: self)
+                case "mature":
+                    performSegue(withIdentifier: "showAuctionDetailMature", sender: self)
+                default:
+                    break
+                }
+                //performSegue(withIdentifier: "showAuctionDetail", sender: self)
             } else if notification.data!.type == "transaction" {
                 transactionID = notification.data?.id
                 presenter.markAsRead(notification.id)

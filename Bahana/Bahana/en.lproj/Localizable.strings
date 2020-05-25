@@ -176,8 +176,8 @@
 "input_must_be_number" = "The %@ must be a valid number";
 "update_profile_success" = "Successfully update your profile";
 "update_best_rate_success" = "Successfully update your best rate";
-"confirmation_choosen_bidder" = "Are you sure you want to be the choosen bidder?";
-"confirmation_choosen_winner" = "Are you sure you want to be the winner?";
+"confirmation_chosen_bidder" = "Are you sure you want to be the chosen bidder?";
+"confirmation_chosen_winner" = "Are you sure you want to be the winner?";
 "confirmation_revise_rate" = "Are you sure you want to revised the rate?";
 "confirmation_change_end_date" = "Are you sure you want to change end date to";
 "auction_detail_footer" = "Any error or mismatch, please directly contact Bahana TCW";

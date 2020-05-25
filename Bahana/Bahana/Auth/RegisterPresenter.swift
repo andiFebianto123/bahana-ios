@@ -78,7 +78,7 @@ class RegisterPresenter {
             "month_rate_3_syariah": getLocalData(key: "sharia_month_rate_3") != "" ? getLocalData(key: "sharia_month_rate_3") : JSON.null,
             "month_rate_6_syariah": getLocalData(key: "sharia_month_rate_6") != "" ? getLocalData(key: "sharia_month_rate_6") : JSON.null
         ]
-        print(parameters)
+        //print(parameters)
         
         Alamofire.request(WEB_API_URL + "api/v1/\(url)", method: .post, parameters: parameters, headers: getHeaders()).responseString { response in
             if response.response?.mimeType == "application/json" {

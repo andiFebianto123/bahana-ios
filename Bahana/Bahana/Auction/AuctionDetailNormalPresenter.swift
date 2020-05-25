@@ -79,14 +79,14 @@ class AuctionDetailNormalPresenter {
                         let interest_rate_idr = bid["interest_rate_idr"] != JSON.null ? bid["interest_rate_idr"].doubleValue : nil
                         let interest_rate_usd = bid["interest_rate_usd"] != JSON.null ? bid["interest_rate_usd"].doubleValue : nil
                         let interest_rate_sharia = bid["interest_rate_syariah"] != JSON.null ? bid["interest_rate_syariah"].doubleValue : nil
-                        let choosen_rate = bid["choosen_rate"] != JSON.null ? bid["choosen_rate"].stringValue : nil
+                        let chosen_rate = bid["choosen_rate"] != JSON.null ? bid["choosen_rate"].stringValue : nil
                         
                         var bilyets = [Bilyet]()
                         for bilyet in bid["bilyet"].arrayValue {
                             bilyets.append(Bilyet(quantity: bilyet["quantity"].doubleValue, issue_date: bilyet["issue_date"].stringValue, maturity_date: bilyet["maturity_date"].stringValue))
                         }
                         
-                        bids.append(Bid(id: bid["id"].intValue, auction_header_id: bid["auction_header_id"].intValue, is_accepted: bid["is_accepted"].stringValue, is_winner: bid["is_winner"].stringValue, interest_rate_idr: interest_rate_idr, interest_rate_usd: interest_rate_usd, interest_rate_sharia: interest_rate_sharia, used_investment_value: bid["used_investment_value"].doubleValue, bilyet: bilyets, choosen_rate: choosen_rate, period: bid["period"].stringValue))
+                        bids.append(Bid(id: bid["id"].intValue, auction_header_id: bid["auction_header_id"].intValue, is_accepted: bid["is_accepted"].stringValue, is_winner: bid["is_winner"].stringValue, interest_rate_idr: interest_rate_idr, interest_rate_usd: interest_rate_usd, interest_rate_sharia: interest_rate_sharia, used_investment_value: bid["used_investment_value"].doubleValue, bilyet: bilyets, chosen_rate: chosen_rate, period: bid["period"].stringValue))
                     }
                     
                     var details = [Detail]()
@@ -117,9 +117,9 @@ class AuctionDetailNormalPresenter {
         let bilyet2 = [Bilyet(quantity: 5000000, issue_date: "2019-12-18 00:00:00", maturity_date: "2020-01-07 00:00:00"), Bilyet(quantity: 5000000, issue_date: "2019-12-18 00:00:00", maturity_date: "2020-01-07 00:00:00")]
         let bilyet3 = [Bilyet(quantity: 10000000, issue_date: "2019-12-18 00:00:00", maturity_date: "2020-03-18 00:00:00")]
         let bids = [
-            Bid(id: 56, auction_header_id: 42, is_accepted: "yes", is_winner: "yes", interest_rate_idr: 2.79, interest_rate_usd: nil, interest_rate_sharia: nil, used_investment_value: 10000000, bilyet: bilyet1, choosen_rate: "IDR", period: "2 months"),
-            Bid(id: 57, auction_header_id: 42, is_accepted: "yes", is_winner: "yes", interest_rate_idr: 1.5, interest_rate_usd: nil, interest_rate_sharia: 1, used_investment_value: 10000000, bilyet: bilyet2, choosen_rate: "Syariah", period: "20 days"),
-            Bid(id: 58, auction_header_id: 42, is_accepted: "pending", is_winner: "yes", interest_rate_idr: 2.79, interest_rate_usd: nil, interest_rate_sharia: nil, used_investment_value: 10000000, bilyet: bilyet3, choosen_rate: "IDR", period: "3 months")
+            Bid(id: 56, auction_header_id: 42, is_accepted: "yes", is_winner: "yes", interest_rate_idr: 2.79, interest_rate_usd: nil, interest_rate_sharia: nil, used_investment_value: 10000000, bilyet: bilyet1, chosen_rate: "IDR", period: "2 months"),
+            Bid(id: 57, auction_header_id: 42, is_accepted: "yes", is_winner: "yes", interest_rate_idr: 1.5, interest_rate_usd: nil, interest_rate_sharia: 1, used_investment_value: 10000000, bilyet: bilyet2, chosen_rate: "Syariah", period: "20 days"),
+            Bid(id: 58, auction_header_id: 42, is_accepted: "pending", is_winner: "yes", interest_rate_idr: 2.79, interest_rate_usd: nil, interest_rate_sharia: nil, used_investment_value: 10000000, bilyet: bilyet3, chosen_rate: "IDR", period: "3 months")
         ]
         let details = [Detail(auction_header_id: 42, td_period: 3, td_period_type: "month", default_rate: 0, default_rate_usd: 0, default_rate_sharia: 0)]
         let allowedRates = ["IDR", "Syariah"]

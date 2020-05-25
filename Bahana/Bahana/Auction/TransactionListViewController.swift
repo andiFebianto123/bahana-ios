@@ -682,6 +682,10 @@ extension TransactionListViewController : UITextFieldDelegate {
             pickerView.selectRow(idx, inComponent: 0, animated: true)
         }
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return false
+    }
 }
 
 extension TransactionListViewController: UIPickerViewDataSource {

@@ -118,6 +118,7 @@ extension FaqViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FaqTableViewCell", for: indexPath) as! FaqTableViewCell
         let faq = tempData[indexPath.row]
+        cell.shrink()
         cell.titleLabel.text = faq.question
         cell.answerLabel.text = faq.answer
         return cell
