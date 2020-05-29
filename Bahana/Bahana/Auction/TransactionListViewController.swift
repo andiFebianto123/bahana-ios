@@ -124,7 +124,7 @@ class TransactionListViewController: UIViewController {
         
         presenter = TransactionListPresenter(delegate: self)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: .languageChanged, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -246,7 +246,7 @@ class TransactionListViewController: UIViewController {
         toolBar.tintColor = .black
         toolBar.sizeToFit()
 
-        let doneBarButton = UIBarButtonItem(title: localize("done"), style: .plain, target: self, action: #selector(self.doneTapped))
+        let doneBarButton = UIBarButtonItem(title: localize("ok"), style: .plain, target: self, action: #selector(self.doneTapped))
         let spaceBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let cancelBarButton = UIBarButtonItem(title: localize("cancel"), style: .plain, target: self, action: #selector(self.cancelTapped))
 
@@ -630,7 +630,12 @@ extension TransactionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         var height: CGFloat!
         if indexPath.row <= data.count - 1 {
-            height = 180
+            let transaction = data[indexPath.row]
+            if transaction.status.lowercased() == "break" {
+                height = 205
+            } else {
+                height = 175
+            }
         } else {
             height = 100
         }

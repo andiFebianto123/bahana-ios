@@ -636,7 +636,6 @@ class BestRateViewController: FormViewController {
                     setLocalData(data!)
                     NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 2])
                 }
-                //NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 2])
             }
         }
     }
@@ -800,7 +799,7 @@ extension BestRateViewController: BestRateDelegate {
     }
     
     func getDataFail() {
-        showConnectionAlert(title: localize("information"), message: localize("fail_to_process_data_from_server"))
+        showConnectionAlert(title: localize("information"), message: localize("cannot_connect_to_server"))
     }
     
     func isUpdateSuccess(_ isSuccess: Bool, _ message: String) {

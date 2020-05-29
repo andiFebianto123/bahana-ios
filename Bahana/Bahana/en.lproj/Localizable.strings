@@ -16,7 +16,6 @@
 "cancel" = "Cancel";
 "revised" = "Revised";
 "confirm" = "Confirm";
-"done" = "Done";
 "login" = "Login";
 "forgot_your_password" = "Forgot Your Password?";
 "forgot_password_title" = "Forgot Password";
@@ -32,12 +31,12 @@
 "filter" = "Filter";
 "update_profile" = "Update Profile";
 "update_best_rate" = "Update Best Rate";
+"change_end_date" = "Yes, change end date";
 
 "language_en" = "English (EN)";
 "language_id" = "Bahasa Indonesia (ID)";
 
 "information" = "Information";
-"fail_to_process_data_from_server" = "Fail to process data from server";
 
 "indonesia" = "ID";
 "english" = "EN";

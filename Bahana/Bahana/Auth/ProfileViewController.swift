@@ -620,7 +620,6 @@ class ProfileViewController: FormViewController {
                     setLocalData(data!)
                     NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 1])
                 }
-                //NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 1])
             }
         }
     }
@@ -699,7 +698,7 @@ extension ProfileViewController: ProfileDelegate {
     
     func getDataFail() {
         showLoading(false)
-        showConnectionAlert(title: localize("information"), message: localize("fail_to_process_data_from_server"))
+        showConnectionAlert(title: localize("information"), message: localize("cannot_connect_to_server"))
     }
     
     func setProfile(_ data: [String : Any]) {

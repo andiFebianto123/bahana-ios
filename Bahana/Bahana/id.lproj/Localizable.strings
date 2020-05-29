@@ -16,7 +16,6 @@
 "cancel" = "Batal";
 "revised" = "Revisi";
 "confirm" = "Konfirmasi";
-"done" = "Done";
 "login" = "Masuk";
 "forgot_your_password" = "Lupa Sandi Anda?";
 "forgot_password_title" = "Lupa Sandi";
@@ -32,12 +31,12 @@
 "filter" = "Filter";
 "update_profile" = "Perbarui Profil";
 "update_best_rate" = "Perbarui Best Rate";
+"change_end_date" = "Ya, ubah jatuh tempo";
 
 "language_en" = "English (EN)";
 "language_id" = "Bahasa Indonesia (ID)";
 
 "information" = "Informasi";
-"fail_to_process_data_from_server" = "Failed to process data from the server";
 
 "indonesia" = "ID";
 "english" = "EN";
@@ -123,7 +122,7 @@
 "transaction_id" = "ID Transaksi";
 "transaction_status" = "Status Transaksi";
 "general_information" = "Informasi Umum";
-"break_information" = "Break Information";
+"break_information" = "Informasi Break";
 "break_rate" = "Rate Break (%)";
 "bilyet" = "Bilyet (BIO)";
 "revision_rate" = "Rate Revisi (%)";
@@ -176,10 +175,10 @@
 "input_must_be_number" = "%@ harus berupa angka";
 "update_profile_success" = "Berhasil memperbarui profil anda";
 "update_best_rate_success" = "Berhasil memperbarui best rate anda";
-"confirmation_chosen_bidder" = "Are you sure you want to be the chosen bidder?";
-"confirmation_chosen_winner" = "Are you sure you want to be the winner?";
-"confirmation_revise_rate" = "Are you sure you want to revised the rate?";
-"confirmation_change_end_date" = "Are you sure you want to change end date to";
+"confirmation_chosen_bidder" = "Apakah anda yakin ingin menjadi penawar terpilih?";
+"confirmation_chosen_winner" = "Apakah anda yakin ingin menjadi pemenang?";
+"confirmation_revise_rate" = "Apakah anda yakin ingin merevisi rate?";
+"confirmation_change_end_date" = "Apakah anda yakin ingin mengubah tanggal jatuh tempo menjadi";
 "auction_detail_footer" = "Bila ada kesalahan data, mohon segera hubungi Bahana TCW";
 "confirmation_change_language" = "Apakah anda yakin ingin mengubah bahasa menjadi %@?";
 "ref_code" = "Kode Ref : ";

@@ -40,7 +40,7 @@ class GeneralTabBarViewController: UITabBarController {
         
         setTitle()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(setTitle), name: Notification.Name("LanguageChanged"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setTitle), name: .languageChanged, object: nil)
     }
     
 

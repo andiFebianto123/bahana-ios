@@ -112,7 +112,7 @@ class LoginViewController: UIViewController {
         
         presenter = LoginPresenter(delegate: self)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: .languageChanged, object: nil)
     }
     
     func setViewText() {

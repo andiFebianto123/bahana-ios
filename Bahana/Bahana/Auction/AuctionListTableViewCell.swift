@@ -28,6 +28,8 @@ class AuctionListTableViewCell: UITableViewCell {
     @IBOutlet weak var tenorLabel: UILabel!
     @IBOutlet weak var endTitleLabel: UILabel!
     @IBOutlet weak var endLabel: UILabel!
+    @IBOutlet weak var breakDateTitleLabel: UILabel!
+    @IBOutlet weak var breakDateLabel: UILabel!
     
     var pageType: String!
     var alreadySet: Bool = false
@@ -76,6 +78,12 @@ class AuctionListTableViewCell: UITableViewCell {
         endTitleLabel.textColor = titleColor
         endTitleLabel.text = localize("ends_in")
         endLabel.font = contentFont
+        breakDateTitleLabel.text = localize("break_date")
+        breakDateTitleLabel.font = titleFont
+        breakDateTitleLabel.textColor = titleColor
+        breakDateTitleLabel.isHidden = true
+        breakDateLabel.font = contentFont
+        breakDateLabel.isHidden = true
         
         typeView.layer.borderWidth = 1
         typeView.layer.borderColor = primaryColor.cgColor
@@ -92,7 +100,7 @@ class AuctionListTableViewCell: UITableViewCell {
         self.auction = auction
         self.serverHourDifference = hourDifference
         
-        if pageType == "history" {
+        if pageType == "history" || auction.type != "break" {
             endTitleLabel.isHidden = true
             endLabel.isHidden = true
         }
@@ -107,18 +115,16 @@ class AuctionListTableViewCell: UITableViewCell {
         }
         investmentLabel.text = investment
         
-        if auction.type == "auction" || auction.type == "direct auction" {
-            
-        } else {
-            
-        }
-        
         if auction.type == "break" {
             if auction.maturity_date != nil {
                 placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.maturity_date!)!)
             }
             
-            endLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
+            if pageType == "auction" {
+                endLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
+            } else if pageType == "history" {
+                endLabel.text = convertDateToString(convertStringToDatetime(auction.break_maturity_date)!)
+            }
         } else if auction.type == "mature" {
             placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.maturity_date)!)
             endTitleLabel.isHidden = true
@@ -148,6 +154,9 @@ class AuctionListTableViewCell: UITableViewCell {
         case "Break":
             title = localize("break")
             backgroundColor = primaryColor
+            breakDateTitleLabel.isHidden = false
+            breakDateLabel.isHidden = false
+            breakDateLabel.text = convertDateToString(convertStringToDatetime(transaction.break_maturity_date)!)
         case "Mature":
             title = localize("mature")
             backgroundColor = blueColor
@@ -212,6 +221,7 @@ class AuctionListTableViewCell: UITableViewCell {
             title = localize("break")
             placementDateTitleLabel.text = localize("maturity_date")
             endTitleLabel.text = localize("break_date")
+            endLabel.textColor = .black
         case "rollover":
             title = localize("rollover")
             placementDateTitleLabel.text = localize("maturity_date")
@@ -233,8 +243,10 @@ class AuctionListTableViewCell: UITableViewCell {
         let date = calendar.date(byAdding: .hour, value: -serverHourDifference, to: Date())!
         
         // Kalau auction sudah selesai dan bukan mature, background jadi abu-abu
-        
         if auction.maturity_date != nil {
+            endTitleLabel.isHidden = false
+            endLabel.isHidden = false
+            
             let endBid = calculateDateDifference(date, convertStringToDatetime(auction.maturity_date!)!)
             
             if endBid["hour"]! > 0 || endBid["minute"]! > 0 {

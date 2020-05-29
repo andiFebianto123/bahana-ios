@@ -122,7 +122,7 @@ class SettingsViewController: UIViewController {
         presenter = SettingsPresenter(delegate: self)
         presenter.getProfile()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: .languageChanged, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -70,12 +70,15 @@ class AuctionDetailConfirmationViewController: UIViewController {
         closeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goBack)))
         
         noButton.backgroundColor = primaryColor
+        noButton.setTitle(localize("no").uppercased(), for: .normal)
         noButton.setTitleColor(.white, for: .normal)
         
         yesButton.backgroundColor = greenColor
+        yesButton.setTitle(localize("yes").uppercased(), for: .normal)
         yesButton.setTitleColor(.white, for: .normal)
         
         changeEndDateButton.backgroundColor = accentColor
+        changeEndDateButton.setTitle(localize("change_end_date").uppercased(), for: .normal)
         changeEndDateButton.setTitleColor(.white, for: .normal)
         
         if confirmationType == "chosen_bidder" {
@@ -111,16 +114,24 @@ class AuctionDetailConfirmationViewController: UIViewController {
     }
 
     func setDatePicker() {
+        var locale: Locale!
+        switch getLocalData(key: "language") {
+        case "language_id":
+            locale = Locale(identifier: "id")
+        case "language_en":
+            locale = Locale(identifier: "en")
+        default:
+            break
+        }
+        datePicker.locale = locale
         datePicker.datePickerMode = .date
-        //datePicker.date = auctionRequestMaturityDate != nil ? convertStringToDatetime(auctionRequestMaturityDate!)! : Date()
-        //datePicker.addTarget(self, action: #selector(dateChanged(sender:)), for: .valueChanged)
         
         let toolbar = UIToolbar()
         toolbar.barStyle = .default
         toolbar.isTranslucent = true
         toolbar.sizeToFit()
         
-        let doneButton = UIBarButtonItem(title: localize("done"), style: UIBarButtonItem.Style.done, target: self, action: #selector(donePicker))
+        let doneButton = UIBarButtonItem(title: localize("ok"), style: UIBarButtonItem.Style.done, target: self, action: #selector(donePicker))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: localize("cancel"), style: UIBarButtonItem.Style.plain, target: self, action: #selector(closePicker))
         
@@ -172,7 +183,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
     
     @objc func goBack() {
         if needRefresh {
-            NotificationCenter.default.post(name: Notification.Name("AuctionDetailRefresh"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: .refreshAuctionDetail, object: nil, userInfo: nil)
         }
         self.dismiss(animated: true, completion: nil)
     }

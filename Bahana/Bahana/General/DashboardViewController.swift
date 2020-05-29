@@ -124,8 +124,6 @@ class DashboardViewController: UIViewController {
         needConfirmationUnitLabel.font = unitFont
         
         let screenWidth = UIScreen.main.bounds.width
-        //ongoingAuctionWidth.constant = (screenWidth / 2) - 30
-        //needConfirmationWidth.constant = (screenWidth / 2) - 30
         
         informationTitle.textColor = primaryColor
         informationTitle.text = localize("information").uppercased()
@@ -136,7 +134,7 @@ class DashboardViewController: UIViewController {
         presenter = DashboardPresenter(delegate: self)
         presenter.getData()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: Notification.Name("LanguageChanged"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: .languageChanged, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {

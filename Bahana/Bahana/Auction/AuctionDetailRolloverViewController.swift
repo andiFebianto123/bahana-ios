@@ -173,7 +173,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         refresh()
         
         // Refresh page
-        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: Notification.Name("AuctionDetailRefresh"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .refreshAuctionDetail, object: nil)
     }
     
     // MARK: - Navigation

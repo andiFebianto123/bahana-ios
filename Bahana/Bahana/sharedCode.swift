@@ -376,3 +376,8 @@ extension UIImage {
         return UIGraphicsGetImageFromCurrentImageContext()
     }
 }
+
+extension Notification.Name {
+    static let languageChanged = Notification.Name("LanguageChanged")
+    static let refreshAuctionDetail = Notification.Name("AuctionDetailRefresh")
+}

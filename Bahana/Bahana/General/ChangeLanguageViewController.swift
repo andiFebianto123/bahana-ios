@@ -67,7 +67,7 @@ class ChangeLanguageViewController: UIViewController {
         alert.addAction(UIAlertAction(title: localize("cancel"), style: .default, handler: nil))
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
             setLocalData(["language": self.language])
-            NotificationCenter.default.post(name: Notification.Name("LanguageChanged"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: .languageChanged, object: nil, userInfo: nil)
             //self.setNavigationItems()
             //self.tableView.reloadData()
             self.close()

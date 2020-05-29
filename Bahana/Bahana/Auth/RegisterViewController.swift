@@ -118,14 +118,19 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func showAlertExit() {
-        let alert = UIAlertController(title: localize("information"), message: localize("confirmation_leave_page"), preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: localize("no"), style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
-            self.resetRegisterData()
+        if viewTo == "" {
+            let alert = UIAlertController(title: localize("information"), message: localize("confirmation_leave_page"), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: localize("no"), style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
+                self.resetRegisterData()
+                NotificationCenter.default.post(name: Notification.Name("RegisterExit"), object: nil, userInfo: nil)
+                self.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        } else {
             NotificationCenter.default.post(name: Notification.Name("RegisterExit"), object: nil, userInfo: nil)
             self.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func loadMainView(index: Int) {
