@@ -74,6 +74,7 @@
 		BCE4862923F152F8007961CE /* Auction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4862823F152F8007961CE /* Auction.swift */; };
 		BCE5B5BF24739EA200777502 /* AuctionListReloadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE5B5BD24739EA200777502 /* AuctionListReloadTableViewCell.swift */; };
 		BCE5B5C024739EA200777502 /* AuctionListReloadTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCE5B5BE24739EA200777502 /* AuctionListReloadTableViewCell.xib */; };
+		BCF15462248113A400A6E258 /* AppUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF15461248113A400A6E258 /* AppUpdateViewController.swift */; };
 		BCF2846123F0553800EE8FD8 /* AuctionListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF2845F23F0553800EE8FD8 /* AuctionListTableViewCell.swift */; };
 		BCF2846223F0553800EE8FD8 /* AuctionListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCF2846023F0553800EE8FD8 /* AuctionListTableViewCell.xib */; };
 		BCF7C59323EBC37B00340C4A /* GeneralTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */; };
@@ -178,6 +179,7 @@
 		BCE4862823F152F8007961CE /* Auction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auction.swift; sourceTree = "<group>"; };
 		BCE5B5BD24739EA200777502 /* AuctionListReloadTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListReloadTableViewCell.swift; sourceTree = "<group>"; };
 		BCE5B5BE24739EA200777502 /* AuctionListReloadTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionListReloadTableViewCell.xib; sourceTree = "<group>"; };
+		BCF15461248113A400A6E258 /* AppUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateViewController.swift; sourceTree = "<group>"; };
 		BCF2845F23F0553800EE8FD8 /* AuctionListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListTableViewCell.swift; sourceTree = "<group>"; };
 		BCF2846023F0553800EE8FD8 /* AuctionListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionListTableViewCell.xib; sourceTree = "<group>"; };
 		BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTabBarViewController.swift; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 		BCC95AD623EADCA400515773 /* General */ = {
 			isa = PBXGroup;
 			children = (
+				BCF15461248113A400A6E258 /* AppUpdateViewController.swift */,
 				BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */,
 				BCD9FE042471745F00CE0697 /* DashboardViewController.swift */,
 				BC27FF8924053B00002E1188 /* DashboardPresenter.swift */,
@@ -533,6 +536,7 @@
 				BC472B6623E3FCB800FA2A6F /* RegisterStepCollectionViewCell.swift in Sources */,
 				BCD9FE052471745F00CE0697 /* DashboardViewController.swift in Sources */,
 				BCFE9E142404DF780013909A /* AuctionDetailRollover.swift in Sources */,
+				BCF15462248113A400A6E258 /* AppUpdateViewController.swift in Sources */,
 				BC27FF88240522C2002E1188 /* AuctionDetailRolloverPresenter.swift in Sources */,
 				BC14BF442417591F00D84A0A /* FaqTableViewCell.swift in Sources */,
 				BCD9FE072471952200CE0697 /* SettingsViewController.swift in Sources */,

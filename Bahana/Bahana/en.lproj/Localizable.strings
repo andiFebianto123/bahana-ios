@@ -192,6 +192,10 @@
 "no_data_available" = "No data available";
 "mark_all_as_read" = "Mark all as read";
 
+"app_update_information_title" = "Update DAMS";
+"app_update_information_content" = "There is a new version of the app available. Please update to continue using the app.";
+"app_update_information_button" = "Update";
+
 "january" = "Jan";
 "february" = "Feb";
 "march" = "Mar";

@@ -16,16 +16,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        // Check if user already logged in
-        if !isLoggedIn() {
-            let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
-            let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
-            self.window?.rootViewController = loginViewController
-        }
-        
         // If language not setted yet, set default language to Bahasa
         if getLocalData(key: "language") == "" {
-            setLocalData(["language": "language_id"])
+            let locale = Bundle.main.preferredLocalizations.first!
+            if locale == "id" {
+                setLocalData(["language": "language_id"])
+            } else {
+                setLocalData(["language": "language_en"])
+            }
+        }
+        
+        // Check if app update available
+        isAppUpdateAvailable() { isAvailable in
+            if isAvailable {
+                let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let appUpdateViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "AppUpdate") as UIViewController
+                self.window?.rootViewController = appUpdateViewController
+            } else if !isLoggedIn() {
+                // Check if user already logged in
+                let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
+                let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
+                self.window?.rootViewController = loginViewController
+            }
         }
         
         return true

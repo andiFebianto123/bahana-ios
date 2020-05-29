@@ -192,6 +192,10 @@
 "no_data_available" = "Tidak ada data tersedia";
 "mark_all_as_read" = "Baca semua";
 
+"app_update_information_title" = "Perbarui DAMS";
+"app_update_information_content" = "Versi terbaru dari aplikasi telah tersedia. Mohon perbarui untuk dapat melanjutkan menggunakan aplikasi.";
+"app_update_information_button" = "Perbarui";
+
 "january" = "Jan";
 "february" = "Feb";
 "march" = "Mar";

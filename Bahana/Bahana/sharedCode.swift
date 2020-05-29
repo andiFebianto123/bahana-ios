@@ -14,6 +14,8 @@ let WEB_API_URL = "http://localhost:8000/"
 //let WEB_API_URL = "http://192.168.8.105:8000/"
 //let WEB_API_URL = "http://159.65.15.108/bahana/public/"
 
+let APP_STORE_URL = "https://itunes.apple.com/id/app/dams/id123456?mt=8"
+
 // Colors
 let primaryColor = UIColorFromHex(rgbValue: 0xd7181f)
 let backgroundColor = UIColorFromHex(rgbValue: 0xeeeeee)
@@ -80,7 +82,8 @@ func getHeaders(auth: Bool = false) -> HTTPHeaders {
         ]
     } else {
         headers = [
-            //"X-App-Version-Ios": getAppVersion(),
+            "X-App-Version": "1.0",
+            "X-App-Version-Ios": getAppVersion(),
             "X-Requested-With": "XMLHttpRequest"
         ]
     }
@@ -259,7 +262,7 @@ func getUnreadNotificationCount(completion: @escaping (_ count: Int) -> Void) {
     }
 }
 
-func isLatestVersion(completion: @escaping (_ isUpdateAvailable: Bool) -> Void) {
+func isAppUpdateAvailable(completion: @escaping (_ isUpdateAvailable: Bool) -> Void) {
     Alamofire.request(WEB_API_URL + "api/v1/version", method: .post, headers: getHeaders()).responseJSON { response in
         switch response.result {
         case .success:
@@ -272,6 +275,7 @@ func isLatestVersion(completion: @escaping (_ isUpdateAvailable: Bool) -> Void) 
             }
         case .failure(let error):
             print(error)
+            completion(false)
         }
     }
 }
