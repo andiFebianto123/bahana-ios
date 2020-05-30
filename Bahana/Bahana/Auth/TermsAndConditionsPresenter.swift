@@ -27,9 +27,13 @@ class TermsAndConditionsPresenter {
             case .success:
                 let title = "<div style='font-size: 40px; margin-left: 5px;'><b>Dengan ini saya menyatakan bahwa :</b><br />"
                 let result = JSON(response.result.value!)
-                let checkbox = "<br /><input type='checkbox' id='agreement' onclick='agree()' style='transform: scale(2.2); margin-right: 10px;'> Ya, saya menyetujui segala ketentuan yang telah ditetapkan.</div>"
+                let checkbox = "<br /><input type='checkbox' id='agreement' onclick='agree()' style='transform: scale(2.2); margin-right: 10px;'> <span onclick='check()'>Ya, saya menyetujui segala ketentuan yang telah ditetapkan.</span></div>"
                 let script = """
                     <script>
+                    function check() {
+                        let checked = document.querySelector('#agreement').checked;
+                        document.querySelector('#agreement').checked = !checked;
+                    }
                     function agree() {
                         var checked = document.querySelector('#agreement').checked;
                         window.webkit.messageHandlers.jsHandler.postMessage(checked);
