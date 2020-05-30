@@ -56,34 +56,34 @@ class RegisterPresenter {
             "holiday_interest": getLocalData(key: "holiday_interest"),
             "password": getLocalData(key: "password"),
             "re_password": getLocalData(key: "password_confirmation"),
-            "breakable_policy": getLocalData(key: "idr_breakable_policy") != "" ? getLocalData(key: "idr_breakable_policy") : JSON.null,
-            "breakable_policy_notes": getLocalData(key: "idr_breakable_policy_notes") != "" ? getLocalData(key: "idr_breakable_policy_notes") : JSON.null,
-            "account_number": getLocalData(key: "idr_account_number") != "" ? getLocalData(key: "idr_account_number") : JSON.null,
-            "account_name": getLocalData(key: "idr_account_name") != "" ? getLocalData(key: "idr_account_name") : JSON.null,
-            "month_rate_1": getLocalData(key: "idr_month_rate_1") != "" ? getLocalData(key: "idr_month_rate_1") : JSON.null,
-            "month_rate_3": getLocalData(key: "idr_month_rate_3") != "" ? getLocalData(key: "idr_month_rate_3") : JSON.null,
-            "month_rate_6": getLocalData(key: "idr_month_rate_6") != "" ? getLocalData(key: "idr_month_rate_6") : JSON.null,
-            "breakable_policy_usd": getLocalData(key: "usd_breakable_policy") != "" ? getLocalData(key: "usd_breakable_policy") : JSON.null,
-            "breakable_policy_notes_usd": getLocalData(key: "usd_breakable_policy_notes") != "" ? getLocalData(key: "usd_breakable_policy_notes") : JSON.null,
-            "account_number_usd": getLocalData(key: "usd_account_number") != "" ? getLocalData(key: "usd_account_number") : JSON.null,
-            "account_name_usd": getLocalData(key: "usd_account_name") != "" ? getLocalData(key: "usd_account_name") : JSON.null,
-            "month_rate_1_usd": getLocalData(key: "usd_month_rate_1") != "" ? getLocalData(key: "usd_month_rate_1") : JSON.null,
-            "month_rate_3_usd": getLocalData(key: "usd_month_rate_3") != "" ? getLocalData(key: "usd_month_rate_3") : JSON.null,
-            "month_rate_6_usd": getLocalData(key: "usd_month_rate_6") != "" ? getLocalData(key: "usd_month_rate_6") : JSON.null,
-            "breakable_policy_syariah": getLocalData(key: "sharia_breakable_policy") != "" ? getLocalData(key: "sharia_breakable_policy") : JSON.null,
-            "breakable_policy_notes_syariah": getLocalData(key: "sharia_breakable_policy_notes") != "" ? getLocalData(key: "sharia_breakable_policy_notes") : JSON.null,
-            "account_number_syariah": getLocalData(key: "sharia_account_number") != "" ? getLocalData(key: "sharia_account_number") : JSON.null,
-            "account_name_syariah": getLocalData(key: "sharia_account_name") != "" ? getLocalData(key: "sharia_account_name") : JSON.null,
-            "month_rate_1_syariah": getLocalData(key: "sharia_month_rate_1") != "" ? getLocalData(key: "sharia_month_rate_1") : JSON.null,
-            "month_rate_3_syariah": getLocalData(key: "sharia_month_rate_3") != "" ? getLocalData(key: "sharia_month_rate_3") : JSON.null,
-            "month_rate_6_syariah": getLocalData(key: "sharia_month_rate_6") != "" ? getLocalData(key: "sharia_month_rate_6") : JSON.null
+            "breakable_policy": getLocalData(key: "idr_breakable_policy") != "" ? getLocalData(key: "idr_breakable_policy") : "",
+            "breakable_policy_notes": getLocalData(key: "idr_breakable_policy_notes") != "" ? getLocalData(key: "idr_breakable_policy_notes") : "",
+            "account_number": getLocalData(key: "idr_account_number") != "" ? getLocalData(key: "idr_account_number") : "",
+            "account_name": getLocalData(key: "idr_account_name") != "" ? getLocalData(key: "idr_account_name") : "",
+            "month_rate_1": getLocalData(key: "idr_month_rate_1") != "" ? getLocalData(key: "idr_month_rate_1") : "",
+            "month_rate_3": getLocalData(key: "idr_month_rate_3") != "" ? getLocalData(key: "idr_month_rate_3") : "",
+            "month_rate_6": getLocalData(key: "idr_month_rate_6") != "" ? getLocalData(key: "idr_month_rate_6") : "",
+            "breakable_policy_usd": getLocalData(key: "usd_breakable_policy") != "" ? getLocalData(key: "usd_breakable_policy") : "",
+            "breakable_policy_notes_usd": getLocalData(key: "usd_breakable_policy_notes") != "" ? getLocalData(key: "usd_breakable_policy_notes") : "",
+            "account_number_usd": getLocalData(key: "usd_account_number") != "" ? getLocalData(key: "usd_account_number") : "",
+            "account_name_usd": getLocalData(key: "usd_account_name") != "" ? getLocalData(key: "usd_account_name") : "",
+            "month_rate_1_usd": getLocalData(key: "usd_month_rate_1") != "" ? getLocalData(key: "usd_month_rate_1") : "",
+            "month_rate_3_usd": getLocalData(key: "usd_month_rate_3") != "" ? getLocalData(key: "usd_month_rate_3") : "",
+            "month_rate_6_usd": getLocalData(key: "usd_month_rate_6") != "" ? getLocalData(key: "usd_month_rate_6") : "",
+            "breakable_policy_syariah": getLocalData(key: "sharia_breakable_policy") != "" ? getLocalData(key: "sharia_breakable_policy") : "",
+            "breakable_policy_notes_syariah": getLocalData(key: "sharia_breakable_policy_notes") != "" ? getLocalData(key: "sharia_breakable_policy_notes") : "",
+            "account_number_syariah": getLocalData(key: "sharia_account_number") != "" ? getLocalData(key: "sharia_account_number") : "",
+            "account_name_syariah": getLocalData(key: "sharia_account_name") != "" ? getLocalData(key: "sharia_account_name") : "",
+            "month_rate_1_syariah": getLocalData(key: "sharia_month_rate_1") != "" ? getLocalData(key: "sharia_month_rate_1") : "",
+            "month_rate_3_syariah": getLocalData(key: "sharia_month_rate_3") != "" ? getLocalData(key: "sharia_month_rate_3") : "",
+            "month_rate_6_syariah": getLocalData(key: "sharia_month_rate_6") != "" ? getLocalData(key: "sharia_month_rate_6") : ""
         ]
         //print(parameters)
         
         Alamofire.request(WEB_API_URL + "api/v1/\(url)", method: .post, parameters: parameters, headers: getHeaders()).responseString { response in
             if response.response?.mimeType == "application/json" {
                 let result = JSON.init(parseJSON: response.result.value!)
-                //print(result)
+                print(result)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isRegisterSuccess(true, result["message"].stringValue)
                 } else {
