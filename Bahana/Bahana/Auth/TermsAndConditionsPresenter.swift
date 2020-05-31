@@ -33,9 +33,10 @@ class TermsAndConditionsPresenter {
                     function check() {
                         let checked = document.querySelector('#agreement').checked;
                         document.querySelector('#agreement').checked = !checked;
+                        window.webkit.messageHandlers.jsHandler.postMessage(!checked);
                     }
                     function agree() {
-                        var checked = document.querySelector('#agreement').checked;
+                        let checked = document.querySelector('#agreement').checked;
                         window.webkit.messageHandlers.jsHandler.postMessage(checked);
                     }
                     </script>
