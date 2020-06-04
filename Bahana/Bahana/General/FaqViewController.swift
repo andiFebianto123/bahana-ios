@@ -25,6 +25,7 @@ class FaqViewController: UIViewController {
     
     var data = [Faq]()
     var tempData = [Faq]()
+    var expandedCells = [Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,7 +119,6 @@ extension FaqViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FaqTableViewCell", for: indexPath) as! FaqTableViewCell
         let faq = tempData[indexPath.row]
-        cell.shrink()
         cell.titleLabel.text = faq.question
         cell.answerLabel.text = faq.answer
         return cell
@@ -128,9 +128,13 @@ extension FaqViewController: UITableViewDataSource {
 extension FaqViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! FaqTableViewCell
+        let faq = tempData[indexPath.row]
         if cell.isExpanded! {
+            let idx = expandedCells.firstIndex(of: faq.id)
+            expandedCells.remove(at: idx!)
             cell.shrink()
         } else {
+            expandedCells.append(faq.id)
             cell.expand()
         }
         tableView.beginUpdates()
@@ -155,6 +159,22 @@ extension FaqViewController: UISearchBarDelegate {
             tempData = data.filter { $0.answer.lowercased().contains(searchText.lowercased()) || $0.question.lowercased().contains(searchText.lowercased()) }
         }
         tableView.reloadData()
+        
+        for (idx, tmp) in tempData.enumerated() {
+            let indexPath = IndexPath(row: idx, section: 0)
+            let cell = tableView.cellForRow(at: indexPath) as? FaqTableViewCell
+            if expandedCells.contains(tmp.id) {
+                cell?.expand()
+            } else {
+                cell?.shrink()
+            }
+            let cellHeight = cell?.getHeight()
+            cell?.heightAnchor.constraint(equalToConstant: cellHeight!)
+        }
+        UIView.setAnimationsEnabled(false)
+        tableView.beginUpdates()
+        tableView.endUpdates()
+        UIView.setAnimationsEnabled(true)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
