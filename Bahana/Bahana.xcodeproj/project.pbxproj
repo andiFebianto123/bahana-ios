@@ -43,6 +43,7 @@
 		BC472B6E23E4358A00FA2A6F /* Bank.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B6D23E4358A00FA2A6F /* Bank.swift */; };
 		BC472B7023E437D200FA2A6F /* BankBranch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B6F23E437D200FA2A6F /* BankBranch.swift */; };
 		BC472B7423E44ACC00FA2A6F /* TermsAndConditionsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B7323E44ACB00FA2A6F /* TermsAndConditionsPresenter.swift */; };
+		BC5539D424874B5700997E9C /* AuctionNormalInterestRateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5539D324874B5700997E9C /* AuctionNormalInterestRateViewController.swift */; };
 		BC5BC4C7242CB236003A47AB /* AuctionDetailMaturePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BC4C6242CB235003A47AB /* AuctionDetailMaturePresenter.swift */; };
 		BC5BC4C9242CB25D003A47AB /* AuctionDetailMatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BC4C8242CB25D003A47AB /* AuctionDetailMatureViewController.swift */; };
 		BC5BC4CB242CB527003A47AB /* AuctionDetailMature.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BC4CA242CB527003A47AB /* AuctionDetailMature.swift */; };
@@ -62,6 +63,7 @@
 		BCA2BABC23F40BAB00E219B2 /* TransactionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA2BABB23F40BAB00E219B2 /* TransactionListViewController.swift */; };
 		BCA2BABE23F40BC400E219B2 /* TransactionListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA2BABD23F40BC400E219B2 /* TransactionListPresenter.swift */; };
 		BCA2BAC023F40C1D00E219B2 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA2BABF23F40C1D00E219B2 /* TransactionDetailViewController.swift */; };
+		BCC0F7572488DBC2003E82B2 /* AuctionNormalBidViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC0F7562488DBC2003E82B2 /* AuctionNormalBidViewController.swift */; };
 		BCC95ACF23EAC04600515773 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95ACE23EAC04600515773 /* ForgotPasswordViewController.swift */; };
 		BCC95AD123EAC14300515773 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD023EAC14300515773 /* LoginPresenter.swift */; };
 		BCC95AD323EAC15600515773 /* ForgotPasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD223EAC15600515773 /* ForgotPasswordPresenter.swift */; };
@@ -142,6 +144,7 @@
 		BC472B6D23E4358A00FA2A6F /* Bank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bank.swift; sourceTree = "<group>"; };
 		BC472B6F23E437D200FA2A6F /* BankBranch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankBranch.swift; sourceTree = "<group>"; };
 		BC472B7323E44ACB00FA2A6F /* TermsAndConditionsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsPresenter.swift; sourceTree = "<group>"; };
+		BC5539D324874B5700997E9C /* AuctionNormalInterestRateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionNormalInterestRateViewController.swift; sourceTree = "<group>"; };
 		BC5BC4C6242CB235003A47AB /* AuctionDetailMaturePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailMaturePresenter.swift; sourceTree = "<group>"; };
 		BC5BC4C8242CB25D003A47AB /* AuctionDetailMatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailMatureViewController.swift; sourceTree = "<group>"; };
 		BC5BC4CA242CB527003A47AB /* AuctionDetailMature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailMature.swift; sourceTree = "<group>"; };
@@ -164,6 +167,7 @@
 		BCA2BABB23F40BAB00E219B2 /* TransactionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListViewController.swift; sourceTree = "<group>"; };
 		BCA2BABD23F40BC400E219B2 /* TransactionListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListPresenter.swift; sourceTree = "<group>"; };
 		BCA2BABF23F40C1D00E219B2 /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
+		BCC0F7562488DBC2003E82B2 /* AuctionNormalBidViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionNormalBidViewController.swift; sourceTree = "<group>"; };
 		BCC95ACE23EAC04600515773 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		BCC95AD023EAC14300515773 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
 		BCC95AD223EAC15600515773 /* ForgotPasswordPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordPresenter.swift; sourceTree = "<group>"; };
@@ -284,6 +288,8 @@
 				BCF2845F23F0553800EE8FD8 /* AuctionListTableViewCell.swift */,
 				BCF2846023F0553800EE8FD8 /* AuctionListTableViewCell.xib */,
 				BCFE9E0B2404D0B10013909A /* AuctionDetailNormalViewController.swift */,
+				BC5539D324874B5700997E9C /* AuctionNormalInterestRateViewController.swift */,
+				BCC0F7562488DBC2003E82B2 /* AuctionNormalBidViewController.swift */,
 				BC27FF8124052283002E1188 /* AuctionDetailNormalPresenter.swift */,
 				BCFE9E0D2404D0EE0013909A /* AuctionDetailDirectViewController.swift */,
 				BC27FF8324052299002E1188 /* AuctionDetailDirectPresenter.swift */,
@@ -499,6 +505,7 @@
 				BC76798424162ED200683F2E /* NotificationTableViewCell.swift in Sources */,
 				BC5BC4C9242CB25D003A47AB /* AuctionDetailMatureViewController.swift in Sources */,
 				BCE5B5BF24739EA200777502 /* AuctionListReloadTableViewCell.swift in Sources */,
+				BCC0F7572488DBC2003E82B2 /* AuctionNormalBidViewController.swift in Sources */,
 				BC472B6123E3E3A900FA2A6F /* TermsAndConditionsViewController.swift in Sources */,
 				BCA2BABC23F40BAB00E219B2 /* TransactionListViewController.swift in Sources */,
 				BC14BF3F2417549E00D84A0A /* FaqViewController.swift in Sources */,
@@ -541,6 +548,7 @@
 				BC14BF442417591F00D84A0A /* FaqTableViewCell.swift in Sources */,
 				BCD9FE072471952200CE0697 /* SettingsViewController.swift in Sources */,
 				BCC95AD823EADD1C00515773 /* AuctionListViewController.swift in Sources */,
+				BC5539D424874B5700997E9C /* AuctionNormalInterestRateViewController.swift in Sources */,
 				BCA2BABE23F40BC400E219B2 /* TransactionListPresenter.swift in Sources */,
 				BC2F94F923E93AFD00323DB4 /* RegisterPresenter.swift in Sources */,
 				BC472B7023E437D200FA2A6F /* BankBranch.swift in Sources */,

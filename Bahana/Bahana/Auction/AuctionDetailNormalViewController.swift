@@ -255,8 +255,8 @@ class AuctionDetailNormalViewController: UIViewController {
         
         setBids(data.bids)
         
-        for detail in data.details {
-            addInterestRate(detail.td_period_type, false, detail.td_period)
+        for (idx, detail) in data.details.enumerated() {
+            addInterestRate(detail.td_period_type, false, detail.td_period, idx: idx)
         }
         
         // Action
@@ -327,7 +327,15 @@ class AuctionDetailNormalViewController: UIViewController {
             bidStackView.removeArrangedSubview(bidView)
         }
         var totalRateViewHeight: CGFloat = 0
+        //let auctionStoryboard : UIStoryboard = UIStoryboard(name: "Auction", bundle: nil)
         for (idx, dt) in bidData.enumerated() {
+            /*
+            let bidViewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionNormalBid") as! AuctionNormalBidViewController
+            bidViewController.setBid(dt)
+            bidStackView.addArrangedSubview(bidViewController.view)
+            
+            bidStackViewHeight.constant += 150
+            */
             let rateView = UIView()
             if dt.is_winner == "yes" {
                 rateView.backgroundColor = lightGreenColor
@@ -574,12 +582,13 @@ class AuctionDetailNormalViewController: UIViewController {
                 rateStackView.bottomAnchor.constraint(equalTo: rateView.bottomAnchor, constant: -20),
             ])
             
-            bidStackViewHeight.constant += rateViewHeight + 20 + bidStackView.spacing
-            totalRateViewHeight += rateViewHeight
+            if idx == 0 {
+                bidStackViewHeight.constant += rateViewHeight + 20
+            } else {
+                bidStackViewHeight.constant += rateViewHeight + 20 + bidStackView.spacing
+            }
+            
         }
-        
-        //currentHeight += totalRateViewHeight
-        //setHeight(currentHeight)
     }
     
     @IBAction func addInterestRateDayButtonPressed(_ sender: Any) {
@@ -590,13 +599,23 @@ class AuctionDetailNormalViewController: UIViewController {
         addInterestRate("month", true)
     }
     
-    func addInterestRate(_ tenorType: String, _ canEditTenor: Bool, _ period: Int? = nil) {
-        var rateHeight: CGFloat = 0
+    func addInterestRate(_ tenorType: String, _ canEditTenor: Bool, _ period: Int? = nil, idx: Int? = nil) {
+        /*let auctionStoryboard : UIStoryboard = UIStoryboard(name: "Auction", bundle: nil)
+        let rateViewController = auctionStoryboard.instantiateViewController(withIdentifier: "AuctionNormalInterestRate") as! AuctionNormalInterestRateViewController
+        rateViewController.setRate(tenorType, canEditTenor, period)
+        interestRateStackView.addArrangedSubview(rateViewController.view)
+        
+        if idx == 0 {
+            interestRateStackViewHeight.constant += 170
+        } else {
+            interestRateStackViewHeight.constant += 170 + interestRateStackView.spacing
+        }*/
+        
+        var rateHeight: CGFloat = 40
         
         let rateView = UIView()
         rateView.tag = interestRateIdx
         rateView.backgroundColor = .white
-        //rateView.translatesAutoresizingMaskIntoConstraints = false
         interestRateStackView.addArrangedSubview(rateView)
         
         let rateStackView = UIStackView()
@@ -626,7 +645,7 @@ class AuctionDetailNormalViewController: UIViewController {
             tenorTitle.centerYAnchor.constraint(equalTo: tenorView.centerYAnchor)
         ])
         
-        let fieldHeight: CGFloat = 60
+        let fieldHeight: CGFloat = 30
         
         var tenorField: UITextField?
         if canEditTenor {
@@ -637,8 +656,6 @@ class AuctionDetailNormalViewController: UIViewController {
             let tenorFieldHeight = fieldHeight
             tenorField!.translatesAutoresizingMaskIntoConstraints = false
             tenorView.addSubview(tenorField!)
-            
-            rateHeight += tenorFieldHeight
             
             let period = UILabel()
             if tenorType == "day" {
@@ -688,8 +705,6 @@ class AuctionDetailNormalViewController: UIViewController {
             tenor.translatesAutoresizingMaskIntoConstraints = false
             tenorView.addSubview(tenor)
             
-            rateHeight += tenorHeight
-            
             NSLayoutConstraint.activate([
                 tenor.leadingAnchor.constraint(equalTo: tenorTitle.trailingAnchor, constant: 0),
                 tenor.trailingAnchor.constraint(equalTo: tenorView.trailingAnchor, constant: 0),
@@ -716,23 +731,6 @@ class AuctionDetailNormalViewController: UIViewController {
                 idrRateTitleLabel.leadingAnchor.constraint(equalTo: idrRateView.leadingAnchor, constant: 0),
                 idrRateTitleLabel.centerYAnchor.constraint(equalTo: idrRateView.centerYAnchor)
             ])
-            // Label Content
-            /*let idrRateLabel = UILabel()
-            idrRateLabel.font = contentFont
-            idrRateLabel.numberOfLines = 0
-            idrRateLabel.text = """
-            Test 2
-            Test 3
-            Test 4
-            """
-            idrRateLabel.translatesAutoresizingMaskIntoConstraints = false
-            idrRateView.addSubview(usdRateLabel)
-            
-            NSLayoutConstraint.activate([
-                idrRateLabel.leadingAnchor.constraint(equalTo: idrRateTitleLabel.trailingAnchor, constant: 0),
-                idrRateLabel.topAnchor.constraint(equalTo: idrRateView.topAnchor, constant: 0),
-                idrRateLabel.bottomAnchor.constraint(equalTo: idrRateView.bottomAnchor, constant: 0)
-            ])*/
             
             // Field content
             idrInterestRate = UITextField()
@@ -742,8 +740,6 @@ class AuctionDetailNormalViewController: UIViewController {
             let idrInterestRateHeight = fieldHeight
             idrInterestRate!.translatesAutoresizingMaskIntoConstraints = false
             idrRateView.addSubview(idrInterestRate!)
-            
-            rateHeight += idrInterestRateHeight
             
             var defaultRate: String?
             if tenorType == "month" && !canEditTenor {
@@ -773,6 +769,8 @@ class AuctionDetailNormalViewController: UIViewController {
                 idrInterestRate!.bottomAnchor.constraint(equalTo: idrRateView.bottomAnchor, constant: 0),
                 idrInterestRate!.heightAnchor.constraint(equalToConstant: idrInterestRateHeight)
             ])
+            
+            rateHeight += 40 + rateStackView.spacing
         }
         
         var usdInterestRate: UITextField?
@@ -793,23 +791,6 @@ class AuctionDetailNormalViewController: UIViewController {
                 usdRateTitleLabel.leadingAnchor.constraint(equalTo: usdRateView.leadingAnchor, constant: 0),
                 usdRateTitleLabel.centerYAnchor.constraint(equalTo: usdRateView.centerYAnchor)
             ])
-            // Label Content
-            /*let usdRateLabel = UILabel()
-            usdRateLabel.font = contentFont
-            usdRateLabel.numberOfLines = 0
-            usdRateLabel.text = """
-            Test 2
-            Test 3
-            Test 4
-            """
-            usdRateLabel.translatesAutoresizingMaskIntoConstraints = false
-            usdRateView.addSubview(usdRateLabel)
-            
-            NSLayoutConstraint.activate([
-                usdRateLabel.leadingAnchor.constraint(equalTo: usdRateTitleLabel.trailingAnchor, constant: 0),
-                usdRateLabel.topAnchor.constraint(equalTo: usdRateView.topAnchor, constant: 0),
-                usdRateLabel.bottomAnchor.constraint(equalTo: usdRateView.bottomAnchor, constant: 0)
-            ])*/
             
             // Field content
             usdInterestRate = UITextField()
@@ -819,8 +800,6 @@ class AuctionDetailNormalViewController: UIViewController {
             let usdInterestRateHeight = fieldHeight
             usdInterestRate!.translatesAutoresizingMaskIntoConstraints = false
             usdRateView.addSubview(usdInterestRate!)
-            
-            rateHeight += usdInterestRateHeight
             
             var defaultRate: String?
             if tenorType == "month" && !canEditTenor {
@@ -850,6 +829,8 @@ class AuctionDetailNormalViewController: UIViewController {
                 usdInterestRate!.bottomAnchor.constraint(equalTo: usdRateView.bottomAnchor, constant: 0),
                 usdInterestRate!.heightAnchor.constraint(equalToConstant: usdInterestRateHeight)
             ])
+            
+            rateHeight += 40 + rateStackView.spacing
         }
         
         var shariaInterestRate: UITextField?
@@ -870,23 +851,6 @@ class AuctionDetailNormalViewController: UIViewController {
                 shariaRateTitleLabel.leadingAnchor.constraint(equalTo: shariaRateView.leadingAnchor, constant: 0),
                 shariaRateTitleLabel.centerYAnchor.constraint(equalTo: shariaRateView.centerYAnchor)
             ])
-            // Label Content
-            /*let shariaRateLabel = UILabel()
-            shariaRateLabel.font = contentFont
-            shariaRateLabel.numberOfLines = 0
-            shariaRateLabel.text = """
-            Test 2
-            Test 3
-            Test 4
-            """
-            shariaRateLabel.translatesAutoresizingMaskIntoConstraints = false
-            shariaRateView.addSubview(usdRateLabel)
-            
-            NSLayoutConstraint.activate([
-                shariaRateLabel.leadingAnchor.constraint(equalTo: shariaRateTitleLabel.trailingAnchor, constant: 0),
-                shariaRateLabel.topAnchor.constraint(equalTo: shariaRateView.topAnchor, constant: 0),
-                shariaRateLabel.bottomAnchor.constraint(equalTo: shariaRateView.bottomAnchor, constant: 0)
-            ])*/
             
             // Field content
             shariaInterestRate = UITextField()
@@ -896,8 +860,6 @@ class AuctionDetailNormalViewController: UIViewController {
             let shariaInterestRateHeight = fieldHeight
             shariaInterestRate!.translatesAutoresizingMaskIntoConstraints = false
             shariaRateView.addSubview(shariaInterestRate!)
-            
-            rateHeight += shariaInterestRateHeight
             
             var defaultRate: String?
             if tenorType == "month" && !canEditTenor {
@@ -927,7 +889,11 @@ class AuctionDetailNormalViewController: UIViewController {
                 shariaInterestRate!.bottomAnchor.constraint(equalTo: shariaRateView.bottomAnchor, constant: 0),
                 shariaInterestRate!.heightAnchor.constraint(equalToConstant: shariaInterestRateHeight)
             ])
+            
+            rateHeight += 40 + rateStackView.spacing
         }
+        
+        rateHeight += rateStackView.spacing
         
         NSLayoutConstraint.activate([
             rateStackView.topAnchor.constraint(equalTo: rateView.topAnchor, constant: 15),
@@ -936,10 +902,13 @@ class AuctionDetailNormalViewController: UIViewController {
             rateStackView.trailingAnchor.constraint(equalTo: rateView.trailingAnchor, constant: -15),
         ])
         
-        interestRateStackViewHeight.constant += rateHeight
-        
-        //currentHeight += rateHeight
-        //setHeight(currentHeight)
+        if idx == 0 {
+            //interestRateStackViewHeight.constant += 150
+            interestRateStackViewHeight.constant += rateHeight
+        } else {
+            //interestRateStackViewHeight.constant += 150 + interestRateStackView.spacing
+            interestRateStackViewHeight.constant += rateHeight + interestRateStackView.spacing
+        }
         
         let interestRate = InterestRate(idx: interestRateIdx, tenorType: tenorType, tenor: period, tenorField: tenorField, idrField: idrInterestRate, usdField: usdInterestRate, shariaField: shariaInterestRate, isHidden: false)
         interestRates.append(interestRate)
