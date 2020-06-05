@@ -77,6 +77,8 @@ class AuctionDetailNormalViewController: UIViewController {
     var confirmationType: String!
     var confirmationID: Int?
     
+    var backToRoot = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -100,7 +102,6 @@ class AuctionDetailNormalViewController: UIViewController {
         ])
         
         // Set loading view
-        //loadingView.isHidden = true
         loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loadingView)
@@ -128,6 +129,7 @@ class AuctionDetailNormalViewController: UIViewController {
         titleLabel.textColor = primaryColor
         auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
+        statusLabel.font = contentFont
         let cardBackgroundColor = lightRedColor
         portfolioView.backgroundColor = cardBackgroundColor
         portfolioView.layer.cornerRadius = 5
@@ -213,12 +215,14 @@ class AuctionDetailNormalViewController: UIViewController {
     }
 
     @objc func backButtonPressed() {
+        if backToRoot {
+            
+        }
         self.dismiss(animated: true, completion: nil)
-        //
     }
     
     @objc func refresh() {
-        //view.isHidden = true
+        scrollView.isHidden = true
         showLoading(true)
         presenter.getAuction(id)
     }
@@ -232,6 +236,7 @@ class AuctionDetailNormalViewController: UIViewController {
         if data.status == "-" {
             statusView.isHidden = true
         } else {
+            statusView.isHidden = false
             statusView.backgroundColor = primaryColor
             statusLabel.text = data.status
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
@@ -246,7 +251,7 @@ class AuctionDetailNormalViewController: UIViewController {
             investment += " - \(toIdrBio(data.investment_range_end!))"
         }
         investmentLabel.text = investment
-        placementDateLabel.text = convertDateToString(convertStringToDatetime(data.start_date)!)
+        placementDateLabel.text = convertDateToString(convertStringToDatetime(data.end_date)!)
         custodianBankLabel.text = data.custodian_bank != nil ? data.custodian_bank : "-"
         picCustodianLabel.text = data.pic_custodian != nil ? data.pic_custodian : "-"
         
@@ -265,7 +270,9 @@ class AuctionDetailNormalViewController: UIViewController {
             interestRateButtonStackView.isHidden = true
             maxPlacementStackView.isHidden = true
         } else if data.view == 2 {
-            
+            interestRateParentStackView.isHidden = false
+            interestRateButtonStackView.isHidden = false
+            maxPlacementStackView.isHidden = false
         }
         
         // Footer
@@ -326,7 +333,7 @@ class AuctionDetailNormalViewController: UIViewController {
         for bidView in bidStackView.arrangedSubviews {
             bidStackView.removeArrangedSubview(bidView)
         }
-        var totalRateViewHeight: CGFloat = 0
+        
         //let auctionStoryboard : UIStoryboard = UIStoryboard(name: "Auction", bundle: nil)
         for (idx, dt) in bidData.enumerated() {
             /*
@@ -351,7 +358,7 @@ class AuctionDetailNormalViewController: UIViewController {
             let rateStackView = UIStackView()
             rateStackView.axis = .vertical
             rateStackView.spacing = spacing
-            rateStackView.distribution = .fill
+            rateStackView.distribution = .fillProportionally
             rateStackView.translatesAutoresizingMaskIntoConstraints = false
             rateView.addSubview(rateStackView)
             
@@ -437,32 +444,35 @@ class AuctionDetailNormalViewController: UIViewController {
             
             var interestRateContent = """
             """
+            var newLine = false
             
             if dt.interest_rate_idr != nil {
                 interestRateContent += "(IDR) \(checkPercentage(dt.interest_rate_idr!)) %"
                 if dt.chosen_rate != nil && dt.chosen_rate == "IDR" {
-                    interestRateContent += " [\(localize("chosen_rate"))]\n"
-                } else {
-                    interestRateContent += "\n"
+                    interestRateContent += " [\(localize("chosen_rate"))]"
                 }
+                newLine = true
             }
             if dt.interest_rate_usd != nil {
+                if newLine {
+                    interestRateContent += "\n"
+                }
                 interestRateContent += "(USD) \(checkPercentage(dt.interest_rate_usd!)) %"
                 if dt.chosen_rate != nil && dt.chosen_rate == "USD" {
-                    interestRateContent += " [\(localize("chosen_rate"))]\n"
-                } else {
-                    interestRateContent += "\n"
+                    interestRateContent += " [\(localize("chosen_rate"))]"
                 }
-                
+                newLine = true
             }
             if dt.interest_rate_sharia != nil {
-                interestRateContent += "(\(localize("sharia"))) \(checkPercentage(dt.interest_rate_sharia!)) %"
-                if dt.chosen_rate != nil && dt.chosen_rate == "Sharia" {
-                    interestRateContent += " [\(localize("chosen_rate"))]\n"
-                } else {
+                if newLine {
                     interestRateContent += "\n"
                 }
+                interestRateContent += "(\(localize("sharia"))) \(checkPercentage(dt.interest_rate_sharia!)) %"
+                if dt.chosen_rate != nil && dt.chosen_rate == "Sharia" {
+                    interestRateContent += " [\(localize("chosen_rate"))]"
+                }
             }
+            
             let interestRate = UILabel()
             interestRate.text = interestRateContent
             interestRate.numberOfLines = 0
@@ -471,7 +481,7 @@ class AuctionDetailNormalViewController: UIViewController {
             interestRate.translatesAutoresizingMaskIntoConstraints = false
             interestRateView.addSubview(interestRate)
             
-            rateViewHeight += interestRateHeight + spacing
+            rateViewHeight += (interestRateHeight * 2) + spacing
             
             NSLayoutConstraint.activate([
                 interestRateTitle.leadingAnchor.constraint(equalTo: interestRateView.leadingAnchor, constant: 0),
@@ -518,8 +528,11 @@ class AuctionDetailNormalViewController: UIViewController {
                
                 var bilyetStr = """
                 """
-                for bilyetArr in dt.bilyet {
-                    bilyetStr += "\u{2022} IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
+                for (idx, bilyetArr) in dt.bilyet.enumerated() {
+                    bilyetStr += "\u{2022} IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]"
+                    if idx < dt.bilyet.count - 1 {
+                        bilyetStr += "\n"
+                    }
                 }
                 
                 let bilyet = UILabel()
@@ -530,7 +543,7 @@ class AuctionDetailNormalViewController: UIViewController {
                 bilyet.translatesAutoresizingMaskIntoConstraints = false
                 bilyetView.addSubview(bilyet)
                 
-                rateViewHeight += bilyetHeight + spacing
+                rateViewHeight += (bilyetHeight * 2) + spacing
                 
                 NSLayoutConstraint.activate([
                     investmentTitle.leadingAnchor.constraint(equalTo: investmentView.leadingAnchor, constant: 0),
@@ -583,11 +596,10 @@ class AuctionDetailNormalViewController: UIViewController {
             ])
             
             if idx == 0 {
-                bidStackViewHeight.constant += rateViewHeight + 20
+                bidStackViewHeight.constant += rateViewHeight + 10
             } else {
-                bidStackViewHeight.constant += rateViewHeight + 20 + bidStackView.spacing
+                bidStackViewHeight.constant += rateViewHeight + 10 + bidStackView.spacing
             }
-            
         }
     }
     
@@ -1020,7 +1032,7 @@ extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
     func setData(_ data: AuctionDetailNormal) {
         self.data = data
         setContent()
-        view.isHidden = false
+        scrollView.isHidden = false
         showLoading(false)
     }
     

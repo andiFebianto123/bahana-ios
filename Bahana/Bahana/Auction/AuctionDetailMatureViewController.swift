@@ -72,7 +72,6 @@ class AuctionDetailMatureViewController: UIViewController {
         ])
         
         // Set loading view
-        //loadingView.isHidden = true
         loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loadingView)
@@ -138,7 +137,7 @@ class AuctionDetailMatureViewController: UIViewController {
         periodTitleLabel.text = localize("period")
         periodLabel.font = contentFont
         
-        view.isHidden = true
+        scrollView.isHidden = true
         
         presenter = AuctionDetailMaturePresenter(delegate: self)
         presenter.getAuction(id)
@@ -229,9 +228,9 @@ class AuctionDetailMatureViewController: UIViewController {
 extension AuctionDetailMatureViewController: AuctionDetailMatureDelegate {
     func setData(_ data: AuctionDetailMature) {
         self.data = data
-        view.isHidden = false
-        showLoading(false)
         setContent()
+        scrollView.isHidden = false
+        showLoading(false)
     }
     
     func getDataFail(_ message: String?) {

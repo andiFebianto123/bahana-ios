@@ -91,7 +91,6 @@ class AuctionDetailBreakViewController: UIViewController {
         ])
         
         // Set loading view
-        //loadingView.isHidden = true
         loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loadingView)
@@ -119,6 +118,7 @@ class AuctionDetailBreakViewController: UIViewController {
         titleLabel.textColor = primaryColor
         auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
+        statusLabel.font = contentFont
         let cardBackgroundColor = lightRedColor
         portfolioView.backgroundColor = cardBackgroundColor
         portfolioView.layer.cornerRadius = 5
@@ -239,7 +239,7 @@ class AuctionDetailBreakViewController: UIViewController {
     }
 
     @objc func refresh() {
-        //view.isHidden = true
+        scrollView.isHidden = true
         showLoading(true)
         presenter.getAuction(id)
     }
@@ -253,6 +253,7 @@ class AuctionDetailBreakViewController: UIViewController {
         if data.status == "-" {
             statusView.isHidden = true
         } else {
+            statusView.isHidden = false
             statusView.backgroundColor = primaryColor
             statusLabel.text = data.status
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
@@ -280,11 +281,21 @@ class AuctionDetailBreakViewController: UIViewController {
         // Action
         if data.view == 0 {
             breakRateStackView.isHidden = true
+            breakRateTitle2Label.isHidden = false
+            breakRateTextField.isHidden = false
+            submitButton.isHidden = false
+            confirmButton.isHidden = false
         } else if data.view == 1 {
+            breakRateStackView.isHidden = false
             breakRateTitle2Label.isHidden = true
             breakRateTextField.isHidden = true
             submitButton.isHidden = true
+            confirmButton.isHidden = false
         } else if data.view == 2 {
+            breakRateStackView.isHidden = false
+            breakRateTitle2Label.isHidden = true
+            breakRateTextField.isHidden = false
+            submitButton.isHidden = false
             confirmButton.isHidden = true
         }
         
@@ -389,7 +400,7 @@ extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
     func setData(_ data: AuctionDetailBreak) {
         self.data = data
         setContent()
-        view.isHidden = false
+        scrollView.isHidden = false
         showLoading(false)
     }
     

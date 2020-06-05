@@ -113,6 +113,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         titleLabel.textColor = primaryColor
         auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
+        statusLabel.font = contentFont
         let cardBackgroundColor = lightRedColor
         portfolioView.backgroundColor = cardBackgroundColor
         portfolioView.layer.cornerRadius = 5
@@ -159,7 +160,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         newPeriodLabel.font = contentFont
         interestRateTitleLabel.textColor = primaryColor
         interestRateTitleLabel.text = localize("interest_rate").uppercased()
-        interestRateTextField.placeholder = localize("interest_rate").uppercased()
+        interestRateTextField.placeholder = localize("interest_rate")
         interestRateTextField.keyboardType = .numbersAndPunctuation
         submitButton.setTitle(localize("submit").uppercased(), for: .normal)
         submitButton.backgroundColor = primaryColor
@@ -185,7 +186,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         if segue.identifier == "showConfirmation" {
             if let destinationVC = segue.destination as? AuctionDetailConfirmationViewController {
                 destinationVC.auctionID = id
-                destinationVC.auctionType = "break"
+                destinationVC.auctionType = "rollover"
                 destinationVC.confirmationType = confirmationType
                 destinationVC.revisionRate = revisionRate
             }
@@ -211,7 +212,7 @@ class AuctionDetailRolloverViewController: UIViewController {
     }
     
     @objc func refresh() {
-        //view.isHidden = true
+        scrollView.isHidden = true
         showLoading(true)
         presenter.getAuction(id)
     }
@@ -225,6 +226,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         if data.status == "-" {
             statusView.isHidden = true
         } else {
+            statusView.isHidden = false
             statusView.backgroundColor = primaryColor
             statusLabel.text = data.status
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
@@ -247,12 +249,22 @@ class AuctionDetailRolloverViewController: UIViewController {
         
         // Action
         if data.view == 0 {
+            interestRateTitleLabel.isHidden = false
+            interestRateTextField.isHidden = false
             interestRateStackView.isHidden = true
+            submitButton.isHidden = false
+            confirmButton.isHidden = false
         } else if data.view == 1 {
             interestRateTitleLabel.isHidden = true
             interestRateTextField.isHidden = true
+            interestRateStackView.isHidden = false
             submitButton.isHidden = true
+            confirmButton.isHidden = false
         } else if data.view == 2 {
+            interestRateTitleLabel.isHidden = false
+            interestRateTextField.isHidden = false
+            interestRateStackView.isHidden = false
+            submitButton.isHidden = false
             confirmButton.isHidden = true
         }
         
@@ -341,7 +353,7 @@ extension AuctionDetailRolloverViewController: AuctionDetailRolloverDelegate {
     func setData(_ data: AuctionDetailRollover) {
         self.data = data
         setContent()
-        view.isHidden = false
+        scrollView.isHidden = false
         showLoading(false)
     }
     

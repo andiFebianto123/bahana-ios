@@ -84,7 +84,6 @@ class AuctionDetailDirectViewController: UIViewController {
         ])
         
         // Set loading view
-        //loadingView.isHidden = true
         loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loadingView)
@@ -112,6 +111,7 @@ class AuctionDetailDirectViewController: UIViewController {
         titleLabel.textColor = primaryColor
         auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         statusView.layer.cornerRadius = 10
+        statusLabel.font = contentFont
         let cardBackgroundColor = lightRedColor
         portfolioView.backgroundColor = cardBackgroundColor
         portfolioView.layer.cornerRadius = 5
@@ -212,7 +212,7 @@ class AuctionDetailDirectViewController: UIViewController {
     }
     
     @objc func refresh() {
-        //view.isHidden = true
+        scrollView.isHidden = true
         showLoading(true)
         presenter.getAuction(id)
     }
@@ -226,6 +226,7 @@ class AuctionDetailDirectViewController: UIViewController {
         if data.status == "-" {
             statusView.isHidden = true
         } else {
+            statusView.isHidden = false
             statusView.backgroundColor = primaryColor
             statusLabel.text = data.status
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
@@ -270,9 +271,12 @@ class AuctionDetailDirectViewController: UIViewController {
         // Action
         if data.view == 0 {
             revisionRateStackView.isHidden = true
+            confirmButton.isHidden = false
         } else if data.view == 1 {
-            //
+            revisionRateStackView.isHidden = false
+            confirmButton.isHidden = false
         } else if data.view == 2 {
+            revisionRateStackView.isHidden = false
             confirmButton.isHidden = true
         }
         
@@ -373,9 +377,9 @@ class AuctionDetailDirectViewController: UIViewController {
 extension AuctionDetailDirectViewController: AuctionDetailDirectDelegate {
     func setData(_ data: AuctionDetailDirect) {
         self.data = data
-        view.isHidden = false
-        showLoading(false)
         setContent()
+        scrollView.isHidden = false
+        showLoading(false)
     }
     
     func getDataFail(_ message: String?) {

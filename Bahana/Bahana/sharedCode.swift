@@ -10,9 +10,9 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-let WEB_API_URL = "http://localhost:8000/"
+//let WEB_API_URL = "http://localhost:8000/"
 //let WEB_API_URL = "http://192.168.8.105:8000/"
-//let WEB_API_URL = "http://159.65.15.108/bahana/public/"
+let WEB_API_URL = "http://157.245.192.5/bahana/public/"
 
 let APP_STORE_URL = "https://itunes.apple.com/id/app/dams/id123456?mt=8"
 

@@ -130,11 +130,9 @@ class AuctionListTableViewCell: UITableViewCell {
             endTitleLabel.isHidden = true
             endLabel.isHidden = true
         } else {
-            if pageType == "auction" {
-                placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.start_date)!)
-            } else if pageType == "history" {
-                placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
-            }
+            placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
+            
+            countdown()
             
             Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
         }

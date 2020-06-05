@@ -104,6 +104,8 @@ class AuctionListPresenter {
                         var maturity_date: String?
                         if type == "auction" || type == "direct-auction" {
                             maturity_date = auct["end_bidding_rm"] != JSON.null ? auct["end_bidding_rm"].stringValue : nil
+                        } else if type == "rollover" {
+                            maturity_date = auct["end_date"] != JSON.null ? auct["end_date"].stringValue : nil
                         } else {
                             maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
                         }
