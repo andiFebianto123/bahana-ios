@@ -100,7 +100,10 @@ class AuctionListTableViewCell: UITableViewCell {
         self.auction = auction
         self.serverHourDifference = hourDifference
         
-        if pageType == "history" || auction.type != "break" {
+        endTitleLabel.isHidden = false
+        endLabel.isHidden = false
+        
+        if pageType == "history" || auction.type != "break" || auction.type == "mature" {
             endTitleLabel.isHidden = true
             endLabel.isHidden = true
         }
@@ -127,8 +130,6 @@ class AuctionListTableViewCell: UITableViewCell {
             }
         } else if auction.type == "mature" {
             placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.maturity_date)!)
-            endTitleLabel.isHidden = true
-            endLabel.isHidden = true
         } else {
             placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
             
@@ -149,6 +150,8 @@ class AuctionListTableViewCell: UITableViewCell {
         case "Active":
             title = localize("active")
             backgroundColor = greenColor
+            breakDateTitleLabel.isHidden = true
+            breakDateLabel.isHidden = true
         case "Break":
             title = localize("break")
             backgroundColor = primaryColor
@@ -158,18 +161,28 @@ class AuctionListTableViewCell: UITableViewCell {
         case "Mature":
             title = localize("mature")
             backgroundColor = blueColor
+            breakDateTitleLabel.isHidden = true
+            breakDateLabel.isHidden = true
         case "Rollover":
             title = localize("rollover")
             backgroundColor = accentColor
+            breakDateTitleLabel.isHidden = true
+            breakDateLabel.isHidden = true
         case "Canceled":
             title = localize("canceled")
             backgroundColor = darkGreyColor
+            breakDateTitleLabel.isHidden = true
+            breakDateLabel.isHidden = true
         case "Used in RO Auction":
             title = localize("used_in_ro_auction")
             backgroundColor = darkYellowColor
+            breakDateTitleLabel.isHidden = true
+            breakDateLabel.isHidden = true
         case "Used in Break Auction":
             title = localize("used_in_break_auction")
             backgroundColor = darkRedColor
+            breakDateTitleLabel.isHidden = true
+            breakDateLabel.isHidden = true
         default:
             break
         }
@@ -213,8 +226,12 @@ class AuctionListTableViewCell: UITableViewCell {
         switch type {
         case "auction":
             title = localize("auction")
+            placementDateTitleLabel.text = localize("placement_date")
+            endTitleLabel.text = localize("ends_in")
         case "direct-auction":
             title = localize("direct_auction")
+            placementDateTitleLabel.text = localize("placement_date")
+            endTitleLabel.text = localize("ends_in")
         case "break":
             title = localize("break")
             placementDateTitleLabel.text = localize("maturity_date")
@@ -223,6 +240,7 @@ class AuctionListTableViewCell: UITableViewCell {
         case "rollover":
             title = localize("rollover")
             placementDateTitleLabel.text = localize("maturity_date")
+            endTitleLabel.text = localize("ends_in")
         case "mature":
             title = localize("mature")
             mainView.backgroundColor = lightRedColor
@@ -241,7 +259,7 @@ class AuctionListTableViewCell: UITableViewCell {
         let date = calendar.date(byAdding: .hour, value: -serverHourDifference, to: Date())!
         
         // Kalau auction sudah selesai dan bukan mature, background jadi abu-abu
-        if auction.maturity_date != nil {
+        if auction.maturity_date != nil && auction.type != "break" {
             endTitleLabel.isHidden = false
             endLabel.isHidden = false
             
@@ -270,6 +288,12 @@ class AuctionListTableViewCell: UITableViewCell {
                     endLabel.text = ""
                     mainView.backgroundColor = lightGreyColor
                 }
+            }
+        } else if auction.type == "break" {
+            if pageType == "auction" {
+                endLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
+            } else if pageType == "history" {
+                endLabel.text = convertDateToString(convertStringToDatetime(auction.break_maturity_date)!)
             }
         } else {
             endTitleLabel.isHidden = true

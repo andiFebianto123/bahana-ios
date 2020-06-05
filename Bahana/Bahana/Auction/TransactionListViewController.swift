@@ -131,6 +131,7 @@ class TransactionListViewController: UIViewController {
         super.viewWillAppear(animated)
         setNavigationItems()
         showLoading(true)
+        self.data.removeAll()
         getData(lastId: nil)
     }
     

@@ -134,6 +134,7 @@ class AuctionListViewController: UIViewController {
         super.viewWillAppear(animated)
         setNavigationItems()
         showLoading(true)
+        self.data.removeAll()
         self.getData(lastId: nil, lastDate: nil, lastType: nil)
     }
     
