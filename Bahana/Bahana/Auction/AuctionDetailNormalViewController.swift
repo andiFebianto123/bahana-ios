@@ -63,8 +63,6 @@ class AuctionDetailNormalViewController: UIViewController {
     
     var loadingView = UIView()
     
-    var currentHeight: CGFloat!
-    
     var presenter: AuctionDetailNormalPresenter!
     
     var id = Int()
@@ -216,9 +214,10 @@ class AuctionDetailNormalViewController: UIViewController {
 
     @objc func backButtonPressed() {
         if backToRoot {
-            
+            self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        } else {
+            self.dismiss(animated: true, completion: nil)
         }
-        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func refresh() {
@@ -241,6 +240,8 @@ class AuctionDetailNormalViewController: UIViewController {
             statusLabel.text = data.status
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
         }
+        
+        countdown()
         
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
         

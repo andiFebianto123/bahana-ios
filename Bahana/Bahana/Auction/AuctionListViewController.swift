@@ -133,7 +133,8 @@ class AuctionListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavigationItems()
-        refresh()
+        showLoading(true)
+        self.getData(lastId: nil, lastDate: nil, lastType: nil)
     }
     
     // MARK: - Navigation
@@ -249,7 +250,6 @@ class AuctionListViewController: UIViewController {
     
     @objc func refresh() {
         page = 1
-        showLoading(true)
         self.data.removeAll()
         tableView.reloadData()
         self.getData(lastId: nil, lastDate: nil, lastType: nil)
@@ -269,7 +269,7 @@ class AuctionListViewController: UIViewController {
         ]
         
         if pageType == "auction" {
-            presenter.getAuction(filter, lastId: lastId, lastDate: lastDate, page)
+            presenter.getAuction(filter, lastId: lastId, lastDate: lastDate, lastType: lastType, page)
         } else if pageType == "history" {
             presenter.getAuctionHistory(filter, lastId: lastId, lastDate: lastDate, lastType: lastType, page)
         }

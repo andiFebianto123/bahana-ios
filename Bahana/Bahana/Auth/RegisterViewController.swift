@@ -31,6 +31,8 @@ class RegisterViewController: UIViewController {
     
     var formValid = false
     
+    var backToRoot = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -129,7 +131,11 @@ class RegisterViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
         } else {
             NotificationCenter.default.post(name: Notification.Name("RegisterExit"), object: nil, userInfo: nil)
-            self.dismiss(animated: true, completion: nil)
+            if backToRoot {
+                self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+            } else {
+                self.dismiss(animated: true, completion: nil)
+            }
         }
     }
     

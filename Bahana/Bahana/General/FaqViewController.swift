@@ -67,7 +67,8 @@ class FaqViewController: UIViewController {
         tableView.register(UINib(nibName: "FaqTableViewCell", bundle: nil), forCellReuseIdentifier: "FaqTableViewCell")
         
         presenter = FaqPresenter(delegate: self)
-        refresh()
+        showLoading(true)
+        presenter.getData()
     }
     
 
@@ -102,7 +103,6 @@ class FaqViewController: UIViewController {
     }
     
     @objc func refresh() {
-        showLoading(true)
         presenter.getData()
     }
     

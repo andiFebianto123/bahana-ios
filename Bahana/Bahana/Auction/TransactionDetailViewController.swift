@@ -43,6 +43,8 @@ class TransactionDetailViewController: UIViewController {
     var data: Transaction!
     var transactionID: Int!
     
+    var backToRoot = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -117,7 +119,11 @@ class TransactionDetailViewController: UIViewController {
     }
 
     @objc func backButtonPressed() {
-        self.dismiss(animated: true, completion: nil)
+        if backToRoot {
+            self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     func showLoading(_ show: Bool) {

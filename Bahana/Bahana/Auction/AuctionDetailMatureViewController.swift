@@ -48,6 +48,8 @@ class AuctionDetailMatureViewController: UIViewController {
     var id = Int()
     var data: AuctionDetailMature!
     
+    var backToRoot = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -168,8 +170,11 @@ class AuctionDetailMatureViewController: UIViewController {
     }
 
     @objc func backButtonPressed() {
-        self.dismiss(animated: true, completion: nil)
-        //
+        if backToRoot {
+            self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
 
     func showLoading(_ show: Bool) {

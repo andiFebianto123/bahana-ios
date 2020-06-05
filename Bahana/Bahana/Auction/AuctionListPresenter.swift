@@ -25,7 +25,7 @@ class AuctionListPresenter {
         self.delegate = delegate
     }
     
-    func getAuction(_ filter: [String: String], lastId: Int? = nil, lastDate: String? = nil, _ page: Int) {
+    func getAuction(_ filter: [String: String], lastId: Int? = nil, lastDate: String? = nil, lastType: String? = nil, _ page: Int) {
         // Get auction
         var url = String()
         switch filter["type"] {
@@ -68,9 +68,9 @@ class AuctionListPresenter {
         }
         
         // Pagination
-        if lastId != nil && lastDate != nil {
+        if lastId != nil && lastDate != nil && lastType != nil {
             let date = lastDate!.replacingOccurrences(of: " ", with: "%20")
-            let pageUrl = "last_id=\(lastId!)&last_date=\(date)&"
+            let pageUrl = "last_id=\(lastId!)&last_date=\(date)&last_type_auction=\(lastType!)&"
             url += pageUrl
         }
         //print(url)

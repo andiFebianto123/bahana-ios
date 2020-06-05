@@ -120,6 +120,7 @@ class SettingsViewController: UIViewController {
         logoutView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(menuPressed(_:))))
         
         presenter = SettingsPresenter(delegate: self)
+        showLoading(true)
         presenter.getProfile()
         
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: .languageChanged, object: nil)
@@ -209,7 +210,6 @@ class SettingsViewController: UIViewController {
     }
     
     @objc func refresh() {
-        showLoading(true)
         presenter.getProfile()
     }
     

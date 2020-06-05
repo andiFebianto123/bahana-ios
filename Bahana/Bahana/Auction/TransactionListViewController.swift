@@ -130,7 +130,8 @@ class TransactionListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavigationItems()
-        refresh()
+        showLoading(true)
+        getData(lastId: nil)
     }
     
     // MARK: - Navigation
@@ -216,7 +217,6 @@ class TransactionListViewController: UIViewController {
     
     @objc func refresh() {
         page = 1
-        showLoading(true)
         self.data.removeAll()
         tableView.reloadData()
         getData(lastId: nil)

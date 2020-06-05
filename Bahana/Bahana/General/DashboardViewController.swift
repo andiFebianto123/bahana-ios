@@ -132,6 +132,7 @@ class DashboardViewController: UIViewController {
         informationContentChevron.isHidden = true
         
         presenter = DashboardPresenter(delegate: self)
+        showLoading(true)
         presenter.getData()
         
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: .languageChanged, object: nil)
@@ -219,7 +220,6 @@ class DashboardViewController: UIViewController {
     }
     
     @objc func refresh() {
-        showLoading(true)
         presenter.getData()
     }
     

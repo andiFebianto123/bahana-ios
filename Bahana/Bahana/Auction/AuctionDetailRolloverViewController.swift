@@ -61,6 +61,8 @@ class AuctionDetailRolloverViewController: UIViewController {
     var revisionRate: String?
     var confirmationType: String!
     
+    var backToRoot = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -207,8 +209,11 @@ class AuctionDetailRolloverViewController: UIViewController {
     }
 
     @objc func backButtonPressed() {
-        self.dismiss(animated: true, completion: nil)
-        //
+        if backToRoot {
+            self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc func refresh() {
@@ -231,6 +236,8 @@ class AuctionDetailRolloverViewController: UIViewController {
             statusLabel.text = data.status
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
         }
+        
+        countdown()
         
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
         

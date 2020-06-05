@@ -56,7 +56,8 @@ class ContactViewController: UIViewController {
         tableView.delegate = self
         
         presenter = ContactPresenter(delegate: self)
-        refresh()
+        showLoading(true)
+        presenter.getData()
     }
     
 
@@ -104,7 +105,6 @@ class ContactViewController: UIViewController {
     }
     
     @objc func refresh() {
-        showLoading(true)
         presenter.getData()
     }
     

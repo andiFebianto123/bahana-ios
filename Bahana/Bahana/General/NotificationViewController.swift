@@ -74,7 +74,8 @@ class NotificationViewController: UIViewController {
         setNavigationItems()
         
         presenter = NotificationPresenter(delegate: self)
-        refresh()
+        showLoading(true)
+        getData(lastId: nil, lastDate: nil)
     }
     
 
@@ -87,31 +88,38 @@ class NotificationViewController: UIViewController {
         if segue.identifier == "showAuctionDetailNormal" {
             if let destinationVC = segue.destination as? AuctionDetailNormalViewController {
                 destinationVC.id = auctionID
+                destinationVC.backToRoot = true
             }
         } else if segue.identifier == "showAuctionDetailDirect" {
             if let destinationVC = segue.destination as? AuctionDetailDirectViewController {
                 destinationVC.id = auctionID
+                destinationVC.backToRoot = true
             }
         } else if segue.identifier == "showAuctionDetailBreak" {
             if let destinationVC = segue.destination as? AuctionDetailBreakViewController {
                 destinationVC.id = auctionID
+                destinationVC.backToRoot = true
             }
         } else if segue.identifier == "showAuctionDetailRollover" {
             if let destinationVC = segue.destination as? AuctionDetailRolloverViewController {
                 destinationVC.id = auctionID
+                destinationVC.backToRoot = true
             }
         } else if segue.identifier == "showAuctionDetailMature" {
            if let destinationVC = segue.destination as? AuctionDetailMatureViewController {
                destinationVC.id = auctionID
+            destinationVC.backToRoot = true
            }
         } else if segue.identifier == "showTransactionDetail" {
             if let destinationVC = segue.destination as? TransactionDetailViewController {
                 destinationVC.transactionID = transactionID
+                destinationVC.backToRoot = true
             }
         } else if segue.identifier == "showBestRate" {
             if let navigation = segue.destination as? UINavigationController {
                 if let destinationVC = navigation.topViewController as? RegisterViewController {
                     destinationVC.viewTo = "best_rate"
+                    destinationVC.backToRoot = true
                 }
             }
         }
@@ -145,7 +153,6 @@ class NotificationViewController: UIViewController {
     
     @objc func refresh() {
         page = 1
-        showLoading(true)
         self.data.removeAll()
         tableView.reloadData()
         getData(lastId: nil, lastDate: nil)
