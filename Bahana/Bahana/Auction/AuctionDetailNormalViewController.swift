@@ -478,11 +478,11 @@ class AuctionDetailNormalViewController: UIViewController {
             interestRate.text = interestRateContent
             interestRate.numberOfLines = 0
             interestRate.font = contentFont
-            let interestRateHeight = interestRate.intrinsicContentSize.height
+            let interestRateHeight = interestRate.intrinsicContentSize.height + 30
             interestRate.translatesAutoresizingMaskIntoConstraints = false
             interestRateView.addSubview(interestRate)
             
-            rateViewHeight += (interestRateHeight * 2) + spacing
+            rateViewHeight += interestRateHeight + spacing
             
             NSLayoutConstraint.activate([
                 interestRateTitle.leadingAnchor.constraint(equalTo: interestRateView.leadingAnchor, constant: 0),
@@ -540,11 +540,11 @@ class AuctionDetailNormalViewController: UIViewController {
                 bilyet.text = bilyetStr
                 bilyet.numberOfLines = 0
                 bilyet.font = contentFont
-                let bilyetHeight = bilyet.intrinsicContentSize.height
+                let bilyetHeight = bilyet.intrinsicContentSize.height + 30
                 bilyet.translatesAutoresizingMaskIntoConstraints = false
                 bilyetView.addSubview(bilyet)
                 
-                rateViewHeight += (bilyetHeight * 2) + spacing
+                rateViewHeight += bilyetHeight + spacing
                 
                 NSLayoutConstraint.activate([
                     investmentTitle.leadingAnchor.constraint(equalTo: investmentView.leadingAnchor, constant: 0),
