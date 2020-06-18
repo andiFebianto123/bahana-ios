@@ -124,6 +124,7 @@ func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
 
 func convertStringToDate(_ str: String) -> Date? {
     let date = DateFormatter()
+    date.locale = Locale(identifier: "en_US_POSIX")
     date.dateFormat = "yyyy-MM-dd"
     let time = date.date(from: str)
     //date.dateFormat = "MM"
@@ -134,6 +135,7 @@ func convertStringToDate(_ str: String) -> Date? {
 func convertStringToDatetime(_ str: String?) -> Date? {
     if str != nil {
         let date = DateFormatter()
+        date.locale = Locale(identifier: "en_US_POSIX")
         date.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let time = date.date(from: str!)
         return time
@@ -145,6 +147,7 @@ func convertStringToDatetime(_ str: String?) -> Date? {
 func convertDateToString(_ date: Date?, format: String = "dd MM yy") -> String? {
     if date != nil {
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
         //str.dateFormat = "yyyy-MM-dd"
         var newDate = String()
         let formats = format.components(separatedBy: " ")
@@ -198,6 +201,7 @@ func convertDateToString(_ date: Date?, format: String = "dd MM yy") -> String? 
 func convertTimeToString(_ date: Date?) -> String? {
     if date != nil {
         let str = DateFormatter()
+        str.locale = Locale(identifier: "en_US_POSIX")
         //str.dateFormat = "yyyy-MM-dd"
         str.dateFormat = "HH:mm"
         let time = str.string(from: date!)
@@ -209,6 +213,7 @@ func convertTimeToString(_ date: Date?) -> String? {
 
 func convertDatetimeToString(_ date: Date) -> String {
     let str = DateFormatter()
+    str.locale = Locale(identifier: "en_US_POSIX")
     str.dateFormat = "yyyy-MM-dd HH:mm:ss"
     let time = str.string(from: date)
     return time
