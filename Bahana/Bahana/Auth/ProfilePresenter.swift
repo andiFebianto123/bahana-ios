@@ -215,10 +215,10 @@ class ProfilePresenter {
             "phone": data["phone"]!,
             "other_name": data["pic_alternative"]!,
             "other_phone": data["phone_alternative"]!,
-            "parent_bank_id": data["bank"]!,
-            "bank_name": data["bank_name"]!,
-            "branch_id": data["bank_branch"]!,
-            "branch_name": data["bank_branch_name"]!,
+            //"parent_bank_id": data["bank"]!,
+            //"bank_name": data["bank_name"]!,
+            //"branch_id": data["bank_branch"]!,
+            //"branch_name": data["bank_branch_name"]!,
             "address": data["bank_branch_address"]!,
             "bank_type": data["bank_type"]!,
             "devisa": data["foreign_exchange"]!.lowercased(),
@@ -229,7 +229,7 @@ class ProfilePresenter {
             "return_start_date": data["return_to_start_date"]!.lowercased(),
             "holiday_interest": data["holiday_interest"]!,
             "password": data["password"]!,
-            "password_confirmation": data["password_confirmation"]!,
+            "re_password": data["password_confirmation"]!,
         ]
         
         Alamofire.request(WEB_API_URL + "api/v1/me", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
