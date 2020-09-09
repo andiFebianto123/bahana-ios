@@ -8,6 +8,7 @@
 
 import UIKit
 
+@available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -17,11 +18,32 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
         
-        let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
-        let initialViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
-        self.window?.rootViewController = initialViewController
+        // If language not setted yet, set default language to Bahasa
+        if getLocalData(key: "language") == "" {
+            let locale = Bundle.main.preferredLocalizations.first!
+            if locale == "id" {
+                setLocalData(["language": "language_id"])
+            } else {
+                setLocalData(["language": "language_en"])
+            }
+        }
+        
+        // Check if app update available
+        isAppUpdateAvailable() { isAvailable in
+            if isAvailable {
+                let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let appUpdateViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "AppUpdate") as UIViewController
+                self.window?.rootViewController = appUpdateViewController
+            } else if !isLoggedIn() {
+                // Check if user already logged in
+                let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
+                let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
+                self.window?.rootViewController = loginViewController
+            }
+        }
+        
+        guard let _ = (scene as? UIWindowScene) else { return }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

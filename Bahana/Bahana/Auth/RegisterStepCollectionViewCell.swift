@@ -17,7 +17,7 @@ class RegisterStepCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        numberView.layer.cornerRadius = 12
+        numberView.layer.cornerRadius = 8
         numberView.layer.masksToBounds = true
         number.textColor = UIColor.white
         setInactive()

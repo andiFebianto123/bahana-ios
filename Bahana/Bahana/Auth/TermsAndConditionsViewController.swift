@@ -11,7 +11,8 @@ import WebKit
 
 class TermsAndConditionsViewController: UIViewController {
 
-    @IBOutlet weak var webView: WKWebView!
+    var webView: WKWebView!
+    var activityIndicatorView = UIActivityIndicatorView()
     
     var presenter: TermsAndConditionsPresenter!
     
@@ -19,8 +20,37 @@ class TermsAndConditionsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        let config = WKWebViewConfiguration()
+        
+        config.userContentController.add(self, name: "jsHandler")
+        
+        webView = WKWebView(frame: self.view.frame, configuration: config)
+        webView.uiDelegate = self
+        webView.navigationDelegate = self
+        view.addSubview(webView)
+        
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            webView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 20)
+        ])
+        
+        webView.addSubview(activityIndicatorView)
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            activityIndicatorView.centerXAnchor.constraint(equalTo: webView.centerXAnchor, constant: 0),
+            activityIndicatorView.centerYAnchor.constraint(equalTo: webView.centerYAnchor, constant: 0),
+        ])
+        activityIndicatorView.startAnimating()
+        
         presenter = TermsAndConditionsPresenter(delegate: self)
         presenter.getTC()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(verify(notification:)), name: Notification.Name("RegisterNext"), object: nil)
     }
     
 
@@ -33,11 +63,37 @@ class TermsAndConditionsViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    @objc func verify(notification:Notification) {
+        if let data = notification.userInfo as? [String: Int] {
+            let idx = data["idx"]!
+            if idx == 2 {
+                NotificationCenter.default.post(name: Notification.Name("RegisterNextValidation"), object: nil, userInfo: ["idx": 3])
+            }
+        }
+    }
+}
 
+extension TermsAndConditionsViewController: WKUIDelegate {
+    
+}
+
+extension TermsAndConditionsViewController: WKNavigationDelegate {
+    
+}
+
+extension TermsAndConditionsViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if message.name == "jsHandler" {
+            NotificationCenter.default.post(name: Notification.Name("RegisterAgreement"), object: nil, userInfo: ["isChecked": message.body])
+        }
+    }
+    
 }
 
 extension TermsAndConditionsViewController: TermsAndConditionsDelegate {
     func setData(_ data: String) {
+        activityIndicatorView.stopAnimating()
         webView.loadHTMLString(data, baseURL: nil)
     }
 }

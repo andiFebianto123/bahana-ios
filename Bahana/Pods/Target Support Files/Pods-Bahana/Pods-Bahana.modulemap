@@ -1,4 +1,4 @@
-framework module Pods_Bahana {
+module Pods_Bahana {
   umbrella header "Pods-Bahana-umbrella.h"
 
   export *

@@ -7,10 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3EEAAED73B249DE305A0FBF5 /* Pods_Bahana.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 514ED3B16B7529AD889E8B31 /* Pods_Bahana.framework */; };
+		044AD13C29CCC1528766178D /* libPods-Bahana.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43EA881E43046610D789804C /* libPods-Bahana.a */; };
 		BC067DB323E7085500605FAA /* BestRatePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC067DB223E7085500605FAA /* BestRatePresenter.swift */; };
 		BC081C3623E7E75D00FC7763 /* SearchablePushRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC081C3523E7E75D00FC7763 /* SearchablePushRow.swift */; };
+		BC12BC8D2408E6AB00728F13 /* AuctionDetailConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC12BC8C2408E6AA00728F13 /* AuctionDetailConfirmationViewController.swift */; };
+		BC14BF3B2417456C00D84A0A /* ChangeLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF3A2417456B00D84A0A /* ChangeLanguageViewController.swift */; };
+		BC14BF3D24174E8C00D84A0A /* ChangeLanguageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF3C24174E8C00D84A0A /* ChangeLanguageTableViewCell.swift */; };
+		BC14BF3F2417549E00D84A0A /* FaqViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF3E2417549E00D84A0A /* FaqViewController.swift */; };
+		BC14BF41241754D000D84A0A /* FaqPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF40241754D000D84A0A /* FaqPresenter.swift */; };
+		BC14BF442417591F00D84A0A /* FaqTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF422417591F00D84A0A /* FaqTableViewCell.swift */; };
+		BC14BF452417591F00D84A0A /* FaqTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC14BF432417591F00D84A0A /* FaqTableViewCell.xib */; };
+		BC14BF47241767E900D84A0A /* ContactPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF46241767E900D84A0A /* ContactPresenter.swift */; };
+		BC14BF4924176A2300D84A0A /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF4824176A2300D84A0A /* Contact.swift */; };
+		BC14BF4B24176BA800D84A0A /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF4A24176BA800D84A0A /* ContactTableViewCell.swift */; };
+		BC14BF4D24176D7700D84A0A /* Faq.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF4C24176D7700D84A0A /* Faq.swift */; };
+		BC14BF4F241775B300D84A0A /* TransactionDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF4E241775B300D84A0A /* TransactionDetailPresenter.swift */; };
+		BC14BF512417775900D84A0A /* AuctionDetailConfirmationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC14BF502417775900D84A0A /* AuctionDetailConfirmationPresenter.swift */; };
+		BC190B65240E1E4300D11011 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC190B64240E1E4300D11011 /* Transaction.swift */; };
+		BC190B67240E77F100D11011 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC190B66240E77F100D11011 /* SettingsPresenter.swift */; };
+		BC27FF8224052283002E1188 /* AuctionDetailNormalPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC27FF8124052283002E1188 /* AuctionDetailNormalPresenter.swift */; };
+		BC27FF8424052299002E1188 /* AuctionDetailDirectPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC27FF8324052299002E1188 /* AuctionDetailDirectPresenter.swift */; };
+		BC27FF86240522B0002E1188 /* AuctionDetailBreakPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC27FF85240522B0002E1188 /* AuctionDetailBreakPresenter.swift */; };
+		BC27FF88240522C2002E1188 /* AuctionDetailRolloverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC27FF87240522C2002E1188 /* AuctionDetailRolloverPresenter.swift */; };
+		BC27FF8A24053B00002E1188 /* DashboardPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC27FF8924053B00002E1188 /* DashboardPresenter.swift */; };
 		BC298D2723E5D713004C8749 /* RegisterTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC298D2623E5D713004C8749 /* RegisterTabBarViewController.swift */; };
+		BC2F94F923E93AFD00323DB4 /* RegisterPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC2F94F823E93AFD00323DB4 /* RegisterPresenter.swift */; };
 		BC472B5B23E3E1F300FA2A6F /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B5A23E3E1F300FA2A6F /* RegisterViewController.swift */; };
 		BC472B5D23E3E32800FA2A6F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B5C23E3E32800FA2A6F /* ProfileViewController.swift */; };
 		BC472B5F23E3E35100FA2A6F /* BestRateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B5E23E3E35100FA2A6F /* BestRateViewController.swift */; };
@@ -22,6 +43,15 @@
 		BC472B6E23E4358A00FA2A6F /* Bank.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B6D23E4358A00FA2A6F /* Bank.swift */; };
 		BC472B7023E437D200FA2A6F /* BankBranch.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B6F23E437D200FA2A6F /* BankBranch.swift */; };
 		BC472B7423E44ACC00FA2A6F /* TermsAndConditionsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC472B7323E44ACB00FA2A6F /* TermsAndConditionsPresenter.swift */; };
+		BC5539D424874B5700997E9C /* AuctionNormalInterestRateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5539D324874B5700997E9C /* AuctionNormalInterestRateViewController.swift */; };
+		BC5BC4C7242CB236003A47AB /* AuctionDetailMaturePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BC4C6242CB235003A47AB /* AuctionDetailMaturePresenter.swift */; };
+		BC5BC4C9242CB25D003A47AB /* AuctionDetailMatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BC4C8242CB25D003A47AB /* AuctionDetailMatureViewController.swift */; };
+		BC5BC4CB242CB527003A47AB /* AuctionDetailMature.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5BC4CA242CB527003A47AB /* AuctionDetailMature.swift */; };
+		BC75E42D2412042500CB2A64 /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BC7679802415EE5400683F2E /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC76797F2415EE5400683F2E /* ContactViewController.swift */; };
+		BC76798224162D5600683F2E /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC76798124162D5600683F2E /* NotificationViewController.swift */; };
+		BC76798424162ED200683F2E /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC76798324162ED200683F2E /* NotificationTableViewCell.swift */; };
+		BC767986241631AD00683F2E /* NotificationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC767985241631AD00683F2E /* NotificationPresenter.swift */; };
 		BC81C13923E15D3A004DBBD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81C13823E15D3A004DBBD3 /* AppDelegate.swift */; };
 		BC81C13B23E15D3A004DBBD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81C13A23E15D3A004DBBD3 /* SceneDelegate.swift */; };
 		BC81C13D23E15D3A004DBBD3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC81C13C23E15D3A004DBBD3 /* ViewController.swift */; };
@@ -29,17 +59,80 @@
 		BC81C14223E15D3C004DBBD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC81C14123E15D3C004DBBD3 /* Assets.xcassets */; };
 		BC81C14523E15D3C004DBBD3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC81C14323E15D3C004DBBD3 /* LaunchScreen.storyboard */; };
 		BC81C14E23E15E70004DBBD3 /* Auction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC81C14D23E15E70004DBBD3 /* Auction.storyboard */; };
+		BC86E588241633B0009C12A5 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC86E587241633B0009C12A5 /* Notification.swift */; };
+		BCA2BABC23F40BAB00E219B2 /* TransactionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA2BABB23F40BAB00E219B2 /* TransactionListViewController.swift */; };
+		BCA2BABE23F40BC400E219B2 /* TransactionListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA2BABD23F40BC400E219B2 /* TransactionListPresenter.swift */; };
+		BCA2BAC023F40C1D00E219B2 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA2BABF23F40C1D00E219B2 /* TransactionDetailViewController.swift */; };
+		BCC0F7572488DBC2003E82B2 /* AuctionNormalBidViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC0F7562488DBC2003E82B2 /* AuctionNormalBidViewController.swift */; };
+		BCC95ACF23EAC04600515773 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95ACE23EAC04600515773 /* ForgotPasswordViewController.swift */; };
+		BCC95AD123EAC14300515773 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD023EAC14300515773 /* LoginPresenter.swift */; };
+		BCC95AD323EAC15600515773 /* ForgotPasswordPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD223EAC15600515773 /* ForgotPasswordPresenter.swift */; };
+		BCC95AD823EADD1C00515773 /* AuctionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC95AD723EADD1C00515773 /* AuctionListViewController.swift */; };
+		BCD9FE052471745F00CE0697 /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD9FE042471745F00CE0697 /* DashboardViewController.swift */; };
+		BCD9FE072471952200CE0697 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD9FE062471952100CE0697 /* SettingsViewController.swift */; };
+		BCE00CA72407865F00EDBADE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BCE00CA92407865F00EDBADE /* Localizable.strings */; };
 		BCE40BF723E2AAB200034744 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCE40BF623E2AAB200034744 /* Auth.storyboard */; };
 		BCE40BF923E2AE2F00034744 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE40BF823E2AE2F00034744 /* LoginViewController.swift */; };
+		BCE4862923F152F8007961CE /* Auction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE4862823F152F8007961CE /* Auction.swift */; };
+		BCE5B5BF24739EA200777502 /* AuctionListReloadTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE5B5BD24739EA200777502 /* AuctionListReloadTableViewCell.swift */; };
+		BCE5B5C024739EA200777502 /* AuctionListReloadTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCE5B5BE24739EA200777502 /* AuctionListReloadTableViewCell.xib */; };
+		BCF15462248113A400A6E258 /* AppUpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF15461248113A400A6E258 /* AppUpdateViewController.swift */; };
+		BCF2846123F0553800EE8FD8 /* AuctionListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF2845F23F0553800EE8FD8 /* AuctionListTableViewCell.swift */; };
+		BCF2846223F0553800EE8FD8 /* AuctionListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCF2846023F0553800EE8FD8 /* AuctionListTableViewCell.xib */; };
+		BCF7C59323EBC37B00340C4A /* GeneralTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */; };
+		BCF7C59523EBD57B00340C4A /* AuctionListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF7C59423EBD57B00340C4A /* AuctionListPresenter.swift */; };
+		BCFE9E082404CFC10013909A /* AuctionDetailBreakViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E072404CFC10013909A /* AuctionDetailBreakViewController.swift */; };
+		BCFE9E0A2404CFE70013909A /* AuctionDetailRolloverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E092404CFE70013909A /* AuctionDetailRolloverViewController.swift */; };
+		BCFE9E0C2404D0B10013909A /* AuctionDetailNormalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E0B2404D0B10013909A /* AuctionDetailNormalViewController.swift */; };
+		BCFE9E0E2404D0EE0013909A /* AuctionDetailDirectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E0D2404D0EE0013909A /* AuctionDetailDirectViewController.swift */; };
+		BCFE9E102404DF550013909A /* AuctionDetailNormal.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E0F2404DF550013909A /* AuctionDetailNormal.swift */; };
+		BCFE9E122404DF680013909A /* AuctionDetailBreak.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E112404DF680013909A /* AuctionDetailBreak.swift */; };
+		BCFE9E142404DF780013909A /* AuctionDetailRollover.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E132404DF770013909A /* AuctionDetailRollover.swift */; };
+		BCFE9E162404DF8A0013909A /* AuctionDetailDirect.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E152404DF890013909A /* AuctionDetailDirect.swift */; };
+		BCFE9E182404E0CE0013909A /* Bilyet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E172404E0CE0013909A /* Bilyet.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		BC75E42E2412042500CB2A64 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BC75E42D2412042500CB2A64 /* (null) in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		06236A606AFAD3B54D55D1E1 /* Pods-Bahana.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bahana.release.xcconfig"; path = "Target Support Files/Pods-Bahana/Pods-Bahana.release.xcconfig"; sourceTree = "<group>"; };
-		24ADD201419B79B4CE7BEBD0 /* Pods-Bahana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bahana.debug.xcconfig"; path = "Target Support Files/Pods-Bahana/Pods-Bahana.debug.xcconfig"; sourceTree = "<group>"; };
-		514ED3B16B7529AD889E8B31 /* Pods_Bahana.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bahana.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		24F4FBEE3CEE179612665B2E /* Pods-Bahana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bahana.debug.xcconfig"; path = "Target Support Files/Pods-Bahana/Pods-Bahana.debug.xcconfig"; sourceTree = "<group>"; };
+		43EA881E43046610D789804C /* libPods-Bahana.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bahana.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC067DB223E7085500605FAA /* BestRatePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestRatePresenter.swift; sourceTree = "<group>"; };
 		BC081C3523E7E75D00FC7763 /* SearchablePushRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchablePushRow.swift; sourceTree = "<group>"; };
+		BC12BC8C2408E6AA00728F13 /* AuctionDetailConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailConfirmationViewController.swift; sourceTree = "<group>"; };
+		BC14BF3A2417456B00D84A0A /* ChangeLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeLanguageViewController.swift; sourceTree = "<group>"; };
+		BC14BF3C24174E8C00D84A0A /* ChangeLanguageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeLanguageTableViewCell.swift; sourceTree = "<group>"; };
+		BC14BF3E2417549E00D84A0A /* FaqViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqViewController.swift; sourceTree = "<group>"; };
+		BC14BF40241754D000D84A0A /* FaqPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqPresenter.swift; sourceTree = "<group>"; };
+		BC14BF422417591F00D84A0A /* FaqTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqTableViewCell.swift; sourceTree = "<group>"; };
+		BC14BF432417591F00D84A0A /* FaqTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FaqTableViewCell.xib; sourceTree = "<group>"; };
+		BC14BF46241767E900D84A0A /* ContactPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactPresenter.swift; sourceTree = "<group>"; };
+		BC14BF4824176A2300D84A0A /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		BC14BF4A24176BA800D84A0A /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
+		BC14BF4C24176D7700D84A0A /* Faq.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Faq.swift; sourceTree = "<group>"; };
+		BC14BF4E241775B300D84A0A /* TransactionDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailPresenter.swift; sourceTree = "<group>"; };
+		BC14BF502417775900D84A0A /* AuctionDetailConfirmationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailConfirmationPresenter.swift; sourceTree = "<group>"; };
+		BC190B64240E1E4300D11011 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		BC190B66240E77F100D11011 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
+		BC27FF8124052283002E1188 /* AuctionDetailNormalPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailNormalPresenter.swift; sourceTree = "<group>"; };
+		BC27FF8324052299002E1188 /* AuctionDetailDirectPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailDirectPresenter.swift; sourceTree = "<group>"; };
+		BC27FF85240522B0002E1188 /* AuctionDetailBreakPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailBreakPresenter.swift; sourceTree = "<group>"; };
+		BC27FF87240522C2002E1188 /* AuctionDetailRolloverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailRolloverPresenter.swift; sourceTree = "<group>"; };
+		BC27FF8924053B00002E1188 /* DashboardPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardPresenter.swift; sourceTree = "<group>"; };
 		BC298D2623E5D713004C8749 /* RegisterTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterTabBarViewController.swift; sourceTree = "<group>"; };
+		BC2F94F823E93AFD00323DB4 /* RegisterPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPresenter.swift; sourceTree = "<group>"; };
 		BC472B5A23E3E1F300FA2A6F /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		BC472B5C23E3E32800FA2A6F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BC472B5E23E3E35100FA2A6F /* BestRateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestRateViewController.swift; sourceTree = "<group>"; };
@@ -51,7 +144,17 @@
 		BC472B6D23E4358A00FA2A6F /* Bank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bank.swift; sourceTree = "<group>"; };
 		BC472B6F23E437D200FA2A6F /* BankBranch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankBranch.swift; sourceTree = "<group>"; };
 		BC472B7323E44ACB00FA2A6F /* TermsAndConditionsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsPresenter.swift; sourceTree = "<group>"; };
-		BC81C13523E15D3A004DBBD3 /* Bahana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bahana.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC5539D324874B5700997E9C /* AuctionNormalInterestRateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionNormalInterestRateViewController.swift; sourceTree = "<group>"; };
+		BC5BC4C6242CB235003A47AB /* AuctionDetailMaturePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailMaturePresenter.swift; sourceTree = "<group>"; };
+		BC5BC4C8242CB25D003A47AB /* AuctionDetailMatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailMatureViewController.swift; sourceTree = "<group>"; };
+		BC5BC4CA242CB527003A47AB /* AuctionDetailMature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailMature.swift; sourceTree = "<group>"; };
+		BC75E4292411FBCE00CB2A64 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC75E42F2412054500CB2A64 /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC76797F2415EE5400683F2E /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
+		BC76798124162D5600683F2E /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		BC76798324162ED200683F2E /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
+		BC767985241631AD00683F2E /* NotificationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPresenter.swift; sourceTree = "<group>"; };
+		BC81C13523E15D3A004DBBD3 /* DAMS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DAMS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC81C13823E15D3A004DBBD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BC81C13A23E15D3A004DBBD3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BC81C13C23E15D3A004DBBD3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -60,8 +163,41 @@
 		BC81C14423E15D3C004DBBD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BC81C14623E15D3C004DBBD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC81C14D23E15E70004DBBD3 /* Auction.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auction.storyboard; sourceTree = "<group>"; };
+		BC86E587241633B0009C12A5 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		BCA2BABB23F40BAB00E219B2 /* TransactionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListViewController.swift; sourceTree = "<group>"; };
+		BCA2BABD23F40BC400E219B2 /* TransactionListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionListPresenter.swift; sourceTree = "<group>"; };
+		BCA2BABF23F40C1D00E219B2 /* TransactionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionDetailViewController.swift; sourceTree = "<group>"; };
+		BCC0F7562488DBC2003E82B2 /* AuctionNormalBidViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionNormalBidViewController.swift; sourceTree = "<group>"; };
+		BCC95ACE23EAC04600515773 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		BCC95AD023EAC14300515773 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		BCC95AD223EAC15600515773 /* ForgotPasswordPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordPresenter.swift; sourceTree = "<group>"; };
+		BCC95AD723EADD1C00515773 /* AuctionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListViewController.swift; sourceTree = "<group>"; };
+		BCD9FE042471745F00CE0697 /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
+		BCD9FE062471952100CE0697 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		BCE00CA32407861300EDBADE /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Main.strings; sourceTree = "<group>"; };
+		BCE00CA42407861400EDBADE /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		BCE00CA82407865F00EDBADE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BCE00CAA2407866A00EDBADE /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BCE40BF623E2AAB200034744 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
 		BCE40BF823E2AE2F00034744 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BCE4862823F152F8007961CE /* Auction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auction.swift; sourceTree = "<group>"; };
+		BCE5B5BD24739EA200777502 /* AuctionListReloadTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListReloadTableViewCell.swift; sourceTree = "<group>"; };
+		BCE5B5BE24739EA200777502 /* AuctionListReloadTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionListReloadTableViewCell.xib; sourceTree = "<group>"; };
+		BCF15461248113A400A6E258 /* AppUpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateViewController.swift; sourceTree = "<group>"; };
+		BCF2845F23F0553800EE8FD8 /* AuctionListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListTableViewCell.swift; sourceTree = "<group>"; };
+		BCF2846023F0553800EE8FD8 /* AuctionListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionListTableViewCell.xib; sourceTree = "<group>"; };
+		BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTabBarViewController.swift; sourceTree = "<group>"; };
+		BCF7C59423EBD57B00340C4A /* AuctionListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionListPresenter.swift; sourceTree = "<group>"; };
+		BCFE9E072404CFC10013909A /* AuctionDetailBreakViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailBreakViewController.swift; sourceTree = "<group>"; };
+		BCFE9E092404CFE70013909A /* AuctionDetailRolloverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailRolloverViewController.swift; sourceTree = "<group>"; };
+		BCFE9E0B2404D0B10013909A /* AuctionDetailNormalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailNormalViewController.swift; sourceTree = "<group>"; };
+		BCFE9E0D2404D0EE0013909A /* AuctionDetailDirectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailDirectViewController.swift; sourceTree = "<group>"; };
+		BCFE9E0F2404DF550013909A /* AuctionDetailNormal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailNormal.swift; sourceTree = "<group>"; };
+		BCFE9E112404DF680013909A /* AuctionDetailBreak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailBreak.swift; sourceTree = "<group>"; };
+		BCFE9E132404DF770013909A /* AuctionDetailRollover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailRollover.swift; sourceTree = "<group>"; };
+		BCFE9E152404DF890013909A /* AuctionDetailDirect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailDirect.swift; sourceTree = "<group>"; };
+		BCFE9E172404E0CE0013909A /* Bilyet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bilyet.swift; sourceTree = "<group>"; };
+		DDC1E239146E74E66FC4B49D /* Pods-Bahana.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bahana.release.xcconfig"; path = "Target Support Files/Pods-Bahana/Pods-Bahana.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +205,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3EEAAED73B249DE305A0FBF5 /* Pods_Bahana.framework in Frameworks */,
+				044AD13C29CCC1528766178D /* libPods-Bahana.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +225,17 @@
 			children = (
 				BC472B6D23E4358A00FA2A6F /* Bank.swift */,
 				BC472B6F23E437D200FA2A6F /* BankBranch.swift */,
+				BCE4862823F152F8007961CE /* Auction.swift */,
+				BCFE9E172404E0CE0013909A /* Bilyet.swift */,
+				BCFE9E0F2404DF550013909A /* AuctionDetailNormal.swift */,
+				BCFE9E152404DF890013909A /* AuctionDetailDirect.swift */,
+				BCFE9E112404DF680013909A /* AuctionDetailBreak.swift */,
+				BCFE9E132404DF770013909A /* AuctionDetailRollover.swift */,
+				BC5BC4CA242CB527003A47AB /* AuctionDetailMature.swift */,
+				BC190B64240E1E4300D11011 /* Transaction.swift */,
+				BC86E587241633B0009C12A5 /* Notification.swift */,
+				BC14BF4824176A2300D84A0A /* Contact.swift */,
+				BC14BF4C24176D7700D84A0A /* Faq.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -106,7 +253,7 @@
 		BC81C13623E15D3A004DBBD3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BC81C13523E15D3A004DBBD3 /* Bahana.app */,
+				BC81C13523E15D3A004DBBD3 /* DAMS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -117,13 +264,15 @@
 				BC81C13823E15D3A004DBBD3 /* AppDelegate.swift */,
 				BC81C13A23E15D3A004DBBD3 /* SceneDelegate.swift */,
 				BC81C13C23E15D3A004DBBD3 /* ViewController.swift */,
+				BC81C14623E15D3C004DBBD3 /* Info.plist */,
+				BCE00CA92407865F00EDBADE /* Localizable.strings */,
 				BC81C13E23E15D3A004DBBD3 /* Main.storyboard */,
 				BC81C14123E15D3C004DBBD3 /* Assets.xcassets */,
 				BC81C14323E15D3C004DBBD3 /* LaunchScreen.storyboard */,
-				BC81C14623E15D3C004DBBD3 /* Info.plist */,
 				BC472B6A23E42B7000FA2A6F /* sharedCode.swift */,
 				BC081C3723E7F22500FC7763 /* EurekaCustom */,
 				BC472B6C23E4357900FA2A6F /* Model */,
+				BCC95AD623EADCA400515773 /* General */,
 				BCE40BF523E2A1D600034744 /* Auth */,
 				BC81C14C23E15D72004DBBD3 /* Auction */,
 			);
@@ -134,8 +283,57 @@
 			isa = PBXGroup;
 			children = (
 				BC81C14D23E15E70004DBBD3 /* Auction.storyboard */,
+				BCC95AD723EADD1C00515773 /* AuctionListViewController.swift */,
+				BCF7C59423EBD57B00340C4A /* AuctionListPresenter.swift */,
+				BCF2845F23F0553800EE8FD8 /* AuctionListTableViewCell.swift */,
+				BCF2846023F0553800EE8FD8 /* AuctionListTableViewCell.xib */,
+				BCFE9E0B2404D0B10013909A /* AuctionDetailNormalViewController.swift */,
+				BC5539D324874B5700997E9C /* AuctionNormalInterestRateViewController.swift */,
+				BCC0F7562488DBC2003E82B2 /* AuctionNormalBidViewController.swift */,
+				BC27FF8124052283002E1188 /* AuctionDetailNormalPresenter.swift */,
+				BCFE9E0D2404D0EE0013909A /* AuctionDetailDirectViewController.swift */,
+				BC27FF8324052299002E1188 /* AuctionDetailDirectPresenter.swift */,
+				BCFE9E072404CFC10013909A /* AuctionDetailBreakViewController.swift */,
+				BC27FF85240522B0002E1188 /* AuctionDetailBreakPresenter.swift */,
+				BCFE9E092404CFE70013909A /* AuctionDetailRolloverViewController.swift */,
+				BC27FF87240522C2002E1188 /* AuctionDetailRolloverPresenter.swift */,
+				BC5BC4C8242CB25D003A47AB /* AuctionDetailMatureViewController.swift */,
+				BC5BC4C6242CB235003A47AB /* AuctionDetailMaturePresenter.swift */,
+				BC12BC8C2408E6AA00728F13 /* AuctionDetailConfirmationViewController.swift */,
+				BC14BF502417775900D84A0A /* AuctionDetailConfirmationPresenter.swift */,
+				BCA2BABB23F40BAB00E219B2 /* TransactionListViewController.swift */,
+				BCA2BABD23F40BC400E219B2 /* TransactionListPresenter.swift */,
+				BCA2BABF23F40C1D00E219B2 /* TransactionDetailViewController.swift */,
+				BC14BF4E241775B300D84A0A /* TransactionDetailPresenter.swift */,
+				BCE5B5BD24739EA200777502 /* AuctionListReloadTableViewCell.swift */,
+				BCE5B5BE24739EA200777502 /* AuctionListReloadTableViewCell.xib */,
 			);
 			path = Auction;
+			sourceTree = "<group>";
+		};
+		BCC95AD623EADCA400515773 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				BCF15461248113A400A6E258 /* AppUpdateViewController.swift */,
+				BCF7C59223EBC37B00340C4A /* GeneralTabBarViewController.swift */,
+				BCD9FE042471745F00CE0697 /* DashboardViewController.swift */,
+				BC27FF8924053B00002E1188 /* DashboardPresenter.swift */,
+				BCD9FE062471952100CE0697 /* SettingsViewController.swift */,
+				BC190B66240E77F100D11011 /* SettingsPresenter.swift */,
+				BC76797F2415EE5400683F2E /* ContactViewController.swift */,
+				BC14BF46241767E900D84A0A /* ContactPresenter.swift */,
+				BC14BF4A24176BA800D84A0A /* ContactTableViewCell.swift */,
+				BC76798124162D5600683F2E /* NotificationViewController.swift */,
+				BC76798324162ED200683F2E /* NotificationTableViewCell.swift */,
+				BC767985241631AD00683F2E /* NotificationPresenter.swift */,
+				BC14BF3A2417456B00D84A0A /* ChangeLanguageViewController.swift */,
+				BC14BF3C24174E8C00D84A0A /* ChangeLanguageTableViewCell.swift */,
+				BC14BF3E2417549E00D84A0A /* FaqViewController.swift */,
+				BC14BF40241754D000D84A0A /* FaqPresenter.swift */,
+				BC14BF422417591F00D84A0A /* FaqTableViewCell.swift */,
+				BC14BF432417591F00D84A0A /* FaqTableViewCell.xib */,
+			);
+			path = General;
 			sourceTree = "<group>";
 		};
 		BCE40BF523E2A1D600034744 /* Auth */ = {
@@ -143,7 +341,9 @@
 			children = (
 				BCE40BF623E2AAB200034744 /* Auth.storyboard */,
 				BCE40BF823E2AE2F00034744 /* LoginViewController.swift */,
+				BCC95AD023EAC14300515773 /* LoginPresenter.swift */,
 				BC472B5A23E3E1F300FA2A6F /* RegisterViewController.swift */,
+				BC2F94F823E93AFD00323DB4 /* RegisterPresenter.swift */,
 				BC298D2623E5D713004C8749 /* RegisterTabBarViewController.swift */,
 				BC472B6423E3FCB800FA2A6F /* RegisterStepCollectionViewCell.swift */,
 				BC472B6523E3FCB800FA2A6F /* RegisterStepCollectionViewCell.xib */,
@@ -153,6 +353,8 @@
 				BC067DB223E7085500605FAA /* BestRatePresenter.swift */,
 				BC472B6023E3E3A900FA2A6F /* TermsAndConditionsViewController.swift */,
 				BC472B7323E44ACB00FA2A6F /* TermsAndConditionsPresenter.swift */,
+				BCC95ACE23EAC04600515773 /* ForgotPasswordViewController.swift */,
+				BCC95AD223EAC15600515773 /* ForgotPasswordPresenter.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -160,7 +362,9 @@
 		CDD6BF071836F8E2DA924DCD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				514ED3B16B7529AD889E8B31 /* Pods_Bahana.framework */,
+				BC75E42F2412054500CB2A64 /* Alamofire.framework */,
+				BC75E4292411FBCE00CB2A64 /* Alamofire.framework */,
+				43EA881E43046610D789804C /* libPods-Bahana.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -168,8 +372,8 @@
 		EDA99568F78E804076090DE9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				24ADD201419B79B4CE7BEBD0 /* Pods-Bahana.debug.xcconfig */,
-				06236A606AFAD3B54D55D1E1 /* Pods-Bahana.release.xcconfig */,
+				24F4FBEE3CEE179612665B2E /* Pods-Bahana.debug.xcconfig */,
+				DDC1E239146E74E66FC4B49D /* Pods-Bahana.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -181,11 +385,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BC81C14923E15D3C004DBBD3 /* Build configuration list for PBXNativeTarget "Bahana" */;
 			buildPhases = (
-				A25590A6588405C2197D98A5 /* [CP] Check Pods Manifest.lock */,
+				4187D7FA97D9CB29F6DCE825 /* [CP] Check Pods Manifest.lock */,
 				BC81C13123E15D3A004DBBD3 /* Sources */,
 				BC81C13223E15D3A004DBBD3 /* Frameworks */,
 				BC81C13323E15D3A004DBBD3 /* Resources */,
-				A3BA753DDFB5F6CCD293F15D /* [CP] Embed Pods Frameworks */,
+				BC75E42E2412042500CB2A64 /* Embed Frameworks */,
+				329F9DB2AF0E0516FA25FDC1 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -193,7 +398,7 @@
 			);
 			name = Bahana;
 			productName = Bahana;
-			productReference = BC81C13523E15D3A004DBBD3 /* Bahana.app */;
+			productReference = BC81C13523E15D3A004DBBD3 /* DAMS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -218,6 +423,7 @@
 			knownRegions = (
 				en,
 				Base,
+				id,
 			);
 			mainGroup = BC81C12C23E15D39004DBBD3;
 			productRefGroup = BC81C13623E15D3A004DBBD3 /* Products */;
@@ -238,15 +444,36 @@
 				BC472B6723E3FCB800FA2A6F /* RegisterStepCollectionViewCell.xib in Resources */,
 				BC81C14223E15D3C004DBBD3 /* Assets.xcassets in Resources */,
 				BCE40BF723E2AAB200034744 /* Auth.storyboard in Resources */,
+				BCE5B5C024739EA200777502 /* AuctionListReloadTableViewCell.xib in Resources */,
+				BCF2846223F0553800EE8FD8 /* AuctionListTableViewCell.xib in Resources */,
+				BCE00CA72407865F00EDBADE /* Localizable.strings in Resources */,
 				BC81C14023E15D3A004DBBD3 /* Main.storyboard in Resources */,
 				BC81C14E23E15E70004DBBD3 /* Auction.storyboard in Resources */,
+				BC14BF452417591F00D84A0A /* FaqTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A25590A6588405C2197D98A5 /* [CP] Check Pods Manifest.lock */ = {
+		329F9DB2AF0E0516FA25FDC1 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4187D7FA97D9CB29F6DCE825 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -268,23 +495,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A3BA753DDFB5F6CCD293F15D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bahana/Pods-Bahana-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -292,22 +502,76 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC76798424162ED200683F2E /* NotificationTableViewCell.swift in Sources */,
+				BC5BC4C9242CB25D003A47AB /* AuctionDetailMatureViewController.swift in Sources */,
+				BCE5B5BF24739EA200777502 /* AuctionListReloadTableViewCell.swift in Sources */,
+				BCC0F7572488DBC2003E82B2 /* AuctionNormalBidViewController.swift in Sources */,
 				BC472B6123E3E3A900FA2A6F /* TermsAndConditionsViewController.swift in Sources */,
+				BCA2BABC23F40BAB00E219B2 /* TransactionListViewController.swift in Sources */,
+				BC14BF3F2417549E00D84A0A /* FaqViewController.swift in Sources */,
+				BC14BF4B24176BA800D84A0A /* ContactTableViewCell.swift in Sources */,
 				BC472B5D23E3E32800FA2A6F /* ProfileViewController.swift in Sources */,
+				BC27FF86240522B0002E1188 /* AuctionDetailBreakPresenter.swift in Sources */,
+				BC14BF4D24176D7700D84A0A /* Faq.swift in Sources */,
 				BC298D2723E5D713004C8749 /* RegisterTabBarViewController.swift in Sources */,
 				BCE40BF923E2AE2F00034744 /* LoginViewController.swift in Sources */,
+				BC14BF4F241775B300D84A0A /* TransactionDetailPresenter.swift in Sources */,
+				BCC95AD123EAC14300515773 /* LoginPresenter.swift in Sources */,
+				BC5BC4CB242CB527003A47AB /* AuctionDetailMature.swift in Sources */,
+				BCFE9E122404DF680013909A /* AuctionDetailBreak.swift in Sources */,
 				BC472B7423E44ACC00FA2A6F /* TermsAndConditionsPresenter.swift in Sources */,
 				BC472B5B23E3E1F300FA2A6F /* RegisterViewController.swift in Sources */,
+				BCFE9E162404DF8A0013909A /* AuctionDetailDirect.swift in Sources */,
 				BC067DB323E7085500605FAA /* BestRatePresenter.swift in Sources */,
+				BC14BF3D24174E8C00D84A0A /* ChangeLanguageTableViewCell.swift in Sources */,
+				BCC95ACF23EAC04600515773 /* ForgotPasswordViewController.swift in Sources */,
+				BCFE9E082404CFC10013909A /* AuctionDetailBreakViewController.swift in Sources */,
+				BC190B65240E1E4300D11011 /* Transaction.swift in Sources */,
 				BC472B5F23E3E35100FA2A6F /* BestRateViewController.swift in Sources */,
+				BCC95AD323EAC15600515773 /* ForgotPasswordPresenter.swift in Sources */,
+				BC14BF512417775900D84A0A /* AuctionDetailConfirmationPresenter.swift in Sources */,
+				BC14BF41241754D000D84A0A /* FaqPresenter.swift in Sources */,
 				BC081C3623E7E75D00FC7763 /* SearchablePushRow.swift in Sources */,
+				BCE4862923F152F8007961CE /* Auction.swift in Sources */,
+				BC190B67240E77F100D11011 /* SettingsPresenter.swift in Sources */,
 				BC81C13D23E15D3A004DBBD3 /* ViewController.swift in Sources */,
+				BC14BF4924176A2300D84A0A /* Contact.swift in Sources */,
+				BCF2846123F0553800EE8FD8 /* AuctionListTableViewCell.swift in Sources */,
 				BC81C13923E15D3A004DBBD3 /* AppDelegate.swift in Sources */,
 				BC472B6B23E42B7000FA2A6F /* sharedCode.swift in Sources */,
+				BC5BC4C7242CB236003A47AB /* AuctionDetailMaturePresenter.swift in Sources */,
 				BC472B6623E3FCB800FA2A6F /* RegisterStepCollectionViewCell.swift in Sources */,
+				BCD9FE052471745F00CE0697 /* DashboardViewController.swift in Sources */,
+				BCFE9E142404DF780013909A /* AuctionDetailRollover.swift in Sources */,
+				BCF15462248113A400A6E258 /* AppUpdateViewController.swift in Sources */,
+				BC27FF88240522C2002E1188 /* AuctionDetailRolloverPresenter.swift in Sources */,
+				BC14BF442417591F00D84A0A /* FaqTableViewCell.swift in Sources */,
+				BCD9FE072471952200CE0697 /* SettingsViewController.swift in Sources */,
+				BCC95AD823EADD1C00515773 /* AuctionListViewController.swift in Sources */,
+				BC5539D424874B5700997E9C /* AuctionNormalInterestRateViewController.swift in Sources */,
+				BCA2BABE23F40BC400E219B2 /* TransactionListPresenter.swift in Sources */,
+				BC2F94F923E93AFD00323DB4 /* RegisterPresenter.swift in Sources */,
 				BC472B7023E437D200FA2A6F /* BankBranch.swift in Sources */,
+				BCFE9E102404DF550013909A /* AuctionDetailNormal.swift in Sources */,
+				BCFE9E0A2404CFE70013909A /* AuctionDetailRolloverViewController.swift in Sources */,
+				BC27FF8A24053B00002E1188 /* DashboardPresenter.swift in Sources */,
 				BC472B6E23E4358A00FA2A6F /* Bank.swift in Sources */,
+				BC27FF8424052299002E1188 /* AuctionDetailDirectPresenter.swift in Sources */,
+				BC7679802415EE5400683F2E /* ContactViewController.swift in Sources */,
+				BCFE9E0C2404D0B10013909A /* AuctionDetailNormalViewController.swift in Sources */,
+				BCF7C59523EBD57B00340C4A /* AuctionListPresenter.swift in Sources */,
+				BC12BC8D2408E6AB00728F13 /* AuctionDetailConfirmationViewController.swift in Sources */,
+				BC76798224162D5600683F2E /* NotificationViewController.swift in Sources */,
+				BC14BF47241767E900D84A0A /* ContactPresenter.swift in Sources */,
+				BC767986241631AD00683F2E /* NotificationPresenter.swift in Sources */,
+				BC27FF8224052283002E1188 /* AuctionDetailNormalPresenter.swift in Sources */,
+				BCA2BAC023F40C1D00E219B2 /* TransactionDetailViewController.swift in Sources */,
+				BC14BF3B2417456C00D84A0A /* ChangeLanguageViewController.swift in Sources */,
 				BC472B6923E4292B00FA2A6F /* ProfilePresenter.swift in Sources */,
+				BCFE9E182404E0CE0013909A /* Bilyet.swift in Sources */,
+				BC86E588241633B0009C12A5 /* Notification.swift in Sources */,
+				BCFE9E0E2404D0EE0013909A /* AuctionDetailDirectViewController.swift in Sources */,
+				BCF7C59323EBC37B00340C4A /* GeneralTabBarViewController.swift in Sources */,
 				BC81C13B23E15D3A004DBBD3 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,6 +583,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC81C13F23E15D3A004DBBD3 /* Base */,
+				BCE00CA32407861300EDBADE /* id */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -327,8 +592,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				BC81C14423E15D3C004DBBD3 /* Base */,
+				BCE00CA42407861400EDBADE /* id */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		BCE00CA92407865F00EDBADE /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BCE00CA82407865F00EDBADE /* en */,
+				BCE00CAA2407866A00EDBADE /* id */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -337,7 +612,9 @@
 		BC81C14723E15D3C004DBBD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -385,6 +662,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -397,7 +675,9 @@
 		BC81C14823E15D3C004DBBD3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -439,6 +719,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -450,39 +731,43 @@
 		};
 		BC81C14A23E15D3C004DBBD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 24ADD201419B79B4CE7BEBD0 /* Pods-Bahana.debug.xcconfig */;
+			baseConfigurationReference = 24F4FBEE3CEE179612665B2E /* Pods-Bahana.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = MX2HK2VK86;
 				INFOPLIST_FILE = Bahana/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bahana.dams;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bahanatcw.dams;
+				PRODUCT_NAME = DAMS;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		BC81C14B23E15D3C004DBBD3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06236A606AFAD3B54D55D1E1 /* Pods-Bahana.release.xcconfig */;
+			baseConfigurationReference = DDC1E239146E74E66FC4B49D /* Pods-Bahana.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = MX2HK2VK86;
 				INFOPLIST_FILE = Bahana/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bahana.dams;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.bahanatcw.dams;
+				PRODUCT_NAME = DAMS;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
