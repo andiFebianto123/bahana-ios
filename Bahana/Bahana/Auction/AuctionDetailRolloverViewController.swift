@@ -50,6 +50,135 @@ class AuctionDetailRolloverViewController: UIViewController {
     @IBOutlet weak var confirmButton: UIButton!
     @IBOutlet weak var footerLabel: UILabel!
     
+    /*TAMBAHAN ANDI*/
+    @IBOutlet weak var detailStack: UIStackView!
+    
+    @IBOutlet weak var changeMatureDateStack: UIStackView!
+    @IBOutlet weak var changeMatureTitle: UILabel!
+    @IBOutlet weak var changeMatureDateField: UITextField!
+    @IBOutlet weak var changeMatureDateButton: UIButton!
+    
+    
+    // label judul untuk previous detail
+    @IBOutlet weak var previousDetailviewStack: UIStackView!
+    @IBOutlet weak var previousDetailTitle: UILabel!
+    @IBOutlet weak var tenorPreviousDetailTitle: UILabel!
+    @IBOutlet weak var interestRatePreviousDetailTitle: UILabel!
+    @IBOutlet weak var principalPreviousDetailTitle: UILabel!
+    @IBOutlet weak var periodPreviousDetailTitle: UILabel!
+    
+    // label judul untuk new detail
+    @IBOutlet weak var newDetailviewStack: UIStackView!
+    @IBOutlet weak var newDetailTitle: UILabel!
+    @IBOutlet weak var tenorNewDetailTitle: UILabel!
+    @IBOutlet weak var requestInterestRateNewDetailTitle: UILabel!
+    @IBOutlet weak var approvedInterestRateNewDetailTitle: UILabel!
+    @IBOutlet weak var principalNewDetailTitle: UILabel!
+    @IBOutlet weak var periodNewDetailTitle: UILabel!
+    @IBOutlet weak var newDetailView: UIView!
+    
+    
+    // label value untuk previous detail
+    @IBOutlet weak var tenorPreviousDetailLabel: UILabel!
+    @IBOutlet weak var interestRatePreviousDetailLabel: UILabel!
+    @IBOutlet weak var principalPreviousDetailLabel: UILabel!
+    @IBOutlet weak var periodPreviousDetailLabel: UILabel!
+    @IBOutlet weak var previousDetailView: UIView!
+    
+    
+    // label value untuk new detail
+    @IBOutlet weak var tenorNewDetailLabel: UILabel!
+    @IBOutlet weak var requestInterestRateNewDetailLabel: UILabel!
+    @IBOutlet weak var principalNewDetailLabel: UILabel!
+    @IBOutlet weak var fieldApprovedInterestRateNewDetail: UITextField!
+    @IBOutlet weak var periodNewDetailLabel1: UILabel!
+    @IBOutlet weak var periodNewDetailLabel2: UIButton!
+    
+    // END
+    
+    func setPeriodNewDetail(){
+        // untuk mengatur bentuk value period pada new detail
+        let period1 = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - "
+        let period2 = "\(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
+        periodNewDetailLabel1.text = period1
+        periodNewDetailLabel2.setTitle("\(period2)", for: .normal)
+        periodNewDetailLabel2.contentHorizontalAlignment = .left
+    }
+    func setTitleForPreviousDetail(){
+        // untuk mengatur value judul sesuai bahasa
+        // FOR : Previoud Detail
+
+        previousDetailTitle.text = localize("previous_detail")
+        tenorPreviousDetailTitle.text = localize("tenor")
+        interestRatePreviousDetailTitle.text = localize("interest_rate")
+        principalPreviousDetailTitle.text = localize("principal_bio")
+        periodPreviousDetailTitle.text = localize("period")
+         
+    }
+    func setTitleForNewDetail(){
+        // untuk mengatur value judul sesuai bahasa
+        // FOR : New Detail
+        
+        newDetailTitle.text = localize("new_detail")
+        tenorNewDetailTitle.text = localize("tenor")
+        requestInterestRateNewDetailTitle.text = localize("request_interest_rate")
+        approvedInterestRateNewDetailTitle.text = localize("approved_interest_rate")
+        principalNewDetailTitle.text = localize("principal_bio")
+        periodNewDetailTitle.text = localize("period")
+        
+    }
+    
+    func setContentPreviousDetail(){
+        self.setTitleForPreviousDetail()
+        previousDetailTitle.textColor = primaryColor
+        
+        let cardBackgroundColor = lightRedColor
+        previousDetailView.backgroundColor = cardBackgroundColor
+        previousDetailView.layer.cornerRadius = 5
+        previousDetailView.layer.shadowColor = UIColor.gray.cgColor
+        previousDetailView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        previousDetailView.layer.shadowRadius = 4
+        previousDetailView.layer.shadowOpacity = 0.5
+        
+        
+        tenorPreviousDetailLabel.text = data.period
+        interestRatePreviousDetailLabel.text = "\(checkPercentage(data.previous_interest_rate)) %"
+        principalPreviousDetailLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
+        periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.issue_date)!)!)"
+    }
+    
+    func setContentNewDetail(){
+        self.setTitleForNewDetail()
+        newDetailTitle.textColor = primaryColor
+        
+        let cardBackgroundColor = lightRedColor
+        newDetailView.backgroundColor = cardBackgroundColor
+        newDetailView.layer.cornerRadius = 5
+        newDetailView.layer.shadowColor = UIColor.gray.cgColor
+        newDetailView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        newDetailView.layer.shadowRadius = 4
+        newDetailView.layer.shadowOpacity = 0.5
+        
+        tenorNewDetailLabel.text = data.period
+        requestInterestRateNewDetailLabel.text = data.last_bid_rate != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
+        principalNewDetailLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
+        self.setPeriodNewDetail()
+    }
+    
+    func setContentPreviousDetailAndNewDetail(){
+        detailStack.isHidden = true
+        // hidupkan form chage mature date
+        changeMatureDateStack.isHidden = false
+        changeMatureTitle.isHidden = true
+        changeMatureDateField.isHidden = true
+        
+        self.setContentPreviousDetail()
+        self.setContentNewDetail()
+    }
+    
+    
+    
+    
     var loadingView = UIView()
     
     var presenter: AuctionDetailRolloverPresenter!
@@ -62,6 +191,10 @@ class AuctionDetailRolloverViewController: UIViewController {
     var confirmationType: String!
     
     var backToRoot = false
+    
+    var datePicker = UIDatePicker()
+    
+    var matureDateAktif:Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -160,13 +293,29 @@ class AuctionDetailRolloverViewController: UIViewController {
         newPeriodTitleLabel.font = titleFont
         newPeriodTitleLabel.text = localize("new_period")
         newPeriodLabel.font = contentFont
+        
         interestRateTitleLabel.textColor = primaryColor
         interestRateTitleLabel.text = localize("interest_rate").uppercased()
+        
+        changeMatureTitle.textColor = primaryColor
+        changeMatureTitle.text = localize("change_mature_date").uppercased()
+        
         interestRateTextField.placeholder = localize("interest_rate")
         interestRateTextField.keyboardType = .numbersAndPunctuation
+        
         submitButton.setTitle(localize("submit").uppercased(), for: .normal)
         submitButton.backgroundColor = primaryColor
         submitButton.layer.cornerRadius = 3
+        
+        
+        changeMatureDateButton.setTitle(localize("submit"), for: .normal)
+        changeMatureDateButton.backgroundColor = primaryColor
+        changeMatureDateButton.layer.cornerRadius = 3
+        
+        // changeMatureDateStack.isHidden = true // untuk menghilangkan form
+        // change Mature date
+        
+        
         confirmButton.setTitle(localize("confirm").uppercased(), for: .normal)
         confirmButton.backgroundColor = blueColor
         confirmButton.layer.cornerRadius = 3
@@ -177,6 +326,61 @@ class AuctionDetailRolloverViewController: UIViewController {
         
         // Refresh page
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .refreshAuctionDetail, object: nil)
+    }
+    
+    let Formatter = DateFormatter()
+    
+    func getDateToChangeMatureField() -> String{
+        let dateString = "\(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
+        let datePicker = UIDatePicker()
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "dd MMM yy"
+        let tanggal = formatter.date(from:dateString) ?? Date()
+        datePicker.datePickerMode = UIDatePicker.Mode.date
+        datePicker.setDate(tanggal, animated: false)
+        //
+        formatter.dateFormat = "dd MMMM yyyy"
+        return formatter.string(from: datePicker.date)
+    }
+    
+    func changeFormatTgl(format: String, tgl: String) -> String{
+        let formater = DateFormatter()
+        let datePicker = UIDatePicker()
+        formater.dateFormat = "dd MMMM yyyy"
+        let tgl = formater.date(from:tgl) ?? Date()
+        
+        datePicker.datePickerMode = UIDatePicker.Mode.date
+        datePicker.setDate(tgl, animated: false)
+        formater.dateFormat = format
+        return formater.string(from: datePicker.date)
+    }
+    
+    func createDatePicker(){
+        let dateString = self.getDateToChangeMatureField()
+        changeMatureDateField.text = dateString
+        
+        // var dateFormater = DateFormatter()
+        Formatter.dateFormat = "dd MMMM yyyy"
+        let tanggal = Formatter.date(from: dateString) ?? Date()
+        
+        datePicker.datePickerMode = UIDatePicker.Mode.date
+        datePicker.setDate(tanggal, animated: false)
+        
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let done = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+        toolbar.setItems([done], animated: true)
+        changeMatureDateField.inputAccessoryView = toolbar
+        changeMatureDateField.inputView = datePicker
+    }
+    @objc func donePressed(){
+        // let Formatter = DateFormatter()
+        Formatter.dateStyle = DateFormatter.Style.medium
+        Formatter.timeStyle = DateFormatter.Style.none
+        Formatter.dateFormat = "dd MMMM yyyy"
+        changeMatureDateField.text = Formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
     }
     
     // MARK: - Navigation
@@ -195,6 +399,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         }
     }
     
+        
     func setNavigationItems() {
         //navigationBar.barTintColor = UIColor.red
         //navigationController?.navigationBar.barTintColor = primaryColor
@@ -226,8 +431,50 @@ class AuctionDetailRolloverViewController: UIViewController {
         loadingView.isHidden = !show
     }
 
+    @IBAction func periodChangeMatureDatePressed(_ sender: Any) {
+        if matureDateAktif == false {
+            matureDateAktif = true
+        } else {
+            matureDateAktif = false
+        }
+        changeMatureTitle.isHidden = matureDateAktif
+        changeMatureDateField.isHidden = matureDateAktif
+    }
+    
+    @IBAction func actionChangeMatureDateAndInterestRatePressed(_ sender: Any) {
+        let date = getDateToChangeMatureField()
+        let newDate = changeMatureDateField.text!
+        
+        if validateForm() {
+            showLoading(true)
+            let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
+            if date == newDate {
+                // jika tidak ada perubahan tanggal
+                presenter.saveAuction(id, rate)
+            }else{
+                // jika ada perubahan tanggal
+                if(matureDateAktif){
+                    // jika form maturity date di hide
+                    presenter.saveAuction(id, rate)
+                }else{
+                    let tanggal = self.changeFormatTgl(format: "yyyy-M-dd", tgl: newDate) + " 00:00:00"
+                    presenter.saveAuctionWithdate(id, rate:rate, tgl:tanggal)
+                    
+                }
+                
+            }
+        }
+    }
+    
+    
     func setContent() {
         // Check status
+        /* Buat date picker */
+        createDatePicker()
+        
+        /*Menghilangkan form change mature date*/
+        changeMatureDateStack.isHidden = true
+        
         if data.status == "-" {
             statusView.isHidden = true
         } else {
@@ -255,22 +502,32 @@ class AuctionDetailRolloverViewController: UIViewController {
         newPeriodLabel.text = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
         
         // Action
+        print("aku ada di \(data.view)")
         if data.view == 0 {
+            previousDetailviewStack.isHidden = true
+            newDetailviewStack.isHidden = true
+            
             interestRateTitleLabel.isHidden = false
             interestRateTextField.isHidden = false
             interestRateStackView.isHidden = true
             submitButton.isHidden = false
             confirmButton.isHidden = false
         } else if data.view == 1 {
+            previousDetailviewStack.isHidden = true
+            newDetailviewStack.isHidden = true
+            
             interestRateTitleLabel.isHidden = true
             interestRateTextField.isHidden = true
             interestRateStackView.isHidden = false
             submitButton.isHidden = true
             confirmButton.isHidden = false
         } else if data.view == 2 {
+            self.setContentPreviousDetailAndNewDetail()
+            
             interestRateTitleLabel.isHidden = false
             interestRateTextField.isHidden = false
-            interestRateStackView.isHidden = false
+            // interestRateStackView.isHidden = false
+            interestRateStackView.isHidden = true
             submitButton.isHidden = false
             confirmButton.isHidden = true
         }
@@ -318,15 +575,25 @@ class AuctionDetailRolloverViewController: UIViewController {
     }
     
     func validateForm() -> Bool {
-        if interestRateTextField.text! == nil ||
-            interestRateTextField.text! != nil && Double(interestRateTextField.text!) == nil ||
-        Double(interestRateTextField.text!) != nil && Double(interestRateTextField.text!)! < 0.0 || Double(interestRateTextField.text!)! > 99.9 {
+        if fieldApprovedInterestRateNewDetail.text! == nil ||
+            fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
+        Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
             showAlert("Rate not valid", false)
             return false
         } else {
             return true
         }
         
+        /*
+         if interestRateTextField.text! == nil ||
+             interestRateTextField.text! != nil && Double(interestRateTextField.text!) == nil ||
+         Double(interestRateTextField.text!) != nil && Double(interestRateTextField.text!)! < 0.0 || Double(interestRateTextField.text!)! > 99.9 {
+             showAlert("Rate not valid", false)
+             return false
+         } else {
+             return true
+         }
+         */
         return false
     }
     

@@ -73,7 +73,9 @@ class AuctionListPresenter {
             let pageUrl = "last_id=\(lastId!)&last_date=\(date)&last_type_auction=\(lastType!)&"
             url += pageUrl
         }
-        //print(url)
+        print("AAAA")
+        print(url)
+        print("AAAA")
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
@@ -172,7 +174,9 @@ class AuctionListPresenter {
             let pageUrl = "last_id=\(lastId!)&last_date=\(date)&last_type_auction=\(lastType!)&"
             url += pageUrl
         }
-        //print(url)
+        print("AAA")
+        print(url)
+        print("AAA")
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:

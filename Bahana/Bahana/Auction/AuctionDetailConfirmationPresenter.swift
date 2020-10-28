@@ -70,6 +70,7 @@ class AuctionDetailConfirmationPresenter {
         }
     }
     
+    
     func reviseAuction(_ id: Int, _ rate: String?) {
         var revisionRate: Double?
         if rate != nil {

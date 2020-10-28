@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class AuctionDetailBreakViewController: UIViewController {
 
@@ -56,6 +58,33 @@ class AuctionDetailBreakViewController: UIViewController {
     @IBOutlet weak var confirmButton: UIButton!
     @IBOutlet weak var footerLabel: UILabel!
     
+    
+    /*TAMBAHAN by ANDI*/
+    @IBOutlet weak var panelPreviousDetail: UIStackView!
+    @IBOutlet weak var PreviousDetailLabel: UILabel!
+    @IBOutlet weak var PreviousDetailView: UIView!
+    
+    // label untuk previous detail
+    @IBOutlet weak var tenorPreviousDetail: UILabel!
+    @IBOutlet weak var interestRatePreviousDetail: UILabel!
+    @IBOutlet weak var principalPreviousDetail: UILabel!
+    @IBOutlet weak var periodPreviousDetail: UILabel!
+    // END
+    
+    // label untuk break detail
+    @IBOutlet weak var breakDateBreakDetail: UILabel!
+    @IBOutlet weak var requestRateBreakDetail: UILabel!
+    @IBOutlet weak var rateBreakFieldText: UITextField!
+    //END
+    
+    @IBOutlet weak var panelDetail: UIStackView!
+    
+    @IBOutlet weak var panelBreakDetail: UIStackView!
+    @IBOutlet weak var BreakDetailLabel: UILabel!
+    @IBOutlet weak var BreakDetailView: UIView!
+    
+    /*TAMBAHAN by ANDI*/
+    
     var loadingView = UIView()
     
     var presenter: AuctionDetailBreakPresenter!
@@ -67,13 +96,37 @@ class AuctionDetailBreakViewController: UIViewController {
     var revisionRate: String?
     var confirmationType: String!
     
+    var needRefresh: Bool = false
+    
     var backToRoot = false
     
+    /*TAMBAHAN by ANDI*/
+    func hiddenPanelBreakAndPrevious(){
+        /*
+        ini adalah method digunakan untuk menghilangkan
+        panel break detail dan previoud detail
+        */
+        panelBreakDetail.isHidden = true
+        panelPreviousDetail.isHidden = true
+    }
+    func settingPanel(){
+        // method ini digunakan untuk menampilkan data server
+        // ke panel previous detail dan break detail
+        // !!! method ini boleh dirubah !!!
+        panelDetail.isHidden = true
+        
+        tenorPreviousDetail.text = data.period
+        interestRatePreviousDetail.text = "\(checkPercentage(data.previous_interest_rate)) %"
+        principalPreviousDetail.text = "IDR \(toIdrBio(data.investment_range_start))"
+        periodPreviousDetail.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.previous_maturity_date)!)!)"
+        breakDateBreakDetail.text = convertDateToString(convertStringToDatetime(data.break_maturity_date)!)
+        requestRateBreakDetail.text = data.last_bid_rate! != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
+        breakRateTextField.isHidden = true
+    }
+    /*TAMBAHAN by ANDI*/
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
-        
         setNavigationItems()
         
         setupToHideKeyboardOnTapOnView()
@@ -141,12 +194,32 @@ class AuctionDetailBreakViewController: UIViewController {
         picCustodianTitleLabel.text = localize("pic_custodian")
         picCustodianLabel.font = contentFont
         detailTitleLabel.textColor = primaryColor
+        
         detailView.backgroundColor = cardBackgroundColor
         detailView.layer.cornerRadius = 5
         detailView.layer.shadowColor = UIColor.gray.cgColor
         detailView.layer.shadowOffset = CGSize(width: 0, height: 0)
         detailView.layer.shadowRadius = 4
         detailView.layer.shadowOpacity = 0.5
+        
+        /*TAMBAHAN by ANDI*/
+        PreviousDetailLabel.textColor = primaryColor
+        PreviousDetailView.backgroundColor = cardBackgroundColor
+        PreviousDetailView.layer.cornerRadius = 5
+        PreviousDetailView.layer.shadowColor = UIColor.gray.cgColor
+        PreviousDetailView.layer.shadowOffset = CGSize(width:0, height:0)
+        PreviousDetailView.layer.shadowRadius = 4
+        PreviousDetailView.layer.shadowOpacity = 0.5
+        
+        BreakDetailLabel.textColor = primaryColor
+        BreakDetailView.backgroundColor = cardBackgroundColor
+        BreakDetailView.layer.cornerRadius = 5
+        BreakDetailView.layer.shadowColor = UIColor.gray.cgColor
+        BreakDetailView.layer.shadowOffset = CGSize(width:0, height:0)
+        BreakDetailView.layer.shadowRadius = 4
+        BreakDetailView.layer.shadowOpacity = 0.5
+        /*TAMBAHAN by ANDI*/
+        
         tenorTitleLabel.font = titleFont
         tenorTitleLabel.textColor = titleLabelColor
         tenorTitleLabel.text = localize("tenor")
@@ -222,6 +295,8 @@ class AuctionDetailBreakViewController: UIViewController {
         }
     }
     
+    
+    
     func setNavigationItems() {
         //navigationBar.barTintColor = UIColor.red
         //navigationController?.navigationBar.barTintColor = primaryColor
@@ -285,6 +360,10 @@ class AuctionDetailBreakViewController: UIViewController {
         breakablePolicyLabel.text = data.breakable_policy
         policyNoteLabel.text = data.policy_notes != nil ? data.policy_notes : "-"
         
+        print("===EDIT===")
+        print(data.view)
+        print("===EDIT===")
+        
         // Action
         if data.view == 0 {
             breakRateStackView.isHidden = true
@@ -292,18 +371,21 @@ class AuctionDetailBreakViewController: UIViewController {
             breakRateTextField.isHidden = false
             submitButton.isHidden = false
             confirmButton.isHidden = false
+            self.hiddenPanelBreakAndPrevious()
         } else if data.view == 1 {
             breakRateStackView.isHidden = false
             breakRateTitle2Label.isHidden = true
             breakRateTextField.isHidden = true
             submitButton.isHidden = true
             confirmButton.isHidden = false
+            self.hiddenPanelBreakAndPrevious()
         } else if data.view == 2 {
             breakRateStackView.isHidden = false
             breakRateTitle2Label.isHidden = true
             breakRateTextField.isHidden = false
             submitButton.isHidden = false
             confirmButton.isHidden = true
+            self.settingPanel()
         }
         
         // Footer
@@ -366,6 +448,7 @@ class AuctionDetailBreakViewController: UIViewController {
     }
     
     func validateForm() -> Bool {
+        /*
         if breakRateTextField.text! == nil ||
             breakRateTextField.text! != nil && Double(breakRateTextField.text!) == nil ||
         Double(breakRateTextField.text!) != nil && Double(breakRateTextField.text!)! < 0.0 || Double(breakRateTextField.text!)! > 99.9 {
@@ -374,7 +457,17 @@ class AuctionDetailBreakViewController: UIViewController {
         } else {
             return true
         }
+        */
+        let text: String = rateBreakFieldText.text!
         
+        if text == nil ||
+            text != nil && Double(text) == nil ||
+        Double(text) != nil && Double(text)! < 0.0 || Double(text)! > 99.9 {
+            showAlert("Rate not valid", false)
+            return false
+        } else {
+            return true
+        }
         return false
     }
     
@@ -391,16 +484,46 @@ class AuctionDetailBreakViewController: UIViewController {
     @IBAction func submitButtonPressed(_ sender: Any) {
         if validateForm() {
             showLoading(true)
-            let rate = Double(breakRateTextField.text!)!
+            let rate = Double(rateBreakFieldText.text!)!
             presenter.saveAuction(id, rate)
         }
     }
     
     @IBAction func confirmationButtonPressed(_ sender: Any) {
         confirmationType = "chosen_bidder"
-     
-        self.performSegue(withIdentifier: "showConfirmation", sender: self)
+        // self.performSegue(withIdentifier: "showConfirmation", sender: self)
+        confirmButton.isEnabled = false
+        confirmButton.setTitle("Loading...", for: .normal)
+        showLoading(true)
+        var send: Kirim = Kirim(view: self)
+        send.confirm(id, "break", true, nil, id)
+        
     }
+    
+    func setDataFail() {
+        // digunakan sebagai pemberitauan apabila gagal terhubung dengan server
+        showLoading(false)
+        let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showAlert_2(title: String, message: String, _ isReturnToDetail: Bool = false) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
+            if isReturnToDetail {
+                // jika dalam kondisi benar setelah confirmasi selesai
+                self.refresh()
+            }
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func konfirmasi(_ confirm: Bool, _ message:String){
+        showLoading(false)
+        showAlert_2(title: localize("information"), message:message, confirm)
+    }
+    
 }
 
 extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
@@ -444,5 +567,68 @@ extension AuctionDetailBreakViewController: AuctionDetailBreakDelegate {
         let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
         let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
         self.present(loginViewController, animated: true, completion: nil)
+    }
+}
+
+struct Kirim {
+    
+    var action:AuctionDetailBreakViewController
+    
+    init(view:AuctionDetailBreakViewController){
+        self.action = view
+    }
+    
+    func confirm(_ id: Int, _ type: String, _ isAccepted: Bool, _ maturityDate: String?, _ bidId: Int?) {
+        var url = "api/v1/"
+        let parameters: Parameters = [
+            "is_accepted": isAccepted ? "yes" : "no",
+            "request_maturity_date": maturityDate != nil ? maturityDate! : ""
+        ]
+        switch type {
+            case "auction":
+                url += "auction/\(id)/confirm/\(bidId!)"
+            case "direct-auction":
+                url += "direct-auction/\(id)/confirm"
+            case "break":
+                url += "break/\(id)/confirm"
+            case "rollover":
+                url += "rollover/\(id)/confirm"
+            default:
+                break
+        }
+        
+        // Lang
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        url += "?lang=\(lang)"
+        print(url)
+        
+        Alamofire.request(WEB_API_URL + url, method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let result = JSON.init(parseJSON: response.result.value!)
+                //print(result)
+                if response.response?.statusCode == 200 {
+                    self.action.konfirmasi(true, result["message"].stringValue)
+                    // jika respon benar
+                } else {
+                    self.action.konfirmasi(false, result["message"].stringValue)
+                    // jika respon salah
+                    self.action.confirmButton.isEnabled = true
+                    self.action.confirmButton.setTitle(localize("confirm"), for: .normal)
+                }
+            } else {
+                print(response)
+                self.action.setDataFail()
+            }
+        } // end alamofire
+    
+        
     }
 }

@@ -13,7 +13,10 @@ import SwiftyJSON
 //let WEB_API_URL = "http://localhost:8000/"
 //let WEB_API_URL = "http://192.168.8.105:8000/"
 //let WEB_API_URL = "http://157.245.192.5/bahana/public/"
-let WEB_API_URL = "https://dams.bahanatcw.com/"
+//let WEB_API_URL = "https://dams.bahanatcw.com/"
+//let WEB_API_URL = "http://192.168.43.51/dams2/public/"
+
+let WEB_API_URL = "http://localhost/dams2/public/"
 
 let APP_STORE_URL = "https://itunes.apple.com/id/app/dams/id123456?mt=8"
 

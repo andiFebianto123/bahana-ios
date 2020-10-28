@@ -175,6 +175,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
             
             presenter.confirm(auctionID, auctionType, true, nil, id)
         }
+        // print(self.auctionType)
     }
     
     @IBAction func changeEndDatePressed(_ sender: Any) {

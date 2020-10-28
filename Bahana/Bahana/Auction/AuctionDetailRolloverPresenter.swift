@@ -109,6 +109,27 @@ class AuctionDetailRolloverPresenter {
                 print(response)
                 self.delegate?.getDataFail(nil)
             }
-        }
+        } // end Alamofire
+    }
+    func saveAuctionWithdate(_ id:Int, rate:Double, tgl:String){
+        // ini adalah fungsi save auction baru jika terdapat parameter mature date
+        let parameters: Parameters = [
+            "rate": rate,
+            "request_maturity_date":tgl
+        ]
+        
+        Alamofire.request(WEB_API_URL + "api/v1/rollover/\(id)/post", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let res = JSON.init(parseJSON: response.result.value!)
+                if response.response?.statusCode == 200 {
+                    self.delegate?.isPosted(true, res["message"].stringValue)
+                } else {
+                    self.delegate?.isPosted(false, res["message"].stringValue)
+                }
+            } else {
+                print(response)
+                self.delegate?.getDataFail(nil)
+            }
+        } // end Alamofire
     }
 }

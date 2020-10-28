@@ -196,6 +196,19 @@
 "app_update_information_content" = "There is a new version of the app available. Please update to continue using the app.";
 "app_update_information_button" = "Update";
 
+/*Penambahan baru*/
+"previous_detail" = "PREVIOUS DETAIL";
+"new_detail" = "NEW DETAIL";
+"principal_bio" = "Principal (Bio)";
+"break_detail" = "BREAK DETAIL";
+"request_rate_break" = "Request Rate Break (%)";
+"approved_rate_break" = "Approved Rate Break (%)";
+"request_interest_rate" = "Request Interest Rate (%)";
+"approved_interest_rate" = "Approved Interest Rate (%)";
+"change_mature_date" = "CHANGE MATURE DATE?";
+/*Penambahan baru*/
+
+
 "january" = "Jan";
 "february" = "Feb";
 "march" = "Mar";
@@ -208,3 +221,4 @@
 "october" = "Oct";
 "november" = "Nov";
 "december" = "Dec";
+

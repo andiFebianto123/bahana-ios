@@ -36,7 +36,7 @@ class AuctionDetailBreakPresenter {
         default:
             break
         }
-        
+        print("\(WEB_API_URL)api/v1/break/\(id)?lang=\(lang)")
         // Get auction
         Alamofire.request(WEB_API_URL + "api/v1/break/\(id)?lang=\(lang)", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {

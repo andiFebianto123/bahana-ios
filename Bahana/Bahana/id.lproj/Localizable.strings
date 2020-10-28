@@ -196,6 +196,18 @@
 "app_update_information_content" = "Versi terbaru dari aplikasi telah tersedia. Mohon perbarui untuk dapat melanjutkan menggunakan aplikasi.";
 "app_update_information_button" = "Perbarui";
 
+/*Penambahan baru*/
+"previous_detail" = "DETAIL SEBELUMNYA";
+"new_detail" = "DETAIL BARU";
+"principal_bio" = "Principal (Bio)";
+"break_detail" = "DETAIL BREAK";
+"request_rate_break" = "Tingkat Permintaan Break (%)";
+"approved_rate_break" = "Tarif yang Disetujui Break (%)";
+"request_interest_rate" = "Minta Suku Bunga (%)";
+"approved_interest_rate" = "Suku Bunga yang Disetujui(%)";
+"change_mature_date" = "GANTI TANGGAL CAIR?";
+/*Penambahan baru*/
+
 "january" = "Jan";
 "february" = "Feb";
 "march" = "Mar";
