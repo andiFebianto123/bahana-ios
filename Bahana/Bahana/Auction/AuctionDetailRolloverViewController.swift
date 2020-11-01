@@ -94,6 +94,11 @@ class AuctionDetailRolloverViewController: UIViewController {
     @IBOutlet weak var periodNewDetailLabel1: UILabel!
     @IBOutlet weak var periodNewDetailLabel2: UIButton!
     
+    // notes
+    @IBOutlet weak var noteTitle: UILabel!
+    @IBOutlet weak var noteLabel: UILabel!
+    
+    
     // END
     
     func setPeriodNewDetail(){
@@ -303,6 +308,9 @@ class AuctionDetailRolloverViewController: UIViewController {
         interestRateTextField.placeholder = localize("interest_rate")
         interestRateTextField.keyboardType = .numbersAndPunctuation
         
+        noteTitle.textColor = primaryColor
+        noteTitle.text = localize("notes").uppercased()
+        
         submitButton.setTitle(localize("submit").uppercased(), for: .normal)
         submitButton.backgroundColor = primaryColor
         submitButton.layer.cornerRadius = 3
@@ -500,6 +508,9 @@ class AuctionDetailRolloverViewController: UIViewController {
         investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
         previousPeriodLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.issue_date)!)!)"
         newPeriodLabel.text = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
+        
+        // notes
+        noteLabel.text = data.notes
         
         // Action
         print("aku ada di \(data.view)")

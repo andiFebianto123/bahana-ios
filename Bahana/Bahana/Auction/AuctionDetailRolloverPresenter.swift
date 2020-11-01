@@ -80,8 +80,9 @@ class AuctionDetailRolloverPresenter {
                     let maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
                     let breakable_policy = auct["breakable_policy"] != JSON.null ? auct["breakable_policy"].stringValue : nil
                     let is_break = auct["is_break"].boolValue
+                    let notes = auct["notes"].stringValue
                     
-                    let auction = AuctionDetailRollover(id: id, start_date: start_date, end_date: end_date, pic_custodian: pic_custodian, custodian_bank: custodian_bank, portfolio: portfolio, portfolio_short: portfolio_short, investment_range_start: investment_range_start, period: period, auction_name: auction_name, previous_interest_rate: previous_interest_rate, last_bid_rate: last_bid_rate, status: status, view: view, message: message, previous_maturity_date: previous_maturity_date, previous_issue_date: previous_issue_date, issue_date: issue_date, maturity_date: maturity_date, breakable_policy: breakable_policy, is_break: is_break)
+                    let auction = AuctionDetailRollover(id: id, start_date: start_date, end_date: end_date, pic_custodian: pic_custodian, custodian_bank: custodian_bank, portfolio: portfolio, portfolio_short: portfolio_short, investment_range_start: investment_range_start, period: period, auction_name: auction_name, previous_interest_rate: previous_interest_rate, last_bid_rate: last_bid_rate, status: status, view: view, message: message, previous_maturity_date: previous_maturity_date, previous_issue_date: previous_issue_date, issue_date: issue_date, maturity_date: maturity_date, breakable_policy: breakable_policy, is_break: is_break, notes:notes)
                     
                     self.delegate?.setData(auction)
                 }

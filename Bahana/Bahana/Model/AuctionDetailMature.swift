@@ -20,4 +20,5 @@ struct AuctionDetailMature {
     var maturity_date: String
     var coupon_rate: Double
     var period: String
+    var notes:String
 }

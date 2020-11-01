@@ -61,10 +61,15 @@ class AuctionDetailBreakViewController: UIViewController {
     
     /*TAMBAHAN by ANDI*/
     @IBOutlet weak var panelPreviousDetail: UIStackView!
-    @IBOutlet weak var PreviousDetailLabel: UILabel!
+    @IBOutlet weak var PreviousDetailLabel: UILabel! // title
     @IBOutlet weak var PreviousDetailView: UIView!
     
     // label untuk previous detail
+    @IBOutlet weak var tenorPreviousDetailTitle: UILabel!
+    @IBOutlet weak var interestRatePreviousDetailTitle: UILabel!
+    @IBOutlet weak var principalPreviousDetailTitle: UILabel!
+    @IBOutlet weak var periodPreviousDetailTitle: UILabel!
+    
     @IBOutlet weak var tenorPreviousDetail: UILabel!
     @IBOutlet weak var interestRatePreviousDetail: UILabel!
     @IBOutlet weak var principalPreviousDetail: UILabel!
@@ -72,6 +77,11 @@ class AuctionDetailBreakViewController: UIViewController {
     // END
     
     // label untuk break detail
+    @IBOutlet weak var breakDateBreakDetailTitle: UILabel!
+    @IBOutlet weak var requestRateBreakBreakDetailTitle: UILabel!
+    @IBOutlet weak var approvedRateBreakTitle: UILabel!
+    
+    
     @IBOutlet weak var breakDateBreakDetail: UILabel!
     @IBOutlet weak var requestRateBreakDetail: UILabel!
     @IBOutlet weak var rateBreakFieldText: UITextField!
@@ -80,10 +90,14 @@ class AuctionDetailBreakViewController: UIViewController {
     @IBOutlet weak var panelDetail: UIStackView!
     
     @IBOutlet weak var panelBreakDetail: UIStackView!
-    @IBOutlet weak var BreakDetailLabel: UILabel!
+    @IBOutlet weak var BreakDetailLabel: UILabel! // title
     @IBOutlet weak var BreakDetailView: UIView!
-    
     /*TAMBAHAN by ANDI*/
+    
+    // untuk NOTES
+    @IBOutlet weak var notesTitle: UILabel!
+    @IBOutlet weak var notesLabel: UILabel!
+    
     
     var loadingView = UIView()
     
@@ -109,12 +123,22 @@ class AuctionDetailBreakViewController: UIViewController {
         panelBreakDetail.isHidden = true
         panelPreviousDetail.isHidden = true
     }
+    func setTitlePreviousAndBreakDetail(){
+        tenorPreviousDetailTitle.text = localize("tenor")
+        interestRatePreviousDetail.text = localize("interest_rate")
+        principalPreviousDetailTitle.text = localize("principal_bio")
+        periodPreviousDetailTitle.text = localize("period")
+        
+        breakDateBreakDetailTitle.text = localize("break_date")
+        requestRateBreakBreakDetailTitle.text = localize("request_rate_break")
+        approvedRateBreakTitle.text = localize("approved_rate_break")
+    }
     func settingPanel(){
         // method ini digunakan untuk menampilkan data server
         // ke panel previous detail dan break detail
         // !!! method ini boleh dirubah !!!
         panelDetail.isHidden = true
-        
+        self.setTitlePreviousAndBreakDetail()
         tenorPreviousDetail.text = data.period
         interestRatePreviousDetail.text = "\(checkPercentage(data.previous_interest_rate)) %"
         principalPreviousDetail.text = "IDR \(toIdrBio(data.investment_range_start))"
@@ -210,6 +234,7 @@ class AuctionDetailBreakViewController: UIViewController {
         PreviousDetailView.layer.shadowOffset = CGSize(width:0, height:0)
         PreviousDetailView.layer.shadowRadius = 4
         PreviousDetailView.layer.shadowOpacity = 0.5
+        PreviousDetailLabel.text = localize("previous_detail") // updateA
         
         BreakDetailLabel.textColor = primaryColor
         BreakDetailView.backgroundColor = cardBackgroundColor
@@ -218,7 +243,10 @@ class AuctionDetailBreakViewController: UIViewController {
         BreakDetailView.layer.shadowOffset = CGSize(width:0, height:0)
         BreakDetailView.layer.shadowRadius = 4
         BreakDetailView.layer.shadowOpacity = 0.5
+        BreakDetailLabel.text = localize("break_detail") // updateA
         /*TAMBAHAN by ANDI*/
+        notesTitle.textColor = primaryColor
+        notesTitle.text = localize("notes").uppercased()
         
         tenorTitleLabel.font = titleFont
         tenorTitleLabel.textColor = titleLabelColor
@@ -359,6 +387,8 @@ class AuctionDetailBreakViewController: UIViewController {
         // Policy
         breakablePolicyLabel.text = data.breakable_policy
         policyNoteLabel.text = data.policy_notes != nil ? data.policy_notes : "-"
+        
+        notesLabel.text = data.notes != "" ? data.notes : "-"
         
         print("===EDIT===")
         print(data.view)

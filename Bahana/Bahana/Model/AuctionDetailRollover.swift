@@ -34,4 +34,5 @@ struct AuctionDetailRollover {
     var maturity_date: String?
     var breakable_policy: String?
     var is_break: Bool
+    var notes:String
 }

@@ -41,6 +41,11 @@ class AuctionDetailMatureViewController: UIViewController {
     @IBOutlet weak var periodLabel: UILabel!
     @IBOutlet weak var footerLabel: UILabel!
     
+    //notes
+    @IBOutlet weak var noteTitle: UILabel!
+    @IBOutlet weak var noteLabel: UILabel!
+    
+    
     var loadingView = UIView()
     
     var presenter: AuctionDetailMaturePresenter!
@@ -120,6 +125,10 @@ class AuctionDetailMatureViewController: UIViewController {
         picCustodianTitleLabel.text = localize("pic_custodian")
         picCustodianLabel.font = contentFont
         detailTitleLabel.textColor = primaryColor
+        
+        noteTitle.textColor = primaryColor
+        noteTitle.text = localize("notes").uppercased()
+        
         detailView.backgroundColor = cardBackgroundColor
         detailView.layer.cornerRadius = 5
         detailView.layer.shadowColor = UIColor.gray.cgColor
@@ -203,6 +212,9 @@ class AuctionDetailMatureViewController: UIViewController {
         interestRateLabel.text = "\(checkPercentage(data.coupon_rate)) %"
         investmentLabel.text = "IDR \(toIdrBio(data.quantity))"
         periodLabel.text = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
+        
+        // Notes
+        noteLabel.text = data.notes
         
         // Footer
         let mutableAttributedString = NSMutableAttributedString()

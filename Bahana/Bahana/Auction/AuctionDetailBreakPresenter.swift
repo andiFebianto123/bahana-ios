@@ -80,8 +80,9 @@ class AuctionDetailBreakPresenter {
                     let previous_maturity_date = auct["previous_maturity_date"].stringValue
                     let previous_issue_date = auct["previous_issue_date"].stringValue
                     let break_maturity_date = auct["break_maturity_date"] != JSON.null ? auct["break_maturity_date"].stringValue : nil
+                    let notes = auct["notes"].stringValue
                     
-                    let auction = AuctionDetailBreak(id: id, start_date: start_date, end_date: end_date, end_bidding_rm: end_bidding_rm, pic_custodian: pic_custodian, custodian_bank: custodian_bank, portfolio: portfolio, portfolio_short: portfolio_short, fund_type: fund_type, investment_range_start: investment_range_start, investment_range_end: investment_range_end, period: period, auction_name: auction_name, previous_interest_rate: previous_interest_rate, revision_rate_admin: revision_rate_admin, last_bid_rate: last_bid_rate, status: status, view: view, message: message, breakable_policy: breakable_policy, policy_notes: policyNotes, previous_maturity_date: previous_maturity_date, previous_issue_date: previous_issue_date, break_maturity_date: break_maturity_date)
+                    let auction = AuctionDetailBreak(id: id, start_date: start_date, end_date: end_date, end_bidding_rm: end_bidding_rm, pic_custodian: pic_custodian, custodian_bank: custodian_bank, portfolio: portfolio, portfolio_short: portfolio_short, fund_type: fund_type, investment_range_start: investment_range_start, investment_range_end: investment_range_end, period: period, auction_name: auction_name, previous_interest_rate: previous_interest_rate, revision_rate_admin: revision_rate_admin, last_bid_rate: last_bid_rate, status: status, view: view, message: message, breakable_policy: breakable_policy, policy_notes: policyNotes, previous_maturity_date: previous_maturity_date, previous_issue_date: previous_issue_date, break_maturity_date: break_maturity_date, notes:notes)
                     
                     self.delegate?.setData(auction)
                 }

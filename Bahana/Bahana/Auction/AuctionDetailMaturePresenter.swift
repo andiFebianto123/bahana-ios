@@ -59,8 +59,9 @@ class AuctionDetailMaturePresenter {
                     let status = auct["status"].stringValue
                     let maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
                     let coupon_rate = auct["coupon_rate"].doubleValue
+                    let notes = auct["notes"].stringValue
                     
-                    let auction = AuctionDetailMature(id: id, auction_name: auction_name, quantity: quantity, portfolio: portfolio, pic_custodian: pic_custodian, custodian_bank: custodian_bank, status: status, issue_date: issue_date, maturity_date: maturity_date!, coupon_rate: coupon_rate, period: period)
+                    let auction = AuctionDetailMature(id: id, auction_name: auction_name, quantity: quantity, portfolio: portfolio, pic_custodian: pic_custodian, custodian_bank: custodian_bank, status: status, issue_date: issue_date, maturity_date: maturity_date!, coupon_rate: coupon_rate, period: period, notes:notes)
                     
                     self.delegate?.setData(auction)
                 }

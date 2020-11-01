@@ -33,4 +33,5 @@ struct AuctionDetailBreak {
     var previous_maturity_date: String
     var previous_issue_date: String
     var break_maturity_date:String?
+    var notes:String
 }
