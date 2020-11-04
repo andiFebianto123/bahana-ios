@@ -232,6 +232,17 @@ class AuctionDetailNormalViewController: UIViewController {
 
     func setContent() {
         // Check status
+        var tipe = String(data.fund_type ?? "")
+        
+        /*
+        var UjicobaUSD = (data.fund_type == "USD") ? "data USD" : "data IDR"
+        print(UjicobaUSD)
+         */
+        
+        if(data.fund_type == "USD"){
+            investmentTitleLabel.text = localize("investment_usd")
+        }
+        
         if data.status == "-" {
             statusView.isHidden = true
         } else {
@@ -247,11 +258,20 @@ class AuctionDetailNormalViewController: UIViewController {
         
         // Portfolio
         fundNameLabel.text = data.portfolio
-        var investment = "IDR \(toIdrBio(data.investment_range_start))"
-        if data.investment_range_end != nil {
-            investment += " - \(toIdrBio(data.investment_range_end!))"
+        if(tipe == "USD"){
+            var investment = "USD \(data.investment_range_start)"
+            if data.investment_range_end != nil {
+                investment += " - \(data.investment_range_end!)"
+            }
+            investmentLabel.text = investment
+        }else{
+            var investment = "IDR \(toIdrBio(data.investment_range_start))"
+            if data.investment_range_end != nil {
+                investment += " - \(toIdrBio(data.investment_range_end!))"
+            }
+            investmentLabel.text = investment
         }
-        investmentLabel.text = investment
+        
         placementDateLabel.text = convertDateToString(convertStringToDatetime(data.end_date)!)
         custodianBankLabel.text = data.custodian_bank != nil ? data.custodian_bank : "-"
         picCustodianLabel.text = data.pic_custodian != nil ? data.pic_custodian : "-"
@@ -508,7 +528,13 @@ class AuctionDetailNormalViewController: UIViewController {
                 investmentView.addSubview(investmentTitle)
                 
                 let investment = UILabel()
-                investment.text = "IDR \(toIdrBio(dt.used_investment_value))"
+                if data.fund_type == "USD" {
+                    investment.text = "USD \(dt.used_investment_value)"
+                    investmentTitle.text = localize("investment_usd")
+                }else{
+                    investment.text = "IDR \(toIdrBio(dt.used_investment_value))"
+                }
+                
                 investment.font = contentFont
                 let investmentHeight = investment.intrinsicContentSize.height
                 investment.translatesAutoresizingMaskIntoConstraints = false
@@ -522,7 +548,8 @@ class AuctionDetailNormalViewController: UIViewController {
                 rateStackView.addArrangedSubview(bilyetView)
                 
                 let bilyetTitle = UILabel()
-                bilyetTitle.text = localize("bilyet")
+                bilyetTitle.text = (data.fund_type == "USD") ? localize("bilyet_usd") : localize("bilyet")
+                
                 bilyetTitle.font = titleFont
                 bilyetTitle.translatesAutoresizingMaskIntoConstraints = false
                 bilyetView.addSubview(bilyetTitle)
@@ -530,11 +557,19 @@ class AuctionDetailNormalViewController: UIViewController {
                 var bilyetStr = """
                 """
                 for (idx, bilyetArr) in dt.bilyet.enumerated() {
-                    bilyetStr += "\u{2022} IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]"
+                    if data.fund_type == "USD" {
+                        // untuk perhitungan bilyet USD
+                        bilyetStr += "\u{2022} USD \(bilyetArr.quantity) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]"
+                    }else{
+                        // untuk perhitungan bilyet IDR
+                        bilyetStr += "\u{2022} IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]"
+                    }
+                    
                     if idx < dt.bilyet.count - 1 {
                         bilyetStr += "\n"
                     }
                 }
+                print("hitungan bilyet : \(bilyetStr)")
                 
                 let bilyet = UILabel()
                 bilyet.text = bilyetStr

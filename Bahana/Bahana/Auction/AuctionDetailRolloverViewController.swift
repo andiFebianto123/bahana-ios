@@ -98,11 +98,33 @@ class AuctionDetailRolloverViewController: UIViewController {
     @IBOutlet weak var noteTitle: UILabel!
     @IBOutlet weak var noteLabel: UILabel!
     
+    // constraint
+    @IBOutlet weak var view4: UIView!
+    @IBOutlet weak var viewUSD: UIView!
     
+    
+    @IBOutlet weak var constraintTopViewUSD: NSLayoutConstraint!
+    @IBOutlet weak var constraintTopView4: NSLayoutConstraint!
     // END
+    
+    func showUSDnewDetailLayout(){
+        // jika found type berjenis USD
+        view4.isHidden = true
+        constraintTopViewUSD.constant = -26.5
+    }
+    func showIDRnewDetailLayout(){
+        viewUSD.isHidden = true
+        constraintTopView4.constant = -22.0
+    }
     
     func setPeriodNewDetail(){
         // untuk mengatur bentuk value period pada new detail
+        let fund_type = "IDR"
+        if fund_type == "USD" {
+            showUSDnewDetailLayout()
+        }else{
+            showIDRnewDetailLayout()
+        }
         let period1 = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - "
         let period2 = "\(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
         periodNewDetailLabel1.text = period1
@@ -112,7 +134,11 @@ class AuctionDetailRolloverViewController: UIViewController {
     func setTitleForPreviousDetail(){
         // untuk mengatur value judul sesuai bahasa
         // FOR : Previoud Detail
-
+        /*
+        constraintViewNewDetailPrincipal.isHidden = true
+        constraintView5Top.constant = -24.0
+        */
+        
         previousDetailTitle.text = localize("previous_detail")
         tenorPreviousDetailTitle.text = localize("tenor")
         interestRatePreviousDetailTitle.text = localize("interest_rate")

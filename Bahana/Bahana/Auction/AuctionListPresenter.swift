@@ -74,7 +74,7 @@ class AuctionListPresenter {
             url += pageUrl
         }
         print("AAAA")
-        print(url)
+        print("\(WEB_API_URL)api/v1/\(url)")
         print("AAAA")
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {

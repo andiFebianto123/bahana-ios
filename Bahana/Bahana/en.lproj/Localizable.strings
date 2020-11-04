@@ -206,6 +206,8 @@
 "request_interest_rate" = "Request Interest Rate (%)";
 "approved_interest_rate" = "Approved Interest Rate (%)";
 "change_mature_date" = "CHANGE MATURE DATE?";
+"investment_usd" = "Investment ($)";
+"bilyet_usd" = "Bilyet ($)";
 /*Penambahan baru*/
 
 

@@ -206,6 +206,8 @@
 "request_interest_rate" = "Minta Suku Bunga (%)";
 "approved_interest_rate" = "Suku Bunga yang Disetujui(%)";
 "change_mature_date" = "GANTI TANGGAL CAIR?";
+"investment_usd" = "Investasi ($)";
+"bilyet_usd" = "Bilyet ($)";
 /*Penambahan baru*/
 
 "january" = "Jan";

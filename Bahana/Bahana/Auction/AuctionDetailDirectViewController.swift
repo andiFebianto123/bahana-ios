@@ -226,6 +226,13 @@ class AuctionDetailDirectViewController: UIViewController {
         loadingView.isHidden = !show
     }
     
+    func checkUSDorIDR() -> Int{
+        if data.fund_type == "USD" {
+            return 1
+        }
+        return 2
+    }
+    
     func setContent() {
         // Check status
         if data.status == "-" {
@@ -256,12 +263,27 @@ class AuctionDetailDirectViewController: UIViewController {
             interestRate = "\(checkPercentage(data.interest_rate)) %"
         }
         interestRateLabel.text = interestRate
-        investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
+        
         var bilyet = """
         """
-        for bilyetArr in data.bilyet {
-            bilyet += "\u{2022} IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
+    
+        if checkUSDorIDR() == 1 {
+            // ini untuk USD
+            investmentTitleLabel.text = localize("investment_usd")
+            bilyetTitleLabel.text = localize("bilyet_usd")
+            investmentLabel.text = "USD \(data.investment_range_start)"
+            
+            for bilyetArr in data.bilyet {
+                bilyet += "\u{2022} USD \(bilyetArr.quantity) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
+            }
+        }else{
+            // ini untuk IDR
+            investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
+            for bilyetArr in data.bilyet {
+                bilyet += "\u{2022} IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
+            }
         }
+        
         
         bilyetLabel.text = bilyet
         noteLabel.text = data.notes

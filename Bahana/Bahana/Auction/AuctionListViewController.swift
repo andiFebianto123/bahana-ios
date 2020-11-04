@@ -136,6 +136,7 @@ class AuctionListViewController: UIViewController {
         showLoading(true)
         self.data.removeAll()
         self.getData(lastId: nil, lastDate: nil, lastType: nil)
+        print("coba")
     }
     
     // MARK: - Navigation
