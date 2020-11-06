@@ -273,11 +273,13 @@ class AuctionDetailDirectViewController: UIViewController {
             bilyetTitleLabel.text = localize("bilyet_usd")
             investmentLabel.text = "USD \(data.investment_range_start)"
             
+            
             for bilyetArr in data.bilyet {
                 bilyet += "\u{2022} USD \(bilyetArr.quantity) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
             }
         }else{
             // ini untuk IDR
+            
             investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
             for bilyetArr in data.bilyet {
                 bilyet += "\u{2022} IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
