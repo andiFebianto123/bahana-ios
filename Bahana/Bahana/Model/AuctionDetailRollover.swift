@@ -17,7 +17,7 @@ struct AuctionDetailRollover {
     var custodian_bank: String?
     var portfolio:String
     var portfolio_short: String
-    //var fund_type: String
+    
     var investment_range_start: Double
     //var investment_range_end: Double
     var period: String
@@ -35,4 +35,5 @@ struct AuctionDetailRollover {
     var breakable_policy: String?
     var is_break: Bool
     var notes:String
+    var fund_type: String
 }

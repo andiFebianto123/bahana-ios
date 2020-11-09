@@ -91,6 +91,8 @@ class AuctionDetailRolloverViewController: UIViewController {
     @IBOutlet weak var requestInterestRateNewDetailLabel: UILabel!
     @IBOutlet weak var principalNewDetailLabel: UILabel!
     @IBOutlet weak var fieldApprovedInterestRateNewDetail: UITextField!
+    
+    @IBOutlet weak var fieldPrincipalInterestNewDetail: UITextField!
     @IBOutlet weak var periodNewDetailLabel1: UILabel!
     @IBOutlet weak var periodNewDetailLabel2: UIButton!
     
@@ -117,12 +119,23 @@ class AuctionDetailRolloverViewController: UIViewController {
         constraintTopView4.constant = -22.0
     }
     
+    // function to check IDR or USD
+    func checkUSDorIDR() -> Int {
+        // nilai 1 = USD
+        // nilai 2 = IDR
+        if data.fund_type == "USD" {
+            return 1
+        }
+        return 2
+    }
+    // end function
     func setPeriodNewDetail(){
         // untuk mengatur bentuk value period pada new detail
-        let fund_type = "IDR"
-        if fund_type == "USD" {
+        if self.checkUSDorIDR() == 1 {
+            // untuk manata layout form USD
             showUSDnewDetailLayout()
         }else{
+            // untuk menata layout form IDR
             showIDRnewDetailLayout()
         }
         let period1 = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - "
@@ -174,7 +187,9 @@ class AuctionDetailRolloverViewController: UIViewController {
         
         tenorPreviousDetailLabel.text = data.period
         interestRatePreviousDetailLabel.text = "\(checkPercentage(data.previous_interest_rate)) %"
-        principalPreviousDetailLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
+        
+        principalPreviousDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
+        
         periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.issue_date)!)!)"
     }
     
@@ -474,6 +489,41 @@ class AuctionDetailRolloverViewController: UIViewController {
         changeMatureTitle.isHidden = matureDateAktif
         changeMatureDateField.isHidden = matureDateAktif
     }
+    var checkCaseRollover = false
+    func hitungCaseRollover() -> Bool {
+
+        let penempatan_pertama = Double(data.investment_range_start)
+        let data_tenor = data.period.components(separatedBy: " ")
+        let tenor = Double(data_tenor[0])! * 30.0
+        
+        let rate = Double(data.last_bid_rate!)
+        let pokokBaru = Double(fieldPrincipalInterestNewDetail.text!)!
+        
+        let jumlahBaru = pokokBaru
+        var bunga = penempatan_pertama * (rate/100) * (1 - (20/100))
+        bunga = bunga * (tenor/365)
+        let pokok_baru = penempatan_pertama + bunga
+        let selisih_nilai_pokok = pokok_baru - jumlahBaru
+        // let harusnya = pokok_baru - 0.2
+        
+        let pembulatanSelisihNilaiPokok = roundf(Float(selisih_nilai_pokok * 100)) / 100
+        // print("selisih nilai = \(roundf(Float(selisih_nilai_pokok * 100)) / 100)")
+        if pembulatanSelisihNilaiPokok > 0.2 {
+
+            if checkCaseRollover == false {
+                self.showAlert("Please re-check new principal + interest, our calculation show \(pembulatanSelisihNilaiPokok)%", false)
+                checkCaseRollover = true
+            }else{
+                print("Langsung approve setelah warning")
+                return true
+            }
+            
+        }else{
+            print("Langsung approve")
+            return true
+        }
+       return false
+    }
     
     @IBAction func actionChangeMatureDateAndInterestRatePressed(_ sender: Any) {
         let date = getDateToChangeMatureField()
@@ -481,21 +531,43 @@ class AuctionDetailRolloverViewController: UIViewController {
         
         if validateForm() {
             showLoading(true)
-            let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
-            if date == newDate {
-                // jika tidak ada perubahan tanggal
-                presenter.saveAuction(id, rate)
-            }else{
-                // jika ada perubahan tanggal
-                if(matureDateAktif){
-                    // jika form maturity date di hide
-                    presenter.saveAuction(id, rate)
+            if checkUSDorIDR() == 1{
+                // jika tipe pembayaran USD
+                let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
+                let principalInterest = Double(fieldPrincipalInterestNewDetail.text!)!
+                if date == newDate {
+                    // jika tidak ada perubahan tanggal
+                    print("Mulai simpan")
+                    presenter.saveAuctionForUSD(id, rate: rate, tgl: nil, new_nominal: principalInterest)
                 }else{
-                    let tanggal = self.changeFormatTgl(format: "yyyy-M-dd", tgl: newDate) + " 00:00:00"
-                    presenter.saveAuctionWithdate(id, rate:rate, tgl:tanggal)
+                    // jika ada perubahan tanggal
+                    if(matureDateAktif){
+                        // jika form maturity date di hide
+                        presenter.saveAuctionForUSD(id, rate: rate, tgl: nil, new_nominal: principalInterest)
+                    }else{
+                        let tanggal = self.changeFormatTgl(format: "yyyy-M-dd", tgl: newDate) + " 00:00:00"
+                        presenter.saveAuctionForUSD(id, rate: rate, tgl: tanggal, new_nominal: principalInterest)
+                    }
                     
                 }
-                
+            } else {
+                // jika tipe pembayaran IDR
+                let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
+                if date == newDate {
+                    // jika tidak ada perubahan tanggal
+                    presenter.saveAuction(id, rate)
+                }else{
+                    // jika ada perubahan tanggal
+                    if(matureDateAktif){
+                        // jika form maturity date di hide
+                        presenter.saveAuction(id, rate)
+                    }else{
+                        let tanggal = self.changeFormatTgl(format: "yyyy-M-dd", tgl: newDate) + " 00:00:00"
+                        presenter.saveAuctionWithdate(id, rate:rate, tgl:tanggal)
+        
+                    }
+                    
+                }
             }
         }
     }
@@ -531,7 +603,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         tenorLabel.text = data.period
         previousInterestRateLabel.text = "\(checkPercentage(data.previous_interest_rate)) %"
         newInterestRateLabel.text = data.last_bid_rate != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
-        investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
+        investmentLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)" : "IDR \(toIdrBio(data.investment_range_start))"
         previousPeriodLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.issue_date)!)!)"
         newPeriodLabel.text = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
         
@@ -541,6 +613,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         // Action
         print("aku ada di \(data.view)")
         if data.view == 0 {
+            // layout akan menampilkan informasi detail
             previousDetailviewStack.isHidden = true
             newDetailviewStack.isHidden = true
             
@@ -550,6 +623,7 @@ class AuctionDetailRolloverViewController: UIViewController {
             submitButton.isHidden = false
             confirmButton.isHidden = false
         } else if data.view == 1 {
+            // layout akan menampilkan tombol confirmasi untuk meminta persetujuan dari RM
             previousDetailviewStack.isHidden = true
             newDetailviewStack.isHidden = true
             
@@ -559,6 +633,7 @@ class AuctionDetailRolloverViewController: UIViewController {
             submitButton.isHidden = true
             confirmButton.isHidden = false
         } else if data.view == 2 {
+            // layout akan manampilkan form yang akan diinput oleh RM
             self.setContentPreviousDetailAndNewDetail()
             
             interestRateTitleLabel.isHidden = false
@@ -612,13 +687,31 @@ class AuctionDetailRolloverViewController: UIViewController {
     }
     
     func validateForm() -> Bool {
-        if fieldApprovedInterestRateNewDetail.text! == nil ||
-            fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
-        Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
-            showAlert("Rate not valid", false)
-            return false
-        } else {
-            return true
+        if checkUSDorIDR() == 1 {
+            print("cek field USD")
+            // jika layout tampil untuk tipe pembayaran USD
+            if fieldApprovedInterestRateNewDetail.text! == nil ||
+                fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
+            Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
+                showAlert("Rate not valid", false)
+                return false
+            } else if fieldPrincipalInterestNewDetail.text! == nil || (fieldPrincipalInterestNewDetail.text! != nil && Double(fieldPrincipalInterestNewDetail.text!) == nil) {
+                showAlert("principal interest not valid", false)
+                return false
+            }else {
+                return true
+            }
+        }else{
+            print("cek field IDR")
+            // jika layout tampil untuk tipe pembayaran IDR
+            if fieldApprovedInterestRateNewDetail.text! == nil ||
+                fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
+            Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
+                showAlert("Rate not valid", false)
+                return false
+            } else {
+                return true
+            }
         }
         
         /*
@@ -700,5 +793,8 @@ extension AuctionDetailRolloverViewController: AuctionDetailRolloverDelegate {
         let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
         let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
         self.present(loginViewController, animated: true, completion: nil)
+    }
+    func hideLoading() {
+        self.showLoading(false)
     }
 }

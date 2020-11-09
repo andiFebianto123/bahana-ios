@@ -16,6 +16,7 @@ protocol AuctionDetailRolloverDelegate {
     func setDate(_ date: Date)
     func isPosted(_ isSuccess: Bool, _ message: String)
     func openLoginPage()
+    func hideLoading()
 }
 
 class AuctionDetailRolloverPresenter {
@@ -38,6 +39,7 @@ class AuctionDetailRolloverPresenter {
         }
         
         // Get auction
+        print("URL : \(WEB_API_URL)api/v1/rollover/\(id)?lang=\(lang)")
         Alamofire.request(WEB_API_URL + "api/v1/rollover/\(id)?lang=\(lang)", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
@@ -54,7 +56,7 @@ class AuctionDetailRolloverPresenter {
                     self.delegate?.setDate(serverDate!)
                     
                     let auct = res["auction"]
-                    
+
                     let id = auct["id"].intValue
                     let start_date = auct["start_date"].stringValue
                     let end_date = auct["end_date"].stringValue
@@ -81,8 +83,9 @@ class AuctionDetailRolloverPresenter {
                     let breakable_policy = auct["breakable_policy"] != JSON.null ? auct["breakable_policy"].stringValue : nil
                     let is_break = auct["is_break"].boolValue
                     let notes = auct["notes"].stringValue
+                    let fund_type = auct["fund_type"].stringValue
                     
-                    let auction = AuctionDetailRollover(id: id, start_date: start_date, end_date: end_date, pic_custodian: pic_custodian, custodian_bank: custodian_bank, portfolio: portfolio, portfolio_short: portfolio_short, investment_range_start: investment_range_start, period: period, auction_name: auction_name, previous_interest_rate: previous_interest_rate, last_bid_rate: last_bid_rate, status: status, view: view, message: message, previous_maturity_date: previous_maturity_date, previous_issue_date: previous_issue_date, issue_date: issue_date, maturity_date: maturity_date, breakable_policy: breakable_policy, is_break: is_break, notes:notes)
+                    let auction = AuctionDetailRollover(id: id, start_date: start_date, end_date: end_date, pic_custodian: pic_custodian, custodian_bank: custodian_bank, portfolio: portfolio, portfolio_short: portfolio_short, investment_range_start: investment_range_start, period: period, auction_name: auction_name, previous_interest_rate: previous_interest_rate, last_bid_rate: last_bid_rate, status: status, view: view, message: message, previous_maturity_date: previous_maturity_date, previous_issue_date: previous_issue_date, issue_date: issue_date, maturity_date: maturity_date, breakable_policy: breakable_policy, is_break: is_break, notes:notes, fund_type: fund_type)
                     
                     self.delegate?.setData(auction)
                 }
@@ -126,6 +129,42 @@ class AuctionDetailRolloverPresenter {
                     self.delegate?.isPosted(true, res["message"].stringValue)
                 } else {
                     self.delegate?.isPosted(false, res["message"].stringValue)
+                }
+            } else {
+                print(response)
+                self.delegate?.getDataFail(nil)
+            }
+        } // end Alamofire
+    }
+    func saveAuctionForUSD(_ id:Int, rate:Double ,tgl:String?, new_nominal:Double){
+        var parameters:Parameters
+        if tgl != nil {
+            parameters = [
+                "rate":rate,
+                "request_maturity_date":tgl!,
+                "new_nominal":new_nominal
+            ]
+        }else{
+            parameters = [
+                "rate":rate,
+                "new_nominal":new_nominal
+            ]
+        }
+        Alamofire.request(WEB_API_URL + "api/v1/rollover/\(id)/post", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let res = JSON.init(parseJSON: response.result.value!)
+                if response.response?.statusCode == 200 {
+                    if res["status"] != JSON.null {
+                        
+                        self.delegate?.isPosted(false, res["message"].stringValue)
+                        self.delegate?.hideLoading()
+                    }else{
+                        self.delegate?.isPosted(true, res["message"].stringValue)
+                    }
+        
+                } else {
+                    self.delegate?.isPosted(false, res["message"].stringValue)
+                    self.delegate?.hideLoading()
                 }
             } else {
                 print(response)
