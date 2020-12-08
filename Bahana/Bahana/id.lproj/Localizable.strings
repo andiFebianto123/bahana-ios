@@ -89,6 +89,7 @@
 "canceled" = "Batal";
 "used_in_break_auction" = "Dipakai di Lelang Break";
 "used_in_ro_auction" = "Dipakai di Lelang RO";
+"used_in_mature_ncm_auction" = "Dipakai di Lelang NCM Mature";
 "none" = "Tidak Perlu";
 "any_time" = "Kapanpun";
 "today" = "Hari ini";
@@ -154,6 +155,7 @@
 "rollover" = "Rollover";
 "mature" = "Cair";
 "history" = "Riwayat";
+"no_cash_movement" = "No Cash Movement";
 "transaction" = "Transaksi";
 "transaction_detail" = "Detail Transaksi";
 "profile" = "Profil";
@@ -208,6 +210,10 @@
 "change_mature_date" = "GANTI TANGGAL CAIR?";
 "investment_usd" = "Investasi ($)";
 "bilyet_usd" = "Bilyet ($)";
+"(changed)" = "(berubah)";
+"Mature" = "Cair";
+"no_cash_movement" = "tanpa pergerakan uang tunai";
+"new_placement" = "New Placement";
 /*Penambahan baru*/
 
 "january" = "Jan";

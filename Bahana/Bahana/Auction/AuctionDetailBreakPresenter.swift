@@ -52,7 +52,6 @@ class AuctionDetailBreakPresenter {
                     
                     let serverDate = convertStringToDatetime(res["date"].stringValue)
                     self.delegate?.setDate(serverDate!)
-                    
                     let auct = res["auction"]
                     
                     let id = auct["id"].intValue

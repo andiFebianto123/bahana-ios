@@ -70,6 +70,8 @@ class AuctionDetailRolloverViewController: UIViewController {
     // label judul untuk new detail
     @IBOutlet weak var newDetailviewStack: UIStackView!
     @IBOutlet weak var newDetailTitle: UILabel!
+    @IBOutlet weak var newDetailTitle2: UILabel! // NO CASH MOVEMENT
+    
     @IBOutlet weak var tenorNewDetailTitle: UILabel!
     @IBOutlet weak var requestInterestRateNewDetailTitle: UILabel!
     @IBOutlet weak var approvedInterestRateNewDetailTitle: UILabel!
@@ -109,6 +111,11 @@ class AuctionDetailRolloverViewController: UIViewController {
     @IBOutlet weak var constraintTopView4: NSLayoutConstraint!
     // END
     
+    // custom stack view
+    @IBOutlet weak var customStackView: UIStackView!
+    @IBOutlet weak var customPanelView: AuctionPanelView!
+    @IBOutlet weak var statusChanged: UILabel!
+    
     func showUSDnewDetailLayout(){
         // jika found type berjenis USD
         view4.isHidden = true
@@ -118,7 +125,11 @@ class AuctionDetailRolloverViewController: UIViewController {
         viewUSD.isHidden = true
         constraintTopView4.constant = -22.0
     }
-    
+    func showMatureLayout(){
+        view4.isHidden = false
+        constraintTopViewUSD.constant = 0
+        showIDRnewDetailLayout()
+    }
     // function to check IDR or USD
     func checkUSDorIDR() -> Int {
         // nilai 1 = USD
@@ -131,16 +142,22 @@ class AuctionDetailRolloverViewController: UIViewController {
     // end function
     func setPeriodNewDetail(){
         // untuk mengatur bentuk value period pada new detail
+        let dataMature = "no mature"
         if self.checkUSDorIDR() == 1 {
             // untuk manata layout form USD
             showUSDnewDetailLayout()
+            if dataMature == "mature"{
+                showMatureLayout()
+            }
         }else{
             // untuk menata layout form IDR
             showIDRnewDetailLayout()
         }
+        
         let period1 = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - "
         let period2 = "\(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
         periodNewDetailLabel1.text = period1
+        
         periodNewDetailLabel2.setTitle("\(period2)", for: .normal)
         periodNewDetailLabel2.contentHorizontalAlignment = .left
     }
@@ -207,7 +224,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         
         tenorNewDetailLabel.text = data.period
         requestInterestRateNewDetailLabel.text = data.last_bid_rate != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
-        principalNewDetailLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
+        principalNewDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)" : "IDR \(toIdrBio(data.investment_range_start))"
         self.setPeriodNewDetail()
     }
     
@@ -314,6 +331,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         picCustodianTitleLabel.textColor = titleLabelColor
         picCustodianTitleLabel.text = localize("pic_custodian")
         picCustodianLabel.font = contentFont
+        
         detailTitleLabel.textColor = primaryColor
         detailView.backgroundColor = cardBackgroundColor
         detailView.layer.cornerRadius = 5
@@ -572,15 +590,13 @@ class AuctionDetailRolloverViewController: UIViewController {
         }
     }
     
-    
     func setContent() {
-        // Check status
         /* Buat date picker */
         createDatePicker()
         
         /*Menghilangkan form change mature date*/
         changeMatureDateStack.isHidden = true
-        
+        // Check status
         if data.status == "-" {
             statusView.isHidden = true
         } else {
@@ -643,7 +659,7 @@ class AuctionDetailRolloverViewController: UIViewController {
             submitButton.isHidden = false
             confirmButton.isHidden = true
         }
-        
+
         // Footer
         let mutableAttributedString = NSMutableAttributedString()
         

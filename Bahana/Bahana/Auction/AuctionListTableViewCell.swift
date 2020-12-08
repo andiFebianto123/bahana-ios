@@ -183,6 +183,11 @@ class AuctionListTableViewCell: UITableViewCell {
             backgroundColor = darkRedColor
             breakDateTitleLabel.isHidden = true
             breakDateLabel.isHidden = true
+        case "Used in Mature NCM Auction":
+            title = localize("used_in_mature_ncm_auction")
+            backgroundColor = darkYellowColor
+            breakDateTitleLabel.isHidden = true
+            breakDateLabel.isHidden = true
         default:
             break
         }
@@ -244,6 +249,11 @@ class AuctionListTableViewCell: UITableViewCell {
         case "mature":
             title = localize("mature")
             mainView.backgroundColor = lightRedColor
+            break
+        case "ncm-auction":
+            title = "NCM AUCTION"
+            placementDateLabel.text = localize("placement_date")
+            endTitleLabel.text = localize("ends_in")
             break
         default:
             break

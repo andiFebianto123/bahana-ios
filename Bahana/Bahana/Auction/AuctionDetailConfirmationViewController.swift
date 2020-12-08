@@ -170,9 +170,12 @@ class AuctionDetailConfirmationViewController: UIViewController {
     @IBAction func yesButtonPressed(_ sender: Any) {
         showLoading(true)
         if self.confirmationType == "revise_rate" {
-            presenter.reviseAuction(self.auctionID, self.revisionRate)
+            if self.auctionType == "ncm-auction"{
+                presenter.reviseAuctionNcm(self.auctionID, self.revisionRate, date: nil)
+            }else{
+                presenter.reviseAuction(self.auctionID, self.revisionRate)
+            }
         } else {
-            
             presenter.confirm(auctionID, auctionType, true, nil, id)
         }
         // print(self.auctionType)
@@ -212,7 +215,12 @@ class AuctionDetailConfirmationViewController: UIViewController {
         alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
             self.showLoading(true)
             let maturityDate = convertDateToString(self.datePicker.date, format: "yyyy-MM-dd")
-            self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate, self.id)
+            if self.auctionType == "ncm-auction"{
+                self.presenter.reviseAuctionNcm(self.auctionID, self.revisionRate, date: maturityDate)
+            }else{
+                self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate, self.id)
+            }
+            
         }))
         self.present(alert, animated: true, completion: nil)
     }

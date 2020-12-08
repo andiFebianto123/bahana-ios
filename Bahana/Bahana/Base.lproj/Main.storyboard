@@ -1171,11 +1171,12 @@
                         <segue destination="WOC-mx-ejX" kind="show" identifier="showAuctionDetailBreak" id="15a-fc-T8o"/>
                         <segue destination="eQn-Or-zfZ" kind="show" identifier="showAuctionDetailRollover" id="ooR-7S-fhO"/>
                         <segue destination="B6V-ff-9p3" kind="show" identifier="showAuctionDetailMature" id="Obd-hA-qib"/>
+                        <segue destination="d6f-if-xYI" kind="show" identifier="showAuctionNoCashMovement" id="Q0U-5R-vbn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXb-8u-Rku" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="444.92753623188412" y="1853.5714285714284"/>
+            <point key="canvasLocation" x="361" y="1839"/>
         </scene>
         <!--TransactionDetail-->
         <scene sceneID="sTh-hl-s9T">
@@ -1186,6 +1187,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VdM-CJ-m8Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="901" y="2266"/>
+        </scene>
+        <!--AuctionNoCashMovement-->
+        <scene sceneID="5lL-NS-Km3">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Auction" referencedIdentifier="AuctionNoCashMovement" id="d6f-if-xYI" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Q2E-5A-APg"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L3I-Jr-LDh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="656" y="2324"/>
         </scene>
     </scenes>
     <resources>

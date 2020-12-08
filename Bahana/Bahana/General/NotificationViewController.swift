@@ -122,7 +122,14 @@ class NotificationViewController: UIViewController {
                     destinationVC.backToRoot = true
                 }
             }
+        }else if segue.identifier == "showAuctionNoCashMovement" {
+            if let destinationVC = segue.destination as? AuctionCashMovementViewController {
+                destinationVC.id = auctionID
+                destinationVC.contentType = auctionType
+                destinationVC.backToRoot = true
+            }
         }
+        
     }
 
     func setNavigationItems() {
@@ -255,6 +262,8 @@ extension NotificationViewController: UITableViewDelegate {
                     performSegue(withIdentifier: "showAuctionDetailRollover", sender: self)
                 case "mature":
                     performSegue(withIdentifier: "showAuctionDetailMature", sender: self)
+                case "ncm-auction":
+                    performSegue(withIdentifier: "showAuctionNoCashMovement", sender: self)
                 default:
                     break
                 }

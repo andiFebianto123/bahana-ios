@@ -35,7 +35,9 @@ class AuctionListViewController: UIViewController {
     var loadFailed: Bool = false
     
     var statusOptions = [localize("all").uppercased(), "-", "ACC", "REJ", "NEC"]
-    let typeOptions = [localize("all").uppercased(), localize("auction").uppercased(), localize("direct_auction").uppercased(), localize("break").uppercased(), localize("rollover").uppercased(), localize("mature").uppercased()]
+    let typeOptions = [localize("all").uppercased(), localize("auction").uppercased(), localize("direct_auction").uppercased(), localize("break").uppercased(), localize("rollover").uppercased(), localize("mature").uppercased(),
+        localize("no_cash_movement").uppercased()
+    ]
     
     var auctionID = Int()
     var auctionType = String()
@@ -47,8 +49,8 @@ class AuctionListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        print("Called")
         setNavigationItems()
         setViewText()
         
@@ -134,9 +136,16 @@ class AuctionListViewController: UIViewController {
         super.viewWillAppear(animated)
         setNavigationItems()
         showLoading(true)
-        self.data.removeAll()
-        self.getData(lastId: nil, lastDate: nil, lastType: nil)
-        print("coba")
+        // Sementara dibuat seperti ini dulu
+        if pageType == "history" {
+            getOpenRefresh()
+            print("Konten : History")
+        }else{
+            print("Konten : Auction")
+            self.data.removeAll()
+            self.getData(lastId: nil, lastDate: nil, lastType: nil)
+        }
+        
     }
     
     // MARK: - Navigation
@@ -165,6 +174,11 @@ class AuctionListViewController: UIViewController {
            if let destinationVC = segue.destination as? AuctionDetailMatureViewController {
                destinationVC.id = auctionID
            }
+        } else if segue.identifier == "showAuctionNoCashMovement" {
+            if let destinationVC = segue.destination as? AuctionCashMovementViewController {
+                destinationVC.id = auctionID
+                destinationVC.contentType = auctionType
+            }
         }
     }
 
@@ -251,6 +265,13 @@ class AuctionListViewController: UIViewController {
     }
     
     @objc func refresh() {
+        page = 1
+        self.data.removeAll()
+        tableView.reloadData()
+        self.getData(lastId: nil, lastDate: nil, lastType: nil)
+    }
+    
+    func getOpenRefresh(){
         page = 1
         self.data.removeAll()
         tableView.reloadData()
@@ -373,6 +394,8 @@ extension AuctionListViewController: UITableViewDelegate {
             performSegue(withIdentifier: "showAuctionDetailRollover", sender: self)
         case "mature":
             performSegue(withIdentifier: "showAuctionDetailMature", sender: self)
+        case "ncm-auction":
+            performSegue(withIdentifier: "showAuctionNoCashMovement", sender: self)
         default:
             //performSegue(withIdentifier: "showDetail", sender: self)
             break

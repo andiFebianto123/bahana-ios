@@ -89,6 +89,7 @@
 "canceled" = "Canceled";
 "used_in_break_auction" = "Used in Break Auction";
 "used_in_ro_auction" = "Used in RO Auction";
+"used_in_mature_ncm_auction" = "Used in Mature NCM Auction";
 "none" = "None";
 "any_time" = "Any Time";
 "today" = "Today";
@@ -154,6 +155,7 @@
 "rollover" = "Rollover";
 "mature" = "Mature";
 "history" = "History";
+"no_cash_movement" = "No Cash Movement";
 "transaction" = "Transaction";
 "transaction_detail" = "Transaction Detail";
 "profile" = "Profile";
@@ -208,6 +210,10 @@
 "change_mature_date" = "CHANGE MATURE DATE?";
 "investment_usd" = "Investment ($)";
 "bilyet_usd" = "Bilyet ($)";
+"(changed)" = "(changed)";
+"Mature" = "Mature";
+"no_cash_movement" = "no cash movement";
+"new_placement" = "New Placement";
 /*Penambahan baru*/
 
 

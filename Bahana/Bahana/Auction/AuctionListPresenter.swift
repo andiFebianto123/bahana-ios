@@ -41,6 +41,8 @@ class AuctionListPresenter {
             url += "rollover?"
         case localize("mature").uppercased():
             url += "mature-auction?"
+        case localize("no_cash_movement").uppercased():
+            url += "no-cash-movement?"
         default:
             url += "all-auction?"
         }
@@ -104,8 +106,9 @@ class AuctionListPresenter {
                         let type = auct["type"].stringValue
                         let status = auct["status"].stringValue
                         var maturity_date: String?
-                        if type == "auction" || type == "direct-auction" {
+                        if type == "auction" || type == "direct-auction" || type == "ncm-auction" {
                             maturity_date = auct["end_bidding_rm"] != JSON.null ? auct["end_bidding_rm"].stringValue : nil
+                            
                         } else if type == "rollover" {
                             maturity_date = auct["end_date"] != JSON.null ? auct["end_date"].stringValue : nil
                         } else {

@@ -91,12 +91,26 @@ class AuctionDetailBreakViewController: UIViewController {
     
     @IBOutlet weak var panelBreakDetail: UIStackView!
     @IBOutlet weak var BreakDetailLabel: UILabel! // title
+    @IBOutlet weak var BreakDetailLabel2: UILabel! // title
+    
     @IBOutlet weak var BreakDetailView: UIView!
     /*TAMBAHAN by ANDI*/
     
     // untuk NOTES
     @IBOutlet weak var notesTitle: UILabel!
     @IBOutlet weak var notesLabel: UILabel!
+    
+    // tambahan untuk view custom
+    @IBOutlet weak var PanelCustom: UIStackView!
+    @IBOutlet weak var customPanelView: AuctionPanelView!
+    
+    @IBOutlet weak var principalBreakDetailView: UIView!
+    @IBOutlet weak var periodBreakDetailView: UIView!
+    @IBOutlet weak var principalBreakDetailTitle: UILabel!
+    @IBOutlet weak var periodBreakDetailTitle: UILabel!
+    @IBOutlet weak var constraintHeightPrincipalBreakDetailView: NSLayoutConstraint!
+    @IBOutlet weak var constraintHeightPeriodBreakDetailView: NSLayoutConstraint!
+    @IBOutlet weak var changeStatus: UILabel!
     
     
     var loadingView = UIView()
@@ -116,6 +130,7 @@ class AuctionDetailBreakViewController: UIViewController {
     
     /*TAMBAHAN by ANDI*/
     func hiddenPanelBreakAndPrevious(){
+        
         /*
         ini adalah method digunakan untuk menghilangkan
         panel break detail dan previoud detail
@@ -147,6 +162,7 @@ class AuctionDetailBreakViewController: UIViewController {
         requestRateBreakDetail.text = data.last_bid_rate! != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
         breakRateTextField.isHidden = true
     }
+    
     /*TAMBAHAN by ANDI*/
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -199,6 +215,7 @@ class AuctionDetailBreakViewController: UIViewController {
         statusView.layer.cornerRadius = 10
         statusLabel.font = contentFont
         let cardBackgroundColor = lightRedColor
+        
         portfolioView.backgroundColor = cardBackgroundColor
         portfolioView.layer.cornerRadius = 5
         portfolioView.layer.shadowColor = UIColor.gray.cgColor
@@ -244,6 +261,15 @@ class AuctionDetailBreakViewController: UIViewController {
         BreakDetailView.layer.shadowRadius = 4
         BreakDetailView.layer.shadowOpacity = 0.5
         BreakDetailLabel.text = localize("break_detail") // updateA
+        
+        
+        principalBreakDetailTitle.text = localize("principal_bio")
+        periodBreakDetailTitle.text = localize("period")
+        principalBreakDetailView.isHidden = true
+        periodBreakDetailView.isHidden = true
+        constraintHeightPeriodBreakDetailView.constant = 0.0 // -> 24.0
+        constraintHeightPrincipalBreakDetailView.constant = 0.0 // -> 24.0
+        
         /*TAMBAHAN by ANDI*/
         notesTitle.textColor = primaryColor
         notesTitle.text = localize("notes").uppercased()
@@ -302,7 +328,6 @@ class AuctionDetailBreakViewController: UIViewController {
         presenter = AuctionDetailBreakPresenter(delegate: self)
         
         refresh()
-        
         // Refresh page
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .refreshAuctionDetail, object: nil)
     }
