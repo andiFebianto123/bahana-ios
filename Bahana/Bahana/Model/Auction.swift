@@ -24,4 +24,5 @@ struct Auction {
     var period: String
     var type: String
     var status: String
+    var ncm_type: String?
 }

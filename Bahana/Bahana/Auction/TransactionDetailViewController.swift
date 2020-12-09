@@ -164,6 +164,9 @@ class TransactionDetailViewController: UIViewController {
         case "Used in Mature NCM Auction":
             title = localize("used_in_mature_ncm_auction")
             backgroundColor = darkYellowColor
+        case "Used in Break NCM Auction":
+            title = localize("used_in_break_ncm_auction")
+            backgroundColor = darkYellowColor
         default:
             break
         }

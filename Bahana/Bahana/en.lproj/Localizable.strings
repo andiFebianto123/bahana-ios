@@ -90,6 +90,7 @@
 "used_in_break_auction" = "Used in Break Auction";
 "used_in_ro_auction" = "Used in RO Auction";
 "used_in_mature_ncm_auction" = "Used in Mature NCM Auction";
+"used_in_break_ncm_auction" = "Used In Break NCM Auction";
 "none" = "None";
 "any_time" = "Any Time";
 "today" = "Today";
@@ -206,7 +207,7 @@
 "request_rate_break" = "Request Rate Break (%)";
 "approved_rate_break" = "Approved Rate Break (%)";
 "request_interest_rate" = "Request Interest Rate (%)";
-"approved_interest_rate" = "Approved Interest Rate (%)";
+"approved_interest_rate" = "Approved interest rate (%)";
 "change_mature_date" = "CHANGE MATURE DATE?";
 "investment_usd" = "Investment ($)";
 "bilyet_usd" = "Bilyet ($)";
@@ -214,6 +215,8 @@
 "Mature" = "Mature";
 "no_cash_movement" = "no cash movement";
 "new_placement" = "New Placement";
+"ncm_auction_mature" = "NCM Auction Mature";
+"ncm_auction_break" = "NCM Auction Break";
 /*Penambahan baru*/
 
 

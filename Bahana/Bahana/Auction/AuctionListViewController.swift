@@ -42,6 +42,7 @@ class AuctionListViewController: UIViewController {
     var auctionID = Int()
     var auctionType = String()
     var serverHourDifference = Int()
+    var ncm_type = String()
     
     var data = [Auction]()
     let dataPerPage = 10
@@ -177,7 +178,7 @@ class AuctionListViewController: UIViewController {
         } else if segue.identifier == "showAuctionNoCashMovement" {
             if let destinationVC = segue.destination as? AuctionCashMovementViewController {
                 destinationVC.id = auctionID
-                destinationVC.contentType = auctionType
+                destinationVC.contentType = ncm_type
             }
         }
     }
@@ -395,6 +396,7 @@ extension AuctionListViewController: UITableViewDelegate {
         case "mature":
             performSegue(withIdentifier: "showAuctionDetailMature", sender: self)
         case "ncm-auction":
+            ncm_type = data[indexPath.row].ncm_type!
             performSegue(withIdentifier: "showAuctionNoCashMovement", sender: self)
         default:
             //performSegue(withIdentifier: "showDetail", sender: self)

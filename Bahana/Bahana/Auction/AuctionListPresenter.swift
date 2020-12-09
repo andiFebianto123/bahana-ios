@@ -115,8 +115,9 @@ class AuctionListPresenter {
                             maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
                         }
                         let period = auct["period"].stringValue
+                        let ncm_type = auct["ncm_type"] != JSON.null ? auct["ncm_type"].stringValue : nil
                         
-                        let auction = Auction(id: id, auction_name: auction_name, portfolio: portfolio, portfolio_short: portfolio_short, pic_custodian: pic_custodian, custodian_bank: custodian_bank, investment_range_start: investment_range_start, investment_range_end: investment_range_end, start_date: start_date, end_date: end_date, break_maturity_date: break_maturity_date, maturity_date: maturity_date, period: period, type: type, status: status)
+                        let auction = Auction(id: id, auction_name: auction_name, portfolio: portfolio, portfolio_short: portfolio_short, pic_custodian: pic_custodian, custodian_bank: custodian_bank, investment_range_start: investment_range_start, investment_range_end: investment_range_end, start_date: start_date, end_date: end_date, break_maturity_date: break_maturity_date, maturity_date: maturity_date, period: period, type: type, status: status, ncm_type: ncm_type)
                         auctions.append(auction)
                     }
                     
@@ -209,8 +210,9 @@ class AuctionListPresenter {
                         let status = auct["status"].stringValue
                         let maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
                         let period = auct["period"].stringValue
+                        let ncm_type = auct["ncm_type"] != JSON.null ? auct["ncm_type"].stringValue : nil
                         
-                        let auction = Auction(id: id, auction_name: auction_name, portfolio: portfolio, portfolio_short: portfolio_short, pic_custodian: pic_custodian, custodian_bank: custodian_bank, investment_range_start: investment_range_start, investment_range_end: investment_range_end, start_date: start_date, end_date: end_date, break_maturity_date: break_maturity_date, maturity_date: maturity_date, period: period, type: type, status: status)
+                        let auction = Auction(id: id, auction_name: auction_name, portfolio: portfolio, portfolio_short: portfolio_short, pic_custodian: pic_custodian, custodian_bank: custodian_bank, investment_range_start: investment_range_start, investment_range_end: investment_range_end, start_date: start_date, end_date: end_date, break_maturity_date: break_maturity_date, maturity_date: maturity_date, period: period, type: type, status: status, ncm_type: ncm_type)
                         auctions.append(auction)
                     }
                     

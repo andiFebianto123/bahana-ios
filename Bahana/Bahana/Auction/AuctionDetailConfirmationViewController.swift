@@ -26,11 +26,13 @@ class AuctionDetailConfirmationViewController: UIViewController {
     var auctionType: String!
     var id: Int?
     var revisionRate: String?
+    var revisionRateBreak: String?
     var confirmationType: String!
     var needRefresh: Bool = false
     
     var textField = UITextField()
     var datePicker = UIDatePicker()
+    var ncmType:String!
     
     var presenter: AuctionDetailConfirmationPresenter!
     
@@ -171,7 +173,11 @@ class AuctionDetailConfirmationViewController: UIViewController {
         showLoading(true)
         if self.confirmationType == "revise_rate" {
             if self.auctionType == "ncm-auction"{
-                presenter.reviseAuctionNcm(self.auctionID, self.revisionRate, date: nil)
+                if self.ncmType == "mature"{
+                    presenter.reviseAuctionNcm(self.auctionID, self.revisionRate, ncmType: ncmType, rateBreak: nil, date: nil)
+                }else{
+                    presenter.reviseAuctionNcm(self.auctionID, self.revisionRate, ncmType: ncmType, rateBreak: self.revisionRateBreak, date: nil)
+                }
             }else{
                 presenter.reviseAuction(self.auctionID, self.revisionRate)
             }
@@ -216,7 +222,11 @@ class AuctionDetailConfirmationViewController: UIViewController {
             self.showLoading(true)
             let maturityDate = convertDateToString(self.datePicker.date, format: "yyyy-MM-dd")
             if self.auctionType == "ncm-auction"{
-                self.presenter.reviseAuctionNcm(self.auctionID, self.revisionRate, date: maturityDate)
+                if self.ncmType == "mature"{
+                    self.presenter.reviseAuctionNcm(self.auctionID, self.revisionRate, ncmType: self.ncmType, rateBreak: nil, date: maturityDate)
+                }else{
+                    self.presenter.reviseAuctionNcm(self.auctionID, self.revisionRate, ncmType: self.ncmType, rateBreak: self.revisionRateBreak, date: maturityDate)
+                }
             }else{
                 self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate, self.id)
             }

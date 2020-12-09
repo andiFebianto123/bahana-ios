@@ -90,6 +90,7 @@
 "used_in_break_auction" = "Dipakai di Lelang Break";
 "used_in_ro_auction" = "Dipakai di Lelang RO";
 "used_in_mature_ncm_auction" = "Dipakai di Lelang NCM Mature";
+"used_in_break_ncm_auction" = "Dipakai di Break NCM Auction";
 "none" = "Tidak Perlu";
 "any_time" = "Kapanpun";
 "today" = "Hari ini";
@@ -213,7 +214,9 @@
 "(changed)" = "(berubah)";
 "Mature" = "Cair";
 "no_cash_movement" = "tanpa pergerakan uang tunai";
-"new_placement" = "New Placement";
+"new_placement" = "Lelang Baru";
+"ncm_auction_mature" = "Lelang NCM Cair";
+"ncm_auction_break" = "Lelang NCM Break";
 /*Penambahan baru*/
 
 "january" = "Jan";

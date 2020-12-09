@@ -49,7 +49,7 @@ class TransactionListViewController: UIViewController {
     
     var fundOptions = [String]()
     let statusOptions =  [
-        "all", "active", "break", "canceled", "mature", "used_in_break_auction", "used_in_ro_auction", "rollover", "used_in_mature_ncm_auction"
+        "all", "active", "break", "canceled", "mature", "used_in_break_auction", "used_in_ro_auction", "rollover", "used_in_mature_ncm_auction", "used_in_break_ncm_auction"
     ]
     
     let issueDateOptions = [

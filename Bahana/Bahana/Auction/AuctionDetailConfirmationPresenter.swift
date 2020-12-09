@@ -101,35 +101,19 @@ class AuctionDetailConfirmationPresenter {
         }
     }
     
-    func reviseAuctionNcm(_ id:Int, _ rate:String?, date:String?){
-        
-        
-        if rate != "" {
-            let parameters: Parameters = [
+    func reviseAuctionNcm(_ id:Int, _ rate:String?, ncmType:String, rateBreak:String? ,date:String?){
+            var parameters: Parameters = [
                     "revision_rate": rate != "" ? Double(rate!)! : "",
                     "request_maturity_date": date != nil ? date! : ""
             ]
-            Alamofire.request(WEB_API_URL + "api/v1/no-cash-movement/\(id)/revision", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
-                if response.response?.mimeType == "application/json" {
-                    let res = JSON.init(parseJSON: response.result.value!)
-                    print(res)
-                    if response.response?.statusCode == 200 {
-                        self.delegate?.isConfirmed(true, res["message"].stringValue)
-                    } else {
-                        self.delegate?.isConfirmed(false, res["message"].stringValue)
-                    }
-                } else {
-                    print(response)
-                    self.delegate?.setDataFail()
-                }
-            }
-            print("\(parameters)")
-        }else{
-            let parameters: Parameters = [
-                    "request_maturity_date": date != nil ? date! : ""
+        if ncmType == "break" {
+            parameters = [
+                "revision_rate": rate != "" ? Double(rate!)! : "",
+                "revision_rate_break": Double(rateBreak!)!,
+                "request_maturity_date": date != nil ? date! : ""
             ]
-            print("\(parameters)")
-            Alamofire.request(WEB_API_URL + "api/v1/no-cash-movement/\(id)/revision", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+        }
+        Alamofire.request(WEB_API_URL + "api/v1/no-cash-movement/\(id)/revision", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
                 if response.response?.mimeType == "application/json" {
                     let res = JSON.init(parseJSON: response.result.value!)
                     print(res)
@@ -143,8 +127,7 @@ class AuctionDetailConfirmationPresenter {
                     self.delegate?.setDataFail()
                 }
             }
-            
-        }
-        
+            print("\(parameters)")
+        //
     }
 }

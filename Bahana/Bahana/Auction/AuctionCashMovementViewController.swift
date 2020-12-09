@@ -83,6 +83,14 @@ class AuctionCashMovementViewController: UIViewController {
     
     // object view untuk panelView 6
     @IBOutlet weak var contentViewpanelView6: UIView!
+    @IBOutlet weak var titleLabelpanelView6: UILabel!
+    @IBOutlet weak var breakDateTitlepanelView6: UILabel!
+    @IBOutlet weak var breakDateLabelpanelView6: UILabel!
+    @IBOutlet weak var requestRateBreakTitlepanelView6: UILabel!
+    @IBOutlet weak var requestRateBreakLabelpanelView6: UILabel!
+    @IBOutlet weak var approvedRateBreakTitlepanelView6: UILabel!
+    @IBOutlet weak var fieldRateBreakpanelView6: UITextField!
+    @IBOutlet weak var heightViewApprovedRateBreakpanelView6: NSLayoutConstraint!
     
     // object view untuk panelView 7
     @IBOutlet weak var viewCustompanelView7: AuctionPanelView!
@@ -105,6 +113,7 @@ class AuctionCashMovementViewController: UIViewController {
     var serverHourDifference = Int()
     
     var revisionRate: String?
+    var revisionRateBreak: String?
     var confirmationType: String!
     
     var contentType:String?
@@ -118,6 +127,7 @@ class AuctionCashMovementViewController: UIViewController {
         let cardBackgroundColor = lightRedColor
         
         // set style content mature
+        TitleLabelpanelView2.text = localize("mature").uppercased()
         TitleLabelpanelView2.textColor = primaryColor
         contentViewpanelView2.backgroundColor = cardBackgroundColor
         contentViewpanelView2.layer.cornerRadius = 5
@@ -125,8 +135,19 @@ class AuctionCashMovementViewController: UIViewController {
         contentViewpanelView2.layer.shadowOffset = CGSize(width: 0, height: 0)
         contentViewpanelView2.layer.shadowRadius = 4
         contentViewpanelView2.layer.shadowOpacity = 0.5
+        // memberi data pada title label mature
+        tenorTitlepanelView2.font = titleFont
+        tenorTitlepanelView2.text = localize("tenor")
+        interestRateTitlepanelView2.font = titleFont
+        interestRateTitlepanelView2.text = localize("interest_rate")
+        principalBioTitlepanelView2.font = titleFont
+        principalBioTitlepanelView2.text = localize("principal_bio")
+        periodTitlepanelView2.font = titleFont
+        periodTitlepanelView2.text = localize("period")
+
         
         // set style previous detail
+        titleLabelpanelView5.text = localize("previous_detail").uppercased()
         titleLabelpanelView5.textColor = primaryColor
         contentViewpanelView5.backgroundColor = cardBackgroundColor
         contentViewpanelView5.layer.cornerRadius = 5
@@ -134,6 +155,34 @@ class AuctionCashMovementViewController: UIViewController {
         contentViewpanelView5.layer.shadowOffset = CGSize(width: 0, height: 0)
         contentViewpanelView5.layer.shadowRadius = 4
         contentViewpanelView5.layer.shadowOpacity = 0.5
+        // memberi data pada title label previous detail
+        tenorTitlepanelView5.font = titleFont
+        tenorTitlepanelView5.text = localize("tenor")
+        interestRateTitlepanelView5.font = titleFont
+        interestRateTitlepanelView5.text = localize("interest_rate")
+        principalBioTitlepanelView5.font = titleFont
+        principalBioTitlepanelView5.text = localize("principal_bio")
+        periodTitlepanelView5.font = titleFont
+        periodTitlepanelView5.text = localize("period")
+        
+        if contentType == "break"{
+            // set style break detail
+            titleLabelpanelView6.textColor = primaryColor
+            contentViewpanelView6.backgroundColor = cardBackgroundColor
+            contentViewpanelView6.layer.cornerRadius = 5
+            contentViewpanelView6.layer.shadowColor = UIColor.gray.cgColor
+            contentViewpanelView6.layer.shadowOffset = CGSize(width: 0, height: 0)
+            contentViewpanelView6.layer.shadowRadius = 4
+            contentViewpanelView6.layer.shadowOpacity = 0.5
+            // memberi data pada title label break detail
+            breakDateTitlepanelView6.font = titleFont
+            breakDateTitlepanelView6.text = localize("break_date")
+            requestRateBreakTitlepanelView6.font = titleFont
+            requestRateBreakTitlepanelView6.text = localize("request_rate_break")
+            approvedRateBreakTitlepanelView6.font = titleFont
+            approvedRateBreakTitlepanelView6.text = localize("approved_rate_break")
+        }
+        
         
         // set style new placement, no cash movement
         viewCustompanelView7.viewBody.backgroundColor = cardBackgroundColor
@@ -144,6 +193,21 @@ class AuctionCashMovementViewController: UIViewController {
         viewCustompanelView7.viewBody.layer.shadowOpacity = 0.5
         viewCustompanelView7.totalApproveView.isHidden = true
         viewCustompanelView7.totalDecilineView.isHidden = true
+        // memberi data pada title label new placement
+        viewCustompanelView7.panelTitle.textColor = primaryColor
+        viewCustompanelView7.panelTItle2.textColor = primaryColor
+        viewCustompanelView7.panelTitle.text = "\(localize("new_placement").uppercased()),"
+        viewCustompanelView7.panelTItle2.text = " \(localize("no_cash_movement").uppercased())"
+        viewCustompanelView7.tenorTitle.text = localize("tenor")
+        viewCustompanelView7.requestInterestRateTitle.text = localize("request_interest_rate")
+        viewCustompanelView7.approvedInterestRateTitle.text = localize("approved_interest_rate")
+        viewCustompanelView7.principalTitle.text = localize("principal_bio")
+        viewCustompanelView7.transferTitle.text = "Transfer"
+        viewCustompanelView7.newPlacementTitle.text = localize("new_placement")
+        viewCustompanelView7.periodTitle.text = localize("period")
+        viewCustompanelView7.statusTenorChanged.text = localize("(changed)") // untuk memberi status pada tenor
+        viewCustompanelView7.matureTitle.text = localize("Mature")
+        viewCustompanelView7.noCashMovementTitle.text = "(\(localize("no_cash_movement")))"
         
     }
     
@@ -237,8 +301,10 @@ class AuctionCashMovementViewController: UIViewController {
             if let destinationVC = segue.destination as? AuctionDetailConfirmationViewController {
                 destinationVC.auctionID = id
                 destinationVC.auctionType = "ncm-auction"
+                destinationVC.ncmType = contentType
                 destinationVC.confirmationType = confirmationType
                 destinationVC.revisionRate = revisionRate
+                destinationVC.revisionRateBreak = revisionRateBreak
             }
         }
     }
@@ -258,7 +324,7 @@ class AuctionCashMovementViewController: UIViewController {
         //navigationController?.navigationBar.barTintColor = primaryColor
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
-        navigationTitle.text = "NCM AUCTION"
+        navigationTitle.text = localize("auction_detail").uppercased()
         let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
@@ -337,6 +403,11 @@ class AuctionCashMovementViewController: UIViewController {
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
         }
         
+        // memberi text ke panelView1
+        fundNameLabelpanelView1.text = data.portfolio
+        custodianBankLabelpanelView1.text = data.custodian_bank
+        picCustodianLabelpanelView1.text = data.pic_custodian
+        
         // memberi countdown
         countdown()
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
@@ -346,57 +417,24 @@ class AuctionCashMovementViewController: UIViewController {
         notesTitlepanelView8.text = localize("notes").uppercased()
         notesLabelpanelView8.text = "\(data.notes)"
         
-        // memberi data pada content previous detail
-        tenorTitlepanelView5.text = localize("tenor")
-        interestRateTitlepanelView5.text = localize("interest_rate")
-        principalBioTitlepanelView5.text = localize("principal_bio")
-        periodTitlepanelView5.text = localize("period")
+        
         tenorLabelpanelView5.text = "\(data.previous_transaction.period)"
         interestRateLabelpanelView5.text = "\(checkPercentage(data.previous_transaction.coupon_rate)) %"
         principalBioLabelpanelView5.text = (checkUSDorIDR() == 1) ? "USD \(data.previous_transaction.quantity)": "IDR \(toIdrBio(data.previous_transaction.quantity))"
         periodLabelpanelView5.text = "\(convertDateToString(convertStringToDatetime(data.previous_transaction.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.previous_transaction.maturity_date)!)!)"
         
+         setStylePanelViewToNCMAUCTION() // get ready setting style
         // mengatur konten
-        if contentType! == "ncm-auction" {
+        if contentType == "mature" {
             // jika tipe content no cash movement
-            panelView3.isHidden = true
             panelView6.isHidden = true
-            panelView9.isHidden = true
             
-            // memberi text ke panelView1
-            fundNameLabelpanelView1.text = data.portfolio
-            custodianBankLabelpanelView1.text = data.custodian_bank
-            picCustodianLabelpanelView1.text = data.pic_custodian
-            
-            setStylePanelViewToNCMAUCTION() // get ready setting style
-            
-            // memberi data pada konten mature
-            tenorTitlepanelView2.text = localize("tenor")
-            interestRateTitlepanelView2.text = localize("interest_rate")
-            principalBioTitlepanelView2.text = localize("principal_bio")
-            periodTitlepanelView2.text = localize("period")
             tenorLabelpanelView2.text = "\(data.previous_transaction.period)"
             interestRateLabelpanelView2.text = "\(checkPercentage(data.previous_transaction.coupon_rate)) %"
             principalBioLabelpanelView2.text = (checkUSDorIDR() == 1) ? "USD \(data.previous_transaction.quantity)": "IDR \(toIdrBio(data.previous_transaction.quantity))"
             
             periodLabelpanelView2.text = "\(convertDateToString(convertStringToDatetime(data.previous_transaction.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.previous_transaction.maturity_date)!)!)"
             
-            // memberi data pada konten new placement
-            viewCustompanelView7.panelTitle.textColor = primaryColor
-            viewCustompanelView7.panelTItle2.textColor = primaryColor
-            viewCustompanelView7.panelTitle.text = "\(localize("new_placement").uppercased()),"
-            viewCustompanelView7.panelTItle2.text = " \(localize("no_cash_movement").uppercased())"
-            
-            viewCustompanelView7.tenorTitle.text = localize("tenor")
-            viewCustompanelView7.requestInterestRateTitle.text = localize("request_interest_rate")
-            viewCustompanelView7.approvedInterestRateTitle.text = localize("approved_interest_rate")
-            viewCustompanelView7.principalTitle.text = localize("principal_bio")
-            viewCustompanelView7.transferTitle.text = "Transfer"
-            viewCustompanelView7.newPlacementTitle.text = localize("new_placement")
-            viewCustompanelView7.periodTitle.text = localize("period")
-            viewCustompanelView7.statusTenorChanged.text = localize("(changed)") // untuk memberi status pada tenor
-            viewCustompanelView7.matureTitle.text = localize("Mature")
-            viewCustompanelView7.noCashMovementTitle.text = "(\(localize("no_cash_movement")))"
             
             viewCustompanelView7.tenorLabel.text = "\(data.period)"
             if data.revision_rate_rm != nil {
@@ -404,27 +442,53 @@ class AuctionCashMovementViewController: UIViewController {
             }else{
                 viewCustompanelView7.requestInterestRateLabel.text = "\(checkPercentage(data.interest_rate)) %"
             }
-            
             viewCustompanelView7.periodLabel.text = "\(convertDateToString(convertStringToDatetime(data.bilyet.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.bilyet.maturity_date)!)!)"
             
-            // cek tipe placement
-            if data.ncm_change_status == "change placement"{
-                viewCustompanelView7.listPrincipalBio.isHidden = false
-                viewCustompanelView7.statusTenorChanged.isHidden = false
-                viewCustompanelView7.statusTenorChanged.isHidden = true
-                viewCustompanelView7.principalLabel.isHidden = true
-                viewCustompanelView7.transferLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.previous_transaction.transfer_ammount)": "IDR \(toIdrBio(data.previous_transaction.transfer_ammount))"
-                viewCustompanelView7.newPlacementLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
-            }
+            
             
         }else{
             // jika ncm-auction break
+            panelView2.isHidden = true
+            breakDateLabelpanelView6.text = "\(convertDateToString(convertStringToDatetime(data.break_maturity_date)!)!)"
+            requestRateBreakLabelpanelView6.text = "\(checkPercentage(data.break_target_rate!)) %"
+            viewCustompanelView7.tenorLabel.text = "\(data.period)"
+            if data.revision_rate_rm != nil {
+                viewCustompanelView7.requestInterestRateLabel.text = "\(checkPercentage(data.revision_rate_rm!)) %"
+            }else{
+                viewCustompanelView7.requestInterestRateLabel.text = "\(checkPercentage(data.interest_rate)) %"
+            }
+            viewCustompanelView7.periodLabel.text = "\(convertDateToString(convertStringToDatetime(data.bilyet.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.bilyet.maturity_date)!)!)"
+            
+        }
+        
+        // membaca logic customView7 berdasarkan ncm_change_status
+        if data.ncm_change_status == "change placement"{
+            viewCustompanelView7.listPrincipalBio.isHidden = false
+            viewCustompanelView7.statusTenorChanged.isHidden = true
+            viewCustompanelView7.principalLabel.isHidden = true
+            viewCustompanelView7.transferLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.previous_transaction.transfer_ammount)": "IDR \(toIdrBio(data.previous_transaction.transfer_ammount))"
+            viewCustompanelView7.newPlacementLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
+        }else if data.ncm_change_status == "change placement and tenor change" {
+            viewCustompanelView7.listPrincipalBio.isHidden = false
+            viewCustompanelView7.statusTenorChanged.isHidden = false
+            viewCustompanelView7.principalLabel.isHidden = true
+            viewCustompanelView7.transferLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.previous_transaction.transfer_ammount)": "IDR \(toIdrBio(data.previous_transaction.transfer_ammount))"
+            viewCustompanelView7.newPlacementLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
+        }else{
+            // kemungkinan change tenor
+            viewCustompanelView7.statusTenorChanged.isHidden = false
+            viewCustompanelView7.principalLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
         }
         
         // set content with status view
         if data.view == 0 {
             panelView10.isHidden = true
             viewCustompanelView7.approvedInterestRateView.isHidden = true
+            if contentType == "break"{
+                approvedRateBreakTitlepanelView6.isHidden = true
+                fieldRateBreakpanelView6.isHidden = true
+                heightViewApprovedRateBreakpanelView6.constant = 0.0
+            }
         }else if data.view == 1 {
             panelView10.isHidden = false
         }else if data.view == 2 {
@@ -444,6 +508,17 @@ class AuctionCashMovementViewController: UIViewController {
         } else {
             return true
         }
+        if self.contentType == "break" {
+            let text_: String = fieldRateBreakpanelView6.text!
+            if text_ == nil ||
+                text_ != nil && Double(text_) == nil ||
+            Double(text_) != nil && Double(text_)! < 0.0 || Double(text_)! > 99.9 {
+                showAlert("Rate not valid", false)
+                return false
+            } else {
+                return true
+            }
+        }
         return false
     }
     
@@ -456,7 +531,9 @@ class AuctionCashMovementViewController: UIViewController {
         if validateForm() {
            confirmationType = "revise_rate"
             revisionRate = viewCustompanelView7.fieldApprovedInterestRate.text!
+            revisionRateBreak = fieldRateBreakpanelView6.text!
             viewCustompanelView7.fieldApprovedInterestRate.text = ""
+            fieldRateBreakpanelView6.text = ""
             self.performSegue(withIdentifier: "showConfirmation", sender: self)
         }
     }
