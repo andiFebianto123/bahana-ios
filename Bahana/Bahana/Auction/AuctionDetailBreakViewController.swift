@@ -416,7 +416,7 @@ class AuctionDetailBreakViewController: UIViewController {
         notesLabel.text = data.notes != "" ? data.notes : "-"
         
         print("===EDIT===")
-        print(data.view)
+        print("saya di : \(data.view)")
         print("===EDIT===")
         
         // Action
