@@ -148,6 +148,12 @@ class AuctionDetailBreakViewController: UIViewController {
         requestRateBreakBreakDetailTitle.text = localize("request_rate_break")
         approvedRateBreakTitle.text = localize("approved_rate_break")
     }
+    func checkUSDorIDR() -> Int {
+        if data.fund_type == "USD" {
+            return 1
+        }
+        return 2
+    }
     func settingPanel(){
         // method ini digunakan untuk menampilkan data server
         // ke panel previous detail dan break detail
@@ -156,7 +162,7 @@ class AuctionDetailBreakViewController: UIViewController {
         self.setTitlePreviousAndBreakDetail()
         tenorPreviousDetail.text = data.period
         interestRatePreviousDetail.text = "\(checkPercentage(data.previous_interest_rate)) %"
-        principalPreviousDetail.text = "IDR \(toIdrBio(data.investment_range_start))"
+        principalPreviousDetail.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)" : "IDR \(toIdrBio(data.investment_range_start))"
         periodPreviousDetail.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.previous_maturity_date)!)!)"
         breakDateBreakDetail.text = convertDateToString(convertStringToDatetime(data.break_maturity_date)!)
         requestRateBreakDetail.text = data.last_bid_rate! != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
@@ -405,7 +411,7 @@ class AuctionDetailBreakViewController: UIViewController {
         tenorLabel.text = data.period
         interestRateLabel.text = "\(checkPercentage(data.previous_interest_rate)) %"
         breakRateLabel.text = data.last_bid_rate! != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
-        investmentLabel.text = "IDR \(toIdrBio(data.investment_range_start))"
+        investmentLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)" : "IDR \(toIdrBio(data.investment_range_start))"
         periodLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.previous_maturity_date)!)!)"
         breakDateLabel.text = convertDateToString(convertStringToDatetime(data.break_maturity_date)!)
         

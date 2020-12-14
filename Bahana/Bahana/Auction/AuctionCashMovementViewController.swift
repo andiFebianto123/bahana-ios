@@ -380,8 +380,6 @@ class AuctionCashMovementViewController: UIViewController {
 
     // function to check IDR or USD
     func checkUSDorIDR() -> Int {
-        // nilai 1 = USD
-        // nilai 2 = IDR
         if data.fund_type == "USD" {
             return 1
         }
