@@ -42,7 +42,7 @@ class NotificationPresenter {
         }
         url += "lang=\(lang)&"
         
-        //print(url)
+        // print(url)
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:

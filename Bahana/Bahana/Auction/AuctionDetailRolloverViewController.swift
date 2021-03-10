@@ -96,7 +96,7 @@ class AuctionDetailRolloverViewController: UIViewController {
     
     @IBOutlet weak var fieldPrincipalInterestNewDetail: UITextField!
     @IBOutlet weak var periodNewDetailLabel1: UILabel!
-    @IBOutlet weak var periodNewDetailLabel2: UIButton!
+    // @IBOutlet weak var periodNewDetailLabel2: UIButton!
     
     // notes
     @IBOutlet weak var noteTitle: UILabel!
@@ -154,12 +154,13 @@ class AuctionDetailRolloverViewController: UIViewController {
             showIDRnewDetailLayout()
         }
         
-        let period1 = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) - "
-        let period2 = "\(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
-        periodNewDetailLabel1.text = period1
-        
+        let period = "\(convertDateToString(convertStringToDatetime(data.issue_date)!)!) -  \(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
+        // let period2 = "\(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
+        periodNewDetailLabel1.text = period
+        /*
         periodNewDetailLabel2.setTitle("\(period2)", for: .normal)
         periodNewDetailLabel2.contentHorizontalAlignment = .left
+        */
     }
     func setTitleForPreviousDetail(){
         // untuk mengatur value judul sesuai bahasa
@@ -232,8 +233,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         detailStack.isHidden = true
         // hidupkan form chage mature date
         changeMatureDateStack.isHidden = false
-        changeMatureTitle.isHidden = true
-        changeMatureDateField.isHidden = true
+        // changeMatureDateField.isHidden = true
         
         self.setContentPreviousDetail()
         self.setContentNewDetail()
@@ -633,29 +633,31 @@ class AuctionDetailRolloverViewController: UIViewController {
             previousDetailviewStack.isHidden = true
             newDetailviewStack.isHidden = true
             
+            interestRateStackView.isHidden = true
             interestRateTitleLabel.isHidden = false
             interestRateTextField.isHidden = false
-            interestRateStackView.isHidden = true
             submitButton.isHidden = false
             confirmButton.isHidden = false
+            changeMatureDateField.isHidden = true
         } else if data.view == 1 {
             // layout akan menampilkan tombol confirmasi untuk meminta persetujuan dari RM
             previousDetailviewStack.isHidden = true
             newDetailviewStack.isHidden = true
             
+            interestRateStackView.isHidden = false
             interestRateTitleLabel.isHidden = true
             interestRateTextField.isHidden = true
-            interestRateStackView.isHidden = false
             submitButton.isHidden = true
             confirmButton.isHidden = false
+            changeMatureDateField.isHidden = true
         } else if data.view == 2 {
             // layout akan manampilkan form yang akan diinput oleh RM
             self.setContentPreviousDetailAndNewDetail()
             
+            interestRateStackView.isHidden = true
             interestRateTitleLabel.isHidden = false
             interestRateTextField.isHidden = false
             // interestRateStackView.isHidden = false
-            interestRateStackView.isHidden = true
             submitButton.isHidden = false
             confirmButton.isHidden = true
         }
