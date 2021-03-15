@@ -101,6 +101,8 @@ class AuctionCashMovementViewController: UIViewController {
     // object view untuk panelView 10
     @IBOutlet weak var revisedButtonpanelView10: UIButton!
     @IBOutlet weak var confirmButtonpanelView10: UIButton!
+    @IBOutlet weak var matureDateTitleLabel: UILabel!
+    @IBOutlet weak var matureDateField: UITextField!
     
     
     
@@ -119,6 +121,7 @@ class AuctionCashMovementViewController: UIViewController {
     var contentType:String?
     
     var backToRoot = false
+    var datePicker = UIDatePicker()
     
     func setStylePanelViewToNCMAUCTION(){
         let titleFont = UIFont.systemFont(ofSize: 11)
@@ -196,8 +199,8 @@ class AuctionCashMovementViewController: UIViewController {
         // memberi data pada title label new placement
         viewCustompanelView7.panelTitle.textColor = primaryColor
         viewCustompanelView7.panelTItle2.textColor = primaryColor
-        viewCustompanelView7.panelTitle.text = "\(localize("new_placement").uppercased()),"
-        viewCustompanelView7.panelTItle2.text = " \(localize("no_cash_movement").uppercased())"
+        // viewCustompanelView7.panelTItle2.text = " \(localize("no_cash_movement").uppercased())"
+        viewCustompanelView7.panelTItle2.text = ""
         viewCustompanelView7.tenorTitle.text = localize("tenor")
         viewCustompanelView7.requestInterestRateTitle.text = localize("request_interest_rate")
         viewCustompanelView7.approvedInterestRateTitle.text = localize("approved_interest_rate")
@@ -208,6 +211,7 @@ class AuctionCashMovementViewController: UIViewController {
         viewCustompanelView7.statusTenorChanged.text = localize("(changed)") // untuk memberi status pada tenor
         viewCustompanelView7.matureTitle.text = localize("Mature")
         viewCustompanelView7.noCashMovementTitle.text = "(\(localize("no_cash_movement")))"
+        matureDateTitleLabel.textColor = primaryColor
         
     }
     
@@ -339,6 +343,46 @@ class AuctionCashMovementViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
+    let Formatter = DateFormatter()
+    func getDateToChangeMatureField() -> String{
+        let dateString = "\(convertDateToString(convertStringToDatetime(data.break_maturity_date)!)!)"
+        let datePicker = UIDatePicker()
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "dd MMM yy"
+        let tanggal = formatter.date(from:dateString) ?? Date()
+        datePicker.datePickerMode = UIDatePicker.Mode.date
+        datePicker.setDate(tanggal, animated: false)
+        //
+        formatter.dateFormat = "dd MMMM yyyy"
+        return formatter.string(from: datePicker.date)
+    }
+    func createDatePicker(){
+        let dateString = self.getDateToChangeMatureField()
+        // matureDateField.text = dateString
+        
+        // var dateFormater = DateFormatter()
+        Formatter.dateFormat = "dd MMMM yyyy"
+        let tanggal = Formatter.date(from: dateString) ?? Date()
+        
+        datePicker.datePickerMode = UIDatePicker.Mode.date
+        datePicker.setDate(tanggal, animated: false)
+        
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let done = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+        toolbar.setItems([done], animated: true)
+        matureDateField.inputAccessoryView = toolbar
+        matureDateField.inputView = datePicker
+    }
+    @objc func donePressed(){
+        // let Formatter = DateFormatter()
+        Formatter.dateStyle = DateFormatter.Style.medium
+        Formatter.timeStyle = DateFormatter.Style.none
+        Formatter.dateFormat = "Y-M-dd"
+        matureDateField.text = Formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+    }
     
     @objc func countdown() {
         let calendar = Calendar.current
@@ -392,6 +436,7 @@ class AuctionCashMovementViewController: UIViewController {
         print("ID : \(data.id)")
         
         // mengatur nilai status
+        createDatePicker()
         if data.status == "-" {
             statusView.isHidden = true
         } else {
@@ -426,6 +471,7 @@ class AuctionCashMovementViewController: UIViewController {
         if contentType == "mature" {
             // jika tipe content no cash movement
             panelView6.isHidden = true
+            titleLabel.text = localize("mature").uppercased()
             
             tenorLabelpanelView2.text = "\(data.previous_transaction.period)"
             interestRateLabelpanelView2.text = "\(checkPercentage(data.previous_transaction.coupon_rate)) %"
@@ -447,6 +493,7 @@ class AuctionCashMovementViewController: UIViewController {
         }else{
             // jika ncm-auction break
             panelView2.isHidden = true
+            titleLabel.text = localize("break").uppercased()
             breakDateLabelpanelView6.text = "\(convertDateToString(convertStringToDatetime(data.break_maturity_date)!)!)"
             requestRateBreakLabelpanelView6.text = "\(checkPercentage(data.break_target_rate!)) %"
             viewCustompanelView7.tenorLabel.text = "\(data.period)"
@@ -461,6 +508,7 @@ class AuctionCashMovementViewController: UIViewController {
         
         // membaca logic customView7 berdasarkan ncm_change_status
         if data.ncm_change_status == "change placement"{
+            viewCustompanelView7.panelTitle.text = "\(localize("new_detail").uppercased())"
             viewCustompanelView7.listPrincipalBio.isHidden = false
             viewCustompanelView7.statusTenorChanged.isHidden = true
             viewCustompanelView7.principalLabel.isHidden = true
@@ -474,6 +522,7 @@ class AuctionCashMovementViewController: UIViewController {
             viewCustompanelView7.newPlacementLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
         }else{
             // kemungkinan change tenor
+            viewCustompanelView7.panelTItle2.text = " \(localize("no_cash_movement").uppercased())"
             viewCustompanelView7.statusTenorChanged.isHidden = false
             viewCustompanelView7.principalLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
         }
