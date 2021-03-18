@@ -395,7 +395,10 @@ extension AuctionListViewController: UITableViewDelegate {
             performSegue(withIdentifier: "showAuctionDetailRollover", sender: self)
         case "mature":
             performSegue(withIdentifier: "showAuctionDetailMature", sender: self)
-        case "ncm-auction":
+        case "mature-ncm-auction":
+            ncm_type = data[indexPath.row].ncm_type!
+            performSegue(withIdentifier: "showAuctionNoCashMovement", sender: self)
+        case "break-ncm-auction":
             ncm_type = data[indexPath.row].ncm_type!
             performSegue(withIdentifier: "showAuctionNoCashMovement", sender: self)
         default:

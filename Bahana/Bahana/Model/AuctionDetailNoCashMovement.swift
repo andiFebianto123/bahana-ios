@@ -31,6 +31,7 @@ struct AuctionDetailNoCashMovement {
     var status: String
     var message: String?
     var view: Int
+    var auction_name: String
 }
 
 struct bilyetDetail{

@@ -104,6 +104,9 @@ class AuctionCashMovementViewController: UIViewController {
     @IBOutlet weak var matureDateTitleLabel: UILabel!
     @IBOutlet weak var matureDateField: UITextField!
     
+    // Footer
+    @IBOutlet weak var footerLabel: UILabel!
+    
     
     
     var loadingView = UIView()
@@ -168,7 +171,7 @@ class AuctionCashMovementViewController: UIViewController {
         periodTitlepanelView5.font = titleFont
         periodTitlepanelView5.text = localize("period")
         
-        if contentType == "break"{
+        if data.ncm_type == "break"{
             // set style break detail
             titleLabelpanelView6.textColor = primaryColor
             contentViewpanelView6.backgroundColor = cardBackgroundColor
@@ -297,7 +300,7 @@ class AuctionCashMovementViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .refreshAuctionDetail, object: nil)
         // batas function
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
@@ -305,7 +308,7 @@ class AuctionCashMovementViewController: UIViewController {
             if let destinationVC = segue.destination as? AuctionDetailConfirmationViewController {
                 destinationVC.auctionID = id
                 destinationVC.auctionType = "ncm-auction"
-                destinationVC.ncmType = contentType
+                destinationVC.ncmType = data.ncm_type
                 destinationVC.confirmationType = confirmationType
                 destinationVC.revisionRate = revisionRate
                 destinationVC.revisionRateBreak = revisionRateBreak
@@ -371,7 +374,10 @@ class AuctionCashMovementViewController: UIViewController {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         let done = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
-        toolbar.setItems([done], animated: true)
+        // let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: #selector(cancelPressed))
+        let cancel = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelPressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        toolbar.setItems([done, spaceButton, cancel], animated: true)
         matureDateField.inputAccessoryView = toolbar
         matureDateField.inputView = datePicker
     }
@@ -381,6 +387,10 @@ class AuctionCashMovementViewController: UIViewController {
         Formatter.timeStyle = DateFormatter.Style.none
         Formatter.dateFormat = "Y-M-dd"
         matureDateField.text = Formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+    }
+    @objc func cancelPressed(){
+        matureDateField.text = ""
         self.view.endEditing(true)
     }
     
@@ -432,8 +442,8 @@ class AuctionCashMovementViewController: UIViewController {
 
     
     func setContent(){
-        print("Tipe konten : \(contentType!)")
-        print("ID : \(data.id)")
+        // print("Tipe konten : \(data.ncm_type)")
+        // print("ID : \(data.id)")
         
         // mengatur nilai status
         createDatePicker()
@@ -468,7 +478,7 @@ class AuctionCashMovementViewController: UIViewController {
         
          setStylePanelViewToNCMAUCTION() // get ready setting style
         // mengatur konten
-        if contentType == "mature" {
+        if data.ncm_type == "mature" {
             // jika tipe content no cash movement
             panelView6.isHidden = true
             titleLabel.text = localize("mature").uppercased()
@@ -531,7 +541,7 @@ class AuctionCashMovementViewController: UIViewController {
         if data.view == 0 {
             panelView10.isHidden = true
             viewCustompanelView7.approvedInterestRateView.isHidden = true
-            if contentType == "break"{
+            if data.ncm_type == "break"{
                 approvedRateBreakTitlepanelView6.isHidden = true
                 fieldRateBreakpanelView6.isHidden = true
                 heightViewApprovedRateBreakpanelView6.constant = 0.0
@@ -543,6 +553,19 @@ class AuctionCashMovementViewController: UIViewController {
             confirmButtonpanelView10.isHidden = true
         }
         
+        // Footer
+        let mutableAttributedString = NSMutableAttributedString()
+        
+        let topTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        let bottomTextAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 8), NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        
+        let topText = NSAttributedString(string: localize("auction_detail_footer"), attributes: topTextAttribute)
+        mutableAttributedString.append(topText)
+        let bottomText = NSAttributedString(string: "\n\(localize("ref_code"))\(data.auction_name)", attributes: bottomTextAttribute)
+        mutableAttributedString.append(bottomText)
+        
+        footerLabel.attributedText = mutableAttributedString
+        
     }
     
     func validateForm() -> Bool {
@@ -552,15 +575,13 @@ class AuctionCashMovementViewController: UIViewController {
         Double(text) != nil && Double(text)! < 0.0 || Double(text)! > 99.9 {
             showAlert("Rate not valid", false)
             return false
-        } else {
-            return true
         }
-        if self.contentType == "break" {
+        if data.ncm_type == "break" {
             let text_: String = fieldRateBreakpanelView6.text!
             if text_ == nil ||
                 text_ != nil && Double(text_) == nil ||
             Double(text_) != nil && Double(text_)! < 0.0 || Double(text_)! > 99.9 {
-                showAlert("Rate not valid", false)
+                showAlert("Rate break no valid", false)
                 return false
             } else {
                 return true
@@ -570,11 +591,33 @@ class AuctionCashMovementViewController: UIViewController {
     }
     
     @IBAction func confirmPressed(_ sender: Any) {
+        /*
         confirmationType = "chosen_bidder"
         self.performSegue(withIdentifier: "showConfirmation", sender: self)
+        */
+        showConfirmationAlert(matureDateField.text!)
+    }
+    
+    func showConfirmationAlert(_ date: String?) {
+        let alert:UIAlertController
+        if date! != nil {
+            alert = UIAlertController(title: localize("information"), message: "\(localize("confirmation_change_end_date")) \(date!)?", preferredStyle: .alert)
+        }else{
+            alert = UIAlertController(title: localize("information"), message: "\(localize("confirmation_ncm_auction")) ?", preferredStyle: .alert)
+        }
+        // confirmation process
+        self.showLoading(true)
+        alert.addAction(UIAlertAction(title: localize("no"), style: .default, handler: { action in
+            self.presenter.confirm(self.id, "ncm-auction", false, date!)
+        }))
+        alert.addAction(UIAlertAction(title: localize("yes"), style: .default, handler: { action in
+            self.presenter.confirm(self.id, "ncm-auction", true, date!)
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func revisePressed(_ sender: Any) {
+        /*
         if validateForm() {
            confirmationType = "revise_rate"
             revisionRate = viewCustompanelView7.fieldApprovedInterestRate.text!
@@ -583,6 +626,12 @@ class AuctionCashMovementViewController: UIViewController {
             fieldRateBreakpanelView6.text = ""
             self.performSegue(withIdentifier: "showConfirmation", sender: self)
         }
+         */
+        if validateForm() {
+            showLoading(true)
+            self.presenter.reviseAuctionNcm(data.id, viewCustompanelView7.fieldApprovedInterestRate.text, ncmType:data.ncm_type, rateBreak:fieldRateBreakpanelView6.text! ,date:matureDateField.text!)
+        }
+        
     }
     
     
@@ -629,6 +678,17 @@ extension AuctionCashMovementViewController: AuctionDetailNoCashMovementDelegate
         let authStoryboard : UIStoryboard = UIStoryboard(name: "Auth", bundle: nil)
         let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
         self.present(loginViewController, animated: true, completion: nil)
+    }
+    
+    func isConfirmed(_ isConfirmed: Bool, _ message: String) {
+        showLoading(false)
+        showAlert(message, isConfirmed)
+    }
+    func setDataFail() {
+        showLoading(false)
+        let alert = UIAlertController(title: localize("information"), message: localize("cannot_connect_to_server"), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     

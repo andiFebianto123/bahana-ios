@@ -217,6 +217,9 @@
 "new_placement" = "Lelang Baru";
 "ncm_auction_mature" = "Lelang NCM Cair";
 "ncm_auction_break" = "Lelang NCM Break";
+"mature_no_cash_movement" = "MATURE NO CASH MOVEMENT";
+"break_no_cash_movement" = "BREAK NO CASH MOVEMENT";
+"confirmation_ncm_auction" = "Apakah anda yakin ingin menyetujui rate ini";
 /*Penambahan baru*/
 
 "january" = "Jan";

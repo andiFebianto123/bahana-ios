@@ -14,8 +14,8 @@
             filePath = "Bahana/Auction/AuctionCashMovementViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "471"
-            endingLineNumber = "471"
+            startingLineNumber = "481"
+            endingLineNumber = "481"
             landmarkName = "setContent()"
             landmarkType = "7">
          </BreakpointContent>

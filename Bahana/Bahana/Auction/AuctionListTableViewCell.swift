@@ -255,12 +255,13 @@ class AuctionListTableViewCell: UITableViewCell {
             title = localize("mature")
             mainView.backgroundColor = lightRedColor
             break
-        case "ncm-auction":
-            if auction.ncm_type! == "mature" {
-                title = localize("ncm_auction_mature")
-            }else{
-                title = localize("ncm_auction_break")
-            }
+        case "mature-ncm-auction":
+            title = localize("mature_no_cash_movement")
+            placementDateLabel.text = localize("placement_date")
+            endTitleLabel.text = localize("ends_in")
+            break
+        case "break-ncm-auction":
+            title = localize("break_no_cash_movement")
             placementDateLabel.text = localize("placement_date")
             endTitleLabel.text = localize("ends_in")
             break
@@ -279,9 +280,10 @@ class AuctionListTableViewCell: UITableViewCell {
         
         // Kalau auction sudah selesai dan bukan mature, background jadi abu-abu
         if auction.maturity_date != nil && auction.type != "break" {
-            endTitleLabel.isHidden = false
-            endLabel.isHidden = false
-            
+            if auction.type != "mature" {
+                endTitleLabel.isHidden = false
+                endLabel.isHidden = false
+            }
             let endBid = calculateDateDifference(date, convertStringToDatetime(auction.maturity_date!)!)
             
             if endBid["hour"]! > 0 || endBid["minute"]! > 0 {
@@ -305,19 +307,43 @@ class AuctionListTableViewCell: UITableViewCell {
                 } else {
                     endTitleLabel.isHidden = true
                     endLabel.text = ""
-                    mainView.backgroundColor = lightGreyColor
+                    if pageType != "history"{
+                        mainView.backgroundColor = lightGreyColor
+                    }
                 }
             }
-        } else if auction.type == "break" {
+        } else if auction.type == "mature-ncm-auction" || auction.type == "break-ncm-auction" {
+            endTitleLabel.isHidden = false
+            endLabel.isHidden = false
+            let endAuction = calculateDateDifference(date, convertStringToDatetime(auction.end_date)!)
+            if endAuction["hour"]! > 0 || endAuction["minute"]! > 0 {
+                let hour = endAuction["hour"]! > 1 ? String.localizedStringWithFormat(localize("hours"), "\(endAuction["hour"]!)") : String.localizedStringWithFormat(localize("hour"), "\(endAuction["hour"]!)")
+                let minute = endAuction["minute"]! > 1 ? String.localizedStringWithFormat(localize("minutes"), "\(endAuction["minute"]!)") : String.localizedStringWithFormat(localize("minute"), "\(endAuction["minute"]!)")
+                endLabel.text = "\(hour) \(minute)"
+                
+                if endAuction["hour"]! == 0 {
+                    endLabel.textColor = primaryColor
+                }
+            } else {
+                 // jika waktu bidder telah habis
+                if pageType != "history"{
+                    // jika berada pada halaman auction/transaction
+                    endTitleLabel.isHidden = true
+                    endLabel.text = ""
+                    mainView.backgroundColor = lightGreyColor
+                }else{
+                    endTitleLabel.isHidden = true
+                    endLabel.isHidden = true
+                }
+            }
+            /*
             if pageType == "auction" {
                 endLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
-            } else if pageType == "history" {
-                endLabel.text = convertDateToString(convertStringToDatetime(auction.break_maturity_date)!)
             }
+             */
         } else {
             endTitleLabel.isHidden = true
             endLabel.text = ""
-            
             if pageType == "auction" && auction.type != "mature" {
                 mainView.backgroundColor = lightGreyColor
             }

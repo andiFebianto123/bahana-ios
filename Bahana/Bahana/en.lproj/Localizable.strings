@@ -217,6 +217,9 @@
 "new_placement" = "New Placement";
 "ncm_auction_mature" = "NCM Auction Mature";
 "ncm_auction_break" = "NCM Auction Break";
+"mature_no_cash_movement" = "MATURE NO CASH MOVEMENT";
+"break_no_cash_movement" = "BREAK NO CASH MOVEMENT";
+"confirmation_ncm_auction" = "Are you sure you want to accept this rate";
 /*Penambahan baru*/
 
 

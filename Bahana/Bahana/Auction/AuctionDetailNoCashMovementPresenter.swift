@@ -16,6 +16,8 @@ protocol AuctionDetailNoCashMovementDelegate {
     func openLoginPage()
     func setDataBETA()
     func setDate(_ date: Date)
+    func isConfirmed(_ isConfirmed: Bool, _ message: String)
+    func setDataFail()
 }
 
 class AuctionDetailNoCashMovementPresenter{
@@ -87,10 +89,11 @@ class AuctionDetailNoCashMovementPresenter{
                     let prev_coupon_rate: Double = auct["previous_transaction"]["coupon_rate"].doubleValue
                     let prev_transfer_ammount: Double = auct["previous_transaction"]["transfer_ammount"].doubleValue
                     let prev_period: String = auct["previous_transaction"]["previous_period"].stringValue
+                    let auction_name: String = auct["auction_name"].stringValue
                     
                     previous_transaction = previousTransactionDetail(quantity: prev_quantity, issue_date: prev_issue_date, maturity_date: prev_maturity_date, coupon_rate: prev_coupon_rate, transfer_ammount: prev_transfer_ammount, period: prev_period)
                     
-                    let data:AuctionDetailNoCashMovement = AuctionDetailNoCashMovement(id: id, start_date: start_date, end_date: end_date, end_bidding_rm: end_bidding_rm, ncm_type: ncm_type, investment_range_start: investment_range_start, interest_rate: interest_rate, break_maturity_date: break_maturity_date, break_target_rate: break_target_rate, notes: notes, pic_custodian: pic_custodian, custodian_bank: custodian_bank, fund_type: fund_type, portfolio: portfolio, period: period, ncm_change_status: ncm_change_status, bilyet: bilyet, previous_transaction: previous_transaction, revision_rate_rm: revision_rate_rm, status: status, message: message, view: view)
+                    let data:AuctionDetailNoCashMovement = AuctionDetailNoCashMovement(id: id, start_date: start_date, end_date: end_date, end_bidding_rm: end_bidding_rm, ncm_type: ncm_type, investment_range_start: investment_range_start, interest_rate: interest_rate, break_maturity_date: break_maturity_date, break_target_rate: break_target_rate, notes: notes, pic_custodian: pic_custodian, custodian_bank: custodian_bank, fund_type: fund_type, portfolio: portfolio, period: period, ncm_change_status: ncm_change_status, bilyet: bilyet, previous_transaction: previous_transaction, revision_rate_rm: revision_rate_rm, status: status, message: message, view: view, auction_name: auction_name)
                     
                     self.delegate?.setData(data)
                     
@@ -98,6 +101,79 @@ class AuctionDetailNoCashMovementPresenter{
             case .failure(let error):
                 print(error)
                 self.delegate?.getDataFail(nil)
+            }
+        }
+    }
+    func reviseAuctionNcm(_ id:Int, _ rate:String?, ncmType:String, rateBreak:String? ,date:String?){
+            var parameters: Parameters = [
+                    "revision_rate": rate != "" ? Double(rate!)! : "",
+                    "request_maturity_date": date != nil ? date! : ""
+            ]
+        if ncmType == "break" {
+            parameters = [
+                "revision_rate": rate != "" ? Double(rate!)! : "",
+                "revision_rate_break": Double(rateBreak!)!,
+                "request_maturity_date": date != nil ? date! : ""
+            ]
+        }
+        Alamofire.request(WEB_API_URL + "api/v1/no-cash-movement/\(id)/revision", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+                if response.response?.mimeType == "application/json" {
+                    let res = JSON.init(parseJSON: response.result.value!)
+                    if response.response?.statusCode == 200 {
+                        self.delegate?.isConfirmed(true, res["message"].stringValue)
+                    } else {
+                        self.delegate?.isConfirmed(false, res["message"].stringValue)
+                    }
+                } else {
+                    print(response)
+                    self.delegate?.setDataFail()
+                }
+            }
+            // print("\(parameters)")
+        //
+    }
+    func confirm(_ id: Int, _ type: String, _ isAccepted: Bool, _ maturityDate: String?) {
+        var url = "api/v1/"
+        let parameters: Parameters = [
+            "is_accepted": isAccepted ? "yes" : "no",
+            "request_maturity_date": maturityDate != nil ? maturityDate! : ""
+        ]
+        switch type {
+            case "direct-auction":
+                url += "direct-auction/\(id)/confirm"
+            case "break":
+                url += "break/\(id)/confirm"
+            case "rollover":
+                url += "rollover/\(id)/confirm"
+            case "ncm-auction":
+                url += "no-cash-movement/\(id)/confirm"
+            default:
+                break
+        }
+        
+        // Lang
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        url += "?lang=\(lang)"
+        //print(url)
+        Alamofire.request(WEB_API_URL + url, method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let result = JSON.init(parseJSON: response.result.value!)
+                //print(result)
+                if response.response?.statusCode == 200 {
+                    self.delegate?.isConfirmed(true, result["message"].stringValue)
+                } else {
+                    self.delegate?.isConfirmed(false, result["message"].stringValue)
+                }
+            } else {
+                self.delegate?.setDataFail()
             }
         }
     }
