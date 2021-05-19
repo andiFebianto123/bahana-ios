@@ -25,7 +25,7 @@ class AuctionDetailNormalPresenter {
         self.delegate = delegate
     }
     
-    func getAuction(_ id: Int) {
+    func getAuction(_ id: Int, _ multifoundauction: Bool) {
         // Lang
         var lang = String()
         switch getLocalData(key: "language") {
@@ -37,8 +37,13 @@ class AuctionDetailNormalPresenter {
             break
         }
         
+        var api = WEB_API_URL + "api/v1/auction/\(id)?lang=\(lang)"
+        if(multifoundauction == true){
+            // jika berjenis multifound
+            api = WEB_API_URL + "api/v1/multi-fund-auction/\(id)?lang=\(lang)"
+        }
         // Get auction
-        Alamofire.request(WEB_API_URL + "api/v1/auction/\(id)?lang=\(lang)", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
+        Alamofire.request(api, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
                 if response.response?.statusCode == 401 {
@@ -86,7 +91,12 @@ class AuctionDetailNormalPresenter {
                             bilyets.append(Bilyet(quantity: bilyet["quantity"].doubleValue, issue_date: bilyet["issue_date"].stringValue, maturity_date: bilyet["maturity_date"].stringValue))
                         }
                         
-                        bids.append(Bid(id: bid["id"].intValue, auction_header_id: bid["auction_header_id"].intValue, is_accepted: bid["is_accepted"].stringValue, is_winner: bid["is_winner"].stringValue, interest_rate_idr: interest_rate_idr, interest_rate_usd: interest_rate_usd, interest_rate_sharia: interest_rate_sharia, used_investment_value: bid["used_investment_value"].doubleValue, bilyet: bilyets, chosen_rate: chosen_rate, period: bid["period"].stringValue))
+                        var is_requested:Int? = nil
+                        if multifoundauction {
+                            is_requested = bid["is_requested"].intValue
+                        }
+                        
+                        bids.append(Bid(id: bid["id"].intValue, auction_header_id: bid["auction_header_id"].intValue, is_accepted: bid["is_accepted"].stringValue, is_winner: bid["is_winner"].stringValue, interest_rate_idr: interest_rate_idr, interest_rate_usd: interest_rate_usd, interest_rate_sharia: interest_rate_sharia, used_investment_value: bid["used_investment_value"].doubleValue, bilyet: bilyets, chosen_rate: chosen_rate, period: bid["period"].stringValue, is_requested: is_requested))
                     }
                     
                     var details = [Detail]()
@@ -112,7 +122,7 @@ class AuctionDetailNormalPresenter {
         }
     }
     
-    func saveAuction(_ id: Int, _ bids: [Bid], _ placement: String) {
+    func saveAuction(_ id: Int, _ bids: [Bid], _ placement: String, isMultifound: Bool) {
         var parameters = Parameters()
         
         for (idx, bid) in bids.enumerated() {
@@ -125,8 +135,32 @@ class AuctionDetailNormalPresenter {
             parameters.updateValue(bids[idx].interest_rate_sharia != nil ? bids[idx].interest_rate_sharia! : "", forKey: "bid[\(idx)][rate_syariah]")
             parameters.updateValue(placement, forKey: "bid[\(idx)][max_placement]")
         }
+        var api = WEB_API_URL + "api/v1/auction/\(id)/post"
+        if(isMultifound == true){
+            api = WEB_API_URL + "api/v1/multi-fund-placement/\(id)/post"
+        }
         
-        Alamofire.request(WEB_API_URL + "api/v1/auction/\(id)/post", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+        //print(parameters)
+        
+        Alamofire.request(api, method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let res = JSON.init(parseJSON: response.result.value!)
+                if response.response?.statusCode == 200 {
+                    self.delegate?.isPosted(true, res["message"].stringValue)
+                } else {
+                    self.delegate?.isPosted(false, res["message"].stringValue)
+                }
+            } else {
+                print(response)
+                self.delegate?.getDataFail(nil)
+            }
+        }
+    }
+    func saveAuctionChangeMaturityDateMultifund(id:Int, bid_id:Int, date:String?){
+        var parameters = Parameters()
+        parameters.updateValue(date ?? "", forKey: "request_maturity_date")
+        let url = WEB_API_URL + "/api/v1/multi-fund-auction/\(id)/post-request-maturity-date/\(bid_id)"
+        Alamofire.request(url, method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
             if response.response?.mimeType == "application/json" {
                 let res = JSON.init(parseJSON: response.result.value!)
                 if response.response?.statusCode == 200 {

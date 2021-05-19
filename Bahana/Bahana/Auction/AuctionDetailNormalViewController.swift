@@ -61,6 +61,13 @@ class AuctionDetailNormalViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var footerLabel: UILabel!
     
+    @IBOutlet weak var PortfolioViewMultifound: UIView!
+    @IBOutlet weak var investmentBioTitleLabelMultifound: UILabel!
+    @IBOutlet weak var investmentBioLabelMultifound: UILabel!
+    @IBOutlet weak var placementDateTitleLabelMultifound: UILabel!
+    @IBOutlet weak var placementDateLabelMultifound: UILabel!
+    
+    
     var loadingView = UIView()
     
     var presenter: AuctionDetailNormalPresenter!
@@ -76,6 +83,15 @@ class AuctionDetailNormalViewController: UIViewController {
     var confirmationID: Int?
     
     var backToRoot = false
+    
+    var multifoundAuction:Bool = false
+    
+    var datePicker = UIDatePicker()
+    let Formatter = DateFormatter()
+    var textDatePicker = UITextField()
+    
+    @IBOutlet weak var bidStackView2: UIStackView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,6 +151,16 @@ class AuctionDetailNormalViewController: UIViewController {
         portfolioView.layer.shadowOffset = CGSize(width: 0, height: 0)
         portfolioView.layer.shadowRadius = 4
         portfolioView.layer.shadowOpacity = 0.5
+        
+        PortfolioViewMultifound.backgroundColor = cardBackgroundColor
+        PortfolioViewMultifound.layer.cornerRadius = 5
+        PortfolioViewMultifound.layer.shadowColor = UIColor.gray.cgColor
+        PortfolioViewMultifound.layer.shadowOffset = CGSize(width:0, height:0)
+        PortfolioViewMultifound.layer.shadowRadius = 4
+        PortfolioViewMultifound.layer.shadowOpacity = 0.5
+        
+        PortfolioViewMultifound.isHidden = true
+        
         fundNameTitleLabel.font = titleFont
         fundNameTitleLabel.textColor = titleLabelColor
         fundNameTitleLabel.text = localize("fund_name")
@@ -143,9 +169,21 @@ class AuctionDetailNormalViewController: UIViewController {
         investmentTitleLabel.textColor = titleLabelColor
         investmentTitleLabel.text = localize("investment")
         investmentLabel.font = contentFont
+        // multifound
+        investmentBioTitleLabelMultifound.font = titleFont
+        investmentBioTitleLabelMultifound.textColor = titleLabelColor
+        investmentBioTitleLabelMultifound.text = localize("investment")
+        investmentBioLabelMultifound.font = contentFont
+    
         placementDateTitleLabel.font = titleFont
         placementDateTitleLabel.textColor = titleLabelColor
         placementDateTitleLabel.text = localize("placement_date")
+        // multifound
+        placementDateTitleLabelMultifound.font = titleFont
+        placementDateTitleLabelMultifound.textColor = titleLabelColor
+        placementDateTitleLabelMultifound.text = localize("placement_date")
+        placementDateLabelMultifound.font = contentFont
+        
         placementDateLabel.font = contentFont
         custodianBankTitleLabel.font = titleFont
         custodianBankTitleLabel.textColor = titleLabelColor
@@ -196,6 +234,11 @@ class AuctionDetailNormalViewController: UIViewController {
                 destinationVC.confirmationType = confirmationType
                 destinationVC.id = confirmationID
             }
+        }else if (segue.identifier == "showConfirmationMultifound") {
+            if let destinationVC = segue.destination as? AuctionMultifoundConfirmationViewController {
+                destinationVC.id = id
+                destinationVC.bidId = confirmationID
+            }
         }
     }
     
@@ -223,11 +266,29 @@ class AuctionDetailNormalViewController: UIViewController {
     @objc func refresh() {
         scrollView.isHidden = true
         showLoading(true)
-        presenter.getAuction(id)
+        presenter.getAuction(id, multifoundAuction)
     }
     
     func showLoading(_ show: Bool) {
         loadingView.isHidden = !show
+    }
+    
+    func addStackInBidStackView2(_ bidData: [Bid]){
+        for bidView in bidStackView.arrangedSubviews {
+            bidStackView.removeArrangedSubview(bidView)
+        }
+        for (idx, dt) in bidData.enumerated() {
+            var stackBidder = AuctionBidStack()
+            stackBidder.presenter = self
+            stackBidder.data = dt
+            stackBidder.fund_type = String(data.fund_type ?? "")
+            stackBidder.view = data.view
+            stackBidder.bidID = dt.id
+            stackBidder.globalView = self.view
+            stackBidder.setContent()
+            stackBidder.createDatePicker(datePicker: datePicker)
+            bidStackView2.addArrangedSubview(stackBidder)
+        }
     }
 
     func setContent() {
@@ -264,22 +325,32 @@ class AuctionDetailNormalViewController: UIViewController {
                 investment += " - \(data.investment_range_end!)"
             }
             investmentLabel.text = investment
+            investmentBioLabelMultifound.text = investment
         }else{
             var investment = "IDR \(toIdrBio(data.investment_range_start))"
             if data.investment_range_end != nil {
                 investment += " - \(toIdrBio(data.investment_range_end!))"
             }
             investmentLabel.text = investment
+            investmentBioLabelMultifound.text = investment
         }
         
         placementDateLabel.text = convertDateToString(convertStringToDatetime(data.end_date)!)
+        placementDateLabelMultifound.text = convertDateToString(convertStringToDatetime(data.end_date)!)
+        
         custodianBankLabel.text = data.custodian_bank != nil ? data.custodian_bank : "-"
         picCustodianLabel.text = data.pic_custodian != nil ? data.pic_custodian : "-"
         
         // Note
         noteLabel.text = data.notes
         
-        setBids(data.bids)
+        if self.multifoundAuction {
+            // jika auction bertipe multifund
+            addStackInBidStackView2(data.bids)
+            //setBids(data.bids)
+        }else{
+            setBids(data.bids)
+        }
         
         for (idx, detail) in data.details.enumerated() {
             addInterestRate(detail.td_period_type, false, detail.td_period, idx: idx)
@@ -308,6 +379,13 @@ class AuctionDetailNormalViewController: UIViewController {
         mutableAttributedString.append(bottomText)
         
         footerLabel.attributedText = mutableAttributedString
+        
+        if(multifoundAuction == true){
+            // jika jenis auction bertipe multifound
+            PortfolioViewMultifound.isHidden = false
+            portfolioView.isHidden = true
+        }
+        
     }
     
     @objc func countdown() {
@@ -396,16 +474,36 @@ class AuctionDetailNormalViewController: UIViewController {
             statusTitle.translatesAutoresizingMaskIntoConstraints = false
             statusView.addSubview(statusTitle)
             let status = UILabel()
-            if dt.is_winner == "yes" {
-                if dt.is_accepted == "yes" {
-                    status.text = "\(localize("win")) (\(localize("accepted")))"
-                } else if dt.is_accepted == "pending" {
-                    status.text = "\(localize("win")) (\(localize("pending")))"
-                } else {
-                    status.text = "\(localize("win")) (\(localize("rejected")))"
+            
+            
+            if self.multifoundAuction {
+                if dt.is_winner == "yes" {
+                    if(dt.is_accepted == "yes(with decline)"){
+                        status.text = "\(localize("win")) (Accepted With Decline)"
+                    }
+                    else if (dt.is_accepted == "yes(with pending)"){
+                        status.text = "\(localize("win")) (Accepted With Pending)"
+                    }
+                    else if(dt.is_accepted == "no(with pending)"){
+                        status.text = "\(localize("win")) (Rejected With Pending)"
+                    }else{
+                        status.text = "\(localize("win")) (Pending)"
+                    }
+                }else{
+                    status.text = localize("pending")
                 }
-            } else {
-                status.text = localize("pending")
+            }else{
+                if dt.is_winner == "yes" {
+                    if dt.is_accepted == "yes" {
+                        status.text = "\(localize("win")) (\(localize("accepted")))"
+                    } else if dt.is_accepted == "pending" {
+                        status.text = "\(localize("win")) (\(localize("pending")))"
+                    } else {
+                        status.text = "\(localize("win")) (\(localize("rejected")))"
+                    }
+                } else {
+                    status.text = localize("pending")
+                }
             }
             status.font = contentFont
             status.numberOfLines = 0
@@ -597,10 +695,12 @@ class AuctionDetailNormalViewController: UIViewController {
                     bilyet.leadingAnchor.constraint(equalTo: bilyetTitle.trailingAnchor, constant: 0),
                     bilyet.trailingAnchor.constraint(equalTo: bilyetView.trailingAnchor, constant: 0),
                     bilyet.topAnchor.constraint(equalTo: bilyetView.topAnchor, constant: 0),
-                    //bilyetView.heightAnchor.constraint(equalToConstant: bilyetHeight),
+                    // bilyetView.heightAnchor.constraint(equalToConstant: bilyetHeight),
                     bilyetView.bottomAnchor.constraint(equalTo: bilyet.bottomAnchor, constant: 0)
                     //bilyet.bottomAnchor.constraint(equalTo: bilyetView.bottomAnchor, constant: 0)
                 ])
+                
+                
                 
                 if self.data.view == 1 && dt.is_accepted.lowercased() == "pending" {
                     let confirmButton = UIButton()
@@ -621,6 +721,135 @@ class AuctionDetailNormalViewController: UIViewController {
                     ])
                     
                     rateViewHeight += confirmButtonHeight + spacing
+                    print("Jalan disini")
+                    
+                }else{
+                    if (self.data.view == 0 || self.data.view == 1) && (dt.is_accepted.lowercased() == "yes" ||  dt.is_accepted.lowercased() == "yes(with decline)" || dt.is_accepted.lowercased() == "yes(with pending)") && (self.multifoundAuction == true) && (dt.is_requested == 0) {
+                        
+                        // add label 'change mature date'
+                        let labelMaturityDate = UILabel()
+                        labelMaturityDate.font = UIFont.boldSystemFont(ofSize: 13)
+                        labelMaturityDate.textColor = yellowColor
+                        
+                        labelMaturityDate.text = "Change Mature Date ?"
+                        labelMaturityDate.translatesAutoresizingMaskIntoConstraints = false
+                        rateStackView.addArrangedSubview(labelMaturityDate)
+                        let labelMaturityDateHeight = interestRate.intrinsicContentSize.height
+                        NSLayoutConstraint.activate([
+                            labelMaturityDate.heightAnchor.constraint(equalToConstant: labelMaturityDateHeight)
+                        ])
+                        rateViewHeight += labelMaturityDateHeight + spacing
+                        
+                        // add datePicker
+                        
+                        textDatePicker.borderStyle = UITextField.BorderStyle.line
+                        textDatePicker.backgroundColor = UIColor.white
+                        textDatePicker.placeholder = "Select New Maturity Date"
+                        textDatePicker.textAlignment = .center
+                        textDatePicker.translatesAutoresizingMaskIntoConstraints = false
+                        rateStackView.addArrangedSubview(textDatePicker)
+                        let textDatePickerHeight: CGFloat = 30
+                        NSLayoutConstraint.activate([
+                            textDatePicker.heightAnchor.constraint(equalToConstant: textDatePickerHeight)
+                        ])
+                        createDatePicker()
+                        rateViewHeight += textDatePickerHeight + spacing
+                        
+                        // add change maturity date button
+                        let changeMaturityDateButton = UIButton()
+                        changeMaturityDateButton.tag = idx
+                        changeMaturityDateButton.setTitle("CHANGE MATURITY DATE", for: .normal)
+                        changeMaturityDateButton.setTitleColor(UIColor.white, for: .normal)
+                        changeMaturityDateButton.titleLabel?.font = contentFont
+                        changeMaturityDateButton.backgroundColor = yellowColor
+                        changeMaturityDateButton.layer.cornerRadius = 3
+                        changeMaturityDateButton.addTarget(self, action: #selector(changeMaturityDateButtonPressed(sender:)), for: .touchUpInside)
+                        changeMaturityDateButton.translatesAutoresizingMaskIntoConstraints = false
+                        rateStackView.addArrangedSubview(changeMaturityDateButton)
+                        
+                        let changeMaturityDateButtonHeight: CGFloat = 30
+                        NSLayoutConstraint.activate([
+                            changeMaturityDateButton.heightAnchor.constraint(equalToConstant: changeMaturityDateButtonHeight)
+                        ])
+                        rateViewHeight += changeMaturityDateButtonHeight + spacing
+                        
+                        // add confirm button
+                        let confirmButton = UIButton()
+                        confirmButton.tag = idx
+                        confirmButton.setTitle(localize("confirm"), for: .normal)
+                        confirmButton.setTitleColor(UIColor.white, for: .normal)
+                        confirmButton.titleLabel?.font = contentFont
+                        confirmButton.backgroundColor = blueColor
+                        confirmButton.layer.cornerRadius = 3
+                        confirmButton.addTarget(self, action: #selector(confirmationButtonPressed(sender:)), for: .touchUpInside)
+                        confirmButton.translatesAutoresizingMaskIntoConstraints = false
+                        rateStackView.addArrangedSubview(confirmButton)
+                        
+                        let confirmButtonHeight: CGFloat = 30
+                        
+                        NSLayoutConstraint.activate([
+                            confirmButton.heightAnchor.constraint(equalToConstant: confirmButtonHeight)
+                        ])
+                        
+                        rateViewHeight += confirmButtonHeight + spacing
+                    } else {
+                        // add confirm button
+                        let confirmButton = UIButton()
+                        confirmButton.tag = idx
+                        confirmButton.setTitle(localize("confirm"), for: .normal)
+                        confirmButton.setTitleColor(UIColor.white, for: .normal)
+                        confirmButton.titleLabel?.font = contentFont
+                        confirmButton.backgroundColor = blueColor
+                        confirmButton.layer.cornerRadius = 3
+                        confirmButton.addTarget(self, action: #selector(confirmationButtonPressed(sender:)), for: .touchUpInside)
+                        confirmButton.translatesAutoresizingMaskIntoConstraints = false
+                        rateStackView.addArrangedSubview(confirmButton)
+                        
+                        let confirmButtonHeight: CGFloat = 30
+                        
+                        NSLayoutConstraint.activate([
+                            confirmButton.heightAnchor.constraint(equalToConstant: confirmButtonHeight)
+                        ])
+                        
+                        rateViewHeight += confirmButtonHeight + spacing
+                    }
+//                    let confirmButton = UIButton()
+//                    confirmButton.tag = idx
+//                    confirmButton.setTitle(localize("confirm"), for: .normal)
+//                    confirmButton.setTitleColor(UIColor.white, for: .normal)
+//                    confirmButton.titleLabel?.font = contentFont
+//                    confirmButton.backgroundColor = blueColor
+//                    confirmButton.layer.cornerRadius = 3
+//                    confirmButton.addTarget(self, action: #selector(confirmationButtonPressed(sender:)), for: .touchUpInside)
+//                    confirmButton.translatesAutoresizingMaskIntoConstraints = false
+//                    rateStackView.addArrangedSubview(confirmButton)
+//
+//                    let confirmButtonHeight: CGFloat = 30
+//
+//                    NSLayoutConstraint.activate([
+//                        confirmButton.heightAnchor.constraint(equalToConstant: confirmButtonHeight)
+//                    ])
+//
+//                    rateViewHeight += confirmButtonHeight + spacing
+//                    // button
+//                    let AcceptButton = UIButton()
+//                    AcceptButton.tag = idx
+//                    AcceptButton.setTitle("Accept", for: .normal)
+//                    AcceptButton.setTitleColor(UIColor.white, for: .normal)
+//                    AcceptButton.titleLabel?.font = contentFont
+//                    AcceptButton.backgroundColor = darkRedColor
+//                    AcceptButton.layer.cornerRadius = 3
+//                    AcceptButton.addTarget(self, action: #selector(confirmationButtonPressed(sender:)), for: .touchUpInside)
+//                    AcceptButton.translatesAutoresizingMaskIntoConstraints = false
+//                    rateStackView.addArrangedSubview(AcceptButton)
+//
+//                    let AcceptButtonHeight: CGFloat = 30
+//
+//                    NSLayoutConstraint.activate([
+//                        AcceptButton.heightAnchor.constraint(equalToConstant: AcceptButtonHeight)
+//                    ])
+//
+//                    rateViewHeight += AcceptButtonHeight + spacing
                 }
             }
             
@@ -637,6 +866,33 @@ class AuctionDetailNormalViewController: UIViewController {
                 bidStackViewHeight.constant += rateViewHeight + 10 + bidStackView.spacing
             }
         }
+    }
+    
+    func createDatePicker(){
+        datePicker.datePickerMode = UIDatePicker.Mode.date
+        
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let done = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+        // let cancel = UIBarButtonItem(barButtonSystemItem: .cancel, target: nil, action: #selector(cancelPressed))
+        let cancel = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelPressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        toolbar.setItems([done, spaceButton, cancel], animated: true)
+        textDatePicker.inputAccessoryView = toolbar
+        textDatePicker.inputView = datePicker
+    }
+    
+    @objc func donePressed(){
+        // let Formatter = DateFormatter()
+        Formatter.dateStyle = DateFormatter.Style.medium
+        Formatter.timeStyle = DateFormatter.Style.none
+        Formatter.dateFormat = "Y-M-dd"
+        textDatePicker.text = Formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+    }
+    @objc func cancelPressed(){
+        textDatePicker.text = ""
+        self.view.endEditing(true)
     }
     
     @IBAction func addInterestRateDayButtonPressed(_ sender: Any) {
@@ -1023,7 +1279,7 @@ class AuctionDetailNormalViewController: UIViewController {
             }
         }
         showLoading(true)
-        presenter.saveAuction(id, bids, maxPlacementTextField != nil ? maxPlacementTextField.text! : "")
+        presenter.saveAuction(id, bids, maxPlacementTextField != nil ? maxPlacementTextField.text! : "", isMultifound: multifoundAuction)
     }
     
     @objc func confirmationButtonPressed(sender: UIButton) {
@@ -1033,7 +1289,20 @@ class AuctionDetailNormalViewController: UIViewController {
         confirmationType = "chosen_winner"
         confirmationID = bidID
         
-        self.performSegue(withIdentifier: "showConfirmation", sender: self)
+        if multifoundAuction == true {
+            self.performSegue(withIdentifier: "showConfirmationMultifound", sender: self)
+        }else{
+            self.performSegue(withIdentifier: "showConfirmation", sender: self)
+        }
+        
+        
+    }
+    
+    @objc func changeMaturityDateButtonPressed(sender: UIButton){
+        let date = textDatePicker.text!
+        let bidID = data.bids[sender.tag].id
+        showLoading(true)
+        presenter.saveAuctionChangeMaturityDateMultifund(id:id, bid_id:bidID, date:date)
     }
     
     func isInputValid(_ input: String?, _ dataType: String) -> Bool {
@@ -1134,5 +1403,36 @@ extension AuctionDetailNormalViewController: UITextFieldDelegate {
                 return false
             }
         }
+    }
+}
+
+extension AuctionDetailNormalViewController: AuctionBidStackDelegate {
+    
+    
+    func getConfirm(bidID: Int) {
+        confirmationType = "chosen_winner"
+        confirmationID = bidID
+        self.performSegue(withIdentifier: "showConfirmationMultifound", sender: self)
+    }
+    
+    func donePressed22(text: UITextField){
+        // let Formatter = DateFormatter()
+        Formatter.dateStyle = DateFormatter.Style.medium
+        Formatter.timeStyle = DateFormatter.Style.none
+        Formatter.dateFormat = "Y-M-dd"
+        text.text = Formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+    }
+    
+    func changeMatureDatePressed(_ bidID: Int, textDate:UITextField){
+       let date = textDate.text!
+       let bidID = bidID
+       showLoading(true)
+       presenter.saveAuctionChangeMaturityDateMultifund(id:id, bid_id:bidID, date:date)
+    }
+    
+    @objc func cancelPressed22(text: UITextField){
+        text.text = ""
+        self.view.endEditing(true)
     }
 }

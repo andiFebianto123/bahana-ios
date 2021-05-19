@@ -35,6 +35,7 @@ let lightGreenColor = UIColorFromHex(rgbValue: 0x90ee90)
 let primaryDarkColor = UIColorFromHex(rgbValue: 0xc0151c)
 let lightGreyColor = UIColorFromHex(rgbValue: 0xd3d3d3)
 let lightRedColor = UIColorFromHex(rgbValue: 0xfee1e1)
+let yellowColor = UIColorFromHex(rgbValue: 0xfac906)
 
 func setLocalData(_ data: [String:String]) {
     data.forEach {

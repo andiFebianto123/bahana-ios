@@ -36,7 +36,10 @@ class AuctionListViewController: UIViewController {
     
     var statusOptions = [localize("all").uppercased(), "-", "ACC", "REJ", "NEC"]
     let typeOptions = [localize("all").uppercased(), localize("auction").uppercased(), localize("direct_auction").uppercased(), localize("break").uppercased(), localize("rollover").uppercased(), localize("mature").uppercased(),
-        localize("no_cash_movement").uppercased()
+        localize("no_cash_movement").uppercased(),
+        localize("break_no_cash_movement").uppercased(),
+        localize("mature_no_cash_movement").uppercased(),
+        localize("multifund-auction").uppercased()
     ]
     
     var auctionID = Int()
@@ -47,6 +50,7 @@ class AuctionListViewController: UIViewController {
     var data = [Auction]()
     let dataPerPage = 10
     var page = 1
+    var multifoundAuction: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -158,6 +162,7 @@ class AuctionListViewController: UIViewController {
         if segue.identifier == "showAuctionDetailNormal" {
             if let destinationVC = segue.destination as? AuctionDetailNormalViewController {
                 destinationVC.id = auctionID
+                destinationVC.multifoundAuction = multifoundAuction
             }
         } else if segue.identifier == "showAuctionDetailDirect" {
             if let destinationVC = segue.destination as? AuctionDetailDirectViewController {
@@ -401,6 +406,9 @@ extension AuctionListViewController: UITableViewDelegate {
         case "break-ncm-auction":
             ncm_type = data[indexPath.row].ncm_type!
             performSegue(withIdentifier: "showAuctionNoCashMovement", sender: self)
+        case "multifund-auction":
+            multifoundAuction = true
+            performSegue(withIdentifier: "showAuctionDetailNormal", sender: self)
         default:
             //performSegue(withIdentifier: "showDetail", sender: self)
             break

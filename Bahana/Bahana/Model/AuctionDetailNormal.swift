@@ -43,6 +43,7 @@ struct Bid {
     var bilyet: [Bilyet]
     var chosen_rate : String?
     var period: String
+    var is_requested: Int?
 }
 
 struct DefaultRate {

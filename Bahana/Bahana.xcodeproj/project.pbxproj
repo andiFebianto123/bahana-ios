@@ -90,9 +90,17 @@
 		BCFE9E142404DF780013909A /* AuctionDetailRollover.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E132404DF770013909A /* AuctionDetailRollover.swift */; };
 		BCFE9E162404DF8A0013909A /* AuctionDetailDirect.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E152404DF890013909A /* AuctionDetailDirect.swift */; };
 		BCFE9E182404E0CE0013909A /* Bilyet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E172404E0CE0013909A /* Bilyet.swift */; };
+		C10C56DF2648D91800A1A8A0 /* AuctionStackPlacement.xib in Resources */ = {isa = PBXBuildFile; fileRef = C10C56DE2648D91800A1A8A0 /* AuctionStackPlacement.xib */; };
+		C10C56E12648E25700A1A8A0 /* AuctionStackPlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10C56E02648E25700A1A8A0 /* AuctionStackPlacement.swift */; };
+		C10C56E32649014900A1A8A0 /* AuctionMultifoundConfirmationViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10C56E22649014900A1A8A0 /* AuctionMultifoundConfirmationViewPresenter.swift */; };
+		C10C56E52649037100A1A8A0 /* DetailBidder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10C56E42649037100A1A8A0 /* DetailBidder.swift */; };
 		C1602F192574C998009C35A4 /* AuctionCashMovementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1602F182574C998009C35A4 /* AuctionCashMovementViewController.swift */; };
 		C17FF1EA255A3DAE007AFA27 /* panelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17FF1E9255A3DAE007AFA27 /* panelView.swift */; };
 		C17FF1EC255A3DD0007AFA27 /* panelView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C17FF1EB255A3DD0007AFA27 /* panelView.xib */; };
+		C183CAC7264B89E500A83F93 /* AuctionBidStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C183CAC6264B89E500A83F93 /* AuctionBidStack.swift */; };
+		C183CAC9264B8A1700A83F93 /* AuctionBidStack.xib in Resources */ = {isa = PBXBuildFile; fileRef = C183CAC8264B8A1700A83F93 /* AuctionBidStack.xib */; };
+		C1C9A2982645386700C15A5D /* MultifoundConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9A2972645386700C15A5D /* MultifoundConfirmationViewController.swift */; };
+		C1C9A29A26453EC000C15A5D /* AuctionMultifoundConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9A29926453EC000C15A5D /* AuctionMultifoundConfirmationViewController.swift */; };
 		C1FA1C1C2577737900BD16CB /* AuctionDetailNoCashMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FA1C1B2577737900BD16CB /* AuctionDetailNoCashMovement.swift */; };
 		C1FA1C1E2577904400BD16CB /* AuctionDetailNoCashMovementPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FA1C1D2577904400BD16CB /* AuctionDetailNoCashMovementPresenter.swift */; };
 		C1FB4356255B88FD00145AB0 /* AuctionPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FB4355255B88FD00145AB0 /* AuctionPanelView.swift */; };
@@ -204,9 +212,17 @@
 		BCFE9E132404DF770013909A /* AuctionDetailRollover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailRollover.swift; sourceTree = "<group>"; };
 		BCFE9E152404DF890013909A /* AuctionDetailDirect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailDirect.swift; sourceTree = "<group>"; };
 		BCFE9E172404E0CE0013909A /* Bilyet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bilyet.swift; sourceTree = "<group>"; };
+		C10C56DE2648D91800A1A8A0 /* AuctionStackPlacement.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionStackPlacement.xib; sourceTree = "<group>"; };
+		C10C56E02648E25700A1A8A0 /* AuctionStackPlacement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionStackPlacement.swift; sourceTree = "<group>"; };
+		C10C56E22649014900A1A8A0 /* AuctionMultifoundConfirmationViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionMultifoundConfirmationViewPresenter.swift; sourceTree = "<group>"; };
+		C10C56E42649037100A1A8A0 /* DetailBidder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBidder.swift; sourceTree = "<group>"; };
 		C1602F182574C998009C35A4 /* AuctionCashMovementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionCashMovementViewController.swift; sourceTree = "<group>"; };
 		C17FF1E9255A3DAE007AFA27 /* panelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = panelView.swift; sourceTree = "<group>"; };
 		C17FF1EB255A3DD0007AFA27 /* panelView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = panelView.xib; sourceTree = "<group>"; };
+		C183CAC6264B89E500A83F93 /* AuctionBidStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionBidStack.swift; sourceTree = "<group>"; };
+		C183CAC8264B8A1700A83F93 /* AuctionBidStack.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionBidStack.xib; sourceTree = "<group>"; };
+		C1C9A2972645386700C15A5D /* MultifoundConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultifoundConfirmationViewController.swift; sourceTree = "<group>"; };
+		C1C9A29926453EC000C15A5D /* AuctionMultifoundConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionMultifoundConfirmationViewController.swift; sourceTree = "<group>"; };
 		C1FA1C1B2577737900BD16CB /* AuctionDetailNoCashMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailNoCashMovement.swift; sourceTree = "<group>"; };
 		C1FA1C1D2577904400BD16CB /* AuctionDetailNoCashMovementPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailNoCashMovementPresenter.swift; sourceTree = "<group>"; };
 		C1FB4355255B88FD00145AB0 /* AuctionPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionPanelView.swift; sourceTree = "<group>"; };
@@ -251,6 +267,7 @@
 				BC14BF4824176A2300D84A0A /* Contact.swift */,
 				BC14BF4C24176D7700D84A0A /* Faq.swift */,
 				C1FA1C1B2577737900BD16CB /* AuctionDetailNoCashMovement.swift */,
+				C10C56E42649037100A1A8A0 /* DetailBidder.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -298,6 +315,11 @@
 			isa = PBXGroup;
 			children = (
 				BC81C14D23E15E70004DBBD3 /* Auction.storyboard */,
+				C183CAC8264B8A1700A83F93 /* AuctionBidStack.xib */,
+				C183CAC6264B89E500A83F93 /* AuctionBidStack.swift */,
+				C10C56DE2648D91800A1A8A0 /* AuctionStackPlacement.xib */,
+				C10C56E02648E25700A1A8A0 /* AuctionStackPlacement.swift */,
+				C1C9A2972645386700C15A5D /* MultifoundConfirmationViewController.swift */,
 				C1602F182574C998009C35A4 /* AuctionCashMovementViewController.swift */,
 				C1FA1C1D2577904400BD16CB /* AuctionDetailNoCashMovementPresenter.swift */,
 				BCC95AD723EADD1C00515773 /* AuctionListViewController.swift */,
@@ -328,6 +350,8 @@
 				C17FF1EB255A3DD0007AFA27 /* panelView.xib */,
 				C1FB4355255B88FD00145AB0 /* AuctionPanelView.swift */,
 				C1FB4357255B893400145AB0 /* AuctionPanelView.xib */,
+				C1C9A29926453EC000C15A5D /* AuctionMultifoundConfirmationViewController.swift */,
+				C10C56E22649014900A1A8A0 /* AuctionMultifoundConfirmationViewPresenter.swift */,
 			);
 			path = Auction;
 			sourceTree = "<group>";
@@ -465,7 +489,9 @@
 				BC472B6723E3FCB800FA2A6F /* RegisterStepCollectionViewCell.xib in Resources */,
 				BC81C14223E15D3C004DBBD3 /* Assets.xcassets in Resources */,
 				C1FB4358255B893400145AB0 /* AuctionPanelView.xib in Resources */,
+				C10C56DF2648D91800A1A8A0 /* AuctionStackPlacement.xib in Resources */,
 				BCE40BF723E2AAB200034744 /* Auth.storyboard in Resources */,
+				C183CAC9264B8A1700A83F93 /* AuctionBidStack.xib in Resources */,
 				BCE5B5C024739EA200777502 /* AuctionListReloadTableViewCell.xib in Resources */,
 				BCF2846223F0553800EE8FD8 /* AuctionListTableViewCell.xib in Resources */,
 				C17FF1EC255A3DD0007AFA27 /* panelView.xib in Resources */,
@@ -542,7 +568,9 @@
 				BC14BF4F241775B300D84A0A /* TransactionDetailPresenter.swift in Sources */,
 				BCC95AD123EAC14300515773 /* LoginPresenter.swift in Sources */,
 				BC5BC4CB242CB527003A47AB /* AuctionDetailMature.swift in Sources */,
+				C10C56E32649014900A1A8A0 /* AuctionMultifoundConfirmationViewPresenter.swift in Sources */,
 				BCFE9E122404DF680013909A /* AuctionDetailBreak.swift in Sources */,
+				C1C9A29A26453EC000C15A5D /* AuctionMultifoundConfirmationViewController.swift in Sources */,
 				BC472B7423E44ACC00FA2A6F /* TermsAndConditionsPresenter.swift in Sources */,
 				BC472B5B23E3E1F300FA2A6F /* RegisterViewController.swift in Sources */,
 				BCFE9E162404DF8A0013909A /* AuctionDetailDirect.swift in Sources */,
@@ -550,6 +578,7 @@
 				BC14BF3D24174E8C00D84A0A /* ChangeLanguageTableViewCell.swift in Sources */,
 				BCC95ACF23EAC04600515773 /* ForgotPasswordViewController.swift in Sources */,
 				BCFE9E082404CFC10013909A /* AuctionDetailBreakViewController.swift in Sources */,
+				C10C56E12648E25700A1A8A0 /* AuctionStackPlacement.swift in Sources */,
 				BC190B65240E1E4300D11011 /* Transaction.swift in Sources */,
 				C1FA1C1E2577904400BD16CB /* AuctionDetailNoCashMovementPresenter.swift in Sources */,
 				BC472B5F23E3E35100FA2A6F /* BestRateViewController.swift in Sources */,
@@ -578,12 +607,15 @@
 				BC2F94F923E93AFD00323DB4 /* RegisterPresenter.swift in Sources */,
 				BC472B7023E437D200FA2A6F /* BankBranch.swift in Sources */,
 				BCFE9E102404DF550013909A /* AuctionDetailNormal.swift in Sources */,
+				C183CAC7264B89E500A83F93 /* AuctionBidStack.swift in Sources */,
+				C10C56E52649037100A1A8A0 /* DetailBidder.swift in Sources */,
 				C1FA1C1C2577737900BD16CB /* AuctionDetailNoCashMovement.swift in Sources */,
 				C1602F192574C998009C35A4 /* AuctionCashMovementViewController.swift in Sources */,
 				BCFE9E0A2404CFE70013909A /* AuctionDetailRolloverViewController.swift in Sources */,
 				BC27FF8A24053B00002E1188 /* DashboardPresenter.swift in Sources */,
 				BC472B6E23E4358A00FA2A6F /* Bank.swift in Sources */,
 				BC27FF8424052299002E1188 /* AuctionDetailDirectPresenter.swift in Sources */,
+				C1C9A2982645386700C15A5D /* MultifoundConfirmationViewController.swift in Sources */,
 				BC7679802415EE5400683F2E /* ContactViewController.swift in Sources */,
 				BCFE9E0C2404D0B10013909A /* AuctionDetailNormalViewController.swift in Sources */,
 				BCF7C59523EBD57B00340C4A /* AuctionListPresenter.swift in Sources */,

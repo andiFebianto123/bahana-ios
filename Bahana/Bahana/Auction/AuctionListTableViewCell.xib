@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -261,8 +261,10 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="breakConstraintHeight" destination="kBh-kC-V84" id="aZa-j7-pci"/>
                 <outlet property="breakDateLabel" destination="WlZ-2W-udj" id="PLo-9x-zm0"/>
                 <outlet property="breakDateTitleLabel" destination="pxy-QH-CIH" id="Qp5-gu-aRW"/>
+                <outlet property="constraintHeight" destination="H52-hu-jfQ" id="9jV-WU-abg"/>
                 <outlet property="endLabel" destination="6qi-os-U4G" id="5vb-Vh-ml9"/>
                 <outlet property="endTitleLabel" destination="GkN-OW-wR8" id="G5A-LW-wc1"/>
                 <outlet property="fundNameLabel" destination="rm9-cm-XtZ" id="mQX-Zc-K6B"/>

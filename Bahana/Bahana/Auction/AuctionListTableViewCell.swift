@@ -30,6 +30,8 @@ class AuctionListTableViewCell: UITableViewCell {
     @IBOutlet weak var endLabel: UILabel!
     @IBOutlet weak var breakDateTitleLabel: UILabel!
     @IBOutlet weak var breakDateLabel: UILabel!
+    @IBOutlet weak var constraintHeight: NSLayoutConstraint!
+    @IBOutlet weak var breakConstraintHeight: NSLayoutConstraint!
     
     var pageType: String!
     var alreadySet: Bool = false
@@ -108,10 +110,13 @@ class AuctionListTableViewCell: UITableViewCell {
             endLabel.isHidden = true
         }
         
+        fundNameLabel.text = auction.portfolio_short
         setAuctionType(auction.type)
         setStatus(auction.status)
-        fundNameLabel.text = auction.portfolio_short
+        
+        
         tenorLabel.text = auction.period
+        
         var investment = "IDR \(toIdrBio(auction.investment_range_start))"
         if auction.investment_range_end > 0 {
             investment += " - \(toIdrBio(auction.investment_range_end))"
@@ -265,6 +270,13 @@ class AuctionListTableViewCell: UITableViewCell {
             placementDateLabel.text = localize("placement_date")
             endTitleLabel.text = localize("ends_in")
             break
+        case "multifund-auction":
+            title = localize("multifund-auction")
+            placementDateLabel.text = localize("placement_date")
+            endTitleLabel.text = localize("ends_in")
+            fundNameTitleLabel.text = "-"
+            fundNameLabel.text = "-"
+            
         default:
             break
         }
@@ -280,6 +292,7 @@ class AuctionListTableViewCell: UITableViewCell {
         
         // Kalau auction sudah selesai dan bukan mature, background jadi abu-abu
         if auction.maturity_date != nil && auction.type != "break" {
+            // jika maturity date tidak kosong dan tipe auction bukan break
             if auction.type != "mature" {
                 endTitleLabel.isHidden = false
                 endLabel.isHidden = false
@@ -312,7 +325,7 @@ class AuctionListTableViewCell: UITableViewCell {
                     }
                 }
             }
-        } else if auction.type == "mature-ncm-auction" || auction.type == "break-ncm-auction" {
+        } else if auction.type == "mature-ncm-auction" || auction.type == "break-ncm-auction" || auction.type == "multifund-auction"{
             endTitleLabel.isHidden = false
             endLabel.isHidden = false
             let endAuction = calculateDateDifference(date, convertStringToDatetime(auction.end_date)!)

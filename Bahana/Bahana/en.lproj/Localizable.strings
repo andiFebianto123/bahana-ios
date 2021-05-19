@@ -220,6 +220,18 @@
 "mature_no_cash_movement" = "MATURE NO CASH MOVEMENT";
 "break_no_cash_movement" = "BREAK NO CASH MOVEMENT";
 "confirmation_ncm_auction" = "Are you sure you want to accept this rate";
+"multifund-auction" = "MULTIFUND AUCTION";
+"accepted_with_decline" = "Accepted With Decline";
+"accepted_with_pending" = "Accepted With Pending";
+"rejected_with_pending" = "Rejected With Pending";
+"winner_detail" = "Winner Detail";
+"total_selected_bio" = "Total Selected (BIO)";
+"rate" = "rate";
+"change_mature_date_" = "Change Mature Date ?";
+"change_mature_date_btn" = "Change Mature Date";
+"portfolio" = "Portfolio";
+"custodian" = "Custodian";
+"status_by_rm" = "Status By RM";
 /*Penambahan baru*/
 
 

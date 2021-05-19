@@ -220,6 +220,18 @@
 "mature_no_cash_movement" = "MATURE NO CASH MOVEMENT";
 "break_no_cash_movement" = "BREAK NO CASH MOVEMENT";
 "confirmation_ncm_auction" = "Apakah anda yakin ingin menyetujui rate ini";
+"multifund-auction" = "LELANG MULTIFUND";
+"accepted_with_decline" = "Diterima Dengan Decline";
+"accepted_with_pending" = "Diterima Dengan Pending";
+"rejected_with_pending" = "Ditolak Dengan Pending";
+"winner_detail" = "Detail Pemenang";
+"total_selected_bio" = "Total Terpilih (BIO)";
+"rate" = "suku bunga";
+"change_mature_date_" = "Ganti Jatuh Tempo ?";
+"change_mature_date_btn" = "Ganti Jatuh Tempo";
+"portfolio" = "Portfolio";
+"custodian" = "Custodian";
+"status_by_rm" = "Status Oleh RM";
 /*Penambahan baru*/
 
 "january" = "Jan";
