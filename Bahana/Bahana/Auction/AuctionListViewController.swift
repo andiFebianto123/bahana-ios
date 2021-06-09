@@ -40,7 +40,8 @@ class AuctionListViewController: UIViewController {
         localize("break_no_cash_movement").uppercased(),
         localize("mature_no_cash_movement").uppercased(),
         localize("multifund-auction").uppercased(),
-        localize("multifund_rollover_").uppercased()
+        localize("multifund_rollover_").uppercased(),
+        localize("multifund_mature").uppercased()
     ]
     
     var auctionID = Int()
@@ -179,6 +180,7 @@ class AuctionListViewController: UIViewController {
         } else if segue.identifier == "showAuctionDetailMature" {
            if let destinationVC = segue.destination as? AuctionDetailMatureViewController {
                destinationVC.id = auctionID
+               destinationVC.multifundAuction = multifoundAuction
            }
         } else if segue.identifier == "showAuctionNoCashMovement" {
             if let destinationVC = segue.destination as? AuctionCashMovementViewController {
@@ -421,6 +423,10 @@ extension AuctionListViewController: UITableViewDelegate {
             multifoundAuction = true
             performSegue(withIdentifier: "showAuctionDetailRollover", sender: self)
             break
+        case "mature-multifund":
+            multifoundAuction = true
+            performSegue(withIdentifier: "showAuctionDetailMature", sender: self)
+            break
         default:
             //performSegue(withIdentifier: "showDetail", sender: self)
             break
@@ -431,7 +437,7 @@ extension AuctionListViewController: UITableViewDelegate {
         var height: CGFloat!
         if indexPath.row <= data.count - 1 {
             height = 175
-            if data[indexPath.row].type == "rollover-multifund" || data[indexPath.row].type == "multifund-auction" {
+            if data[indexPath.row].type == "rollover-multifund" || data[indexPath.row].type == "multifund-auction" || data[indexPath.row].type == "mature-multifund" {
                 height = 140
             }
         } else {

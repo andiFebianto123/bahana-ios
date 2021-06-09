@@ -22,3 +22,26 @@ struct AuctionDetailMature {
     var period: String
     var notes:String
 }
+
+struct AuctionDetailMatureMultifund {
+    var id: Int
+    var auction_name: String
+    var created_at: String
+    var updated_at: String
+    var tenor: String
+    var period: String
+    var coupon_rate: Double
+    var fund_type: String
+    var status: String
+    var details: [AuctionDetailMatureMultifundDetails]
+    var total_investment: String
+    var notes_auction: String
+}
+
+struct AuctionDetailMatureMultifundDetails {
+    var portfolio: String
+    var description: String
+    var custodian_bank: String
+    var bilyet: String
+    var transaction_id: [Int]
+}

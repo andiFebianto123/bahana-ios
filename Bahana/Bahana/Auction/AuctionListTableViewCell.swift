@@ -107,7 +107,7 @@ class AuctionListTableViewCell: UITableViewCell {
         endTitleLabel.isHidden = false
         endLabel.isHidden = false
         
-        if pageType == "history" || auction.type != "break" || auction.type == "mature" {
+        if pageType == "history" || auction.type != "break" || auction.type == "mature" || auction.type == "mature-multifund" {
             endTitleLabel.isHidden = true
             endLabel.isHidden = true
         }
@@ -135,7 +135,7 @@ class AuctionListTableViewCell: UITableViewCell {
             } else if pageType == "history" {
                 endLabel.text = convertDateToString(convertStringToDatetime(auction.break_maturity_date)!)
             }
-        } else if auction.type == "mature" {
+        } else if auction.type == "mature" || auction.type == "mature-multifund" {
             placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.maturity_date)!)
         } else {
             if auction.type == "rollover-multifund"{
@@ -299,6 +299,14 @@ class AuctionListTableViewCell: UITableViewCell {
             title = localize("multifund_rollover_")
             placementDateTitleLabel.text = localize("maturity_date")
             endTitleLabel.text = localize("ends_in")
+            fundNameTitleLabel.text = "-"
+            fundNameLabel.text = "-"
+            fundStack.isHidden = true
+            breakStack.isHidden = true
+            break
+        case "mature-multifund":
+            title = localize("multifund_mature")
+            mainView.backgroundColor = lightRedColor
             fundNameTitleLabel.text = "-"
             fundNameLabel.text = "-"
             fundStack.isHidden = true

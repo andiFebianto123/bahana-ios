@@ -24,6 +24,10 @@ class AuctionStackPlacement: UIView {
     @IBOutlet weak var bilyetTitleLabel: UILabel!
     @IBOutlet weak var statusByRmTitleLabel: UILabel!
     
+    // view
+    @IBOutlet weak var statusByRmView: UIView!
+    
+    
     var id = Int()
     var status:String!
     
@@ -35,6 +39,7 @@ class AuctionStackPlacement: UIView {
     var statusView = Int()
     
     var bidder_security_history = [Int]() // untuk multifund rollover
+    var transaction_id = [Int]() // untuk multifund mature
     
     override init(frame: CGRect){
            super.init(frame:frame)

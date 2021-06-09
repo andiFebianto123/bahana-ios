@@ -24,6 +24,8 @@ class AuctionWinnerDetailView: UIView {
     
     var details = [DetailsRolloverMultifund]()
     
+    var detailsMature = [AuctionDetailMatureMultifundDetails]()
+    
     var checkPlacements = [AuctionStackPlacement]()
     
     override init(frame: CGRect){
@@ -63,6 +65,23 @@ class AuctionWinnerDetailView: UIView {
         approvedBtn.setTitle(localize("approved").uppercased(), for: .normal)
         declinedBtn.setTitle(localize("declined").uppercased(), for: .normal)
         self.addStackPortfolio()
+    }
+    
+    func setContentForMature(){
+        AllCheckButtonView.isHidden = true
+        for detail in detailsMature {
+            let winnerStack = AuctionStackPlacement()
+            winnerStack.portfolioLabel.text = detail.portfolio
+            winnerStack.fullNameLabel.text = detail.description
+            winnerStack.custodianLabel.text = detail.custodian_bank
+            winnerStack.bilyetLabel.text = detail.bilyet
+            // winnerStack.approvedRmLabel.text = detail.status
+            winnerStack.statusByRmView.isHidden = true
+            winnerStack.viewBoxCheckHide(true)
+            winnerStack.transaction_id = detail.transaction_id
+            checkPlacements.append(winnerStack)
+            stackViewCheck.addArrangedSubview(winnerStack)
+        }
     }
     
     @IBAction func pressCheckAll(_ sender: Any) {

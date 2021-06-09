@@ -800,6 +800,11 @@ class AuctionDetailRolloverViewController: UIViewController {
         changeMatureDateStack.isHidden = true
         
         /*Set content auction winner detail*/
+        auctionWinnerDetail.layer.cornerRadius = 5
+        auctionWinnerDetail.layer.shadowColor = UIColor.gray.cgColor
+        auctionWinnerDetail.layer.shadowOffset = CGSize(width: 0, height: 0)
+        auctionWinnerDetail.layer.shadowRadius = 4
+        auctionWinnerDetail.layer.shadowOpacity = 0.5
         auctionWinnerDetail.setContent()
         auctionWinnerDetail.approvedBtn.addTarget(self, action: #selector(approvedWinnerDetailPressed), for: .touchUpInside)
         auctionWinnerDetail.declinedBtn.addTarget(self, action: #selector(declinedWinnerDetailPressed), for: .touchUpInside)

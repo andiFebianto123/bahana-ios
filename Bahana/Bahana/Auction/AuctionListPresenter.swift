@@ -47,6 +47,8 @@ class AuctionListPresenter {
             url += "multi-fund-auction?"
         case localize("multifund_rollover_").uppercased():
             url += "multi-fund-rollover?"
+        case localize("multifund_mature").uppercased():
+            url += "mature-multifund-auction?"
         default:
             url += "all-auction?"
         }
@@ -160,6 +162,8 @@ class AuctionListPresenter {
             url += "multi-fund-auction-history?"
         case localize("multifund_rollover_").uppercased():
             url += "multi-fund-rollover-history?"
+        case localize("multifund_mature").uppercased():
+            url += "mature-multifund-auction-history?"
         default:
             url += "all-auction-history?"
         }

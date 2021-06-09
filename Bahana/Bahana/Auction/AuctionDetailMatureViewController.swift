@@ -45,6 +45,10 @@ class AuctionDetailMatureViewController: UIViewController {
     @IBOutlet weak var noteTitle: UILabel!
     @IBOutlet weak var noteLabel: UILabel!
     
+    // winner stack
+    
+    @IBOutlet weak var winnerView: AuctionWinnerDetailView!
+    
     
     var loadingView = UIView()
     
@@ -53,7 +57,11 @@ class AuctionDetailMatureViewController: UIViewController {
     var id = Int()
     var data: AuctionDetailMature!
     
+    var dataMultifund: AuctionDetailMatureMultifund!
+    
     var backToRoot = false
+    
+    var multifundAuction:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,7 +110,14 @@ class AuctionDetailMatureViewController: UIViewController {
         let titleFont = UIFont.systemFont(ofSize: 11)
         let contentFont = UIFont.boldSystemFont(ofSize: 12)
         
-        titleLabel.text = localize("mature").uppercased()
+        
+        
+        if self.multifundAuction {
+            titleLabel.text = localize("multifund_mature").uppercased()
+        }else{
+            titleLabel.text = localize("mature").uppercased()
+        }
+        
         titleLabel.textColor = primaryColor
         statusView.layer.cornerRadius = 10
         let cardBackgroundColor = lightRedColor
@@ -112,6 +127,7 @@ class AuctionDetailMatureViewController: UIViewController {
         portfolioView.layer.shadowOffset = CGSize(width: 0, height: 0)
         portfolioView.layer.shadowRadius = 4
         portfolioView.layer.shadowOpacity = 0.5
+        
         fundNameTitleLabel.font = titleFont
         fundNameTitleLabel.textColor = titleLabelColor
         fundNameTitleLabel.text = localize("fund_name")
@@ -151,7 +167,12 @@ class AuctionDetailMatureViewController: UIViewController {
         scrollView.isHidden = true
         
         presenter = AuctionDetailMaturePresenter(delegate: self)
-        presenter.getAuction(id)
+        if self.multifundAuction {
+            presenter.getAuctionMultifund(id)
+        }else{
+            presenter.getAuction(id)
+
+        }
     }
     
 
@@ -189,6 +210,7 @@ class AuctionDetailMatureViewController: UIViewController {
     func showLoading(_ show: Bool) {
         loadingView.isHidden = !show
     }
+    
     
     func setContent() {
         // Check status
@@ -230,6 +252,55 @@ class AuctionDetailMatureViewController: UIViewController {
         footerLabel.attributedText = mutableAttributedString
     }
     
+    func setContentMultifund(){
+        // Check status
+         if dataMultifund.status == "-" {
+             statusView.isHidden = true
+         } else {
+             statusView.backgroundColor = primaryColor
+             statusLabel.text = dataMultifund.status
+             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
+         }
+         
+         auctionEndLabel.isHidden = true
+        
+//         // Portfolio
+//         fundNameLabel.text = data.portfolio
+//         custodianBankLabel.text = data.custodian_bank != nil ? data.custodian_bank : "-"
+//         picCustodianLabel.text = data.pic_custodian != nil ? data.pic_custodian : "-"
+         portfolioView.isHidden = true
+         // Detail
+         tenorLabel.text = dataMultifund.tenor
+         interestRateLabel.text = "\(checkPercentage(dataMultifund.coupon_rate)) %"
+         investmentLabel.text = dataMultifund.total_investment
+         periodLabel.text = dataMultifund.period
+         
+         // Notes
+         noteLabel.text = dataMultifund.notes_auction
+        
+        // winner detail
+        winnerView.layer.cornerRadius = 5
+        winnerView.layer.shadowColor = UIColor.gray.cgColor
+        winnerView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        winnerView.layer.shadowRadius = 4
+        winnerView.layer.shadowOpacity = 0.5
+        winnerView.detailsMature = dataMultifund.details
+        winnerView.setContentForMature()
+         
+         // Footer
+         let mutableAttributedString = NSMutableAttributedString()
+         
+         let topTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+         let bottomTextAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 8), NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+         
+         let topText = NSAttributedString(string: localize("auction_detail_footer"), attributes: topTextAttribute)
+         mutableAttributedString.append(topText)
+         let bottomText = NSAttributedString(string: "\n\(localize("ref_code"))\(dataMultifund.auction_name)", attributes: bottomTextAttribute)
+         mutableAttributedString.append(bottomText)
+         
+         footerLabel.attributedText = mutableAttributedString
+    }
+    
     func showAlert(_ message: String, _ isBackToList: Bool) {
         let alert = UIAlertController(title: localize("information"), message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
@@ -239,6 +310,9 @@ class AuctionDetailMatureViewController: UIViewController {
         }))
         self.present(alert, animated: true, completion: nil)
     }
+    
+    
+    
 }
 
 
@@ -246,6 +320,13 @@ extension AuctionDetailMatureViewController: AuctionDetailMatureDelegate {
     func setData(_ data: AuctionDetailMature) {
         self.data = data
         setContent()
+        scrollView.isHidden = false
+        showLoading(false)
+    }
+    
+    func setDataMultifund(_ data: AuctionDetailMatureMultifund){
+        self.dataMultifund = data
+        setContentMultifund()
         scrollView.isHidden = false
         showLoading(false)
     }

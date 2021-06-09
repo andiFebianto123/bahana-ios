@@ -322,6 +322,7 @@ func getDeviceScreenSize() -> Double {
     }
 }
 
+
 func getSafeAreaInset(_ pos: String) -> CGFloat {
     var topPadding: CGFloat = 20
     var bottomPadding: CGFloat = 0

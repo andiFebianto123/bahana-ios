@@ -236,6 +236,7 @@
 "used_in_ro_multifund_auction" = "dipakai di lelang ro multifund";
 "approved" = "disetujui";
 "declined" = "ditolak";
+"multifund_mature" = "cair multifund";
 /*Penambahan baru*/
 
 "january" = "Jan";

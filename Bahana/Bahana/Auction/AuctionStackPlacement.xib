@@ -23,6 +23,7 @@
                 <outlet property="portfolioLabel" destination="aW9-zG-pmb" id="yBy-A0-5Br"/>
                 <outlet property="portfolioTitleLabel" destination="8GZ-pI-rqc" id="OCE-GL-L90"/>
                 <outlet property="statusByRmTitleLabel" destination="pv9-v0-PRa" id="GLE-vq-vi2"/>
+                <outlet property="statusByRmView" destination="Npy-B9-bu6" id="E3b-Ls-XTf"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
