@@ -173,6 +173,9 @@ class TransactionDetailViewController: UIViewController {
         case "Multifund Rollover":
             title = localize("multifund-rollover")
             backgroundColor = yellowColor
+        case "Mature Multifund":
+            title = localize("multifund_mature")
+            backgroundColor = blueColor
         default:
             break
         }

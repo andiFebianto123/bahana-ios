@@ -49,7 +49,8 @@ class TransactionListViewController: UIViewController {
     
     var fundOptions = [String]()
     let statusOptions =  [
-        "all", "active", "break", "canceled", "mature", "used_in_break_auction", "used_in_ro_auction", "rollover", "used_in_mature_ncm_auction", "used_in_break_ncm_auction", "used_in_ro_multifund_auction", "multifund_rollover"
+        "all", "active", "break", "canceled", "mature", "used_in_break_auction", "used_in_ro_auction", "rollover", "used_in_mature_ncm_auction", "used_in_break_ncm_auction", "used_in_ro_multifund_auction", "multifund_rollover",
+        "multifund_mature"
     ]
     
     let issueDateOptions = [
@@ -634,6 +635,8 @@ extension TransactionListViewController: UITableViewDelegate {
             let transaction = data[indexPath.row]
             if transaction.status.lowercased() == "break" {
                 height = 205
+            } else if transaction.status.lowercased() == "mature multifund" || transaction.status.lowercased() == "used in ro multifund auction" {
+                height = 145
             } else {
                 height = 175
             }

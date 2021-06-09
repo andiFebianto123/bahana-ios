@@ -209,11 +209,19 @@ class AuctionListTableViewCell: UITableViewCell {
             backgroundColor = darkYellowColor
             breakDateTitleLabel.isHidden = true
             breakDateLabel.isHidden = true
+            fundStack.isHidden = true
         case "Multifund Rollover":
             title = localize("multifund_rollover")
             backgroundColor = yellowColor
             breakDateTitleLabel.isHidden = true
             breakDateLabel.isHidden = true
+            fundStack.isHidden = true
+        case "Mature Multifund":
+            title = localize("multifund_mature")
+            backgroundColor = blueColor
+            breakDateTitleLabel.isHidden = true
+            breakDateLabel.isHidden = true
+            fundStack.isHidden = true
         default:
             break
         }
@@ -326,7 +334,7 @@ class AuctionListTableViewCell: UITableViewCell {
         let date = calendar.date(byAdding: .hour, value: -serverHourDifference, to: Date())!
         
         // Kalau auction sudah selesai dan bukan mature, background jadi abu-abu
-        if auction.maturity_date != nil && auction.type != "break" {
+        if auction.maturity_date != nil && auction.type != "break" && auction.type != "mature-multifund" {
             // jika maturity date tidak kosong dan tipe auction bukan break
             if auction.type != "mature" {
                 endTitleLabel.isHidden = false
@@ -392,7 +400,7 @@ class AuctionListTableViewCell: UITableViewCell {
         } else {
             endTitleLabel.isHidden = true
             endLabel.text = ""
-            if pageType == "auction" && auction.type != "mature" {
+            if pageType == "auction" && auction.type != "mature" && auction.type != "mature-multifund" {
                 mainView.backgroundColor = lightGreyColor
             }
         }
