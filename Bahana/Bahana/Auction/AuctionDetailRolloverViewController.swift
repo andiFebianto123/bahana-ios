@@ -96,6 +96,11 @@ class AuctionDetailRolloverViewController: UIViewController {
     
     @IBOutlet weak var fieldPrincipalInterestNewDetail: UITextField!
     @IBOutlet weak var periodNewDetailLabel1: UILabel!
+    @IBOutlet weak var viewApproveBio: UIView!
+    @IBOutlet weak var newDetailTotalApproveLabel: UILabel!
+    @IBOutlet weak var viewDeclineBio: UIView!
+    @IBOutlet weak var newDetailTotalDeclineLabel: UILabel!
+    
     // @IBOutlet weak var periodNewDetailLabel2: UIButton!
     
     // notes
@@ -105,6 +110,8 @@ class AuctionDetailRolloverViewController: UIViewController {
     // constraint
     @IBOutlet weak var view4: UIView!
     @IBOutlet weak var viewUSD: UIView!
+    @IBOutlet weak var view3: UIView!
+    
     
     
     @IBOutlet weak var constraintTopViewUSD: NSLayoutConstraint!
@@ -116,28 +123,43 @@ class AuctionDetailRolloverViewController: UIViewController {
     @IBOutlet weak var customPanelView: AuctionPanelView!
     @IBOutlet weak var statusChanged: UILabel!
     
+    
+    @IBOutlet weak var stackWinnerDetail: UIStackView!
+    @IBOutlet weak var auctionWinnerDetail: AuctionWinnerDetailView!
+    @IBOutlet weak var winnerDetailTitleLable: UILabel!
+    
+    
+    
     func showUSDnewDetailLayout(){
         // jika found type berjenis USD
         view4.isHidden = true
-        constraintTopViewUSD.constant = -26.5
+        // constraintTopViewUSD.constant = -26.5
     }
     func showIDRnewDetailLayout(){
         viewUSD.isHidden = true
-        constraintTopView4.constant = -22.0
+        // constraintTopView4.constant = -22.0
     }
     func showMatureLayout(){
         view4.isHidden = false
-        constraintTopViewUSD.constant = 0
+        // constraintTopViewUSD.constant = 0
         showIDRnewDetailLayout()
     }
     // function to check IDR or USD
     func checkUSDorIDR() -> Int {
         // nilai 1 = USD
         // nilai 2 = IDR
-        if data.fund_type == "USD" {
-            return 1
+        if self.multifundAuction {
+            if dataMultifund.fund_type == "USD" {
+                return 1
+            }else{
+                return 2
+            }
+        }else{
+            if data.fund_type == "USD" {
+                return 1
+            }
+            return 2
         }
-        return 2
     }
     // end function
     func setPeriodNewDetail(){
@@ -203,12 +225,21 @@ class AuctionDetailRolloverViewController: UIViewController {
         previousDetailView.layer.shadowOpacity = 0.5
         
         
-        tenorPreviousDetailLabel.text = data.period
-        interestRatePreviousDetailLabel.text = "\(checkPercentage(data.previous_interest_rate)) %"
-        
-        principalPreviousDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
-        
-        periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.issue_date)!)!)"
+        if self.multifundAuction {
+            tenorPreviousDetailLabel.text = dataMultifund.period
+            interestRatePreviousDetailLabel.text = "\(checkPercentage(dataMultifund.previous_interest_rate)) %"
+            
+            principalPreviousDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(dataMultifund.investment_range_start)": "IDR \(toIdrBio(dataMultifund.investment_range_start))"
+            
+            periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(dataMultifund.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(dataMultifund.issue_date)!)!)"
+        }else{
+            tenorPreviousDetailLabel.text = data.period
+            interestRatePreviousDetailLabel.text = "\(checkPercentage(data.previous_interest_rate)) %"
+            
+            principalPreviousDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
+            
+            periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.issue_date)!)!)"
+        }
     }
     
     func setContentNewDetail(){
@@ -223,10 +254,20 @@ class AuctionDetailRolloverViewController: UIViewController {
         newDetailView.layer.shadowRadius = 4
         newDetailView.layer.shadowOpacity = 0.5
         
-        tenorNewDetailLabel.text = data.period
-        requestInterestRateNewDetailLabel.text = data.last_bid_rate != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
-        principalNewDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)" : "IDR \(toIdrBio(data.investment_range_start))"
-        self.setPeriodNewDetail()
+        if self.multifundAuction {
+            tenorNewDetailLabel.text = dataMultifund.period
+            requestInterestRateNewDetailLabel.text = dataMultifund.last_bid_rate != nil ? "\(checkPercentage(dataMultifund.last_bid_rate!)) %" : "-"
+            principalNewDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(dataMultifund.investment_range_start)" : "IDR \(toIdrBio(dataMultifund.investment_range_start))"
+            let period = "\(convertDateToString(convertStringToDatetime(dataMultifund.issue_date)!)!) -  \(convertDateToString(convertStringToDatetime(dataMultifund.maturity_date)!)!)"
+            // let period2 = "\(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
+            periodNewDetailLabel1.text = period
+        }else{
+            tenorNewDetailLabel.text = data.period
+            requestInterestRateNewDetailLabel.text = data.last_bid_rate != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
+            principalNewDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)" : "IDR \(toIdrBio(data.investment_range_start))"
+            self.setPeriodNewDetail()
+        }
+        
     }
     
     func setContentPreviousDetailAndNewDetail(){
@@ -248,6 +289,7 @@ class AuctionDetailRolloverViewController: UIViewController {
     
     var id = Int()
     var data: AuctionDetailRollover!
+    var dataMultifund: AuctionDetailRolloverMultifund!
     var serverHourDifference = Int()
     
     var revisionRate: String?
@@ -258,6 +300,8 @@ class AuctionDetailRolloverViewController: UIViewController {
     var datePicker = UIDatePicker()
     
     var matureDateAktif:Bool = true
+    
+    var multifundAuction:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -364,6 +408,9 @@ class AuctionDetailRolloverViewController: UIViewController {
         changeMatureTitle.textColor = primaryColor
         changeMatureTitle.text = localize("change_mature_date").uppercased()
         
+        winnerDetailTitleLable.textColor = primaryColor
+        winnerDetailTitleLable.text = localize("winner_detail").uppercased()
+        
         interestRateTextField.placeholder = localize("interest_rate")
         interestRateTextField.keyboardType = .numbersAndPunctuation
         
@@ -398,7 +445,7 @@ class AuctionDetailRolloverViewController: UIViewController {
     let Formatter = DateFormatter()
     
     func getDateToChangeMatureField() -> String{
-        let dateString = "\(convertDateToString(convertStringToDatetime(data.maturity_date)!)!)"
+        let dateString = "\(convertDateToString(convertStringToDatetime( (self.multifundAuction) ? dataMultifund.maturity_date : data.maturity_date)!)!)"
         let datePicker = UIDatePicker()
         let formatter = DateFormatter()
         
@@ -407,7 +454,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         datePicker.datePickerMode = UIDatePicker.Mode.date
         datePicker.setDate(tanggal, animated: false)
         //
-        formatter.dateFormat = "dd MMMM yyyy"
+        formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: datePicker.date)
     }
     
@@ -436,8 +483,10 @@ class AuctionDetailRolloverViewController: UIViewController {
         
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
+        let cancel = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelPressed))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let done = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
-        toolbar.setItems([done], animated: true)
+        toolbar.setItems([done, spaceButton, cancel], animated: true)
         changeMatureDateField.inputAccessoryView = toolbar
         changeMatureDateField.inputView = datePicker
     }
@@ -445,8 +494,13 @@ class AuctionDetailRolloverViewController: UIViewController {
         // let Formatter = DateFormatter()
         Formatter.dateStyle = DateFormatter.Style.medium
         Formatter.timeStyle = DateFormatter.Style.none
-        Formatter.dateFormat = "dd MMMM yyyy"
+        Formatter.dateFormat = "yyyy-MM-dd"
         changeMatureDateField.text = Formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+    }
+    
+    @objc func cancelPressed(){
+        changeMatureDateField.text = ""
         self.view.endEditing(true)
     }
     
@@ -489,9 +543,17 @@ class AuctionDetailRolloverViewController: UIViewController {
     }
     
     @objc func refresh() {
-        scrollView.isHidden = true
-        showLoading(true)
-        presenter.getAuction(id)
+        if self.multifundAuction {
+            scrollView.isHidden = true
+            showLoading(true)
+            presenter.getAuctionWithMultifund(id)
+            stackWinnerDetail.isHidden = false
+        }else{
+            scrollView.isHidden = true
+            showLoading(true)
+            presenter.getAuction(id)
+            stackWinnerDetail.isHidden = true
+        }
     }
     
     func showLoading(_ show: Bool) {
@@ -548,47 +610,62 @@ class AuctionDetailRolloverViewController: UIViewController {
         let newDate = changeMatureDateField.text!
         
         if validateForm() {
-            showLoading(true)
-            if checkUSDorIDR() == 1{
-                // jika tipe pembayaran USD
+            if self.multifundAuction {
                 let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
-                let principalInterest = Double(fieldPrincipalInterestNewDetail.text!)!
-                if date == newDate {
-                    // jika tidak ada perubahan tanggal
-                    print("Mulai simpan")
-                    presenter.saveAuctionForUSD(id, rate: rate, tgl: nil, new_nominal: principalInterest)
-                }else{
-                    // jika ada perubahan tanggal
-                    if(matureDateAktif){
-                        // jika form maturity date di hide
-                        presenter.saveAuctionForUSD(id, rate: rate, tgl: nil, new_nominal: principalInterest)
-                    }else{
-                        let tanggal = self.changeFormatTgl(format: "yyyy-M-dd", tgl: newDate) + " 00:00:00"
-                        presenter.saveAuctionForUSD(id, rate: rate, tgl: tanggal, new_nominal: principalInterest)
+                var auctionWinnerDetailData = [AuctionStackPlacement]()
+                for stackAuctionWinner in auctionWinnerDetail.checkPlacements {
+                    if stackAuctionWinner.checkBox {
+                        auctionWinnerDetailData.append(stackAuctionWinner)
                     }
-                    
                 }
-            } else {
-                // jika tipe pembayaran IDR
-                let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
-                if date == newDate {
-                    // jika tidak ada perubahan tanggal
-                    presenter.saveAuction(id, rate)
-                }else{
-                    // jika ada perubahan tanggal
-                    if(matureDateAktif){
-                        // jika form maturity date di hide
-                        presenter.saveAuction(id, rate)
-                    }else{
-                        let tanggal = self.changeFormatTgl(format: "yyyy-M-dd", tgl: newDate) + " 00:00:00"
-                        presenter.saveAuctionWithdate(id, rate:rate, tgl:tanggal)
-        
+                showLoading(true)
+                presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: newDate, detailsWinner: auctionWinnerDetailData, approved: "yes")
+                // print(auctionWinnerDetailData)
+                //
+            }else{
+                showLoading(true)
+                    if checkUSDorIDR() == 1{
+                        // jika tipe pembayaran USD
+                        let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
+                        let principalInterest = Double(fieldPrincipalInterestNewDetail.text!)!
+                        if date == newDate {
+                            // jika tidak ada perubahan tanggal
+                            print("Mulai simpan")
+                            presenter.saveAuctionForUSD(id, rate: rate, tgl: nil, new_nominal: principalInterest)
+                        }else{
+                            // jika ada perubahan tanggal
+                            if(matureDateAktif){
+                                // jika form maturity date di hide
+                                presenter.saveAuctionForUSD(id, rate: rate, tgl: nil, new_nominal: principalInterest)
+                            }else{
+                                let tanggal = self.changeFormatTgl(format: "yyyy-M-dd", tgl: newDate) + " 00:00:00"
+                                presenter.saveAuctionForUSD(id, rate: rate, tgl: tanggal, new_nominal: principalInterest)
+                            }
+                            
+                        }
+                    } else {
+                        // jika tipe pembayaran IDR
+                        let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
+                        if date == newDate {
+                            // jika tidak ada perubahan tanggal
+                            presenter.saveAuction(id, rate)
+                        }else{
+                            // jika ada perubahan tanggal
+                            if(matureDateAktif){
+                                // jika form maturity date di hide
+                                presenter.saveAuction(id, rate)
+                            }else{
+                                let tanggal = self.changeFormatTgl(format: "yyyy-M-dd", tgl: newDate) + " 00:00:00"
+                                presenter.saveAuctionWithdate(id, rate:rate, tgl:tanggal)
+                
+                            }
+                            
+                        }
                     }
-                    
-                }
             }
         }
     }
+    
     
     func setContent() {
         /* Buat date picker */
@@ -676,12 +753,130 @@ class AuctionDetailRolloverViewController: UIViewController {
         footerLabel.attributedText = mutableAttributedString
     }
     
+    func setRateAndUpdateWinnerDetail(approved: String){
+        let newDate = changeMatureDateField.text!
+        if validateForm() {
+            if self.multifundAuction {
+                let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
+                var auctionWinnerDetailData = [AuctionStackPlacement]()
+                for stackAuctionWinner in auctionWinnerDetail.checkPlacements {
+                    if stackAuctionWinner.checkBox {
+                        auctionWinnerDetailData.append(stackAuctionWinner)
+                    }
+                }
+                showLoading(true)
+                presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: newDate, detailsWinner: auctionWinnerDetailData, approved: approved)
+                // print(auctionWinnerDetailData)
+                //
+            }
+        }
+    }
+    
+    @objc func approvedWinnerDetailPressed(_ sender: UIButton){
+        setRateAndUpdateWinnerDetail(approved: "yes")
+    }
+    
+    @objc func declinedWinnerDetailPressed(_ sender: UIButton){
+        setRateAndUpdateWinnerDetail(approved: "no")
+    }
+    
+    func setContentMultifund(){
+        /* Buat date picker */
+        createDatePicker()
+        
+        /*Hide View 4 */
+        view4.isHidden = true
+        
+        /*Hide view usd*/
+        viewUSD.isHidden = true
+        
+        /*Hide portfolio view*/
+        portfolioView.isHidden = true
+        
+        /*Hide Interest rate view*/
+        interestRateStackView.isHidden = true
+
+        /*Menghilangkan form change mature date*/
+        changeMatureDateStack.isHidden = true
+        
+        /*Set content auction winner detail*/
+        auctionWinnerDetail.setContent()
+        auctionWinnerDetail.approvedBtn.addTarget(self, action: #selector(approvedWinnerDetailPressed), for: .touchUpInside)
+        auctionWinnerDetail.declinedBtn.addTarget(self, action: #selector(declinedWinnerDetailPressed), for: .touchUpInside)
+        
+        titleLabel.text = localize("multifund_rollover").uppercased()
+        
+        // Check status
+        if dataMultifund.status == "-" {
+            statusView.isHidden = true
+        } else {
+            statusView.isHidden = false
+            statusView.backgroundColor = primaryColor
+            statusLabel.text = dataMultifund.status
+            statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
+        }
+        
+        newDetailTotalApproveLabel.text = "IDR \(toIdrBio(dataMultifund.investment_range_approved))"
+        newDetailTotalDeclineLabel.text = (dataMultifund.investment_range_declined == 0) ? "-" : "IDR \(toIdrBio(dataMultifund.investment_range_declined))"
+        
+        countdown()
+        
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdown), userInfo: nil, repeats: true)
+        
+        // Portfolio
+//        fundNameLabel.text = dataMultifund.portfolio
+//        custodianBankLabel.text = dataMultifund.custodian_bank
+//        picCustodianLabel.text = dataMultifund.pic_custodian
+        
+        // Detail
+        tenorLabel.text = dataMultifund.period
+        previousInterestRateLabel.text = "\(checkPercentage(dataMultifund.previous_interest_rate)) %"
+        newInterestRateLabel.text = dataMultifund.last_bid_rate != nil ? "\(checkPercentage(dataMultifund.last_bid_rate!)) %" : "-"
+        investmentLabel.text = (checkUSDorIDR() == 1) ? "USD \(dataMultifund.investment_range_start)" : "IDR \(toIdrBio(dataMultifund.investment_range_start))"
+        previousPeriodLabel.text = "\(convertDateToString(convertStringToDatetime(dataMultifund.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(dataMultifund.issue_date)!)!)"
+        newPeriodLabel.text = "\(convertDateToString(convertStringToDatetime(dataMultifund.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(dataMultifund.maturity_date)!)!)"
+        
+        // notes
+        noteLabel.text = dataMultifund.notes
+        
+        // Action
+        self.setContentPreviousDetailAndNewDetail()
+        
+        if dataMultifund.view == 2 && dataMultifund.is_pending_exists == true {
+            auctionWinnerDetail.AllCheckButtonView.isHidden = false
+            changeMatureDateButton.isHidden = true
+        }else if dataMultifund.view == 2 && dataMultifund.is_pending_exists == false {
+            auctionWinnerDetail.AllCheckButtonView.isHidden = true
+        }else if dataMultifund.view == 0 || dataMultifund.view == 1 {
+            changeMatureDateButton.isHidden = true
+            auctionWinnerDetail.AllCheckButtonView.isHidden = true
+            changeMatureDateStack.isHidden = true
+            view3.isHidden = true
+            for stackAuctionWinner in auctionWinnerDetail.checkPlacements {
+                stackAuctionWinner.checkBoxView.isHidden = true
+            }
+        }
+
+        // Footer
+        let mutableAttributedString = NSMutableAttributedString()
+        
+        let topTextAttribute = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        let bottomTextAttribute = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 8), NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        
+        let topText = NSAttributedString(string: localize("auction_detail_footer"), attributes: topTextAttribute)
+        mutableAttributedString.append(topText)
+        let bottomText = NSAttributedString(string: "\n\(localize("ref_code"))\(dataMultifund.auction_name)", attributes: bottomTextAttribute)
+        mutableAttributedString.append(bottomText)
+        
+        footerLabel.attributedText = mutableAttributedString
+    }
+    
     @objc func countdown() {
         let calendar = Calendar.current
         let date = calendar.date(byAdding: .hour, value: -serverHourDifference, to: Date())!
         
-        if convertStringToDatetime(data.end_date)! > date {
-            let endAuction = calculateDateDifference(date, convertStringToDatetime(data.end_date)!)
+        if convertStringToDatetime( (self.multifundAuction) ? dataMultifund.end_date : data.end_date)! > date {
+            let endAuction = calculateDateDifference(date, convertStringToDatetime( (self.multifundAuction) ? dataMultifund.end_date : data.end_date)!)
             
             if endAuction["hour"]! > 0 || endAuction["minute"]! > 0 {
                 let hour = endAuction["hour"]! > 1 ? String.localizedStringWithFormat(localize("hours"), "\(endAuction["hour"]!)") : String.localizedStringWithFormat(localize("hour"), "\(endAuction["hour"]!)")
@@ -775,6 +970,14 @@ extension AuctionDetailRolloverViewController: AuctionDetailRolloverDelegate {
     func setData(_ data: AuctionDetailRollover) {
         self.data = data
         setContent()
+        scrollView.isHidden = false
+        showLoading(false)
+    }
+    
+    func setDataWithMultifund(_ data: AuctionDetailRolloverMultifund){
+        self.dataMultifund = data
+        auctionWinnerDetail.details = data.details
+        self.setContentMultifund()
         scrollView.isHidden = false
         showLoading(false)
     }

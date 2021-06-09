@@ -167,6 +167,12 @@ class TransactionDetailViewController: UIViewController {
         case "Used in Break NCM Auction":
             title = localize("used_in_break_ncm_auction")
             backgroundColor = darkYellowColor
+        case "Used in RO Multifund Auction":
+            title = localize("used_in_ro_multifund_auction")
+            backgroundColor = darkYellowColor
+        case "Multifund Rollover":
+            title = localize("multifund-rollover")
+            backgroundColor = yellowColor
         default:
             break
         }

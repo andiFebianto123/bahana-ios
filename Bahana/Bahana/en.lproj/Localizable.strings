@@ -213,7 +213,6 @@
 "bilyet_usd" = "Bilyet ($)";
 "(changed)" = "(changed)";
 "Mature" = "Mature";
-"no_cash_movement" = "no cash movement";
 "new_placement" = "New Placement";
 "ncm_auction_mature" = "NCM Auction Mature";
 "ncm_auction_break" = "NCM Auction Break";
@@ -232,6 +231,11 @@
 "portfolio" = "Portfolio";
 "custodian" = "Custodian";
 "status_by_rm" = "Status By RM";
+"multifund_rollover" = "Multi-fund Rollover";
+"multifund_rollover_" = "Multifund rollover";
+"used_in_ro_multifund_auction" = "Used in RO Multifund Auction";
+"approved" = "approved";
+"declined" = "declined";
 /*Penambahan baru*/
 
 

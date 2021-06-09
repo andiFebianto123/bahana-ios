@@ -213,7 +213,6 @@
 "bilyet_usd" = "Bilyet ($)";
 "(changed)" = "(berubah)";
 "Mature" = "Cair";
-"no_cash_movement" = "tanpa pergerakan uang tunai";
 "new_placement" = "Lelang Baru";
 "ncm_auction_mature" = "Lelang NCM Cair";
 "ncm_auction_break" = "Lelang NCM Break";
@@ -232,6 +231,11 @@
 "portfolio" = "Portfolio";
 "custodian" = "Custodian";
 "status_by_rm" = "Status Oleh RM";
+"multifund_rollover" = "Multi-fund Rollover";
+"multifund_rollover_" = "Multifund rollover";
+"used_in_ro_multifund_auction" = "dipakai di lelang ro multifund";
+"approved" = "disetujui";
+"declined" = "ditolak";
 /*Penambahan baru*/
 
 "january" = "Jan";

@@ -274,8 +274,9 @@ class AuctionDetailNormalViewController: UIViewController {
     }
     
     func addStackInBidStackView2(_ bidData: [Bid]){
-        for bidView in bidStackView.arrangedSubviews {
-            bidStackView.removeArrangedSubview(bidView)
+        print("Refresh Halaman")
+        for bidView in bidStackView2.arrangedSubviews {
+            bidStackView2.removeArrangedSubview(bidView)
         }
         for (idx, dt) in bidData.enumerated() {
             var stackBidder = AuctionBidStack()

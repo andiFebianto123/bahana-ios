@@ -32,6 +32,8 @@ class AuctionMultifoundConfirmationViewController: UIViewController {
     @IBOutlet weak var tenorTitleLabel: UILabel!
     @IBOutlet weak var rateTitleLabel: UILabel!
     @IBOutlet weak var totalSelectedTitleLabel: UILabel!
+    @IBOutlet weak var approvedBtn: UIButton!
+    @IBOutlet weak var declinedBtn: UIButton!
     
     var checkBtnTrigger:Bool = false
     
@@ -60,6 +62,9 @@ class AuctionMultifoundConfirmationViewController: UIViewController {
         winnerDetailTitleLabel.text = localize("winner_detail")
         rateTitleLabel.text = localize("rate").uppercased()
         totalSelectedTitleLabel.text = localize("total_selected_bio").uppercased()
+        approvedBtn.setTitle(localize("approved").uppercased(), for: .normal)
+        declinedBtn.setTitle(localize("declined").uppercased(), for: .normal)
+        
         
         // Set loading view
         loadingView.backgroundColor = UIColor(white: 0, alpha: 0.5)

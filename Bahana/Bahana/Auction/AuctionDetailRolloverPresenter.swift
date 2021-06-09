@@ -17,6 +17,7 @@ protocol AuctionDetailRolloverDelegate {
     func isPosted(_ isSuccess: Bool, _ message: String)
     func openLoginPage()
     func hideLoading()
+    func setDataWithMultifund(_ data: AuctionDetailRolloverMultifund)
 }
 
 class AuctionDetailRolloverPresenter {
@@ -96,6 +97,123 @@ class AuctionDetailRolloverPresenter {
         }
     }
     
+    func getAuctionWithMultifund(_ id: Int){
+        // Lang
+        var lang = String()
+        switch getLocalData(key: "language") {
+        case "language_id":
+            lang = "in"
+        case "language_en":
+            lang = "en"
+        default:
+            break
+        }
+        
+        // Get auction
+        Alamofire.request(WEB_API_URL + "api/v1/multi-fund-rollover/\(id)?lang=\(lang)", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
+            switch response.result {
+            case .success:
+                if response.response?.statusCode == 401 {
+                    self.delegate?.openLoginPage()
+                } else if response.response?.statusCode == 404 {
+                    let res = JSON(response.result.value!)
+                    self.delegate?.getDataFail(res["message"].stringValue)
+                } else {
+                    let res = JSON(response.result.value!)
+                    //print(res)
+                    
+                    let serverDate = convertStringToDatetime(res["date"].stringValue)
+                    self.delegate?.setDate(serverDate!)
+                    
+                    let auct = res["auction"]
+
+                    let id = auct["id"].intValue
+                    let auction_name = auct["auction_name"].stringValue
+                    let start_date = auct["start_date"].stringValue
+                    let end_date = auct["end_date"].stringValue
+                    let fund_type = auct["fund_type"].stringValue
+                    let interest = auct["interest"] != JSON.null ? auct["interest"].stringValue : nil
+                    let investment_range_approved = auct["investment_range_approved"].doubleValue
+                    let investment_range_declined = auct["investment_range_declined"].doubleValue
+                    let investment_range_start = auct["investment_range_start"].doubleValue
+                    let previous_interest_rate = auct["previous_interest_rate"].doubleValue
+                    let status = auct["status"].stringValue
+                    let view = auct["view"].intValue
+                    let message = auct["message"].stringValue
+                    let previous_maturity_date = auct["previous_maturity_date"].stringValue
+                    let previous_issue_date = auct["previous_issue_date"].stringValue
+                    let period = auct["period"].stringValue
+                    let breakable_policy = auct["breakable_policy"] != JSON.null ? auct["breakable_policy"].stringValue : nil
+                    let last_bid_rate = auct["last_bid_rate"] != JSON.null ? auct["last_bid_rate"].doubleValue : nil
+                    let issue_date = auct["issue_date"].stringValue
+                    let maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
+                    let notes = auct["notes"].stringValue
+                    let date = auct["date"].stringValue
+                    let is_pending_exists = auct["is_pending_exists"].boolValue
+                    //let end_bidding_rm = auct["end_bidding_rm"].stringValue
+                    // let pic_custodian = auct["pic_custodian"] != JSON.null ? auct["pic_custodian"].stringValue : nil
+                    // let custodian_bank = auct["custodian_bank"] != JSON.null ? auct["custodian_bank"].stringValue : nil
+                    // let portfolio = auct["portfolio"].stringValue
+                    // let portfolio_short = auct["portfolio_short"].stringValue
+                    //let fund_type = auct["fund_type"].stringValue
+                    //let investment_range_end = auct["investment_range_end"].doubleValue
+                    //let revision_rate_admin = auct["revision_rate_admin"].stringValue
+                    
+                    // let is_break = auct["is_break"].boolValue
+                    
+                    var details = [DetailsRolloverMultifund]()
+                    for detail in auct["details"].arrayValue {
+                        let portfolio = detail["portfolio"].stringValue
+                        let portfolio_id = detail["portfolio_id"].intValue
+                        let description = detail["description"].stringValue
+                        let custodian_bank = detail["custodian_bank"].stringValue
+                        let status = detail["status"].stringValue
+                        let bilyet = detail["bilyet"].stringValue
+                        var bidder_security_history_id = [Int]()
+                        
+                        for bidder_security_history in detail["bidder_security_history_id"].arrayValue {
+                            bidder_security_history_id.append(bidder_security_history.intValue)
+                        }
+                        
+                        let multifundDetail = DetailsRolloverMultifund(portfolio: portfolio, portfolio_id: portfolio_id, description: description, custodian_bank: custodian_bank, status: status, bidder_security_history_id: bidder_security_history_id, bilyet: bilyet)
+                        details.append(multifundDetail)
+                    }
+                    
+                    
+                    let auction = AuctionDetailRolloverMultifund(
+                        id:id,
+                        auction_name: auction_name,
+                        start_date: start_date,
+                        end_date: end_date,
+                        fund_type: fund_type,
+                        interest: interest,
+                        investment_range_approved: investment_range_approved,
+                        investment_range_declined: investment_range_declined,
+                        investment_range_start: investment_range_start,
+                        previous_interest_rate: previous_interest_rate,
+                        status: status,
+                        view: view,
+                        message: message,
+                        previous_maturity_date: previous_maturity_date,
+                        previous_issue_date: previous_issue_date,
+                        period: period,
+                        breakable_policy:breakable_policy,
+                        last_bid_rate:last_bid_rate,
+                        issue_date: issue_date,
+                        maturity_date: maturity_date,
+                        notes: notes,
+                        details: details,
+                        is_pending_exists: is_pending_exists)
+                    
+                    self.delegate?.setDataWithMultifund(auction)
+                }
+            case .failure(let error):
+                print(error)
+                self.delegate?.getDataFail(nil)
+            }
+        }
+    }
+    
     func saveAuction(_ id: Int, _ rate: Double) {
         let parameters: Parameters = [
             "rate": rate
@@ -115,6 +233,7 @@ class AuctionDetailRolloverPresenter {
             }
         } // end Alamofire
     }
+    
     func saveAuctionWithdate(_ id:Int, rate:Double, tgl:String){
         // ini adalah fungsi save auction baru jika terdapat parameter mature date
         let parameters: Parameters = [
@@ -172,4 +291,45 @@ class AuctionDetailRolloverPresenter {
             }
         } // end Alamofire
     }
+    
+    func saveAuctionforMultifund(id: Int, rate: Double, tgl:String?, detailsWinner:[AuctionStackPlacement], approved:String){
+        var parameters = Parameters()
+        parameters.updateValue(rate, forKey: "rate")
+        parameters.updateValue("", forKey: "request_maturity_date")
+        if tgl! != nil || tgl! != "" {
+            parameters.updateValue(tgl!, forKey: "request_maturity_date")
+        }
+        for (idx, detailWinner) in detailsWinner.enumerated() {
+            parameters.updateValue(detailWinner.portfolioLabel.text!, forKey: "portfolio[\(idx)][portfolio]")
+            for (i, bidder_security) in detailWinner.bidder_security_history.enumerated() {
+                parameters.updateValue(bidder_security, forKey: "portfolio[\(idx)][bidder_security_history_id][\(i)]")
+                parameters.updateValue("", forKey: "portfolio[\(idx)][new_nominal][\(i)]")
+            }
+        }
+        parameters.updateValue(approved, forKey: "is_approved")
+//        print(parameters)
+                
+        Alamofire.request(WEB_API_URL + "api/v1/multi-fund-rollover/\(id)/post", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
+            if response.response?.mimeType == "application/json" {
+                let res = JSON.init(parseJSON: response.result.value!)
+                if response.response?.statusCode == 200 {
+                    if res["status"] != JSON.null {
+
+                        self.delegate?.isPosted(false, res["message"].stringValue)
+                        self.delegate?.hideLoading()
+                    }else{
+                        self.delegate?.isPosted(true, res["message"].stringValue)
+                    }
+
+                } else {
+                    self.delegate?.isPosted(false, res["message"].stringValue)
+                    self.delegate?.hideLoading()
+                }
+            } else {
+                print(response)
+                self.delegate?.getDataFail(nil)
+            }
+        } // end Alamofire
+    }
+    
 }

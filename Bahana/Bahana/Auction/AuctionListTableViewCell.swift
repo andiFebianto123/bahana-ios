@@ -32,6 +32,8 @@ class AuctionListTableViewCell: UITableViewCell {
     @IBOutlet weak var breakDateLabel: UILabel!
     @IBOutlet weak var constraintHeight: NSLayoutConstraint!
     @IBOutlet weak var breakConstraintHeight: NSLayoutConstraint!
+    @IBOutlet weak var fundStack: UIStackView!
+    @IBOutlet weak var breakStack: UIStackView!
     
     var pageType: String!
     var alreadySet: Bool = false
@@ -136,7 +138,11 @@ class AuctionListTableViewCell: UITableViewCell {
         } else if auction.type == "mature" {
             placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.maturity_date)!)
         } else {
-            placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
+            if auction.type == "rollover-multifund"{
+                placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.maturity_date)!)
+            }else{
+                placementDateLabel.text = convertDateToString(convertStringToDatetime(auction.end_date)!)
+            }
             
             countdown()
             
@@ -196,6 +202,16 @@ class AuctionListTableViewCell: UITableViewCell {
         case "Used in Break NCM Auction":
             title = localize("used_in_break_ncm_auction")
             backgroundColor = darkYellowColor
+            breakDateTitleLabel.isHidden = true
+            breakDateLabel.isHidden = true
+        case "Used in RO Multifund Auction":
+            title = localize("used_in_ro_multifund_auction")
+            backgroundColor = darkYellowColor
+            breakDateTitleLabel.isHidden = true
+            breakDateLabel.isHidden = true
+        case "Multifund Rollover":
+            title = localize("multifund_rollover")
+            backgroundColor = yellowColor
             breakDateTitleLabel.isHidden = true
             breakDateLabel.isHidden = true
         default:
@@ -276,7 +292,18 @@ class AuctionListTableViewCell: UITableViewCell {
             endTitleLabel.text = localize("ends_in")
             fundNameTitleLabel.text = "-"
             fundNameLabel.text = "-"
-            
+            fundStack.isHidden = true
+            breakStack.isHidden = true
+            break
+        case "rollover-multifund":
+            title = localize("multifund_rollover_")
+            placementDateTitleLabel.text = localize("maturity_date")
+            endTitleLabel.text = localize("ends_in")
+            fundNameTitleLabel.text = "-"
+            fundNameLabel.text = "-"
+            fundStack.isHidden = true
+            breakStack.isHidden = true
+            break
         default:
             break
         }
@@ -325,7 +352,7 @@ class AuctionListTableViewCell: UITableViewCell {
                     }
                 }
             }
-        } else if auction.type == "mature-ncm-auction" || auction.type == "break-ncm-auction" || auction.type == "multifund-auction"{
+        } else if auction.type == "mature-ncm-auction" || auction.type == "break-ncm-auction" || auction.type == "multifund-auction" {
             endTitleLabel.isHidden = false
             endLabel.isHidden = false
             let endAuction = calculateDateDifference(date, convertStringToDatetime(auction.end_date)!)

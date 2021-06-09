@@ -264,11 +264,13 @@
                 <outlet property="breakConstraintHeight" destination="kBh-kC-V84" id="aZa-j7-pci"/>
                 <outlet property="breakDateLabel" destination="WlZ-2W-udj" id="PLo-9x-zm0"/>
                 <outlet property="breakDateTitleLabel" destination="pxy-QH-CIH" id="Qp5-gu-aRW"/>
+                <outlet property="breakStack" destination="v5B-MR-yFO" id="fuk-Mh-1NW"/>
                 <outlet property="constraintHeight" destination="H52-hu-jfQ" id="9jV-WU-abg"/>
                 <outlet property="endLabel" destination="6qi-os-U4G" id="5vb-Vh-ml9"/>
                 <outlet property="endTitleLabel" destination="GkN-OW-wR8" id="G5A-LW-wc1"/>
                 <outlet property="fundNameLabel" destination="rm9-cm-XtZ" id="mQX-Zc-K6B"/>
                 <outlet property="fundNameTitleLabel" destination="gzP-L9-In8" id="3zc-IB-xF2"/>
+                <outlet property="fundStack" destination="jm0-NP-m9E" id="1mg-yF-hDv"/>
                 <outlet property="investmentLabel" destination="q1b-ri-Zzr" id="Reg-tq-2Cs"/>
                 <outlet property="investmentTitleLabel" destination="tq1-Wl-I2i" id="qv8-tR-VPL"/>
                 <outlet property="leftView" destination="HYk-gW-9xf" id="BJ6-l3-WJs"/>

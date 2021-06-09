@@ -43,6 +43,10 @@ class AuctionListPresenter {
             url += "mature-auction?"
         case localize("no_cash_movement").uppercased():
             url += "no-cash-movement?"
+        case localize("multifund-auction").uppercased():
+            url += "multi-fund-auction?"
+        case localize("multifund_rollover_").uppercased():
+            url += "multi-fund-rollover?"
         default:
             url += "all-auction?"
         }
@@ -106,10 +110,10 @@ class AuctionListPresenter {
                         let type = auct["type"].stringValue
                         let status = auct["status"].stringValue
                         var maturity_date: String?
-                        if type == "auction" || type == "direct-auction" || type == "ncm-auction" {
+                        if type == "auction" || type == "direct-auction" || type == "ncm-auction" || type == "multifund-auction"{
                             maturity_date = auct["end_bidding_rm"] != JSON.null ? auct["end_bidding_rm"].stringValue : nil
                             
-                        } else if type == "rollover" {
+                        } else if type == "rollover" || type == "rollover-multifund" {
                             maturity_date = auct["end_date"] != JSON.null ? auct["end_date"].stringValue : nil
                         } else {
                             maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
@@ -146,6 +150,16 @@ class AuctionListPresenter {
             url += "rollover-history?"
         case localize("mature").uppercased():
             url += "mature-history?"
+        case localize("no_cash_movement").uppercased():
+            url += "no-cash-movement-history?"
+        case localize("break_no_cash_movement").uppercased():
+            url += "break-no-cash-movement-history?"
+        case localize("mature_no_cash_movement").uppercased():
+            url += "mature-no-cash-movement-history?"
+        case localize("multifund-auction").uppercased():
+            url += "multi-fund-auction-history?"
+        case localize("multifund_rollover_").uppercased():
+            url += "multi-fund-rollover-history?"
         default:
             url += "all-auction-history?"
         }

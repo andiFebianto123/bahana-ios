@@ -34,6 +34,8 @@ class AuctionStackPlacement: UIView {
     
     var statusView = Int()
     
+    var bidder_security_history = [Int]() // untuk multifund rollover
+    
     override init(frame: CGRect){
            super.init(frame:frame)
            commoninit()
@@ -57,16 +59,23 @@ class AuctionStackPlacement: UIView {
     
     func autoLoad(){
         if status == "Pending" && statusView == 1{
-            checkBoxViewHide = false // cek box hidup
+//            checkBoxViewHide = false // cek box hidup
+            self.viewBoxCheckHide(false)
             checkBox = false
         }else if status == "Pending" && statusView == 0{
-            checkBoxViewHide = true // cek box mati
+//            checkBoxViewHide = true // cek box mati
+            self.viewBoxCheckHide(true)
             checkBox = false
         }else{
-            checkBoxViewHide = true // cek box mati
+//            checkBoxViewHide = true // cek box mati
+            self.viewBoxCheckHide(true)
             checkBox = false
         }
-        setContent()
+    }
+    
+    func viewBoxCheckHide(_ hide:Bool){
+        checkBoxViewHide = hide
+        self.setContent()
     }
     
     func setContent(){

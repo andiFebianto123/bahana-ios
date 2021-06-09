@@ -39,7 +39,8 @@ class AuctionListViewController: UIViewController {
         localize("no_cash_movement").uppercased(),
         localize("break_no_cash_movement").uppercased(),
         localize("mature_no_cash_movement").uppercased(),
-        localize("multifund-auction").uppercased()
+        localize("multifund-auction").uppercased(),
+        localize("multifund_rollover_").uppercased()
     ]
     
     var auctionID = Int()
@@ -144,9 +145,7 @@ class AuctionListViewController: UIViewController {
         // Sementara dibuat seperti ini dulu
         if pageType == "history" {
             getOpenRefresh()
-            print("Konten : History")
         }else{
-            print("Konten : Auction")
             self.data.removeAll()
             self.getData(lastId: nil, lastDate: nil, lastType: nil)
         }
@@ -175,6 +174,7 @@ class AuctionListViewController: UIViewController {
         } else if segue.identifier == "showAuctionDetailRollover" {
             if let destinationVC = segue.destination as? AuctionDetailRolloverViewController {
                 destinationVC.id = auctionID
+                destinationVC.multifundAuction = multifoundAuction
             }
         } else if segue.identifier == "showAuctionDetailMature" {
            if let destinationVC = segue.destination as? AuctionDetailMatureViewController {
@@ -392,23 +392,35 @@ extension AuctionListViewController: UITableViewDelegate {
         switch auctionType {
         case "auction":
             performSegue(withIdentifier: "showAuctionDetailNormal", sender: self)
+            break
         case "direct-auction":
             performSegue(withIdentifier: "showAuctionDetailDirect", sender: self)
+            break
         case "break":
             performSegue(withIdentifier: "showAuctionDetailBreak", sender: self)
+            break
         case "rollover":
             performSegue(withIdentifier: "showAuctionDetailRollover", sender: self)
+            break
         case "mature":
             performSegue(withIdentifier: "showAuctionDetailMature", sender: self)
+            break
         case "mature-ncm-auction":
             ncm_type = data[indexPath.row].ncm_type!
             performSegue(withIdentifier: "showAuctionNoCashMovement", sender: self)
+            break
         case "break-ncm-auction":
             ncm_type = data[indexPath.row].ncm_type!
             performSegue(withIdentifier: "showAuctionNoCashMovement", sender: self)
+            break
         case "multifund-auction":
             multifoundAuction = true
             performSegue(withIdentifier: "showAuctionDetailNormal", sender: self)
+            break
+        case "rollover-multifund":
+            multifoundAuction = true
+            performSegue(withIdentifier: "showAuctionDetailRollover", sender: self)
+            break
         default:
             //performSegue(withIdentifier: "showDetail", sender: self)
             break
@@ -419,6 +431,9 @@ extension AuctionListViewController: UITableViewDelegate {
         var height: CGFloat!
         if indexPath.row <= data.count - 1 {
             height = 175
+            if data[indexPath.row].type == "rollover-multifund" || data[indexPath.row].type == "multifund-auction" {
+                height = 140
+            }
         } else {
             height = 100
         }

@@ -237,11 +237,24 @@ func calculateDateDifference(_ date1: Date, _ date2: Date) -> [String: Int] {
     return resp
 }
 
+func toRp(_ number: Double) -> String{
+//    let symbols = DecimalFormatSymbols(Locale.US)
+//    let formatter = DecimalFormat("#,###.###", symbols)
+//    return formatter.format(number)
+    var formatter = NumberFormatter()
+    formatter.locale = Locale(identifier: "en_US")
+//    formatter.numberStyle = .currency
+    formatter.numberStyle = NumberFormatter.Style.decimal
+    formatter.groupingSeparator = "."
+    return formatter.string(from: NSNumber(value: number)) ?? ""
+}
+
 func toIdrBio(_ number: Double) -> String {
     let newNumber = number / 1000000000
     //return toRp(newNumber)
-    let numToStr = newNumber.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", newNumber) : String(newNumber)
-    return numToStr
+//    let numToStr = newNumber.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", newNumber) : String(newNumber)
+    // return numToStr
+    return toRp(newNumber)
 }
 
 func checkPercentage(_ number: Double) -> String {

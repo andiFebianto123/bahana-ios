@@ -90,11 +90,14 @@
 		BCFE9E142404DF780013909A /* AuctionDetailRollover.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E132404DF770013909A /* AuctionDetailRollover.swift */; };
 		BCFE9E162404DF8A0013909A /* AuctionDetailDirect.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E152404DF890013909A /* AuctionDetailDirect.swift */; };
 		BCFE9E182404E0CE0013909A /* Bilyet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFE9E172404E0CE0013909A /* Bilyet.swift */; };
+		C10A10A7266882A1008BA824 /* AuctionWinnerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10A10A6266882A1008BA824 /* AuctionWinnerDetailView.swift */; };
 		C10C56DF2648D91800A1A8A0 /* AuctionStackPlacement.xib in Resources */ = {isa = PBXBuildFile; fileRef = C10C56DE2648D91800A1A8A0 /* AuctionStackPlacement.xib */; };
 		C10C56E12648E25700A1A8A0 /* AuctionStackPlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10C56E02648E25700A1A8A0 /* AuctionStackPlacement.swift */; };
 		C10C56E32649014900A1A8A0 /* AuctionMultifoundConfirmationViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10C56E22649014900A1A8A0 /* AuctionMultifoundConfirmationViewPresenter.swift */; };
 		C10C56E52649037100A1A8A0 /* DetailBidder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10C56E42649037100A1A8A0 /* DetailBidder.swift */; };
 		C1602F192574C998009C35A4 /* AuctionCashMovementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1602F182574C998009C35A4 /* AuctionCashMovementViewController.swift */; };
+		C1634D582667522800D87371 /* AuctionDetailRolloverMultifund.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1634D572667522800D87371 /* AuctionDetailRolloverMultifund.swift */; };
+		C1634D5A266790CB00D87371 /* AuctionWinnerDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1634D59266790CB00D87371 /* AuctionWinnerDetailView.xib */; };
 		C17FF1EA255A3DAE007AFA27 /* panelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17FF1E9255A3DAE007AFA27 /* panelView.swift */; };
 		C17FF1EC255A3DD0007AFA27 /* panelView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C17FF1EB255A3DD0007AFA27 /* panelView.xib */; };
 		C183CAC7264B89E500A83F93 /* AuctionBidStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C183CAC6264B89E500A83F93 /* AuctionBidStack.swift */; };
@@ -212,11 +215,14 @@
 		BCFE9E132404DF770013909A /* AuctionDetailRollover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailRollover.swift; sourceTree = "<group>"; };
 		BCFE9E152404DF890013909A /* AuctionDetailDirect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailDirect.swift; sourceTree = "<group>"; };
 		BCFE9E172404E0CE0013909A /* Bilyet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bilyet.swift; sourceTree = "<group>"; };
+		C10A10A6266882A1008BA824 /* AuctionWinnerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionWinnerDetailView.swift; sourceTree = "<group>"; };
 		C10C56DE2648D91800A1A8A0 /* AuctionStackPlacement.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionStackPlacement.xib; sourceTree = "<group>"; };
 		C10C56E02648E25700A1A8A0 /* AuctionStackPlacement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionStackPlacement.swift; sourceTree = "<group>"; };
 		C10C56E22649014900A1A8A0 /* AuctionMultifoundConfirmationViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionMultifoundConfirmationViewPresenter.swift; sourceTree = "<group>"; };
 		C10C56E42649037100A1A8A0 /* DetailBidder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailBidder.swift; sourceTree = "<group>"; };
 		C1602F182574C998009C35A4 /* AuctionCashMovementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionCashMovementViewController.swift; sourceTree = "<group>"; };
+		C1634D572667522800D87371 /* AuctionDetailRolloverMultifund.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailRolloverMultifund.swift; sourceTree = "<group>"; };
+		C1634D59266790CB00D87371 /* AuctionWinnerDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionWinnerDetailView.xib; sourceTree = "<group>"; };
 		C17FF1E9255A3DAE007AFA27 /* panelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = panelView.swift; sourceTree = "<group>"; };
 		C17FF1EB255A3DD0007AFA27 /* panelView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = panelView.xib; sourceTree = "<group>"; };
 		C183CAC6264B89E500A83F93 /* AuctionBidStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionBidStack.swift; sourceTree = "<group>"; };
@@ -268,6 +274,7 @@
 				BC14BF4C24176D7700D84A0A /* Faq.swift */,
 				C1FA1C1B2577737900BD16CB /* AuctionDetailNoCashMovement.swift */,
 				C10C56E42649037100A1A8A0 /* DetailBidder.swift */,
+				C1634D572667522800D87371 /* AuctionDetailRolloverMultifund.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -352,6 +359,8 @@
 				C1FB4357255B893400145AB0 /* AuctionPanelView.xib */,
 				C1C9A29926453EC000C15A5D /* AuctionMultifoundConfirmationViewController.swift */,
 				C10C56E22649014900A1A8A0 /* AuctionMultifoundConfirmationViewPresenter.swift */,
+				C1634D59266790CB00D87371 /* AuctionWinnerDetailView.xib */,
+				C10A10A6266882A1008BA824 /* AuctionWinnerDetailView.swift */,
 			);
 			path = Auction;
 			sourceTree = "<group>";
@@ -496,6 +505,7 @@
 				BCF2846223F0553800EE8FD8 /* AuctionListTableViewCell.xib in Resources */,
 				C17FF1EC255A3DD0007AFA27 /* panelView.xib in Resources */,
 				BCE00CA72407865F00EDBADE /* Localizable.strings in Resources */,
+				C1634D5A266790CB00D87371 /* AuctionWinnerDetailView.xib in Resources */,
 				BC81C14023E15D3A004DBBD3 /* Main.storyboard in Resources */,
 				BC81C14E23E15E70004DBBD3 /* Auction.storyboard in Resources */,
 				BC14BF452417591F00D84A0A /* FaqTableViewCell.xib in Resources */,
@@ -603,6 +613,7 @@
 				BCD9FE072471952200CE0697 /* SettingsViewController.swift in Sources */,
 				BCC95AD823EADD1C00515773 /* AuctionListViewController.swift in Sources */,
 				BC5539D424874B5700997E9C /* AuctionNormalInterestRateViewController.swift in Sources */,
+				C1634D582667522800D87371 /* AuctionDetailRolloverMultifund.swift in Sources */,
 				BCA2BABE23F40BC400E219B2 /* TransactionListPresenter.swift in Sources */,
 				BC2F94F923E93AFD00323DB4 /* RegisterPresenter.swift in Sources */,
 				BC472B7023E437D200FA2A6F /* BankBranch.swift in Sources */,
@@ -618,6 +629,7 @@
 				C1C9A2982645386700C15A5D /* MultifoundConfirmationViewController.swift in Sources */,
 				BC7679802415EE5400683F2E /* ContactViewController.swift in Sources */,
 				BCFE9E0C2404D0B10013909A /* AuctionDetailNormalViewController.swift in Sources */,
+				C10A10A7266882A1008BA824 /* AuctionWinnerDetailView.swift in Sources */,
 				BCF7C59523EBD57B00340C4A /* AuctionListPresenter.swift in Sources */,
 				BC12BC8D2408E6AB00728F13 /* AuctionDetailConfirmationViewController.swift in Sources */,
 				BC76798224162D5600683F2E /* NotificationViewController.swift in Sources */,
