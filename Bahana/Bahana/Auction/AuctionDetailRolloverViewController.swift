@@ -229,7 +229,7 @@ class AuctionDetailRolloverViewController: UIViewController {
             tenorPreviousDetailLabel.text = dataMultifund.period
             interestRatePreviousDetailLabel.text = "\(checkPercentage(dataMultifund.previous_interest_rate)) %"
             
-            principalPreviousDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(dataMultifund.investment_range_start)": "IDR \(toIdrBio(dataMultifund.investment_range_start))"
+            principalPreviousDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(dataMultifund.investment_range_start))": "IDR \(toIdrBio(dataMultifund.investment_range_start))"
             
             periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(dataMultifund.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(dataMultifund.issue_date)!)!)"
         }else{
@@ -619,7 +619,7 @@ class AuctionDetailRolloverViewController: UIViewController {
                     }
                 }
                 showLoading(true)
-                presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: newDate, detailsWinner: auctionWinnerDetailData, approved: "yes")
+                presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: newDate, detailsWinner: auctionWinnerDetailData, approved: "yes", fund_type: checkUSDorIDR())
                 // print(auctionWinnerDetailData)
                 //
             }else{
@@ -707,15 +707,17 @@ class AuctionDetailRolloverViewController: UIViewController {
         print("aku ada di \(data.view)")
         if data.view == 0 {
             // layout akan menampilkan informasi detail
-            previousDetailviewStack.isHidden = true
-            newDetailviewStack.isHidden = true
+            self.setContentPreviousDetailAndNewDetail()
+//            previousDetailviewStack.isHidden = true
+//            newDetailviewStack.isHidden = true
             
             interestRateStackView.isHidden = true
             interestRateTitleLabel.isHidden = false
             interestRateTextField.isHidden = false
             submitButton.isHidden = false
             confirmButton.isHidden = false
-            changeMatureDateField.isHidden = true
+            // changeMatureDateField.isHidden = true
+            changeMatureDateStack.isHidden = true
         } else if data.view == 1 {
             // layout akan menampilkan tombol confirmasi untuk meminta persetujuan dari RM
             previousDetailviewStack.isHidden = true
@@ -755,6 +757,7 @@ class AuctionDetailRolloverViewController: UIViewController {
     
     func setRateAndUpdateWinnerDetail(approved: String){
         let newDate = changeMatureDateField.text!
+        let checkUSDorIDR = self.checkUSDorIDR()
         if validateForm() {
             if self.multifundAuction {
                 let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
@@ -765,7 +768,8 @@ class AuctionDetailRolloverViewController: UIViewController {
                     }
                 }
                 showLoading(true)
-                presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: newDate, detailsWinner: auctionWinnerDetailData, approved: approved)
+                
+                presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: newDate, detailsWinner: auctionWinnerDetailData, approved: approved, fund_type: checkUSDorIDR)
                 // print(auctionWinnerDetailData)
                 //
             }
@@ -805,7 +809,9 @@ class AuctionDetailRolloverViewController: UIViewController {
         auctionWinnerDetail.layer.shadowOffset = CGSize(width: 0, height: 0)
         auctionWinnerDetail.layer.shadowRadius = 4
         auctionWinnerDetail.layer.shadowOpacity = 0.5
+        auctionWinnerDetail.checkUSDorIDR = self.checkUSDorIDR()
         auctionWinnerDetail.setContent()
+        
         auctionWinnerDetail.approvedBtn.addTarget(self, action: #selector(approvedWinnerDetailPressed), for: .touchUpInside)
         auctionWinnerDetail.declinedBtn.addTarget(self, action: #selector(declinedWinnerDetailPressed), for: .touchUpInside)
         
@@ -821,8 +827,9 @@ class AuctionDetailRolloverViewController: UIViewController {
             statusViewWidth.constant = statusLabel.intrinsicContentSize.width + 20
         }
         
-        newDetailTotalApproveLabel.text = "IDR \(toIdrBio(dataMultifund.investment_range_approved))"
-        newDetailTotalDeclineLabel.text = (dataMultifund.investment_range_declined == 0) ? "-" : "IDR \(toIdrBio(dataMultifund.investment_range_declined))"
+        newDetailTotalApproveLabel.text = (self.checkUSDorIDR() == 1) ? "USD \(toUsdBio(dataMultifund.investment_range_approved))" : "IDR \(toIdrBio(dataMultifund.investment_range_approved))"
+        
+        newDetailTotalDeclineLabel.text = (self.checkUSDorIDR() == 1) ? "USD \(toUsdBio(dataMultifund.investment_range_declined))" : "IDR \(toIdrBio(dataMultifund.investment_range_declined))"
         
         countdown()
         
@@ -837,7 +844,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         tenorLabel.text = dataMultifund.period
         previousInterestRateLabel.text = "\(checkPercentage(dataMultifund.previous_interest_rate)) %"
         newInterestRateLabel.text = dataMultifund.last_bid_rate != nil ? "\(checkPercentage(dataMultifund.last_bid_rate!)) %" : "-"
-        investmentLabel.text = (checkUSDorIDR() == 1) ? "USD \(dataMultifund.investment_range_start)" : "IDR \(toIdrBio(dataMultifund.investment_range_start))"
+        investmentLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(dataMultifund.investment_range_start))" : "IDR \(toIdrBio(dataMultifund.investment_range_start))"
         previousPeriodLabel.text = "\(convertDateToString(convertStringToDatetime(dataMultifund.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(dataMultifund.issue_date)!)!)"
         newPeriodLabel.text = "\(convertDateToString(convertStringToDatetime(dataMultifund.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(dataMultifund.maturity_date)!)!)"
         
@@ -908,16 +915,27 @@ class AuctionDetailRolloverViewController: UIViewController {
         if checkUSDorIDR() == 1 {
             print("cek field USD")
             // jika layout tampil untuk tipe pembayaran USD
-            if fieldApprovedInterestRateNewDetail.text! == nil ||
-                fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
-            Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
-                showAlert("Rate not valid", false)
-                return false
-            } else if fieldPrincipalInterestNewDetail.text! == nil || (fieldPrincipalInterestNewDetail.text! != nil && Double(fieldPrincipalInterestNewDetail.text!) == nil) {
-                showAlert("principal interest not valid", false)
-                return false
-            }else {
-                return true
+            if multifundAuction {
+                if fieldApprovedInterestRateNewDetail.text! == nil ||
+                   fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
+               Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
+                   showAlert("Rate not valid", false)
+                   return false
+                } else {
+                    return true
+                }
+            }else{
+                if fieldApprovedInterestRateNewDetail.text! == nil ||
+                    fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
+                Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
+                    showAlert("Rate not valid", false)
+                    return false
+                } else if fieldPrincipalInterestNewDetail.text! == nil || (fieldPrincipalInterestNewDetail.text! != nil && Double(fieldPrincipalInterestNewDetail.text!) == nil) {
+                    showAlert("principal interest not valid", false)
+                    return false
+                }else {
+                    return true
+                }
             }
         }else{
             print("cek field IDR")

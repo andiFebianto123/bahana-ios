@@ -85,6 +85,7 @@ class AuctionDetailNormalPresenter {
                         let interest_rate_usd = bid["interest_rate_usd"] != JSON.null ? bid["interest_rate_usd"].doubleValue : nil
                         let interest_rate_sharia = bid["interest_rate_syariah"] != JSON.null ? bid["interest_rate_syariah"].doubleValue : nil
                         let chosen_rate = bid["choosen_rate"] != JSON.null ? bid["choosen_rate"].stringValue : nil
+                        let investment_value = bid["investment_value"] != JSON.null ? bid["investment_value"].doubleValue : nil
                         
                         var bilyets = [Bilyet]()
                         for bilyet in bid["bilyet"].arrayValue {
@@ -96,7 +97,7 @@ class AuctionDetailNormalPresenter {
                             is_requested = bid["is_requested"].intValue
                         }
                         
-                        bids.append(Bid(id: bid["id"].intValue, auction_header_id: bid["auction_header_id"].intValue, is_accepted: bid["is_accepted"].stringValue, is_winner: bid["is_winner"].stringValue, interest_rate_idr: interest_rate_idr, interest_rate_usd: interest_rate_usd, interest_rate_sharia: interest_rate_sharia, used_investment_value: bid["used_investment_value"].doubleValue, bilyet: bilyets, chosen_rate: chosen_rate, period: bid["period"].stringValue, is_requested: is_requested))
+                        bids.append(Bid(id: bid["id"].intValue, auction_header_id: bid["auction_header_id"].intValue, is_accepted: bid["is_accepted"].stringValue, is_winner: bid["is_winner"].stringValue, interest_rate_idr: interest_rate_idr, interest_rate_usd: interest_rate_usd, interest_rate_sharia: interest_rate_sharia, used_investment_value: bid["used_investment_value"].doubleValue, bilyet: bilyets, chosen_rate: chosen_rate, period: bid["period"].stringValue, is_requested: is_requested, investment_value: investment_value))
                     }
                     
                     var details = [Detail]()

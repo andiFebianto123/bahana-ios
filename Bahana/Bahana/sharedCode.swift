@@ -257,6 +257,10 @@ func toIdrBio(_ number: Double) -> String {
     return toRp(newNumber)
 }
 
+func toUsdBio(_ number: Double) -> String {
+    return toRp(number)
+}
+
 func checkPercentage(_ number: Double) -> String {
     let numToStr = number.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", number) : String(number)
     

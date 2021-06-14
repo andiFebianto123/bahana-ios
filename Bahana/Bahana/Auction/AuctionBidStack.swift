@@ -98,6 +98,10 @@ class AuctionBidStack: UIView {
             }
             else if(data.is_accepted == "no(with pending)"){
                 statusLabel.text = "\(localize("win")) (\(localize("rejected_with_pending")))"
+            } else if (data.is_accepted == "yes") {
+                statusLabel.text = "\(localize("win")) (\(localize("accepted")))"
+            } else if (data.is_accepted == "no") {
+                statusLabel.text = "\(localize("win")) (\(localize("rejected")))"
             }else{
                 statusLabel.text = "\(localize("win")) (\(localize("pending")))"
             }
@@ -149,7 +153,7 @@ class AuctionBidStack: UIView {
         if data.is_winner == "yes"{
             investmentTitleLabel.text = localize("investment")
             if self.fund_type == "USD" {
-                investmentLabel.text = "USD \(data.used_investment_value)"
+                investmentLabel.text = "USD \(toUsdBio(data.investment_value!))"
                 investmentTitleLabel.text = localize("investment_usd")
             }else{
                 investmentLabel.text = "IDR \(toIdrBio(data.used_investment_value))"
@@ -172,7 +176,7 @@ class AuctionBidStack: UIView {
             """
             if self.fund_type == "USD" {
                 // untuk perhitungan bilyet USD
-                bilyetStr += "USD \(bilyetArr.quantity) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]"
+                bilyetStr += "USD \(toUsdBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]"
             }else{
                 // untuk perhitungan bilyet IDR
                 bilyetStr += "IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]"

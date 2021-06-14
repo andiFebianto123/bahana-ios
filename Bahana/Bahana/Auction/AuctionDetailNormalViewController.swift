@@ -274,10 +274,10 @@ class AuctionDetailNormalViewController: UIViewController {
     }
     
     func addStackInBidStackView2(_ bidData: [Bid]){
-        print("Refresh Halaman")
-        for bidView in bidStackView2.arrangedSubviews {
-            bidStackView2.removeArrangedSubview(bidView)
+        bidStackView2.subviews.forEach { (view) in
+            view.removeFromSuperview()
         }
+        
         for (idx, dt) in bidData.enumerated() {
             var stackBidder = AuctionBidStack()
             stackBidder.presenter = self
@@ -321,9 +321,9 @@ class AuctionDetailNormalViewController: UIViewController {
         // Portfolio
         fundNameLabel.text = data.portfolio
         if(tipe == "USD"){
-            var investment = "USD \(data.investment_range_start)"
+            var investment = "USD \(toUsdBio(data.investment_range_start))"
             if data.investment_range_end != nil {
-                investment += " - \(data.investment_range_end!)"
+                investment += " - \(toUsdBio(data.investment_range_end!))"
             }
             investmentLabel.text = investment
             investmentBioLabelMultifound.text = investment
@@ -345,12 +345,23 @@ class AuctionDetailNormalViewController: UIViewController {
         // Note
         noteLabel.text = data.notes
         
+//        for bidView in bidStackView2.arrangedSubviews {
+//            bidStackView2.removeArrangedSubview(bidView)
+//        }
+        
+        
         if self.multifoundAuction {
             // jika auction bertipe multifund
             addStackInBidStackView2(data.bids)
+            bidStackView.isHidden = true
             //setBids(data.bids)
         }else{
             setBids(data.bids)
+        }
+        
+        interestRateStackViewHeight.constant = 0
+        interestRateStackView.subviews.forEach { (view) in
+            view.removeFromSuperview()
         }
         
         for (idx, detail) in data.details.enumerated() {

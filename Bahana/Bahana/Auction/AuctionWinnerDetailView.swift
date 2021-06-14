@@ -28,6 +28,8 @@ class AuctionWinnerDetailView: UIView {
     
     var checkPlacements = [AuctionStackPlacement]()
     
+    var checkUSDorIDR = Int()
+    
     override init(frame: CGRect){
            super.init(frame:frame)
            commoninit()
@@ -45,6 +47,9 @@ class AuctionWinnerDetailView: UIView {
     }
     
     private func addStackPortfolio(){
+        stackViewCheck.subviews.forEach { (view) in
+            view.removeFromSuperview()
+        }
         for detail in details {
             let winnerStack = AuctionStackPlacement()
             winnerStack.portfolioLabel.text = detail.portfolio
@@ -56,6 +61,12 @@ class AuctionWinnerDetailView: UIView {
                 winnerStack.viewBoxCheckHide(true)
             }
             winnerStack.bidder_security_history = detail.bidder_security_history_id
+            if self.checkUSDorIDR == 1 {
+                // hanya dipakai untuk USD
+                winnerStack.new_nominal = detail.new_nominal
+                winnerStack.addPrincipalBilyet(detail.status)
+            }
+            
             checkPlacements.append(winnerStack)
             stackViewCheck.addArrangedSubview(winnerStack)
         }
@@ -69,6 +80,9 @@ class AuctionWinnerDetailView: UIView {
     
     func setContentForMature(){
         AllCheckButtonView.isHidden = true
+        stackViewCheck.subviews.forEach { (view) in
+            view.removeFromSuperview()
+        }
         for detail in detailsMature {
             let winnerStack = AuctionStackPlacement()
             winnerStack.portfolioLabel.text = detail.portfolio

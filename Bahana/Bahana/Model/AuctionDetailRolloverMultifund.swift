@@ -43,4 +43,5 @@ struct DetailsRolloverMultifund {
     var status: String
     var bidder_security_history_id: [Int]
     var bilyet: String
+    var new_nominal: [Int]
 }

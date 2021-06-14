@@ -170,12 +170,24 @@ class AuctionDetailRolloverPresenter {
                         let status = detail["status"].stringValue
                         let bilyet = detail["bilyet"].stringValue
                         var bidder_security_history_id = [Int]()
+                        var new_nominal = [Int]()
                         
                         for bidder_security_history in detail["bidder_security_history_id"].arrayValue {
                             bidder_security_history_id.append(bidder_security_history.intValue)
                         }
                         
-                        let multifundDetail = DetailsRolloverMultifund(portfolio: portfolio, portfolio_id: portfolio_id, description: description, custodian_bank: custodian_bank, status: status, bidder_security_history_id: bidder_security_history_id, bilyet: bilyet)
+                        if detail["new_nominal"] != JSON.null {
+                            for new_nominal_ in detail["new_nominal"].arrayValue {
+                                if (new_nominal_.intValue != nil) {
+                                    // jika bukan null
+                                    new_nominal.append(new_nominal_.intValue)
+                                }else{
+                                    new_nominal.append(0)
+                                }
+                            }
+                        }
+                        
+                        let multifundDetail = DetailsRolloverMultifund(portfolio: portfolio, portfolio_id: portfolio_id, description: description, custodian_bank: custodian_bank, status: status, bidder_security_history_id: bidder_security_history_id, bilyet: bilyet, new_nominal: new_nominal)
                         details.append(multifundDetail)
                     }
                     
@@ -292,7 +304,7 @@ class AuctionDetailRolloverPresenter {
         } // end Alamofire
     }
     
-    func saveAuctionforMultifund(id: Int, rate: Double, tgl:String?, detailsWinner:[AuctionStackPlacement], approved:String){
+    func saveAuctionforMultifund(id: Int, rate: Double, tgl:String?, detailsWinner:[AuctionStackPlacement], approved:String, fund_type:Int){
         var parameters = Parameters()
         parameters.updateValue(rate, forKey: "rate")
         parameters.updateValue("", forKey: "request_maturity_date")
@@ -304,6 +316,13 @@ class AuctionDetailRolloverPresenter {
             for (i, bidder_security) in detailWinner.bidder_security_history.enumerated() {
                 parameters.updateValue(bidder_security, forKey: "portfolio[\(idx)][bidder_security_history_id][\(i)]")
                 parameters.updateValue("", forKey: "portfolio[\(idx)][new_nominal][\(i)]")
+            }
+            if fund_type == 1 {
+                // tipe USD
+                for (u, nominalView) in detailWinner.stackPrincipal.arrangedSubviews.enumerated() {
+                    let nominalView_ = nominalView as! AuctionPrincipalBilyetUsd
+                    parameters.updateValue(nominalView_.fieldBilyet.text!, forKey: "portfolio[\(idx)][new_nominal][\(u)]")
+                }
             }
         }
         parameters.updateValue(approved, forKey: "is_approved")

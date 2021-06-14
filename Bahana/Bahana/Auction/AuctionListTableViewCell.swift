@@ -120,9 +120,18 @@ class AuctionListTableViewCell: UITableViewCell {
         tenorLabel.text = auction.period
         
         var investment = "IDR \(toIdrBio(auction.investment_range_start))"
-        if auction.investment_range_end > 0 {
-            investment += " - \(toIdrBio(auction.investment_range_end))"
+        
+        if auction.fund_type == "USD" {
+            investment = "USD \(toUsdBio(auction.investment_range_start))"
+            if auction.investment_range_end > 0 {
+                investment += " - \(toUsdBio(auction.investment_range_end))"
+            }
+        }else{
+            if auction.investment_range_end > 0 {
+                investment += " - \(toIdrBio(auction.investment_range_end))"
+            }
         }
+        
         investmentLabel.text = investment
         
         if auction.type == "break" {

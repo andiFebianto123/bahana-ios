@@ -44,6 +44,7 @@ struct Bid {
     var chosen_rate : String?
     var period: String
     var is_requested: Int?
+    var investment_value: Double?
 }
 
 struct DefaultRate {

@@ -25,4 +25,5 @@ struct Auction {
     var type: String
     var status: String
     var ncm_type: String?
+    var fund_type: String?
 }

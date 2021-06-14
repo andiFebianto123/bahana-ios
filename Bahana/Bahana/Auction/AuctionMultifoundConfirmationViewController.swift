@@ -108,7 +108,6 @@ class AuctionMultifoundConfirmationViewController: UIViewController {
     }
     
     
-    
     func showAlert(_ message: String, _ isBackToList: Bool) {
         let alert = UIAlertController(title: localize("information"), message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in

@@ -27,6 +27,9 @@ class AuctionStackPlacement: UIView {
     // view
     @IBOutlet weak var statusByRmView: UIView!
     
+    @IBOutlet weak var stackPrincipal: UIStackView!
+    
+    
     
     var id = Int()
     var status:String!
@@ -41,20 +44,22 @@ class AuctionStackPlacement: UIView {
     var bidder_security_history = [Int]() // untuk multifund rollover
     var transaction_id = [Int]() // untuk multifund mature
     
+    var new_nominal = [Int]() // untuk multifund rollover tipe USD
+        
     override init(frame: CGRect){
-           super.init(frame:frame)
-           commoninit()
-       }
+        super.init(frame:frame)
+        commoninit()
+    }
        
-       required init?(coder: NSCoder) {
-           super.init(coder:coder)
-           commoninit()
-       }
-       private func commoninit(){
-           Bundle.main.loadNibNamed("AuctionStackPlacement", owner: self, options: nil)
-           addSubview(contentView)
-           contentView.frame = self.bounds
-           contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+    required init?(coder: NSCoder) {
+        super.init(coder:coder)
+        commoninit()
+    }
+    private func commoninit(){
+        Bundle.main.loadNibNamed("AuctionStackPlacement", owner: self, options: nil)
+        addSubview(contentView)
+        contentView.frame = self.bounds
+        contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         portfolioTitleLabel.text = localize("portfolio")
         fullnameTitleLabel.text = localize("fullname")
         custodianTitleLabel.text = localize("custodian")
@@ -108,6 +113,20 @@ class AuctionStackPlacement: UIView {
             // check
             checkBox = true
             btnCheck.setImage(UIImage(named:"checked_checkbox"), for: .normal)
+        }
+    }
+    
+    func addPrincipalBilyet(_ status:String){
+        for (index, nominal) in self.new_nominal.enumerated() {
+            let view = AuctionPrincipalBilyetUsd()
+            view.TitleLabel.text = "Principal + nterest Bilyet \(index+1)"
+            if nominal > 0 {
+                if status != "Pending" {
+                    view.fieldBilyet.isEnabled = false
+                }
+                view.fieldBilyet.text = "\(nominal)"
+            }
+            stackPrincipal.addArrangedSubview(view)
         }
     }
     
