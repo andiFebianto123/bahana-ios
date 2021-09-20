@@ -26,7 +26,7 @@ class AuctionWinnerDetailView: UIView {
     
     var detailsMature = [AuctionDetailMatureMultifundDetails]()
     
-    var checkPlacements = [AuctionStackPlacement]()
+    var checkPlacements = [AuctionStackPlacement]() // view
     
     var checkUSDorIDR = Int()
     

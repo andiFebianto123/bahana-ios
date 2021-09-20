@@ -390,6 +390,7 @@ extension AuctionListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         auctionID = data[indexPath.row].id
         auctionType = data[indexPath.row].type
+        multifoundAuction = false
         
         switch auctionType {
         case "auction":

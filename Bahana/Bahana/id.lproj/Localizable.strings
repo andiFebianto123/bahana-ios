@@ -237,6 +237,8 @@
 "approved" = "disetujui";
 "declined" = "ditolak";
 "multifund_mature" = "cair multifund";
+"title_bilyet_detail_winner" = "Pokok + Suku Bunga Bilyet";
+"details" = "detail";
 /*Penambahan baru*/
 
 "january" = "Jan";

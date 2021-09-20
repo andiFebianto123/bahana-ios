@@ -113,9 +113,9 @@ class AuctionListTableViewCell: UITableViewCell {
         }
         
         fundNameLabel.text = auction.portfolio_short
+        
         setAuctionType(auction.type)
         setStatus(auction.status)
-        
         
         tenorLabel.text = auction.period
         
@@ -269,7 +269,8 @@ class AuctionListTableViewCell: UITableViewCell {
     
     func setAuctionType(_ type: String) {
         mainView.backgroundColor = UIColor.white
-    
+        fundStack.isHidden = false
+        
         var title = String()
         switch type {
         case "auction":
@@ -307,8 +308,8 @@ class AuctionListTableViewCell: UITableViewCell {
             title = localize("multifund-auction")
             placementDateLabel.text = localize("placement_date")
             endTitleLabel.text = localize("ends_in")
-            fundNameTitleLabel.text = "-"
-            fundNameLabel.text = "-"
+//            fundNameTitleLabel.text = "-"
+//            fundNameLabel.text = "-"
             fundStack.isHidden = true
             breakStack.isHidden = true
             break
@@ -316,16 +317,16 @@ class AuctionListTableViewCell: UITableViewCell {
             title = localize("multifund_rollover_")
             placementDateTitleLabel.text = localize("maturity_date")
             endTitleLabel.text = localize("ends_in")
-            fundNameTitleLabel.text = "-"
-            fundNameLabel.text = "-"
+//            fundNameTitleLabel.text = "-"
+//            fundNameLabel.text = "-"
             fundStack.isHidden = true
             breakStack.isHidden = true
             break
         case "mature-multifund":
             title = localize("multifund_mature")
             mainView.backgroundColor = lightRedColor
-            fundNameTitleLabel.text = "-"
-            fundNameLabel.text = "-"
+//            fundNameTitleLabel.text = "-"
+//            fundNameLabel.text = "-"
             fundStack.isHidden = true
             breakStack.isHidden = true
             break

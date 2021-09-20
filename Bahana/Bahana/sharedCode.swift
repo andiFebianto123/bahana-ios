@@ -148,6 +148,23 @@ func convertStringToDatetime(_ str: String?) -> Date? {
     }
 }
 
+func formatDateNew(_ date: String) -> String{
+  let string = date
+  let formatter4 = DateFormatter()
+  formatter4.dateFormat = "y-MM-d HH:mm:ss" // --> 2021-10-18 16:12:43
+  let dateNew = formatter4.date(from: string) ?? Date()
+  formatter4.dateFormat = "dd MMM yy" // --> 18 Oct 21
+  return formatter4.string(from: dateNew)
+}
+
+func formatDate(_ date: String, formatStart: String, formatEnd: String) -> String{
+    let formatter = DateFormatter()
+    formatter.dateFormat = formatStart
+    let newDate = formatter.date(from: date) ?? Date()
+    formatter.dateFormat = formatEnd
+    return formatter.string(from: newDate)
+}
+
 func convertDateToString(_ date: Date?, format: String = "dd MM yy") -> String? {
     if date != nil {
         let formatter = DateFormatter()
@@ -241,12 +258,15 @@ func toRp(_ number: Double) -> String{
 //    let symbols = DecimalFormatSymbols(Locale.US)
 //    let formatter = DecimalFormat("#,###.###", symbols)
 //    return formatter.format(number)
+    
     var formatter = NumberFormatter()
     formatter.locale = Locale(identifier: "en_US")
 //    formatter.numberStyle = .currency
     formatter.numberStyle = NumberFormatter.Style.decimal
-    formatter.groupingSeparator = "."
-    return formatter.string(from: NSNumber(value: number)) ?? ""
+    formatter.groupingSeparator = ","
+    var formatNumberUSD = formatter.string(from: NSNumber(value: number)) ?? ""
+    return formatNumberUSD
+    
 }
 
 func toIdrBio(_ number: Double) -> String {

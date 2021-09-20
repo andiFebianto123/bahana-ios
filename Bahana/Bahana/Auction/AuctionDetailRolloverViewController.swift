@@ -236,7 +236,7 @@ class AuctionDetailRolloverViewController: UIViewController {
             tenorPreviousDetailLabel.text = data.period
             interestRatePreviousDetailLabel.text = "\(checkPercentage(data.previous_interest_rate)) %"
             
-            principalPreviousDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
+            principalPreviousDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.investment_range_start))": "IDR \(toIdrBio(data.investment_range_start))"
             
             periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.issue_date)!)!)"
         }
@@ -445,18 +445,24 @@ class AuctionDetailRolloverViewController: UIViewController {
     let Formatter = DateFormatter()
     
     func getDateToChangeMatureField() -> String{
-        let dateString = "\(convertDateToString(convertStringToDatetime( (self.multifundAuction) ? dataMultifund.maturity_date : data.maturity_date)!)!)"
+//        let dateString = "\(convertDateToString(convertStringToDatetime( (self.multifundAuction) ? dataMultifund.maturity_date : data.maturity_date)!)!)"
+//        print("Tanggal cair 99: \(dateString)")
+        let dateString = formatDateNew(((self.multifundAuction) ? dataMultifund.maturity_date : data.maturity_date)!)
+
         let datePicker = UIDatePicker()
         let formatter = DateFormatter()
         
         formatter.dateFormat = "dd MMM yy"
         let tanggal = formatter.date(from:dateString) ?? Date()
+
         datePicker.datePickerMode = UIDatePicker.Mode.date
         datePicker.setDate(tanggal, animated: false)
         //
-        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.dateFormat = "dd MMM yy" // lama --> "yyyy-MM-dd"
         return formatter.string(from: datePicker.date)
     }
+    
+    
     
     func changeFormatTgl(format: String, tgl: String) -> String{
         let formater = DateFormatter()
@@ -494,7 +500,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         // let Formatter = DateFormatter()
         Formatter.dateStyle = DateFormatter.Style.medium
         Formatter.timeStyle = DateFormatter.Style.none
-        Formatter.dateFormat = "yyyy-MM-dd"
+        Formatter.dateFormat = "dd MMM yy" // lama --> "yyyy-MM-dd"
         changeMatureDateField.text = Formatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
@@ -606,9 +612,12 @@ class AuctionDetailRolloverViewController: UIViewController {
     }
     
     @IBAction func actionChangeMatureDateAndInterestRatePressed(_ sender: Any) {
+        // ini adalah tombol submit yang atas
         let date = getDateToChangeMatureField()
         let newDate = changeMatureDateField.text!
         
+        print("tgl : \(newDate)")
+                
         if validateForm() {
             if self.multifundAuction {
                 let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
@@ -619,7 +628,9 @@ class AuctionDetailRolloverViewController: UIViewController {
                     }
                 }
                 showLoading(true)
-                presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: newDate, detailsWinner: auctionWinnerDetailData, approved: "yes", fund_type: checkUSDorIDR())
+                let tanggal = formatDate(newDate, formatStart:"dd MMM yy", formatEnd: "yyyy-MM-d")
+                // simpan ke API:api/v1/multi-fund-rollover/{id}/post
+                presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: tanggal, detailsWinner: auctionWinnerDetailData, approved: "yes", fund_type: checkUSDorIDR())
                 // print(auctionWinnerDetailData)
                 //
             }else{
@@ -670,7 +681,7 @@ class AuctionDetailRolloverViewController: UIViewController {
     func setContent() {
         /* Buat date picker */
         createDatePicker()
-        
+                
         /*Menghilangkan form change mature date*/
         changeMatureDateStack.isHidden = true
         // Check status
@@ -689,8 +700,8 @@ class AuctionDetailRolloverViewController: UIViewController {
         
         // Portfolio
         fundNameLabel.text = data.portfolio
-        custodianBankLabel.text = data.custodian_bank
-        picCustodianLabel.text = data.pic_custodian
+        custodianBankLabel.text = data.custodian_bank != nil ? data.custodian_bank : "-"
+        picCustodianLabel.text = data.pic_custodian != nil ? data.pic_custodian : "-"
         
         // Detail
         tenorLabel.text = data.period
@@ -718,6 +729,11 @@ class AuctionDetailRolloverViewController: UIViewController {
             confirmButton.isHidden = false
             // changeMatureDateField.isHidden = true
             changeMatureDateStack.isHidden = true
+            //
+            view3.isHidden = true
+            viewUSD.isHidden = true
+            viewApproveBio.isHidden = true
+            viewDeclineBio.isHidden = true
         } else if data.view == 1 {
             // layout akan menampilkan tombol confirmasi untuk meminta persetujuan dari RM
             previousDetailviewStack.isHidden = true
@@ -753,7 +769,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         mutableAttributedString.append(bottomText)
         
         footerLabel.attributedText = mutableAttributedString
-    }
+    } // END setContent
     
     func setRateAndUpdateWinnerDetail(approved: String){
         let newDate = changeMatureDateField.text!
@@ -768,8 +784,9 @@ class AuctionDetailRolloverViewController: UIViewController {
                     }
                 }
                 showLoading(true)
+                let tanggal = formatDate(newDate, formatStart:"dd MMM yy", formatEnd: "yyyy-MM-d")
                 
-                presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: newDate, detailsWinner: auctionWinnerDetailData, approved: approved, fund_type: checkUSDorIDR)
+                presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: tanggal, detailsWinner: auctionWinnerDetailData, approved: approved, fund_type: checkUSDorIDR)
                 // print(auctionWinnerDetailData)
                 //
             }
@@ -856,9 +873,14 @@ class AuctionDetailRolloverViewController: UIViewController {
         
         if dataMultifund.view == 2 && dataMultifund.is_pending_exists == true {
             auctionWinnerDetail.AllCheckButtonView.isHidden = false
-            changeMatureDateButton.isHidden = true
+            changeMatureDateButton.isHidden = false
         }else if dataMultifund.view == 2 && dataMultifund.is_pending_exists == false {
-            auctionWinnerDetail.AllCheckButtonView.isHidden = true
+            // ini digunakan untuk menghidden checkbox pada multifund
+            auctionWinnerDetail.AllCheckButtonView.isHidden = false
+            for stackAuctionWinner in auctionWinnerDetail.checkPlacements {
+                stackAuctionWinner.checkBoxViewHide = false
+                stackAuctionWinner.checkBoxView.isHidden = false
+            }
         }else if dataMultifund.view == 0 || dataMultifund.view == 1 {
             changeMatureDateButton.isHidden = true
             auctionWinnerDetail.AllCheckButtonView.isHidden = true
@@ -998,6 +1020,7 @@ extension AuctionDetailRolloverViewController: AuctionDetailRolloverDelegate {
     }
     
     func setDataWithMultifund(_ data: AuctionDetailRolloverMultifund){
+        print("ID : \(self.id)")
         self.dataMultifund = data
         auctionWinnerDetail.details = data.details
         self.setContentMultifund()

@@ -5223,16 +5223,16 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="392" height="30"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TENOR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O6x-tF-xAu">
-                                                                                <rect key="frame" x="16" y="11" width="200" height="17"/>
+                                                                                <rect key="frame" x="16" y="11" width="190" height="17"/>
                                                                                 <constraints>
-                                                                                    <constraint firstAttribute="width" constant="200" id="m4z-JG-4HE"/>
+                                                                                    <constraint firstAttribute="width" constant="190" id="m4z-JG-4HE"/>
                                                                                 </constraints>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=": -" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="guZ-bM-R9a">
-                                                                                <rect key="frame" x="216" y="11" width="176" height="17"/>
+                                                                                <rect key="frame" x="206" y="11" width="186" height="17"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
@@ -5253,16 +5253,16 @@
                                                                         <rect key="frame" x="0.0" y="30" width="392" height="24"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="RATE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kmz-nx-9kJ">
-                                                                                <rect key="frame" x="16" y="4" width="200" height="17"/>
+                                                                                <rect key="frame" x="16" y="4" width="190" height="17"/>
                                                                                 <constraints>
-                                                                                    <constraint firstAttribute="width" constant="200" id="vzC-Tb-hik"/>
+                                                                                    <constraint firstAttribute="width" constant="190" id="vzC-Tb-hik"/>
                                                                                 </constraints>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=": -" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkZ-jj-UJF">
-                                                                                <rect key="frame" x="216" y="4" width="176" height="17"/>
+                                                                                <rect key="frame" x="206" y="4" width="186" height="17"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
@@ -5283,16 +5283,16 @@
                                                                         <rect key="frame" x="0.0" y="54" width="392" height="30"/>
                                                                         <subviews>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TOTAL SELECTED (BIO)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iFU-vR-Wi0">
-                                                                                <rect key="frame" x="16" y="4" width="200" height="17"/>
+                                                                                <rect key="frame" x="16" y="4" width="190" height="17"/>
                                                                                 <constraints>
-                                                                                    <constraint firstAttribute="width" constant="200" id="fmx-0Q-GZq"/>
+                                                                                    <constraint firstAttribute="width" constant="190" id="fmx-0Q-GZq"/>
                                                                                 </constraints>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=": -" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MFd-eU-CU1">
-                                                                                <rect key="frame" x="216" y="4" width="176" height="17"/>
+                                                                                <rect key="frame" x="206" y="4" width="186" height="17"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>

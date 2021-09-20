@@ -17,29 +17,29 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="431" height="137"/>
+            <rect key="frame" x="0.0" y="0.0" width="500" height="150"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m6d-bD-IBp">
-                    <rect key="frame" x="0.0" y="44" width="431" height="59"/>
+                    <rect key="frame" x="0.0" y="44" width="500" height="72"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Principal + Interest Bilyet 1" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ApF-vB-cTL">
-                            <rect key="frame" x="10" y="3" width="59" height="51"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pokok + Suku Bunga Bilyet 1" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ApF-vB-cTL">
+                            <rect key="frame" x="10" y="3" width="85" height="63"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="59" id="xUS-Zt-j9W"/>
+                                <constraint firstAttribute="width" constant="85" id="xUS-Zt-j9W"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="11"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=":" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qwi-IS-Vv6">
-                            <rect key="frame" x="104" y="11" width="4" height="17"/>
+                            <rect key="frame" x="104" y="27.5" width="4" height="17"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="bezel" placeholder="0" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q5A-1o-LmL">
-                            <rect key="frame" x="116" y="9" width="273" height="24"/>
+                            <rect key="frame" x="116" y="24" width="342" height="24"/>
                             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="24" id="3m5-oL-eU4"/>
@@ -48,22 +48,31 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="info.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="CMS-j7-sqS">
-                            <rect key="frame" x="399" y="11" width="20" height="19"/>
+                            <rect key="frame" x="468" y="26.5" width="20" height="19"/>
                             <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </imageView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R46-EE-IeU">
+                            <rect key="frame" x="0.0" y="66" width="500" height="6"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="6" id="HEl-4s-lgA"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="ApF-vB-cTL" secondAttribute="bottom" constant="5" id="7yj-3c-WeF"/>
+                        <constraint firstItem="CMS-j7-sqS" firstAttribute="centerY" secondItem="m6d-bD-IBp" secondAttribute="centerY" id="8ye-t1-Nlm"/>
+                        <constraint firstItem="Qwi-IS-Vv6" firstAttribute="centerY" secondItem="m6d-bD-IBp" secondAttribute="centerY" id="Iva-jW-k4A"/>
+                        <constraint firstItem="Qwi-IS-Vv6" firstAttribute="leading" secondItem="ApF-vB-cTL" secondAttribute="trailing" constant="9" id="LGN-YG-2uV"/>
                         <constraint firstAttribute="trailing" secondItem="CMS-j7-sqS" secondAttribute="trailing" constant="12" id="N5Z-ZC-FGT"/>
-                        <constraint firstItem="CMS-j7-sqS" firstAttribute="top" secondItem="m6d-bD-IBp" secondAttribute="top" constant="10.5" id="N6N-dO-ckw"/>
-                        <constraint firstItem="Qwi-IS-Vv6" firstAttribute="top" secondItem="m6d-bD-IBp" secondAttribute="top" constant="11" id="hqz-sO-b88"/>
-                        <constraint firstItem="Qwi-IS-Vv6" firstAttribute="leading" secondItem="ApF-vB-cTL" secondAttribute="trailing" constant="35" id="l0n-vD-7mp"/>
+                        <constraint firstAttribute="bottom" secondItem="R46-EE-IeU" secondAttribute="bottom" id="cTM-bI-mlf"/>
+                        <constraint firstItem="R46-EE-IeU" firstAttribute="leading" secondItem="m6d-bD-IBp" secondAttribute="leading" id="ce4-oC-tPN"/>
+                        <constraint firstItem="Q5A-1o-LmL" firstAttribute="centerY" secondItem="m6d-bD-IBp" secondAttribute="centerY" id="jx0-kw-2gC"/>
                         <constraint firstItem="CMS-j7-sqS" firstAttribute="leading" secondItem="Q5A-1o-LmL" secondAttribute="trailing" constant="10" id="lEw-tj-SK4"/>
                         <constraint firstItem="ApF-vB-cTL" firstAttribute="leading" secondItem="m6d-bD-IBp" secondAttribute="leading" constant="10" id="tdV-hP-Lbv"/>
-                        <constraint firstItem="Q5A-1o-LmL" firstAttribute="top" secondItem="m6d-bD-IBp" secondAttribute="top" constant="9" id="ubL-Sn-oVV"/>
+                        <constraint firstAttribute="trailing" secondItem="R46-EE-IeU" secondAttribute="trailing" id="wy0-P2-vL5"/>
                         <constraint firstItem="Q5A-1o-LmL" firstAttribute="leading" secondItem="Qwi-IS-Vv6" secondAttribute="trailing" constant="8" id="xVi-W2-2N6"/>
                         <constraint firstItem="ApF-vB-cTL" firstAttribute="top" secondItem="m6d-bD-IBp" secondAttribute="top" constant="3" id="yaL-X2-bHh"/>
+                        <constraint firstItem="R46-EE-IeU" firstAttribute="top" secondItem="ApF-vB-cTL" secondAttribute="bottom" id="ypf-ua-o4H"/>
                     </constraints>
                 </view>
             </subviews>
@@ -75,7 +84,7 @@
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <point key="canvasLocation" x="102.17391304347827" y="262.16517857142856"/>
+            <point key="canvasLocation" x="233.33333333333334" y="257.8125"/>
         </view>
     </objects>
     <resources>

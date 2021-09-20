@@ -195,7 +195,16 @@ class AuctionBidStack: UIView {
             // hidupkan tombol maturity date
             changeMatureDateView.isHidden = false
             
+            
         }
+        if (self.view == 0 || self.view == 1) && (data.is_accepted.lowercased() == "yes" ||  data.is_accepted.lowercased() == "yes(with decline)" || data.is_accepted.lowercased() == "yes(with pending)"){
+            // hidup
+            confirmBtn.setTitle(localize("details").uppercased(), for: .normal)
+        }
+//        print("request : \(data.is_requested)")
+//        print("status : \(data.is_accepted.lowercased())")
+//        print("Posisi view : \(self.view)")
+        
     }
     
     func addBilyetCustom(bilyet: String){

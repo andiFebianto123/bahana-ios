@@ -119,7 +119,7 @@ class AuctionStackPlacement: UIView {
     func addPrincipalBilyet(_ status:String){
         for (index, nominal) in self.new_nominal.enumerated() {
             let view = AuctionPrincipalBilyetUsd()
-            view.TitleLabel.text = "Principal + nterest Bilyet \(index+1)"
+            view.TitleLabel.text = "\(localize("title_bilyet_detail_winner")) \(index+1)"
             if nominal > 0 {
                 if status != "Pending" {
                     view.fieldBilyet.isEnabled = false
