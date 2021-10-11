@@ -118,6 +118,7 @@
 "accepted" = "Accepted";
 "pending" = "Pending";
 "rejected" = "Rejected";
+"interest_rate_placeholder" = "Interest Rate";
 "interest_rate" = "Interest Rate (%)";
 "previous_interest_rate" = "Previous Interest Rate (%)";
 "new_interest_rate" = "New Interest Rate (%)";
@@ -239,6 +240,9 @@
 "multifund_mature" = "multifund mature";
 "title_bilyet_detail_winner" = "Principal + interest Bilyet";
 "details" = "details";
+"new_amount_placeholder" = "New Amount";
+"maturity_date_ro_placeholder" = "Only fill when maturity date do not match";
+"principal_interest" = "Principal + Interest (USD)";
 /*Penambahan baru*/
 
 

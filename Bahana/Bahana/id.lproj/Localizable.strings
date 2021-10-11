@@ -118,6 +118,7 @@
 "accepted" = "Diterima";
 "pending" = "Menunggu";
 "rejected" = "Ditolak";
+"interest_rate_placeholder" = "Suku Bunga";
 "interest_rate" = "Suku Bunga (%)";
 "previous_interest_rate" = "Suku Bunga Sebelumnya (%)";
 "new_interest_rate" = "Suku Bunga Baru (%)";
@@ -208,7 +209,7 @@
 "approved_rate_break" = "Tarif yang Disetujui Break (%)";
 "request_interest_rate" = "Minta Suku Bunga (%)";
 "approved_interest_rate" = "Suku Bunga yang Disetujui(%)";
-"change_mature_date" = "GANTI TANGGAL CAIR?";
+"change_mature_date" = "UBAH TANGGAL JATUH TEMPO?";
 "investment_usd" = "Investasi ($)";
 "bilyet_usd" = "Bilyet ($)";
 "(changed)" = "(berubah)";
@@ -239,6 +240,9 @@
 "multifund_mature" = "cair multifund";
 "title_bilyet_detail_winner" = "Pokok + Suku Bunga Bilyet";
 "details" = "detail";
+"new_amount_placeholder" = "Jumlah Baru";
+"maturity_date_ro_placeholder" = "Hanya diisi apabila tanggal jatuh tempo tidak sesuai";
+"principal_interest" = "Pokok + Suku Bunga (USD)";
 /*Penambahan baru*/
 
 "january" = "Jan";
