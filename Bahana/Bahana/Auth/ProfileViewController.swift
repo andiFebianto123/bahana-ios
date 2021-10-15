@@ -111,7 +111,13 @@ class ProfileViewController: FormViewController {
             cell.titleLabel?.attributedText = self.requiredField(localize("fullname"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                //  [REVISI WARNING]
+                // BEFORE
+//                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+//                    self.errors.append("\(row.title!) \(validationMsg)")
+//                }
+                // END BEFORE
+                for (_ , validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }

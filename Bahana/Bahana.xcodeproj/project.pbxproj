@@ -104,6 +104,7 @@
 		C183CAC9264B8A1700A83F93 /* AuctionBidStack.xib in Resources */ = {isa = PBXBuildFile; fileRef = C183CAC8264B8A1700A83F93 /* AuctionBidStack.xib */; };
 		C1C9A2982645386700C15A5D /* MultifoundConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9A2972645386700C15A5D /* MultifoundConfirmationViewController.swift */; };
 		C1C9A29A26453EC000C15A5D /* AuctionMultifoundConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1C9A29926453EC000C15A5D /* AuctionMultifoundConfirmationViewController.swift */; };
+		C1F7226227180AF600A605AE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1F7226127180AF600A605AE /* GoogleService-Info.plist */; };
 		C1F96C022671F8FB00154536 /* AuctionPrincipalBilyetUsd.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1F96C012671F8FB00154536 /* AuctionPrincipalBilyetUsd.xib */; };
 		C1F96C042671FEFE00154536 /* AuctionPrincipalBilyetUsd.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1F96C032671FEFE00154536 /* AuctionPrincipalBilyetUsd.swift */; };
 		C1FA1C1C2577737900BD16CB /* AuctionDetailNoCashMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1FA1C1B2577737900BD16CB /* AuctionDetailNoCashMovement.swift */; };
@@ -231,6 +232,7 @@
 		C183CAC8264B8A1700A83F93 /* AuctionBidStack.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionBidStack.xib; sourceTree = "<group>"; };
 		C1C9A2972645386700C15A5D /* MultifoundConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultifoundConfirmationViewController.swift; sourceTree = "<group>"; };
 		C1C9A29926453EC000C15A5D /* AuctionMultifoundConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionMultifoundConfirmationViewController.swift; sourceTree = "<group>"; };
+		C1F7226127180AF600A605AE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C1F96C012671F8FB00154536 /* AuctionPrincipalBilyetUsd.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuctionPrincipalBilyetUsd.xib; sourceTree = "<group>"; };
 		C1F96C032671FEFE00154536 /* AuctionPrincipalBilyetUsd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionPrincipalBilyetUsd.swift; sourceTree = "<group>"; };
 		C1FA1C1B2577737900BD16CB /* AuctionDetailNoCashMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuctionDetailNoCashMovement.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 			isa = PBXGroup;
 			children = (
 				BC81C13823E15D3A004DBBD3 /* AppDelegate.swift */,
+				C1F7226127180AF600A605AE /* GoogleService-Info.plist */,
 				BC81C13A23E15D3A004DBBD3 /* SceneDelegate.swift */,
 				BC81C13C23E15D3A004DBBD3 /* ViewController.swift */,
 				BC81C14623E15D3C004DBBD3 /* Info.plist */,
@@ -450,6 +453,7 @@
 				BC81C13223E15D3A004DBBD3 /* Frameworks */,
 				BC81C13323E15D3A004DBBD3 /* Resources */,
 				BC75E42E2412042500CB2A64 /* Embed Frameworks */,
+				C1F7227F2718165300A605AE /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -511,6 +515,7 @@
 				BCF2846223F0553800EE8FD8 /* AuctionListTableViewCell.xib in Resources */,
 				C17FF1EC255A3DD0007AFA27 /* panelView.xib in Resources */,
 				BCE00CA72407865F00EDBADE /* Localizable.strings in Resources */,
+				C1F7226227180AF600A605AE /* GoogleService-Info.plist in Resources */,
 				C1634D5A266790CB00D87371 /* AuctionWinnerDetailView.xib in Resources */,
 				BC81C14023E15D3A004DBBD3 /* Main.storyboard in Resources */,
 				BC81C14E23E15E70004DBBD3 /* Auction.storyboard in Resources */,
@@ -542,6 +547,26 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C1F7227F2718165300A605AE /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -707,7 +732,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -786,6 +811,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";

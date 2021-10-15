@@ -124,7 +124,7 @@ class AuctionDetailMaturePresenter {
                         for id_transaction in detail["transaction_id"].arrayValue {
                             transaction_id.append(id_transaction.intValue)
                         }
-                        var detail_ = AuctionDetailMatureMultifundDetails(
+                        let detail_ = AuctionDetailMatureMultifundDetails(
                             portfolio: detail["portfolio"].stringValue,
                             description: detail["description"].stringValue,
                             custodian_bank: detail["custodian_bank"].stringValue,

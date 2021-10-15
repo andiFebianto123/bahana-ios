@@ -157,7 +157,7 @@ class AuctionMultifoundConfirmationViewController: UIViewController {
         }
         
         for portfolio in self.data.detail_portfolio {
-            var Portfolio = AuctionStackPlacement()
+            let Portfolio = AuctionStackPlacement()
             Portfolio.id = portfolio.portfolio_id
             Portfolio.portfolioLabel.text = portfolio.portfolio
             Portfolio.fullNameLabel.text = portfolio.description

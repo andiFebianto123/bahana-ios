@@ -192,7 +192,7 @@ class AuctionDetailMatureViewController: UIViewController {
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
         navigationTitle.text = localize("auction_detail").uppercased()
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        let _ = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
         navigationBackImageView.image = UIImage(named: "icon_left")

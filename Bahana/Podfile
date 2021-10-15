@@ -9,4 +9,6 @@ target 'Bahana' do
   pod 'Alamofire'
   pod 'Eureka'
   pod 'SwiftyJSON'
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
 end

@@ -22,7 +22,6 @@ protocol AuctionDetailRolloverDelegate {
 
 class AuctionDetailRolloverPresenter {
     private var delegate: AuctionDetailRolloverDelegate?
-    
     init(delegate: AuctionDetailRolloverDelegate){
         self.delegate = delegate
     }

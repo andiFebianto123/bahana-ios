@@ -91,7 +91,7 @@ class RegisterViewController: UIViewController {
     func setNavigationItems() {
         //self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.barTintColor = UIColor.red
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        // let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let label = UILabel()
         if viewTo == "" {
@@ -162,8 +162,16 @@ class RegisterViewController: UIViewController {
     }
     
     @objc func back(notification:Notification) {
-        if let data = notification.userInfo as? [String: Int] {
-            let idx = data["step"]!
+        // [REVISI WARNING]
+        
+        // BEFORE
+//        if let data = notification.userInfo as? [String: Int] {
+//           let idx = data["step"]!
+//            dismiss(animated: true, completion: nil)
+//        }
+        // END BEFORE
+        if (notification.userInfo as? [String: Int]) != nil {
+           // let idx = data["step"]!
             dismiss(animated: true, completion: nil)
         }
     }

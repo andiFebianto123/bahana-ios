@@ -85,7 +85,7 @@ class FaqViewController: UIViewController {
     func setNavigationItems() {
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+//        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         navigationTitle.textColor = .white
         navigationTitle.font = UIFont.systemFont(ofSize: 16)
@@ -169,7 +169,13 @@ extension FaqViewController: UISearchBarDelegate {
                 cell?.shrink()
             }
             let cellHeight = cell?.getHeight()
-            cell?.heightAnchor.constraint(equalToConstant: cellHeight!)
+            // [REVISI WARNING]
+    
+            // BEFORE
+            // cell?.heightAnchor.constraint(equalToConstant: cellHeight!)
+            // END BEFORE
+            let heightconstant = cell?.heightAnchor.constraint(equalToConstant: cellHeight!)
+            heightconstant?.isActive = true
         }
         UIView.setAnimationsEnabled(false)
         tableView.beginUpdates()

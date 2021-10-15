@@ -16,7 +16,8 @@ import SwiftyJSON
 //let WEB_API_URL = "https://dams.bahanatcw.com/"
 //let WEB_API_URL = "http://192.168.43.51/dams2/public/"
 
-let WEB_API_URL = "http://localhost/dams2/public/"
+// let WEB_API_URL = "http://localhost/dams2/public/"
+let WEB_API_URL = "http://34.101.73.8/"
 
 let APP_STORE_URL = "https://itunes.apple.com/id/app/dams/id123456?mt=8"
 
@@ -316,7 +317,7 @@ func isAppUpdateAvailable(completion: @escaping (_ isUpdateAvailable: Bool) -> V
             let result = JSON(response.result.value!)
             let update = result["update_ios"].stringValue
             if update.lowercased() == "yes" {
-                completion(true)
+                completion(false) // sementara
             } else if update.lowercased() == "no" {
                 completion(false)
             }
