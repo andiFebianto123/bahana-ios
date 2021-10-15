@@ -10,16 +10,10 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-//let WEB_API_URL = "http://localhost:8000/"
-//let WEB_API_URL = "http://192.168.8.105:8000/"
-//let WEB_API_URL = "http://157.245.192.5/bahana/public/"
-//let WEB_API_URL = "https://dams.bahanatcw.com/"
-//let WEB_API_URL = "http://192.168.43.51/dams2/public/"
-
 // let WEB_API_URL = "http://localhost/dams2/public/"
 let WEB_API_URL = "http://34.101.73.8/"
 
-let APP_STORE_URL = "https://itunes.apple.com/id/app/dams/id123456?mt=8"
+let APP_STORE_URL = "https://apps.apple.com/id/app/dams-by-bahana-tcw/id1502223807"
 
 // Colors
 let primaryColor = UIColorFromHex(rgbValue: 0xd7181f)
@@ -317,7 +311,7 @@ func isAppUpdateAvailable(completion: @escaping (_ isUpdateAvailable: Bool) -> V
             let result = JSON(response.result.value!)
             let update = result["update_ios"].stringValue
             if update.lowercased() == "yes" {
-                completion(false) // sementara
+                completion(true) // sementara
             } else if update.lowercased() == "no" {
                 completion(false)
             }
