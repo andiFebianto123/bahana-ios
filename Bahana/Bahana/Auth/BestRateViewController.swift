@@ -90,7 +90,7 @@ class BestRateViewController: FormViewController {
     }
     
     func loadForm() {
-        var decimalFormatter = DecimalFormatter()
+        let decimalFormatter = DecimalFormatter()
         decimalFormatter.minimumFractionDigits = 0
         
         var idrRules = RuleSet<String>()
@@ -125,7 +125,7 @@ class BestRateViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg) IDR")
                 }
             }
@@ -154,7 +154,7 @@ class BestRateViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg) IDR")
                 }
             }
@@ -172,7 +172,7 @@ class BestRateViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg) IDR")
                 }
             }
@@ -224,7 +224,7 @@ class BestRateViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg) USD")
                 }
             }
@@ -249,7 +249,7 @@ class BestRateViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg) USD")
                 }
             }
@@ -267,7 +267,7 @@ class BestRateViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg) USD")
                 }
             }
@@ -319,7 +319,7 @@ class BestRateViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg) \(localize("sharia"))")
                 }
             }
@@ -344,7 +344,7 @@ class BestRateViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg) \(localize("sharia"))")
                 }
             }
@@ -362,7 +362,7 @@ class BestRateViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg) \(localize("sharia"))")
                 }
             }

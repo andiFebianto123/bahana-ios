@@ -57,7 +57,6 @@ class AuctionListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        print("Called")
         setNavigationItems()
         setViewText()
         
@@ -85,7 +84,7 @@ class AuctionListViewController: UIViewController {
             spinner.centerXAnchor.constraint(equalTo: loadingView.centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: loadingView.centerYAnchor)
         ])
-        
+                
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableView.addSubview(refreshControl)
         
@@ -135,22 +134,26 @@ class AuctionListViewController: UIViewController {
         tableView.delegate = self
         
         presenter = AuctionListPresenter(delegate: self)
-        
+                
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: .languageChanged, object: nil)
+        getOpenRefresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavigationItems()
-        showLoading(true)
-        // Sementara dibuat seperti ini dulu
-        if pageType == "history" {
-            getOpenRefresh()
-        }else{
-            self.data.removeAll()
-            self.getData(lastId: nil, lastDate: nil, lastType: nil)
-        }
-        
+//        showLoading(true)
+//        // Sementara dibuat seperti ini dulu
+//        if pageType == "history" {
+//            getOpenRefresh()
+//        }else{
+//            getOpenRefresh()
+////         self.data.removeAll()
+////          self.getData(lastId: nil, lastDate: nil, lastType: nil)
+//        }
+//        self.data.removeAll()
+//        tableView.reloadData()
+//        self.getData(lastId: nil, lastDate: nil, lastType: nil)
     }
     
     // MARK: - Navigation

@@ -232,14 +232,16 @@ class AuctionDetailRolloverViewController: UIViewController {
             
             principalPreviousDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(dataMultifund.investment_range_start))": "IDR \(toIdrBio(dataMultifund.investment_range_start))"
             
-            periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(dataMultifund.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(dataMultifund.issue_date)!)!)"
+//            periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(dataMultifund.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(dataMultifund.issue_date)!)!)"
+            periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(dataMultifund.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(dataMultifund.previous_maturity_date)!)!)"
         }else{
             tenorPreviousDetailLabel.text = data.period
             interestRatePreviousDetailLabel.text = "\(checkPercentage(data.previous_interest_rate)) %"
             
             principalPreviousDetailLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.investment_range_start))": "IDR \(toIdrBio(data.investment_range_start))"
             
-            periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.issue_date)!)!)"
+//            periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.issue_date)!)!)"
+            periodPreviousDetailLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.previous_maturity_date)!)!)"
         }
     }
     
@@ -455,7 +457,16 @@ class AuctionDetailRolloverViewController: UIViewController {
     func getDateToChangeMatureField() -> String{
 //        let dateString = "\(convertDateToString(convertStringToDatetime( (self.multifundAuction) ? dataMultifund.maturity_date : data.maturity_date)!)!)"
 //        print("Tanggal cair 99: \(dateString)")
-        let dateString = formatDateNew(((self.multifundAuction) ? dataMultifund.maturity_date : data.maturity_date)!)
+        // let dateString = formatDateNew(((self.multifundAuction) ? dataMultifund.maturity_date : data.maturity_date)!)
+        
+        var dateString: String = ""
+        
+        if(self.multifundAuction){
+            dateString = dataMultifund.maturity_date != nil ? formatDateNew(dataMultifund.maturity_date!) : ""
+        }else{
+            dateString = data.maturity_date != nil ? formatDateNew(data.maturity_date!) : ""
+        }
+        
 
         let datePicker = UIDatePicker()
         let formatter = DateFormatter()
@@ -541,7 +552,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
         navigationTitle.text = localize("auction_detail").uppercased()
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        // let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
         navigationBackImageView.image = UIImage(named: "icon_left")
@@ -994,7 +1005,6 @@ class AuctionDetailRolloverViewController: UIViewController {
              return true
          }
          */
-        return false
     }
     
     func showAlert(_ message: String, _ isBackToList: Bool) {

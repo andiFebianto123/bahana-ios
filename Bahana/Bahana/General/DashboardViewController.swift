@@ -42,7 +42,6 @@ class DashboardViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
         setNavigationItems()
         setViewText()
@@ -123,7 +122,7 @@ class DashboardViewController: UIViewController {
         needConfirmationUnitLabel.textColor = primaryColor
         needConfirmationUnitLabel.font = unitFont
         
-        let screenWidth = UIScreen.main.bounds.width
+        _ = UIScreen.main.bounds.width
         
         informationTitle.textColor = primaryColor
         informationTitle.text = localize("information").uppercased()

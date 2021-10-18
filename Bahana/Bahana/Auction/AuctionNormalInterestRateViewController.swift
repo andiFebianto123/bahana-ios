@@ -57,7 +57,7 @@ class AuctionNormalInterestRateViewController: UIViewController {
     }
     
     func test() {
-        var rateHeight: CGFloat = 0
+        var _: CGFloat = 0
         
         /*let rateView = UIView()
         rateView.tag = interestRateIdx

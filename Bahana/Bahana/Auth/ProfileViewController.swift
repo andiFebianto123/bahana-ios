@@ -106,6 +106,7 @@ class ProfileViewController: FormViewController {
             $0.tag = "name"
             //$0.placeholder = "Nama Lengkap"
             $0.add(rule: RuleRequired())
+//            $0.value = !isDataEmpty("name") ? data["name"]! as! String : nil
             $0.value = !isDataEmpty("name") ? data["name"]! as! String : nil
         }.cellUpdate { cell, row in
             cell.titleLabel?.attributedText = self.requiredField(localize("fullname"))
@@ -117,7 +118,7 @@ class ProfileViewController: FormViewController {
 //                    self.errors.append("\(row.title!) \(validationMsg)")
 //                }
                 // END BEFORE
-                for (_ , validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -132,7 +133,7 @@ class ProfileViewController: FormViewController {
             cell.titleLabel?.attributedText = self.requiredField(localize("email"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -146,7 +147,7 @@ class ProfileViewController: FormViewController {
             cell.titleLabel?.attributedText = self.requiredField(localize("phone_number"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -160,7 +161,7 @@ class ProfileViewController: FormViewController {
             cell.titleLabel?.attributedText = self.requiredField(localize("alternative_pic"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -174,7 +175,7 @@ class ProfileViewController: FormViewController {
             cell.titleLabel?.attributedText = self.requiredField(localize("alternative_phone"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -209,7 +210,7 @@ class ProfileViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -264,7 +265,7 @@ class ProfileViewController: FormViewController {
             row.options = self.branchs
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -294,7 +295,7 @@ class ProfileViewController: FormViewController {
             cell.titleLabel?.attributedText = self.requiredField(localize("bank_branch_address"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -309,7 +310,7 @@ class ProfileViewController: FormViewController {
             cell.textLabel!.attributedText = self.requiredField(localize("bank_type"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -324,7 +325,7 @@ class ProfileViewController: FormViewController {
             cell.textLabel!.attributedText = self.requiredField(localize("foreign_exchange"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -339,7 +340,7 @@ class ProfileViewController: FormViewController {
             cell.textLabel!.attributedText = self.requiredField(localize("book"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -354,7 +355,7 @@ class ProfileViewController: FormViewController {
             cell.textLabel!.attributedText = self.requiredField(localize("sharia"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -369,7 +370,7 @@ class ProfileViewController: FormViewController {
             cell.textLabel!.attributedText = self.requiredField(localize("interest_day_count_convertion"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -384,7 +385,7 @@ class ProfileViewController: FormViewController {
             cell.textLabel!.attributedText = self.requiredField(localize("end_date"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -399,7 +400,7 @@ class ProfileViewController: FormViewController {
             cell.textLabel!.attributedText = self.requiredField(localize("return_to_start_date"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -414,7 +415,7 @@ class ProfileViewController: FormViewController {
             cell.textLabel!.attributedText = self.requiredField(localize("holiday_interest"))
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -430,7 +431,7 @@ class ProfileViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }
@@ -446,7 +447,7 @@ class ProfileViewController: FormViewController {
             }
         }.onRowValidationChanged { cell, row in
             if !row.isValid {
-                for (index, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
+                for (_, validationMsg) in row.validationErrors.map({ $0.msg }).enumerated() {
                     self.errors.append("\(row.title!) \(validationMsg)")
                 }
             }

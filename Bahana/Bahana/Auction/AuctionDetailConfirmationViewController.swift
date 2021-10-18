@@ -199,7 +199,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
     }
     
     @objc func dateChanged(sender: UIDatePicker) {
-        let date = convertDateToString(datePicker.date)
+        _ = convertDateToString(datePicker.date)
         //auctionRequestMaturityDate = date!
     }
     

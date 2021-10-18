@@ -171,7 +171,7 @@ class AuctionBidStack: UIView {
     private func getBilyet(){
         bilyetTitleLabel.text = (self.fund_type == "USD") ? localize("bilyet_usd") : localize("bilyet")
         
-        for (idx, bilyetArr) in data.bilyet.enumerated() {
+        for (_, bilyetArr) in data.bilyet.enumerated() {
             var bilyetStr = """
             """
             if self.fund_type == "USD" {

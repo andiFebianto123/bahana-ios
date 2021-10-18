@@ -114,8 +114,10 @@ class AuctionDetailMatureViewController: UIViewController {
         
         if self.multifundAuction {
             titleLabel.text = localize("multifund_mature").uppercased()
+            winnerView.isHidden = false
         }else{
             titleLabel.text = localize("mature").uppercased()
+            winnerView.isHidden = true
         }
         
         titleLabel.textColor = primaryColor
@@ -237,6 +239,7 @@ class AuctionDetailMatureViewController: UIViewController {
         
         // Notes
         noteLabel.text = data.notes
+        print("Isi notes : \(data.notes)")
         
         // Footer
         let mutableAttributedString = NSMutableAttributedString()

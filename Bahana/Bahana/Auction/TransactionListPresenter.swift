@@ -80,7 +80,7 @@ class TransactionListPresenter {
             let pageUrl = "last_id=\(lastId!)&"
             url += pageUrl
         }
-        print(url)
+//        print("URL transaction : \(WEB_API_URL)api/v1/\(url)")
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:

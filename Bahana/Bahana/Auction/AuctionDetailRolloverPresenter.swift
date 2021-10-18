@@ -147,7 +147,9 @@ class AuctionDetailRolloverPresenter {
                     let issue_date = auct["issue_date"].stringValue
                     let maturity_date = auct["maturity_date"] != JSON.null ? auct["maturity_date"].stringValue : nil
                     let notes = auct["notes"].stringValue
-                    let date = auct["date"].stringValue
+                    // [REVISI WARNING]
+                    // let date = auct["date"].stringValue
+                    _ = auct["date"].stringValue
                     let is_pending_exists = auct["is_pending_exists"].boolValue
                     //let end_bidding_rm = auct["end_bidding_rm"].stringValue
                     // let pic_custodian = auct["pic_custodian"] != JSON.null ? auct["pic_custodian"].stringValue : nil
@@ -316,7 +318,11 @@ class AuctionDetailRolloverPresenter {
         var parameters = Parameters()
         parameters.updateValue(rate, forKey: "rate")
         parameters.updateValue("", forKey: "request_maturity_date")
-        if tgl! != nil || tgl! != "" {
+        // [REVISI WARNING]
+//        if tgl! != nil || tgl! != "" {
+//            parameters.updateValue(tgl!, forKey: "request_maturity_date")
+//        }
+        if tgl != nil && tgl! != "" {
             parameters.updateValue(tgl!, forKey: "request_maturity_date")
         }
         for (idx, detailWinner) in detailsWinner.enumerated() {

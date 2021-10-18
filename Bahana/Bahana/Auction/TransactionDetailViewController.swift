@@ -109,7 +109,7 @@ class TransactionDetailViewController: UIViewController {
         //navigationController?.navigationBar.barTintColor = primaryColor
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        // let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         navigationTitle.text = localize("transaction_detail").uppercased()
         

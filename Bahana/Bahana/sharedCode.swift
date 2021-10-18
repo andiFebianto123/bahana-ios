@@ -10,8 +10,8 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-// let WEB_API_URL = "http://localhost/dams2/public/"
-let WEB_API_URL = "http://34.101.73.8/"
+let WEB_API_URL = "http://192.168.1.140/dams2/public/"
+// let WEB_API_URL = "http://34.101.73.8/"
 
 let APP_STORE_URL = "https://apps.apple.com/id/app/dams-by-bahana-tcw/id1502223807"
 
@@ -254,12 +254,12 @@ func toRp(_ number: Double) -> String{
 //    let formatter = DecimalFormat("#,###.###", symbols)
 //    return formatter.format(number)
     
-    var formatter = NumberFormatter()
+    let formatter = NumberFormatter()
     formatter.locale = Locale(identifier: "en_US")
 //    formatter.numberStyle = .currency
     formatter.numberStyle = NumberFormatter.Style.decimal
     formatter.groupingSeparator = ","
-    var formatNumberUSD = formatter.string(from: NSNumber(value: number)) ?? ""
+    let formatNumberUSD = formatter.string(from: NSNumber(value: number)) ?? ""
     return formatNumberUSD
     
 }

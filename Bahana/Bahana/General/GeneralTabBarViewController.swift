@@ -28,7 +28,7 @@ class GeneralTabBarViewController: UITabBarController {
         viewControllers = [firstViewController, secondViewController, thirdViewController, fourthViewController, fifthViewController]
         
         let iconSize = CGSize(width: 30, height: 30)
-        let inset = UIEdgeInsets(top: 100, left: 100, bottom: 100, right: 100)
+        _ = UIEdgeInsets(top: 100, left: 100, bottom: 100, right: 100)
         
         tabBar.tintColor = primaryColor
         

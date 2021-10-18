@@ -28,7 +28,11 @@ class AuctionListPresenter {
     func getAuction(_ filter: [String: String], lastId: Int? = nil, lastDate: String? = nil, lastType: String? = nil, _ page: Int) {
         // Get auction
         var url = String()
-        switch filter["type"] {
+        var filterType: String = "ALL"
+        if(filter["type"] != nil && filter["type"]! != ""){
+            filterType = filter["type"]!
+        }
+        switch filterType {
         case localize("all").uppercased():
             url += "all-auction?"
         case localize("auction").uppercased():
@@ -51,6 +55,7 @@ class AuctionListPresenter {
             url += "mature-multifund-auction?"
         default:
             url += "all-auction?"
+            break
         }
         
         // Lang
@@ -81,9 +86,10 @@ class AuctionListPresenter {
             let pageUrl = "last_id=\(lastId!)&last_date=\(date)&last_type_auction=\(lastType!)&"
             url += pageUrl
         }
-        print("AAAA")
-        print("\(WEB_API_URL)api/v1/\(url)")
-        print("AAAA")
+//        print("AAAA")
+//        print("\(WEB_API_URL)api/v1/\(url)")
+//        print("AAAA")
+//        print("URL auction : \(WEB_API_URL)api/v1/\(url)")
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
@@ -140,7 +146,11 @@ class AuctionListPresenter {
     func getAuctionHistory(_ filter: [String: String], lastId: Int? = nil, lastDate: String? = nil, lastType: String? = nil, _ page: Int) {
         // Get auction history
         var url = String()
-        switch filter["type"] {
+        var filterType: String = "ALL"
+        if(filter["type"] != nil && filter["type"]! != ""){
+            filterType = filter["type"]!
+        }
+        switch filterType {
         case localize("all").uppercased():
             url += "all-auction-history?"
         case localize("auction").uppercased():
@@ -167,6 +177,7 @@ class AuctionListPresenter {
             url += "mature-multifund-auction-history?"
         default:
             url += "all-auction-history?"
+            break
         }
         
         // Lang
@@ -197,9 +208,10 @@ class AuctionListPresenter {
             let pageUrl = "last_id=\(lastId!)&last_date=\(date)&last_type_auction=\(lastType!)&"
             url += pageUrl
         }
-        print("AAA")
-        print(url)
-        print("AAA")
+//        print("AAA")
+//        print(url)
+//        print("AAA")
+//        print("URL history : \(WEB_API_URL)api/v1/\(url)")
         Alamofire.request(WEB_API_URL + "api/v1/" + url, method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:

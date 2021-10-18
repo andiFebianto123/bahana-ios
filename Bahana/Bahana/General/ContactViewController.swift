@@ -74,7 +74,7 @@ class ContactViewController: UIViewController {
     func setNavigationItems() {
         //self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.barTintColor = UIColor.red
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        // let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let label = UILabel()
         label.text = localize("contact").uppercased()

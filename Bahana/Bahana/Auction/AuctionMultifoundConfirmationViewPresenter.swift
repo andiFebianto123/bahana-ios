@@ -66,7 +66,7 @@ class AuctionMultifoundConfirmationViewPresenter {
         var url = "api/v1/"
         parameters.updateValue(is_accept, forKey: "is_accepted")
         var idx: Int = 0
-        for (i, port) in portfolio_details.enumerated() {
+        for (_, port) in portfolio_details.enumerated() {
             if port.checkBox {
                 parameters.updateValue(port.portfolioLabel.text!, forKey: "portfolio[\(idx)][portfolio]")
                 parameters.updateValue(port.id, forKey: "portfolio[\(idx)][portfolio_id]")

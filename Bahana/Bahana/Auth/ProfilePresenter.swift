@@ -38,7 +38,7 @@ class ProfilePresenter {
                     banks.append(bank)
                 }
                 self.delegate?.setParentBanks(banks)
-            case .failure(let error):
+            case .failure( _):
                 self.delegate?.getDataFail()
             }
         }
@@ -61,7 +61,7 @@ class ProfilePresenter {
                     }
                 }
                 self.delegate?.setParentBankBranchs(branchs)
-            case .failure(let error):
+            case .failure( _):
                 self.delegate?.getDataFail()
             }
         }
@@ -78,7 +78,7 @@ class ProfilePresenter {
                     banks.append(bank)
                 }
                 //self.delegate?.setBanks(banks.reversed())
-            case .failure(let error):
+            case .failure( _):
                 self.delegate?.getDataFail()
             }
         }
@@ -101,7 +101,7 @@ class ProfilePresenter {
                     }
                 }
                 //self.delegate?.setBankBranchs(branchs.reversed())
-            case .failure(let error):
+            case .failure( _):
                 self.delegate?.getDataFail()
             }
         }
@@ -162,7 +162,7 @@ class ProfilePresenter {
                 }
                 
                 self.delegate?.setOptions(options)
-            case .failure(let error):
+            case .failure( _):
                 self.delegate?.getDataFail()
             }
         }
@@ -201,7 +201,7 @@ class ProfilePresenter {
                 ]
                 
                 self.delegate?.setProfile(data)
-            case .failure(let error):
+            case .failure( _):
                 self.delegate?.getDataFail()
             }
         }

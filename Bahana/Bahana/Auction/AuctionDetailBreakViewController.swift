@@ -165,7 +165,7 @@ class AuctionDetailBreakViewController: UIViewController {
         principalPreviousDetail.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)" : "IDR \(toIdrBio(data.investment_range_start))"
         periodPreviousDetail.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.previous_maturity_date)!)!)"
         breakDateBreakDetail.text = convertDateToString(convertStringToDatetime(data.break_maturity_date)!)
-        requestRateBreakDetail.text = data.last_bid_rate! != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
+        requestRateBreakDetail.text = data.last_bid_rate != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
         breakRateTextField.isHidden = true
     }
     
@@ -362,7 +362,7 @@ class AuctionDetailBreakViewController: UIViewController {
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
         navigationTitle.text = localize("auction_detail").uppercased()
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        // let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
         navigationBackImageView.image = UIImage(named: "icon_left")
@@ -410,7 +410,7 @@ class AuctionDetailBreakViewController: UIViewController {
         // Detail
         tenorLabel.text = data.period
         interestRateLabel.text = "\(checkPercentage(data.previous_interest_rate)) %"
-        breakRateLabel.text = data.last_bid_rate! != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
+        breakRateLabel.text = data.last_bid_rate != nil ? "\(checkPercentage(data.last_bid_rate!)) %" : "-"
         investmentLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)" : "IDR \(toIdrBio(data.investment_range_start))"
         periodLabel.text = "\(convertDateToString(convertStringToDatetime(data.previous_issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.previous_maturity_date)!)!)"
         breakDateLabel.text = convertDateToString(convertStringToDatetime(data.break_maturity_date)!)
@@ -519,17 +519,27 @@ class AuctionDetailBreakViewController: UIViewController {
             return true
         }
         */
-        let text: String = rateBreakFieldText.text!
-        
+        // [REVISI WARNING]
+//        let text: String = rateBreakFieldText.text!
+//
+//        if text == nil ||
+//            text != nil && Double(text) == nil ||
+//        Double(text) != nil && Double(text)! < 0.0 || Double(text)! > 99.9 {
+//            showAlert("Rate not valid", false)
+//            return false
+//        } else {
+//            return true
+//        }
+//        return false
+        let text: String? = rateBreakFieldText.text
         if text == nil ||
-            text != nil && Double(text) == nil ||
-        Double(text) != nil && Double(text)! < 0.0 || Double(text)! > 99.9 {
+            text != nil && Double(text!) == nil ||
+            Double(text!) != nil && Double(text!)! < 0.0 || Double(text!)! > 99.9 {
             showAlert("Rate not valid", false)
             return false
         } else {
             return true
         }
-        return false
     }
     
     func showAlert(_ message: String, _ isBackToList: Bool) {
@@ -556,7 +566,7 @@ class AuctionDetailBreakViewController: UIViewController {
         confirmButton.isEnabled = false
         confirmButton.setTitle("Loading...", for: .normal)
         showLoading(true)
-        var send: Kirim = Kirim(view: self)
+        let send: Kirim = Kirim(view: self)
         send.confirm(id, "break", true, nil, id)
         
     }

@@ -126,9 +126,9 @@ class AuctionDetailNormalPresenter {
     func saveAuction(_ id: Int, _ bids: [Bid], _ placement: String, isMultifound: Bool) {
         var parameters = Parameters()
         
-        for (idx, bid) in bids.enumerated() {
+        for (idx, _) in bids.enumerated() {
             // Untuk jumlah period menggunakan id
-            let interestRateIdr =
+            _ =
             parameters.updateValue(bids[idx].id, forKey: "bid[\(idx)][td_period]")
             parameters.updateValue(bids[idx].period, forKey: "bid[\(idx)][td_period_type]")
             parameters.updateValue(bids[idx].interest_rate_idr != nil ? bids[idx].interest_rate_idr! : "", forKey: "bid[\(idx)][rate_idr]")

@@ -83,7 +83,7 @@ class NotificationPresenter {
         Alamofire.request(WEB_API_URL + "api/v1/notification/\(id)/read", method: .post, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
-                let result = JSON(response.result.value!)
+                _ = JSON(response.result.value!)
                 //print(result)
                 //let message = result["message"].stringValue
                 if response.response?.statusCode == 200 {
@@ -101,7 +101,7 @@ class NotificationPresenter {
         Alamofire.request(WEB_API_URL + "api/v1/notification/read", method: .post, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
-                let result = JSON(response.result.value!)
+                _ = JSON(response.result.value!)
                 //print(result)
                 //let message = result["message"].stringValue
                 if response.response?.statusCode == 200 {

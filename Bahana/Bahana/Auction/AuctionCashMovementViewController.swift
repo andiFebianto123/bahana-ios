@@ -128,7 +128,7 @@ class AuctionCashMovementViewController: UIViewController {
     
     func setStylePanelViewToNCMAUCTION(){
         let titleFont = UIFont.systemFont(ofSize: 11)
-        let contentFont = UIFont.boldSystemFont(ofSize: 12)
+        _ = UIFont.boldSystemFont(ofSize: 12)
         
         let cardBackgroundColor = lightRedColor
         
@@ -332,7 +332,7 @@ class AuctionCashMovementViewController: UIViewController {
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
         navigationTitle.text = localize("auction_detail").uppercased()
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        // let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
         navigationBackImageView.image = UIImage(named: "icon_left")
@@ -600,7 +600,7 @@ class AuctionCashMovementViewController: UIViewController {
     
     func showConfirmationAlert(_ date: String?) {
         let alert:UIAlertController
-        if date! != nil {
+        if date != nil {
             alert = UIAlertController(title: localize("information"), message: "\(localize("confirmation_change_end_date")) \(date!)?", preferredStyle: .alert)
         }else{
             alert = UIAlertController(title: localize("information"), message: "\(localize("confirmation_ncm_auction")) ?", preferredStyle: .alert)

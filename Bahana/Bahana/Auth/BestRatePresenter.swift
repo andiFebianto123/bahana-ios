@@ -104,7 +104,7 @@ class BestRatePresenter {
             ]
                 
                 self.delegate?.setData(data)
-            case .failure(let error):
+            case .failure( _):
                 self.delegate?.getDataFail()
             }
         }
@@ -153,7 +153,8 @@ class BestRatePresenter {
         var newNumber = num
         
         var count = Int()
-        for (idx, i) in newNumber.enumerated().reversed() {
+        // [REVISI WARNING] idx --> _ line 157
+        for (_, i) in newNumber.enumerated().reversed() {
             if i == "0" || i == "." {
                 count += 1
             } else {

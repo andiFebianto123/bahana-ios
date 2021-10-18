@@ -248,7 +248,7 @@ class AuctionDetailNormalViewController: UIViewController {
         navigationView.backgroundColor = primaryColor
         navigationViewHeight.constant = getNavigationHeight()
         navigationTitle.text = localize("auction_detail").uppercased()
-        let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        // let buttonFrame = CGRect(x: 0, y: 0, width: 30, height: 30)
         
         let backTap = UITapGestureRecognizer(target: self, action: #selector(backButtonPressed))
         navigationBackImageView.image = UIImage(named: "icon_left")
@@ -278,8 +278,8 @@ class AuctionDetailNormalViewController: UIViewController {
             view.removeFromSuperview()
         }
         
-        for (idx, dt) in bidData.enumerated() {
-            var stackBidder = AuctionBidStack()
+        for (_, dt) in bidData.enumerated() {
+            let stackBidder = AuctionBidStack()
             stackBidder.presenter = self
             stackBidder.data = dt
             stackBidder.fund_type = String(data.fund_type ?? "")
@@ -294,7 +294,7 @@ class AuctionDetailNormalViewController: UIViewController {
 
     func setContent() {
         // Check status
-        var tipe = String(data.fund_type ?? "")
+        let tipe = String(data.fund_type ?? "")
         
         /*
         var UjicobaUSD = (data.fund_type == "USD") ? "data USD" : "data IDR"
@@ -1234,7 +1234,7 @@ class AuctionDetailNormalViewController: UIViewController {
     @objc func deleteRateButtonTapped(sender: UIButton) {
         interestRateStackView.subviews.forEach { view in
             if view.tag == sender.tag {
-                var rate = interestRates.filter { $0.idx == sender.tag }.first
+                let rate = interestRates.filter { $0.idx == sender.tag }.first
                 if rate != nil {
                     interestRates[sender.tag].isHidden = true
                     view.isHidden = true
