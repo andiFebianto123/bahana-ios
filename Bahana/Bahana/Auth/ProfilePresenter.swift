@@ -174,30 +174,53 @@ class ProfilePresenter {
             case .success:
                 let result = JSON(response.result.value!)
                 
-                let bank = result["bank"] != JSON.null ? Bank(id: result["bank"]["id"].stringValue, name: result["bank"]["bank_name"].stringValue, code: result["bank"]["bank_code"].stringValue) : nil
+                // [REVISI WARNING]
+//                let bank = result["bank"] != JSON.null ? Bank(id: result["bank"]["id"].stringValue, name: result["bank"]["bank_name"].stringValue, code: result["bank"]["bank_code"].stringValue) : nil
+                let bank = result["bank"] != JSON.null ? Bank(id: result["bank"]["id"].stringValue, name: result["bank"]["bank_name"].stringValue, code: result["bank"]["bank_code"].stringValue) : Optional<Int>.none as Any
                 var branch_name = result["branch"]["branch_name"].stringValue
                 if result["branch"]["issuers"].arrayValue.count > 0 {
                     let issuers = result["branch"]["issuers"].arrayValue.first
                     branch_name = issuers!["description"].stringValue
                 }
-                let bank_branch = result["branch"] != JSON.null ? BankBranch(id: result["branch"]["id"].stringValue, name: branch_name, code: result["branch"]["branch_code"].stringValue) : nil
+                // [REVISI WARNING]
+//                let bank_branch = result["branch"] != JSON.null ? BankBranch(id: result["branch"]["id"].stringValue, name: branch_name, code: result["branch"]["branch_code"].stringValue) : nil
+                let bank_branch = result["branch"] != JSON.null ? BankBranch(id: result["branch"]["id"].stringValue, name: branch_name, code: result["branch"]["branch_code"].stringValue) : Optional<Int>.none as Any
+                // [REVISI WARNING]
+//                let data: [String: Any] = [
+//                    "name": result["fullname"] != JSON.null ? result["fullname"].stringValue : nil,
+//                    "email": result["email"] != JSON.null ? result["email"].stringValue : nil,
+//                    "phone": result["phone"] != JSON.null ? result["phone"].stringValue : nil,
+//                    "pic_alternative": result["other_name"] != JSON.null ? result["other_name"].stringValue : nil,
+//                    "phone_alternative": result["other_phone"] != JSON.null ? result["other_phone"].stringValue : nil,
+//                    "bank": bank,
+//                    "bank_branch": bank_branch,
+//                    "address": result["address"] != JSON.null ? result["address"].stringValue : nil,
+//                    "bank_type": result["bank"]["parent"]["bank_type"] != JSON.null ? result["bank"]["parent"]["bank_type"].stringValue : nil,
+//                    "foreign_exchange": result["bank"]["parent"]["devisa"] != JSON.null ? result["bank"]["parent"]["devisa"].stringValue : nil,
+//                    "book": result["bank"]["parent"]["buku"] != JSON.null ? result["bank"]["parent"]["buku"].stringValue : nil,
+//                    "sharia": result["branch"]["sharia"] != JSON.null ? result["branch"]["sharia"].stringValue : nil,
+//                    "interest_day_count_convertion": result["branch"]["interest_day_count_convertion"] != JSON.null ? result["branch"]["interest_day_count_convertion"].stringValue : nil,
+//                    "end_date": result["branch"]["end_date"] != JSON.null ? result["branch"]["end_date"].stringValue : nil,
+//                    "return_to_start_date": result["branch"]["return_start_date"] != JSON.null ? result["branch"]["return_start_date"].stringValue : nil,
+//                    "holiday_interest": result["branch"]["holiday_interest"] != JSON.null ? result["branch"]["holiday_interest"].stringValue : nil,
+//                ]
                 let data: [String: Any] = [
-                    "name": result["fullname"] != JSON.null ? result["fullname"].stringValue : nil,
-                    "email": result["email"] != JSON.null ? result["email"].stringValue : nil,
-                    "phone": result["phone"] != JSON.null ? result["phone"].stringValue : nil,
-                    "pic_alternative": result["other_name"] != JSON.null ? result["other_name"].stringValue : nil,
-                    "phone_alternative": result["other_phone"] != JSON.null ? result["other_phone"].stringValue : nil,
+                    "name": result["fullname"] != JSON.null ? result["fullname"].stringValue : Optional<Int>.none as Any,
+                    "email": result["email"] != JSON.null ? result["email"].stringValue : Optional<Int>.none as Any,
+                    "phone": result["phone"] != JSON.null ? result["phone"].stringValue : Optional<Int>.none as Any,
+                    "pic_alternative": result["other_name"] != JSON.null ? result["other_name"].stringValue : Optional<Int>.none as Any,
+                    "phone_alternative": result["other_phone"] != JSON.null ? result["other_phone"].stringValue : Optional<Int>.none as Any,
                     "bank": bank,
                     "bank_branch": bank_branch,
-                    "address": result["address"] != JSON.null ? result["address"].stringValue : nil,
-                    "bank_type": result["bank"]["parent"]["bank_type"] != JSON.null ? result["bank"]["parent"]["bank_type"].stringValue : nil,
-                    "foreign_exchange": result["bank"]["parent"]["devisa"] != JSON.null ? result["bank"]["parent"]["devisa"].stringValue : nil,
-                    "book": result["bank"]["parent"]["buku"] != JSON.null ? result["bank"]["parent"]["buku"].stringValue : nil,
-                    "sharia": result["branch"]["sharia"] != JSON.null ? result["branch"]["sharia"].stringValue : nil,
-                    "interest_day_count_convertion": result["branch"]["interest_day_count_convertion"] != JSON.null ? result["branch"]["interest_day_count_convertion"].stringValue : nil,
-                    "end_date": result["branch"]["end_date"] != JSON.null ? result["branch"]["end_date"].stringValue : nil,
-                    "return_to_start_date": result["branch"]["return_start_date"] != JSON.null ? result["branch"]["return_start_date"].stringValue : nil,
-                    "holiday_interest": result["branch"]["holiday_interest"] != JSON.null ? result["branch"]["holiday_interest"].stringValue : nil,
+                    "address": result["address"] != JSON.null ? result["address"].stringValue : Optional<Int>.none as Any,
+                    "bank_type": result["bank"]["parent"]["bank_type"] != JSON.null ? result["bank"]["parent"]["bank_type"].stringValue : Optional<Int>.none as Any,
+                    "foreign_exchange": result["bank"]["parent"]["devisa"] != JSON.null ? result["bank"]["parent"]["devisa"].stringValue : Optional<Int>.none as Any,
+                    "book": result["bank"]["parent"]["buku"] != JSON.null ? result["bank"]["parent"]["buku"].stringValue : Optional<Int>.none as Any,
+                    "sharia": result["branch"]["sharia"] != JSON.null ? result["branch"]["sharia"].stringValue : Optional<Int>.none as Any,
+                    "interest_day_count_convertion": result["branch"]["interest_day_count_convertion"] != JSON.null ? result["branch"]["interest_day_count_convertion"].stringValue : Optional<Int>.none as Any,
+                    "end_date": result["branch"]["end_date"] != JSON.null ? result["branch"]["end_date"].stringValue : Optional<Int>.none as Any,
+                    "return_to_start_date": result["branch"]["return_start_date"] != JSON.null ? result["branch"]["return_start_date"].stringValue : Optional<Int>.none as Any,
+                    "holiday_interest": result["branch"]["holiday_interest"] != JSON.null ? result["branch"]["holiday_interest"].stringValue : Optional<Int>.none as Any,
                 ]
                 
                 self.delegate?.setProfile(data)

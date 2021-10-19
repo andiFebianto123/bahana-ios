@@ -107,7 +107,7 @@ class ProfileViewController: FormViewController {
             //$0.placeholder = "Nama Lengkap"
             $0.add(rule: RuleRequired())
 //            $0.value = !isDataEmpty("name") ? data["name"]! as! String : nil
-            $0.value = !isDataEmpty("name") ? data["name"]! as! String : nil
+            $0.value = !isDataEmpty("name") ? data["name"]! as? String : nil
         }.cellUpdate { cell, row in
             cell.titleLabel?.attributedText = self.requiredField(localize("fullname"))
         }.onRowValidationChanged { cell, row in
@@ -128,7 +128,8 @@ class ProfileViewController: FormViewController {
             $0.tag = "email"
             $0.add(rule: RuleRequired())
             $0.add(rule: RuleEmail())
-            $0.value = !isDataEmpty("email") ? data["email"]! as! String : nil
+//            $0.value = !isDataEmpty("email") ? data["email"]! as! String : nil
+            $0.value = !isDataEmpty("email") ? data["email"]! as? String : nil
         }.cellUpdate { cell, row in
             cell.titleLabel?.attributedText = self.requiredField(localize("email"))
         }.onRowValidationChanged { cell, row in
@@ -142,7 +143,8 @@ class ProfileViewController: FormViewController {
             $0.title = localize("phone_number")
             $0.tag = "phone"
             $0.add(rule: RuleRequired())
-            $0.value = !isDataEmpty("phone") ? data["phone"]! as! String : nil
+//            $0.value = !isDataEmpty("phone") ? data["phone"]! as! String : nil
+            $0.value = !isDataEmpty("phone") ? data["phone"]! as? String : nil
         }.cellUpdate { cell, row in
             cell.titleLabel?.attributedText = self.requiredField(localize("phone_number"))
         }.onRowValidationChanged { cell, row in
@@ -156,7 +158,8 @@ class ProfileViewController: FormViewController {
             $0.title = localize("alternative_pic")
             $0.tag = "pic_alternative"
             $0.add(rule: RuleRequired())
-            $0.value = !isDataEmpty("pic_alternative") ? data["pic_alternative"]! as! String : nil
+//            $0.value = !isDataEmpty("pic_alternative") ? data["pic_alternative"]! as! String : nil
+            $0.value = !isDataEmpty("pic_alternative") ? data["pic_alternative"]! as? String : nil
         }.cellUpdate { cell, row in
             cell.titleLabel?.attributedText = self.requiredField(localize("alternative_pic"))
         }.onRowValidationChanged { cell, row in
@@ -170,7 +173,8 @@ class ProfileViewController: FormViewController {
             $0.title = localize("alternative_phone")
             $0.tag = "phone_alternative"
             $0.add(rule: RuleRequired())
-            $0.value = !isDataEmpty("phone_alternative") ? data["phone_alternative"]! as! String : nil
+//            $0.value = !isDataEmpty("phone_alternative") ? data["phone_alternative"]! as! String : nil
+            $0.value = !isDataEmpty("phone_alternative") ? data["phone_alternative"]! as? String : nil
         }.cellUpdate { cell, row in
             cell.titleLabel?.attributedText = self.requiredField(localize("alternative_phone"))
         }.onRowValidationChanged { cell, row in
@@ -186,7 +190,8 @@ class ProfileViewController: FormViewController {
             $0.tag = "bank"
             $0.options = banks
             $0.selectorTitle = localize("choose_bank")
-            $0.value = !isDataEmpty("bank") ? data["bank"]! as! Bank : nil
+//            $0.value = !isDataEmpty("bank") ? data["bank"]! as! Bank : nil
+            $0.value = !isDataEmpty("bank") ? data["bank"]! as? Bank : nil
             $0.displayValueFor = { value in
                 return value?.name
             }
@@ -235,7 +240,8 @@ class ProfileViewController: FormViewController {
             $0.title = localize("bank_branch")
             $0.tag = "bank_branch"
             $0.selectorTitle = localize("choose_bank_branch")
-            $0.value = !isDataEmpty("bank_branch") ? data["bank_branch"]! as! BankBranch : nil
+//            $0.value = !isDataEmpty("bank_branch") ? data["bank_branch"]! as! BankBranch : nil
+            $0.value = !isDataEmpty("bank_branch") ? data["bank_branch"]! as? BankBranch : nil
             $0.displayValueFor = { value in
                 return value?.name
             }
@@ -290,7 +296,8 @@ class ProfileViewController: FormViewController {
             $0.title = localize("bank_branch_address")
             $0.tag = "bank_branch_address"
             $0.add(rule: RuleRequired())
-            $0.value = !isDataEmpty("address") ? data["address"]! as! String : nil
+//            $0.value = !isDataEmpty("address") ? data["address"]! as! String : nil
+            $0.value = !isDataEmpty("address") ? data["address"]! as? String : nil
         }.cellUpdate { cell, row in
             cell.titleLabel?.attributedText = self.requiredField(localize("bank_branch_address"))
         }.onRowValidationChanged { cell, row in
@@ -305,7 +312,8 @@ class ProfileViewController: FormViewController {
             row.tag = "bank_type"
             row.options = self.options["bank_type"]
             row.add(rule: RuleRequired())
-            row.value = !isDataEmpty("bank_type") ? data["bank_type"]! as! String : self.options["bank_type"]?.first
+//            row.value = !isDataEmpty("bank_type") ? data["bank_type"]! as! String : self.options["bank_type"]?.first
+            row.value = !isDataEmpty("bank_type") ? data["bank_type"]! as? String : self.options["bank_type"]?.first
         }.cellUpdate { cell, row in
             cell.textLabel!.attributedText = self.requiredField(localize("bank_type"))
         }.onRowValidationChanged { cell, row in
@@ -320,7 +328,8 @@ class ProfileViewController: FormViewController {
             row.tag = "foreign_exchange"
             row.options = self.options["foreign_exchange"]
             row.add(rule: RuleRequired())
-            row.value = !isDataEmpty("foreign_exchange") ? data["foreign_exchange"]! as! String : self.options["foreign_exchange"]?.first
+//            row.value = !isDataEmpty("foreign_exchange") ? data["foreign_exchange"]! as! String : self.options["foreign_exchange"]?.first
+            row.value = !isDataEmpty("foreign_exchange") ? data["foreign_exchange"]! as? String : self.options["foreign_exchange"]?.first
         }.cellUpdate { cell, row in
             cell.textLabel!.attributedText = self.requiredField(localize("foreign_exchange"))
         }.onRowValidationChanged { cell, row in
@@ -335,7 +344,8 @@ class ProfileViewController: FormViewController {
             row.tag = "book"
             row.options = self.options["book"]
             row.add(rule: RuleRequired())
-            row.value = !isDataEmpty("book") ? data["book"]! as! String : self.options["book"]?.first
+//            row.value = !isDataEmpty("book") ? data["book"]! as! String : self.options["book"]?.first
+            row.value = !isDataEmpty("book") ? data["book"]! as? String : self.options["book"]?.first
         }.cellUpdate { cell, row in
             cell.textLabel!.attributedText = self.requiredField(localize("book"))
         }.onRowValidationChanged { cell, row in
@@ -350,7 +360,8 @@ class ProfileViewController: FormViewController {
             row.tag = "sharia"
             row.options = self.options["sharia"]
             row.add(rule: RuleRequired())
-            row.value = !isDataEmpty("sharia") ? data["sharia"]! as! String : self.options["sharia"]?.first
+//            row.value = !isDataEmpty("sharia") ? data["sharia"]! as! String : self.options["sharia"]?.first
+            row.value = !isDataEmpty("sharia") ? data["sharia"]! as? String : self.options["sharia"]?.first
         }.cellUpdate { cell, row in
             cell.textLabel!.attributedText = self.requiredField(localize("sharia"))
         }.onRowValidationChanged { cell, row in
@@ -365,7 +376,8 @@ class ProfileViewController: FormViewController {
             row.tag = "interest_day_count_convertion"
             row.options = self.options["interest_day_count_convertion"]
             row.add(rule: RuleRequired())
-            row.value = !isDataEmpty("interest_day_count_convertion") ? data["interest_day_count_convertion"]! as! String : self.options["interest_day_count_convertion"]?.first
+//            row.value = !isDataEmpty("interest_day_count_convertion") ? data["interest_day_count_convertion"]! as! String : self.options["interest_day_count_convertion"]?.first
+            row.value = !isDataEmpty("interest_day_count_convertion") ? data["interest_day_count_convertion"]! as? String : self.options["interest_day_count_convertion"]?.first
         }.cellUpdate { cell, row in
             cell.textLabel!.attributedText = self.requiredField(localize("interest_day_count_convertion"))
         }.onRowValidationChanged { cell, row in
@@ -380,7 +392,8 @@ class ProfileViewController: FormViewController {
             row.tag = "end_date"
             row.options = self.options["end_date"]
             row.add(rule: RuleRequired())
-            row.value = !isDataEmpty("end_date") ? data["end_date"]! as! String : self.options["end_date"]?.first
+//            row.value = !isDataEmpty("end_date") ? data["end_date"]! as! String : self.options["end_date"]?.first
+            row.value = !isDataEmpty("end_date") ? data["end_date"]! as? String : self.options["end_date"]?.first
         }.cellUpdate { cell, row in
             cell.textLabel!.attributedText = self.requiredField(localize("end_date"))
         }.onRowValidationChanged { cell, row in
@@ -395,7 +408,8 @@ class ProfileViewController: FormViewController {
             row.tag = "return_to_start_date"
             row.options = self.options["return_to_start_date"]
             row.add(rule: RuleRequired())
-            row.value = !isDataEmpty("return_to_start_date") ? data["return_to_start_date"]! as! String : self.options["return_to_start_date"]?.first
+//            row.value = !isDataEmpty("return_to_start_date") ? data["return_to_start_date"]! as! String : self.options["return_to_start_date"]?.first
+            row.value = !isDataEmpty("return_to_start_date") ? data["return_to_start_date"]! as? String : self.options["return_to_start_date"]?.first
         }.cellUpdate { cell, row in
             cell.textLabel!.attributedText = self.requiredField(localize("return_to_start_date"))
         }.onRowValidationChanged { cell, row in
@@ -410,7 +424,8 @@ class ProfileViewController: FormViewController {
             row.tag = "holiday_interest"
             row.options = self.options["holiday_interest"]
             row.add(rule: RuleRequired())
-            row.value = !isDataEmpty("holiday_interest") ? data["holiday_interest"]! as! String : self.options["holiday_interest"]?.first
+//            row.value = !isDataEmpty("holiday_interest") ? data["holiday_interest"]! as! String : self.options["holiday_interest"]?.first
+            row.value = !isDataEmpty("holiday_interest") ? data["holiday_interest"]! as? String : self.options["holiday_interest"]?.first
         }.cellUpdate { cell, row in
             cell.textLabel!.attributedText = self.requiredField(localize("holiday_interest"))
         }.onRowValidationChanged { cell, row in

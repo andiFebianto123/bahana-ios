@@ -116,7 +116,8 @@ class BestRateViewController: FormViewController {
             row.title = localize("breakable_policy")
             row.tag = "idr_breakable_policy"
             row.options = self.options["breakable_policy"]
-            row.value = !isDataEmpty("breakable_policy") ? data["breakable_policy"]! as! String : self.options["breakable_policy"]?.first
+//            row.value = !isDataEmpty("breakable_policy") ? data["breakable_policy"]! as! String : self.options["breakable_policy"]?.first
+            row.value = !isDataEmpty("breakable_policy") ? data["breakable_policy"]! as? String : self.options["breakable_policy"]?.first
             row.add(ruleSet: idrRules)
             row.hidden = isIdrHidden == true ? true : false
         }.cellUpdate { cell, row in
@@ -137,14 +138,16 @@ class BestRateViewController: FormViewController {
         <<< TextAreaRow() {
             $0.title = localize("breakable_policy_notes")
             $0.tag = "idr_breakable_policy_notes"
-            $0.value = !isDataEmpty("breakable_policy_notes") ? data["breakable_policy_notes"]! as! String : nil
+//            $0.value = !isDataEmpty("breakable_policy_notes") ? data["breakable_policy_notes"]! as! String : nil
+            $0.value = !isDataEmpty("breakable_policy_notes") ? data["breakable_policy_notes"]! as? String : nil
             $0.placeholder = localize("breakable_policy_notes")
             $0.hidden = isIdrHidden == true ? true : false
         }
         <<< TextRow() {
             $0.title = localize("account_number")
             $0.tag = "idr_account_number"
-            $0.value = !isDataEmpty("account_number") ? data["account_number"]! as! String : nil
+//            $0.value = !isDataEmpty("account_number") ? data["account_number"]! as! String : nil
+            $0.value = !isDataEmpty("account_number") ? data["account_number"]! as? String : nil
             //$0.placeholder = "Nomor Rekening"
             $0.add(ruleSet: idrRules)
             $0.hidden = isIdrHidden == true ? true : false
@@ -163,7 +166,8 @@ class BestRateViewController: FormViewController {
             $0.title = localize("account_name")
             $0.tag = "idr_account_name"
             //$0.placeholder = "A/n Rekening"
-            $0.value = !isDataEmpty("account_name") ? data["account_name"]! as! String : nil
+//            $0.value = !isDataEmpty("account_name") ? data["account_name"]! as! String : nil
+            $0.value = !isDataEmpty("account_name") ? data["account_name"]! as? String : nil
             $0.add(ruleSet: idrRules)
             $0.hidden = isIdrHidden == true ? true : false
         }.cellUpdate { cell, row in
@@ -183,7 +187,8 @@ class BestRateViewController: FormViewController {
             //$0.placeholder = "Best Rate 1 Bulan (%)"
             //$0.formatter = decimalFormatter
             //$0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("month_rate_1") ? data["month_rate_1"]! as! String : nil
+//            $0.value = !isDataEmpty("month_rate_1") ? data["month_rate_1"]! as! String : nil
+            $0.value = !isDataEmpty("month_rate_1") ? data["month_rate_1"]! as? String : nil
             $0.hidden = isIdrHidden == true ? true : false
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numbersAndPunctuation
@@ -194,7 +199,8 @@ class BestRateViewController: FormViewController {
             //$0.placeholder = "Best Rate 3 Bulan (%)"
             //$0.formatter = decimalFormatter
             //$0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("month_rate_3") ? data["month_rate_3"]! as! String : nil
+//            $0.value = !isDataEmpty("month_rate_3") ? data["month_rate_3"]! as! String : nil
+            $0.value = !isDataEmpty("month_rate_3") ? data["month_rate_3"]! as? String : nil
             $0.hidden = isIdrHidden == true ? true : false
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numbersAndPunctuation
@@ -205,7 +211,8 @@ class BestRateViewController: FormViewController {
             //$0.placeholder = "Best Rate 6 Bulan (%)"
             //$0.formatter = decimalFormatter
             //$0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("month_rate_6") ? data["month_rate_6"]! as! String : nil
+//            $0.value = !isDataEmpty("month_rate_6") ? data["month_rate_6"]! as! String : nil
+            $0.value = !isDataEmpty("month_rate_6") ? data["month_rate_6"]! as? String : nil
             $0.hidden = isIdrHidden == true ? true : false
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numberPad
@@ -215,7 +222,8 @@ class BestRateViewController: FormViewController {
             row.title = localize("breakable_policy")
             row.tag = "usd_breakable_policy"
             row.options = self.options["breakable_policy"]
-            row.value = !isDataEmpty("usd_breakable_policy") ? data["usd_breakable_policy"]! as! String : self.options["breakable_policy"]?.first
+//            row.value = !isDataEmpty("usd_breakable_policy") ? data["usd_breakable_policy"]! as! String : self.options["breakable_policy"]?.first
+            row.value = !isDataEmpty("usd_breakable_policy") ? data["usd_breakable_policy"]! as? String : self.options["breakable_policy"]?.first
             row.add(ruleSet: usdRules)
             row.hidden = isUsdHidden == true ? true : false
         }.cellUpdate { cell, row in
@@ -232,7 +240,8 @@ class BestRateViewController: FormViewController {
         <<< TextAreaRow() {
             $0.title = localize("breakable_policy_notes")
             $0.tag = "usd_breakable_policy_notes"
-            $0.value = !isDataEmpty("usd_breakable_policy_notes") ? data["usd_breakable_policy_notes"]! as! String : nil
+//            $0.value = !isDataEmpty("usd_breakable_policy_notes") ? data["usd_breakable_policy_notes"]! as! String : nil
+            $0.value = !isDataEmpty("usd_breakable_policy_notes") ? data["usd_breakable_policy_notes"]! as? String : nil
             $0.placeholder = localize("breakable_policy_notes")
             $0.hidden = isUsdHidden == true ? true : false
         }
@@ -240,7 +249,8 @@ class BestRateViewController: FormViewController {
             $0.title = localize("account_number")
             $0.tag = "usd_account_number"
             //$0.placeholder = "Nomor Rekening"
-            $0.value = !isDataEmpty("usd_account_number") ? data["usd_account_number"]! as! String : nil
+//            $0.value = !isDataEmpty("usd_account_number") ? data["usd_account_number"]! as! String : nil
+            $0.value = !isDataEmpty("usd_account_number") ? data["usd_account_number"]! as? String : nil
             $0.add(ruleSet: usdRules)
             $0.hidden = isUsdHidden == true ? true : false
         }.cellUpdate { cell, row in
@@ -258,7 +268,8 @@ class BestRateViewController: FormViewController {
             $0.title = localize("account_name")
             $0.tag = "usd_account_name"
             //$0.placeholder = "A/n Rekening"
-            $0.value = !isDataEmpty("usd_account_name") ? data["usd_account_name"]! as! String : nil
+//            $0.value = !isDataEmpty("usd_account_name") ? data["usd_account_name"]! as! String : nil
+            $0.value = !isDataEmpty("usd_account_name") ? data["usd_account_name"]! as? String : nil
             $0.add(ruleSet: usdRules)
             $0.hidden = isUsdHidden == true ? true : false
         }.cellUpdate { cell, row in
@@ -278,7 +289,8 @@ class BestRateViewController: FormViewController {
             //$0.placeholder = "Best Rate 1 Bulan (%)"
             //$0.formatter = decimalFormatter
             //$0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("usd_month_rate_1") ? data["usd_month_rate_1"]! as! String : nil
+//            $0.value = !isDataEmpty("usd_month_rate_1") ? data["usd_month_rate_1"]! as! String : nil
+            $0.value = !isDataEmpty("usd_month_rate_1") ? data["usd_month_rate_1"]! as? String : nil
             $0.hidden = isUsdHidden == true ? true : false
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numbersAndPunctuation
@@ -289,7 +301,8 @@ class BestRateViewController: FormViewController {
             //$0.placeholder = "Best Rate 3 Bulan (%)"
             //$0.formatter = decimalFormatter
             //$0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("usd_month_rate_3") ? data["usd_month_rate_3"]! as! String : nil
+//            $0.value = !isDataEmpty("usd_month_rate_3") ? data["usd_month_rate_3"]! as! String : nil
+            $0.value = !isDataEmpty("usd_month_rate_3") ? data["usd_month_rate_3"]! as? String : nil
             $0.hidden = isUsdHidden == true ? true : false
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numbersAndPunctuation
@@ -300,7 +313,8 @@ class BestRateViewController: FormViewController {
             //$0.placeholder = "Best Rate 6 Bulan (%)"
             //$0.formatter = decimalFormatter
             //$0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("usd_month_rate_6") ? data["usd_month_rate_6"]! as! String : nil
+//            $0.value = !isDataEmpty("usd_month_rate_6") ? data["usd_month_rate_6"]! as! String : nil
+            $0.value = !isDataEmpty("usd_month_rate_6") ? data["usd_month_rate_6"]! as? String : nil
             $0.hidden = isUsdHidden == true ? true : false
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numbersAndPunctuation
@@ -310,7 +324,8 @@ class BestRateViewController: FormViewController {
             row.title = localize("breakable_policy")
             row.tag = "sharia_breakable_policy"
             row.options = self.options["breakable_policy"]
-            row.value = !isDataEmpty("sharia_breakable_policy") ? data["sharia_breakable_policy"]! as! String : self.options["breakable_policy"]?.first
+//            row.value = !isDataEmpty("sharia_breakable_policy") ? data["sharia_breakable_policy"]! as! String : self.options["breakable_policy"]?.first
+            row.value = !isDataEmpty("sharia_breakable_policy") ? data["sharia_breakable_policy"]! as? String : self.options["breakable_policy"]?.first
             row.add(ruleSet: shariaRules)
             row.hidden = isShariaHidden == true ? true : false
         }.cellUpdate { cell, row in
@@ -327,7 +342,8 @@ class BestRateViewController: FormViewController {
         <<< TextAreaRow() {
             $0.title = localize("breakable_policy_notes")
             $0.tag = "sharia_breakable_policy_notes"
-            $0.value = !isDataEmpty("sharia_breakable_policy_notes") ? data["sharia_breakable_policy_notes"]! as! String : nil
+//            $0.value = !isDataEmpty("sharia_breakable_policy_notes") ? data["sharia_breakable_policy_notes"]! as! String : nil
+            $0.value = !isDataEmpty("sharia_breakable_policy_notes") ? data["sharia_breakable_policy_notes"]! as? String : nil
             $0.placeholder = localize("breakable_policy_notes")
             $0.hidden = isShariaHidden == true ? true : false
         }
@@ -335,7 +351,8 @@ class BestRateViewController: FormViewController {
             $0.title = localize("account_number")
             $0.tag = "sharia_account_number"
             //$0.placeholder = "Nomor Rekening"
-            $0.value = !isDataEmpty("sharia_account_number") ? data["sharia_account_number"]! as! String : nil
+//            $0.value = !isDataEmpty("sharia_account_number") ? data["sharia_account_number"]! as! String : nil
+            $0.value = !isDataEmpty("sharia_account_number") ? data["sharia_account_number"]! as? String : nil
             $0.add(ruleSet: shariaRules)
             $0.hidden = isShariaHidden == true ? true : false
         }.cellUpdate { cell, row in
@@ -353,7 +370,8 @@ class BestRateViewController: FormViewController {
             $0.title = localize("account_name")
             $0.tag = "sharia_account_name"
             //$0.placeholder = "A/n Rekening"
-            $0.value = !isDataEmpty("sharia_account_name") ? data["sharia_account_name"]! as! String : nil
+//            $0.value = !isDataEmpty("sharia_account_name") ? data["sharia_account_name"]! as! String : nil
+            $0.value = !isDataEmpty("sharia_account_name") ? data["sharia_account_name"]! as? String : nil
             $0.add(ruleSet: shariaRules)
             $0.hidden = isShariaHidden == true ? true : false
         }.cellUpdate { cell, row in
@@ -373,7 +391,8 @@ class BestRateViewController: FormViewController {
             //$0.placeholder = "Best Rate 1 Bulan (%)"
             //$0.formatter = decimalFormatter
             //$0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("sharia_month_rate_1") ? data["sharia_month_rate_1"]! as! String : nil
+//            $0.value = !isDataEmpty("sharia_month_rate_1") ? data["sharia_month_rate_1"]! as! String : nil
+            $0.value = !isDataEmpty("sharia_month_rate_1") ? data["sharia_month_rate_1"]! as? String : nil
             $0.hidden = isShariaHidden == true ? true : false
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numbersAndPunctuation
@@ -384,7 +403,8 @@ class BestRateViewController: FormViewController {
             //$0.placeholder = "Best Rate 3 Bulan (%)"
             //$0.formatter = decimalFormatter
             //$0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("sharia_month_rate_3") ? data["sharia_month_rate_3"]! as! String : nil
+//            $0.value = !isDataEmpty("sharia_month_rate_3") ? data["sharia_month_rate_3"]! as! String : nil
+            $0.value = !isDataEmpty("sharia_month_rate_3") ? data["sharia_month_rate_3"]! as? String : nil
             $0.hidden = isShariaHidden == true ? true : false
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numbersAndPunctuation
@@ -395,7 +415,8 @@ class BestRateViewController: FormViewController {
             //$0.placeholder = "Best Rate 6 Bulan (%)"
             //$0.formatter = DecimalFormatter()
             //$0.useFormatterDuringInput = true
-            $0.value = !isDataEmpty("sharia_month_rate_6") ? data["sharia_month_rate_6"]! as! String : nil
+//            $0.value = !isDataEmpty("sharia_month_rate_6") ? data["sharia_month_rate_6"]! as! String : nil
+            $0.value = !isDataEmpty("sharia_month_rate_6") ? data["sharia_month_rate_6"]! as? String : nil
             $0.hidden = isShariaHidden == true ? true : false
         }.cellSetup { cell, _ in
             cell.textField.keyboardType = .numbersAndPunctuation

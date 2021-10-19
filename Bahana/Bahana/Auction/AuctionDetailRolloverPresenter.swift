@@ -179,7 +179,9 @@ class AuctionDetailRolloverPresenter {
                         
                         if detail["new_nominal"] != JSON.null {
                             for new_nominal_ in detail["new_nominal"].arrayValue {
-                                if (new_nominal_.intValue != nil) {
+                                // [REVISI WARNING]
+//                                if (new_nominal_.intValue != nil) {
+                                if (new_nominal_ != JSON.null) {
                                     // jika bukan null
                                     new_nominal.append(new_nominal_.intValue)
                                 }else{

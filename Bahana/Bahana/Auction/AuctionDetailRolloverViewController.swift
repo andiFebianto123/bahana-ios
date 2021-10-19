@@ -956,13 +956,66 @@ class AuctionDetailRolloverViewController: UIViewController {
         }
     }
     
+    // [REVISI WARNING]
+//    func validateForm() -> Bool {
+//        if checkUSDorIDR() == 1 {
+//            print("cek field USD")
+//            // jika layout tampil untuk tipe pembayaran USD
+//            if multifundAuction {
+//                if fieldApprovedInterestRateNewDetail.text! == nil ||
+//                   fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
+//               Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
+//                   showAlert("Rate not valid", false)
+//                   return false
+//                } else {
+//                    return true
+//                }
+//            }else{
+//                if fieldApprovedInterestRateNewDetail.text! == nil ||
+//                    fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
+//                Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
+//                    showAlert("Rate not valid", false)
+//                    return false
+//                } else if fieldPrincipalInterestNewDetail.text! == nil || (fieldPrincipalInterestNewDetail.text! != nil && Double(fieldPrincipalInterestNewDetail.text!) == nil) {
+//                    showAlert("principal interest not valid", false)
+//                    return false
+//                }else {
+//                    return true
+//                }
+//            }
+//        }else{
+//            print("cek field IDR")
+//            // jika layout tampil untuk tipe pembayaran IDR
+//            if fieldApprovedInterestRateNewDetail.text! == nil ||
+//                fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
+//            Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
+//                showAlert("Rate not valid", false)
+//                return false
+//            } else {
+//                return true
+//            }
+//        }
+//
+//        /*
+//         if interestRateTextField.text! == nil ||
+//             interestRateTextField.text! != nil && Double(interestRateTextField.text!) == nil ||
+//         Double(interestRateTextField.text!) != nil && Double(interestRateTextField.text!)! < 0.0 || Double(interestRateTextField.text!)! > 99.9 {
+//             showAlert("Rate not valid", false)
+//             return false
+//         } else {
+//             return true
+//         }
+//         */
+//    }
+    
+    // [REVISI WARNING]
     func validateForm() -> Bool {
         if checkUSDorIDR() == 1 {
             print("cek field USD")
             // jika layout tampil untuk tipe pembayaran USD
             if multifundAuction {
-                if fieldApprovedInterestRateNewDetail.text! == nil ||
-                   fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
+                if fieldApprovedInterestRateNewDetail.text == nil ||
+                   fieldApprovedInterestRateNewDetail.text != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
                Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
                    showAlert("Rate not valid", false)
                    return false
@@ -970,12 +1023,12 @@ class AuctionDetailRolloverViewController: UIViewController {
                     return true
                 }
             }else{
-                if fieldApprovedInterestRateNewDetail.text! == nil ||
-                    fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
+                if fieldApprovedInterestRateNewDetail.text == nil ||
+                    fieldApprovedInterestRateNewDetail.text != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
                 Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
                     showAlert("Rate not valid", false)
                     return false
-                } else if fieldPrincipalInterestNewDetail.text! == nil || (fieldPrincipalInterestNewDetail.text! != nil && Double(fieldPrincipalInterestNewDetail.text!) == nil) {
+                } else if fieldPrincipalInterestNewDetail.text == nil || (fieldPrincipalInterestNewDetail.text != nil && Double(fieldPrincipalInterestNewDetail.text!) == nil) {
                     showAlert("principal interest not valid", false)
                     return false
                 }else {
@@ -985,8 +1038,8 @@ class AuctionDetailRolloverViewController: UIViewController {
         }else{
             print("cek field IDR")
             // jika layout tampil untuk tipe pembayaran IDR
-            if fieldApprovedInterestRateNewDetail.text! == nil ||
-                fieldApprovedInterestRateNewDetail.text! != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
+            if fieldApprovedInterestRateNewDetail.text == nil ||
+                fieldApprovedInterestRateNewDetail.text != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
             Double(fieldApprovedInterestRateNewDetail.text!) != nil && Double(fieldApprovedInterestRateNewDetail.text!)! < 0.0 || Double(fieldApprovedInterestRateNewDetail.text!)! > 99.9 {
                 showAlert("Rate not valid", false)
                 return false

@@ -569,18 +569,34 @@ class AuctionCashMovementViewController: UIViewController {
     }
     
     func validateForm() -> Bool {
-        let text: String = viewCustompanelView7.fieldApprovedInterestRate.text!
+//        let text: String = viewCustompanelView7.fieldApprovedInterestRate.text!
+//        if text == nil ||
+//            text != nil && Double(text) == nil ||
+//        Double(text) != nil && Double(text)! < 0.0 || Double(text)! > 99.9 {
+//            showAlert("Rate not valid", false)
+//            return false
+//        }
+        let text: String? = viewCustompanelView7.fieldApprovedInterestRate.text
         if text == nil ||
-            text != nil && Double(text) == nil ||
-        Double(text) != nil && Double(text)! < 0.0 || Double(text)! > 99.9 {
+            text != nil && Double(text!) == nil ||
+        Double(text!) != nil && Double(text!)! < 0.0 || Double(text!)! > 99.9 {
             showAlert("Rate not valid", false)
             return false
         }
         if data.ncm_type == "break" {
-            let text_: String = fieldRateBreakpanelView6.text!
+//            let text_: String = fieldRateBreakpanelView6.text!
+//            if text_ == nil ||
+//                text_ != nil && Double(text_) == nil ||
+//            Double(text_) != nil && Double(text_)! < 0.0 || Double(text_)! > 99.9 {
+//                showAlert("Rate break no valid", false)
+//                return false
+//            } else {
+//                return true
+//            }
+            let text_: String? = fieldRateBreakpanelView6.text
             if text_ == nil ||
-                text_ != nil && Double(text_) == nil ||
-            Double(text_) != nil && Double(text_)! < 0.0 || Double(text_)! > 99.9 {
+                text_ != nil && Double(text_!) == nil ||
+            Double(text_!) != nil && Double(text_!)! < 0.0 || Double(text_!)! > 99.9 {
                 showAlert("Rate break no valid", false)
                 return false
             } else {
