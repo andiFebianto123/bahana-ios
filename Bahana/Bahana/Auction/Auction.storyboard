@@ -3217,6 +3217,9 @@
                                                         <rect key="frame" x="0.0" y="22" width="374" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <action selector="revisonRateChange:" destination="dAM-7d-KTU" eventType="editingChanged" id="WHj-Tc-XKT"/>
+                                                        </connections>
                                                     </textField>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="8Es-Iq-AKb">
                                                         <rect key="frame" x="0.0" y="66" width="374" height="30"/>
@@ -3323,7 +3326,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rFe-Br-cij" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2338" y="-676"/>
+            <point key="canvasLocation" x="2245" y="-740"/>
         </scene>
         <!--Auction Detail Confirmation View Controller-->
         <scene sceneID="qWO-lx-bLk">
@@ -5590,7 +5593,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="KN8-eh-P4W"/>
+        <segue reference="yrJ-fd-iSI"/>
         <segue reference="ZZ7-5h-RVd"/>
     </inferredMetricsTieBreakers>
     <resources>

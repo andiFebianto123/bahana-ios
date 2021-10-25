@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AuctionDetailDirectViewController: UIViewController {
+class AuctionDetailDirectViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
@@ -176,6 +176,11 @@ class AuctionDetailDirectViewController: UIViewController {
         
         refresh()
         
+        revisionRateTextField.attributedPlaceholder = NSAttributedString(string: localize("revision_rate_placeholder"),attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        
+        revisionRateTextField.delegate = self
+        revisionRateTextField.keyboardType = .decimalPad
+                
         // Refresh page
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .refreshAuctionDetail, object: nil)
     }
@@ -222,6 +227,7 @@ class AuctionDetailDirectViewController: UIViewController {
     }
     
     @objc func refresh() {
+        revisionRateChangeCheckTrigger()
         scrollView.isHidden = true
         showLoading(true)
         presenter.getAuction(id)
@@ -276,11 +282,11 @@ class AuctionDetailDirectViewController: UIViewController {
             // ini untuk USD
             investmentTitleLabel.text = localize("investment_usd")
             bilyetTitleLabel.text = localize("bilyet_usd")
-            investmentLabel.text = "USD \(data.investment_range_start)"
+            investmentLabel.text = "USD \(toUsdBio(data.investment_range_start))"
             
             
             for bilyetArr in data.bilyet {
-                bilyet += "\u{2022} USD \(bilyetArr.quantity) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
+                bilyet += "\u{2022} USD \(toUsdBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]\n"
             }
         }else{
             // ini untuk IDR
@@ -391,15 +397,42 @@ class AuctionDetailDirectViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func reviseButtonPressed(_ sender: Any) {
-        if validateForm() {
-            let rate = revisionRateTextField.text != nil ? Double(revisionRateTextField.text!)! : nil
-            
-            confirmationType = "revise_rate"
-            revisionRate = rate != nil ? "\(rate!)" : ""
-            
-            self.performSegue(withIdentifier: "showConfirmation", sender: self)
+    func revisionRateChangeCheckTrigger(){
+        if(revisionRateTextField.text == ""){
+            revisedButton.backgroundColor = .gray
+            confirmButton.backgroundColor = blueColor
+            revisedButton.isEnabled = false
+            confirmButton.isEnabled = true
+        }else{
+            revisedButton.backgroundColor = primaryColor
+            confirmButton.backgroundColor = .gray
+            revisedButton.isEnabled = true
+            confirmButton.isEnabled = false
         }
+    }
+    
+    
+    @IBAction func revisonRateChange(_ sender: Any) {
+        revisionRateChangeCheckTrigger()
+    }
+    
+    
+    @IBAction func reviseButtonPressed(_ sender: Any) {
+//        if validateForm() {
+//            let rate = revisionRateTextField.text != nil ? Double(revisionRateTextField.text!)! : nil
+//
+//            confirmationType = "revise_rate"
+//            revisionRate = rate != nil ? "\(rate!)" : ""
+//
+//            self.performSegue(withIdentifier: "showConfirmation", sender: self)
+//        }
+        // let rate = revisionRateTextField.text != nil ? Double(revisionRateTextField.text!)! : nil
+        let rate = revisionRateTextField.text != nil ? revisionRateTextField.text! : nil
+        
+        confirmationType = "revise_rate"
+        revisionRate = rate != nil ? "\(rate!)" : ""
+        
+        self.performSegue(withIdentifier: "showConfirmation", sender: self)
     }
     
     @IBAction func confirmationButtonPressed(_ sender: Any) {

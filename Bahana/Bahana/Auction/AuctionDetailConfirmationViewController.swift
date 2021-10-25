@@ -179,7 +179,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
                     presenter.reviseAuctionNcm(self.auctionID, self.revisionRate, ncmType: ncmType, rateBreak: self.revisionRateBreak, date: nil)
                 }
             }else{
-                presenter.reviseAuction(self.auctionID, self.revisionRate)
+                presenter.reviseAuction(self.auctionID, self.revisionRate, nil)
             }
         } else {
             presenter.confirm(auctionID, auctionType, true, nil, id)
@@ -228,7 +228,9 @@ class AuctionDetailConfirmationViewController: UIViewController {
                     self.presenter.reviseAuctionNcm(self.auctionID, self.revisionRate, ncmType: self.ncmType, rateBreak: self.revisionRateBreak, date: maturityDate)
                 }
             }else{
-                self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate, self.id)
+                // [REVISI]
+                // self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate, self.id)
+                self.presenter.reviseAuction(self.auctionID, self.revisionRate, maturityDate)
             }
             
         }))

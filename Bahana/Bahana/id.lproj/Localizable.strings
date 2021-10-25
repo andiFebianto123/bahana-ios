@@ -243,6 +243,7 @@
 "new_amount_placeholder" = "Jumlah Baru";
 "maturity_date_ro_placeholder" = "Hanya diisi apabila tanggal jatuh tempo tidak sesuai";
 "principal_interest" = "Pokok + Suku Bunga (USD)";
+"revision_rate_placeholder" = "Rate Revisi";
 /*Penambahan baru*/
 
 "january" = "Jan";

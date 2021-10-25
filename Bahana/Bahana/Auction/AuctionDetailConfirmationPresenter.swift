@@ -59,7 +59,7 @@ class AuctionDetailConfirmationPresenter {
         Alamofire.request(WEB_API_URL + url, method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
             if response.response?.mimeType == "application/json" {
                 let result = JSON.init(parseJSON: response.result.value!)
-                //print(result)
+                print(result)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isConfirmed(true, result["message"].stringValue)
                 } else {
@@ -73,16 +73,22 @@ class AuctionDetailConfirmationPresenter {
     }
     
     
-    func reviseAuction(_ id: Int, _ rate: String?) {
-        var revisionRate: Double?
-        if rate != nil {
-            let dbl = Double(rate!)
-            let dbl_ = dbl!
-            revisionRate = dbl_
-        }
+    func reviseAuction(_ id: Int, _ rate: String?, _ maturityDate: String?) {
+        // [REVISI]
+//        var revisionRate: Double?
+//        if rate != nil {
+//            let dbl = Double(rate!)
+//            let dbl_ = dbl!
+//            revisionRate = dbl_
+//        }
+        // [REVISI]
+//        let parameters: Parameters = [
+//            "revision_rate": revisionRate != nil ? revisionRate! : ""
+//        ]
         
         let parameters: Parameters = [
-            "revision_rate": revisionRate != nil ? revisionRate! : ""
+            "revision_rate": rate != nil ? rate! : "",
+            "request_maturity_date": maturityDate != nil ? maturityDate! : ""
         ]
         
         Alamofire.request(WEB_API_URL + "api/v1/direct-auction/\(id)/revision", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
@@ -92,7 +98,8 @@ class AuctionDetailConfirmationPresenter {
                 if response.response?.statusCode == 200 {
                     self.delegate?.isConfirmed(true, res["message"].stringValue)
                 } else {
-                    self.delegate?.isConfirmed(false, res["message"].stringValue)
+                    let errorMessage = res["errors"]["revision_rate"][0] != JSON.null ? res["errors"]["revision_rate"][0].stringValue : res["message"].stringValue
+                    self.delegate?.isConfirmed(false, errorMessage)
                 }
             } else {
                 print(response)
