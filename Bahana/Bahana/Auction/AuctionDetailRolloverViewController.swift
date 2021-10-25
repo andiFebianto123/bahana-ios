@@ -306,6 +306,9 @@ class AuctionDetailRolloverViewController: UIViewController {
     
     var multifundAuction:Bool = false
     
+    var pageType = ""
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -563,6 +566,9 @@ class AuctionDetailRolloverViewController: UIViewController {
         if backToRoot {
             self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
         } else {
+            if pageType == "auction" {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshTableListAuction"), object: nil, userInfo: nil)
+            }
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -1064,6 +1070,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         let alert = UIAlertController(title: localize("information"), message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
             if isBackToList {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshTableListAuction"), object: nil, userInfo: nil)
                 self.dismiss(animated: true, completion: nil)
             }
         }))

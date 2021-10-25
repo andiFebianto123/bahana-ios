@@ -92,6 +92,8 @@ class AuctionDetailNormalViewController: UIViewController {
     
     @IBOutlet weak var bidStackView2: UIStackView!
     
+    var pageType = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -239,6 +241,10 @@ class AuctionDetailNormalViewController: UIViewController {
                 destinationVC.id = id
                 destinationVC.bidId = confirmationID
             }
+        }else if (segue.identifier == "backAuctionList"){
+            if let destinationVC = segue.destination as? AuctionListViewController {
+                destinationVC.pageType = "auction"
+            }
         }
     }
     
@@ -259,6 +265,9 @@ class AuctionDetailNormalViewController: UIViewController {
         if backToRoot {
             self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
         } else {
+            if pageType == "auction" {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshTableListAuction"), object: nil, userInfo: nil)
+            }
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -507,7 +516,11 @@ class AuctionDetailNormalViewController: UIViewController {
             }else{
                 if dt.is_winner == "yes" {
                     if dt.is_accepted == "yes" {
-                        status.text = "\(localize("win")) (\(localize("accepted")))"
+                        if(dt.is_request_accepted == 0){
+                            status.text = "\(localize("win")) (\(localize("pending")) - Admin)"
+                        }else{
+                            status.text = "\(localize("win")) (\(localize("accepted")))"
+                        }
                     } else if dt.is_accepted == "pending" {
                         status.text = "\(localize("win")) (\(localize("pending")))"
                     } else {
@@ -639,7 +652,7 @@ class AuctionDetailNormalViewController: UIViewController {
                 
                 let investment = UILabel()
                 if data.fund_type == "USD" {
-                    investment.text = "USD \(dt.used_investment_value)"
+                    investment.text = "USD \(toUsdBio(dt.used_investment_value))"
                     investmentTitle.text = localize("investment_usd")
                 }else{
                     investment.text = "IDR \(toIdrBio(dt.used_investment_value))"
@@ -669,7 +682,7 @@ class AuctionDetailNormalViewController: UIViewController {
                 for (idx, bilyetArr) in dt.bilyet.enumerated() {
                     if data.fund_type == "USD" {
                         // untuk perhitungan bilyet USD
-                        bilyetStr += "\u{2022} USD \(bilyetArr.quantity) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]"
+                        bilyetStr += "\u{2022} USD \(toUsdBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]"
                     }else{
                         // untuk perhitungan bilyet IDR
                         bilyetStr += "\u{2022} IDR \(toIdrBio(bilyetArr.quantity)) [\(convertDateToString(convertStringToDatetime(bilyetArr.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(bilyetArr.maturity_date)!)!)]"
@@ -679,7 +692,7 @@ class AuctionDetailNormalViewController: UIViewController {
                         bilyetStr += "\n"
                     }
                 }
-                print("hitungan bilyet : \(bilyetStr)")
+                // print("hitungan bilyet : \(bilyetStr)")
                 
                 let bilyet = UILabel()
                 bilyet.text = bilyetStr
@@ -690,7 +703,7 @@ class AuctionDetailNormalViewController: UIViewController {
                 bilyetView.addSubview(bilyet)
                 
                 rateViewHeight += bilyetHeight + spacing
-                
+                                
                 NSLayoutConstraint.activate([
                     investmentTitle.leadingAnchor.constraint(equalTo: investmentView.leadingAnchor, constant: 0),
                     investmentTitle.topAnchor.constraint(equalTo: investmentView.topAnchor, constant: 0),
@@ -733,7 +746,7 @@ class AuctionDetailNormalViewController: UIViewController {
                     ])
                     
                     rateViewHeight += confirmButtonHeight + spacing
-                    print("Jalan disini")
+//                    print("Jalan di Nomor 1")
                     
                 }else{
                     if (self.data.view == 0 || self.data.view == 1) && (dt.is_accepted.lowercased() == "yes" ||  dt.is_accepted.lowercased() == "yes(with decline)" || dt.is_accepted.lowercased() == "yes(with pending)") && (self.multifoundAuction == true) && (dt.is_requested == 0) {
@@ -822,8 +835,11 @@ class AuctionDetailNormalViewController: UIViewController {
                         NSLayoutConstraint.activate([
                             confirmButton.heightAnchor.constraint(equalToConstant: confirmButtonHeight)
                         ])
+//                        print("Jalan di Nomor 2")
+                        confirmButton.isHidden = true
                         
-                        rateViewHeight += confirmButtonHeight + spacing
+                        // [REVISI]
+                        // rateViewHeight += confirmButtonHeight + spacing
                     }
 //                    let confirmButton = UIButton()
 //                    confirmButton.tag = idx
@@ -1338,11 +1354,20 @@ class AuctionDetailNormalViewController: UIViewController {
         let alert = UIAlertController(title: localize("information"), message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
             if isBackToList {
-                self.dismiss(animated: true, completion: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshTableListAuction"), object: nil, userInfo: nil)
             }
         }))
         self.present(alert, animated: true, completion: nil)
     }
+    
+    @IBAction func cobaCoba(_ sender: Any) {
+        // self.dismiss(animated: true, completion: nil)
+//        self.performSegue(withIdentifier: "backAuctionList", sender: self)
+        NotificationCenter.default.post(name: .refreshAuctionDetail, object: nil, userInfo: nil)
+        self.dismiss(animated: true, completion: nil)
+
+    }
+    
 }
 
 extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
@@ -1387,6 +1412,7 @@ extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
         let loginViewController : UIViewController = authStoryboard.instantiateViewController(withIdentifier: "Login") as UIViewController
         self.present(loginViewController, animated: true, completion: nil)
     }
+    
 }
 
 extension AuctionDetailNormalViewController: UITextFieldDelegate {
@@ -1416,6 +1442,7 @@ extension AuctionDetailNormalViewController: UITextFieldDelegate {
             }
         }
     }
+    
 }
 
 extension AuctionDetailNormalViewController: AuctionBidStackDelegate {

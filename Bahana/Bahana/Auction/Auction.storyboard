@@ -3872,7 +3872,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RpQ-lH-w5U" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2337.68115942029" y="-1359.375"/>
+            <point key="canvasLocation" x="2338" y="-1487"/>
         </scene>
         <!--Auction Normal Interest Rate View Controller-->
         <scene sceneID="y1f-YY-iVQ">
@@ -5590,7 +5590,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="TFw-F8-0Xn"/>
+        <segue reference="KN8-eh-P4W"/>
         <segue reference="ZZ7-5h-RVd"/>
     </inferredMetricsTieBreakers>
     <resources>

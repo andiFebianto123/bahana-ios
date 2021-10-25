@@ -45,6 +45,8 @@ struct Bid {
     var period: String
     var is_requested: Int?
     var investment_value: Double?
+    var is_request_accepted: Int? // --> [REVISI]
+    var request_maturity_date: String? // --> [REVISI]
 }
 
 struct DefaultRate {

@@ -136,12 +136,14 @@ class AuctionListViewController: UIViewController {
         presenter = AuctionListPresenter(delegate: self)
                 
         NotificationCenter.default.addObserver(self, selector: #selector(languageChanged), name: .languageChanged, object: nil)
-        getOpenRefresh()
+        NotificationCenter.default.addObserver(self, selector: #selector(getOpenRefresh), name: NSNotification.Name(rawValue: "RefreshTableListAuction"), object: nil)
+         getOpenRefresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavigationItems()
+        // [REVISI]
 //        showLoading(true)
 //        // Sementara dibuat seperti ini dulu
 //        if pageType == "history" {
@@ -166,29 +168,40 @@ class AuctionListViewController: UIViewController {
             if let destinationVC = segue.destination as? AuctionDetailNormalViewController {
                 destinationVC.id = auctionID
                 destinationVC.multifoundAuction = multifoundAuction
+                destinationVC.pageType = self.pageType
             }
         } else if segue.identifier == "showAuctionDetailDirect" {
             if let destinationVC = segue.destination as? AuctionDetailDirectViewController {
                 destinationVC.id = auctionID
+                destinationVC.pageType = self.pageType
+
             }
         } else if segue.identifier == "showAuctionDetailBreak" {
             if let destinationVC = segue.destination as? AuctionDetailBreakViewController {
                 destinationVC.id = auctionID
+                destinationVC.pageType = self.pageType
+
             }
         } else if segue.identifier == "showAuctionDetailRollover" {
             if let destinationVC = segue.destination as? AuctionDetailRolloverViewController {
                 destinationVC.id = auctionID
                 destinationVC.multifundAuction = multifoundAuction
+                destinationVC.pageType = self.pageType
+
             }
         } else if segue.identifier == "showAuctionDetailMature" {
            if let destinationVC = segue.destination as? AuctionDetailMatureViewController {
                destinationVC.id = auctionID
                destinationVC.multifundAuction = multifoundAuction
+            destinationVC.pageType = self.pageType
+
            }
         } else if segue.identifier == "showAuctionNoCashMovement" {
             if let destinationVC = segue.destination as? AuctionCashMovementViewController {
                 destinationVC.id = auctionID
                 destinationVC.contentType = ncm_type
+                destinationVC.pageType = self.pageType
+
             }
         }
     }
@@ -282,9 +295,13 @@ class AuctionListViewController: UIViewController {
         self.getData(lastId: nil, lastDate: nil, lastType: nil)
     }
     
-    func getOpenRefresh(){
+    @objc func getOpenRefresh(){
+        print("Refreshing : true")
+        loadFinished = false
+        loadFailed = false
+        showLoading(true)
         page = 1
-        self.data.removeAll()
+        data = [Auction]()
         tableView.reloadData()
         self.getData(lastId: nil, lastDate: nil, lastType: nil)
     }
@@ -459,6 +476,7 @@ extension AuctionListViewController: AuctionListDelegate {
     }
     
     func setData(_ data: [Auction], _ page: Int) {
+        print(data)
         loadFailed = false
         tableView.backgroundView = UIView()
         if data.count > 0 && self.page == page {

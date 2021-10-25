@@ -9,6 +9,7 @@
 import Foundation
 
 struct Bilyet {
+    var bidder_id: Int?
     var quantity: Double
     var issue_date: String
     var maturity_date: String

@@ -126,6 +126,9 @@ class AuctionCashMovementViewController: UIViewController {
     var backToRoot = false
     var datePicker = UIDatePicker()
     
+    var pageType = ""
+
+    
     func setStylePanelViewToNCMAUCTION(){
         let titleFont = UIFont.systemFont(ofSize: 11)
         _ = UIFont.boldSystemFont(ofSize: 12)
@@ -343,6 +346,9 @@ class AuctionCashMovementViewController: UIViewController {
         if backToRoot {
         self.presentingViewController?.presentingViewController!.dismiss(animated: true, completion: nil)
         } else {
+            if pageType == "auction" {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshTableListAuction"), object: nil, userInfo: nil)
+            }
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -426,6 +432,7 @@ class AuctionCashMovementViewController: UIViewController {
         let alert = UIAlertController(title: localize("information"), message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
             if isBackToList {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshTableListAuction"), object: nil, userInfo: nil)
                 self.dismiss(animated: true, completion: nil)
             }
         }))

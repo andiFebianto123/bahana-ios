@@ -86,10 +86,17 @@ class AuctionDetailNormalPresenter {
                         let interest_rate_sharia = bid["interest_rate_syariah"] != JSON.null ? bid["interest_rate_syariah"].doubleValue : nil
                         let chosen_rate = bid["choosen_rate"] != JSON.null ? bid["choosen_rate"].stringValue : nil
                         let investment_value = bid["investment_value"] != JSON.null ? bid["investment_value"].doubleValue : nil
+                        let is_request_accepted = bid["is_request_accepted"] != JSON.null ? bid["is_request_accepted"].intValue : nil
+                        let request_maturity_date = bid["request_maturity_date"] != JSON.null ? bid["request_maturity_date"].stringValue : nil
                         
                         var bilyets = [Bilyet]()
                         for bilyet in bid["bilyet"].arrayValue {
-                            bilyets.append(Bilyet(quantity: bilyet["quantity"].doubleValue, issue_date: bilyet["issue_date"].stringValue, maturity_date: bilyet["maturity_date"].stringValue))
+                            let bidder_id = bilyet["bidder_id"] != JSON.null ? bilyet["bidder_id"].intValue : nil
+                            bilyets.append(Bilyet(
+                                            bidder_id:bidder_id,
+                                            quantity: bilyet["quantity"].doubleValue,
+                                            issue_date: bilyet["issue_date"].stringValue,
+                                            maturity_date: bilyet["maturity_date"].stringValue))
                         }
                         
                         var is_requested:Int? = nil
@@ -97,7 +104,7 @@ class AuctionDetailNormalPresenter {
                             is_requested = bid["is_requested"].intValue
                         }
                         
-                        bids.append(Bid(id: bid["id"].intValue, auction_header_id: bid["auction_header_id"].intValue, is_accepted: bid["is_accepted"].stringValue, is_winner: bid["is_winner"].stringValue, interest_rate_idr: interest_rate_idr, interest_rate_usd: interest_rate_usd, interest_rate_sharia: interest_rate_sharia, used_investment_value: bid["used_investment_value"].doubleValue, bilyet: bilyets, chosen_rate: chosen_rate, period: bid["period"].stringValue, is_requested: is_requested, investment_value: investment_value))
+                        bids.append(Bid(id: bid["id"].intValue, auction_header_id: bid["auction_header_id"].intValue, is_accepted: bid["is_accepted"].stringValue, is_winner: bid["is_winner"].stringValue, interest_rate_idr: interest_rate_idr, interest_rate_usd: interest_rate_usd, interest_rate_sharia: interest_rate_sharia, used_investment_value: bid["used_investment_value"].doubleValue, bilyet: bilyets, chosen_rate: chosen_rate, period: bid["period"].stringValue, is_requested: is_requested, investment_value: investment_value, is_request_accepted: is_request_accepted, request_maturity_date: request_maturity_date))
                     }
                     
                     var details = [Detail]()
