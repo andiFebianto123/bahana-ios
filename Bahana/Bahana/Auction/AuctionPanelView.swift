@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AuctionPanelView: UIView {
+class AuctionPanelView: UIView, UITextFieldDelegate {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var viewBody: UIView!
@@ -94,6 +94,8 @@ class AuctionPanelView: UIView {
         }
     }
     func setContent(){
+        fieldApprovedInterestRate.delegate = self
+        fieldApprovedInterestRate.keyboardType = .decimalPad
         if self.type == "rollover" {
             // untuk rollover
             

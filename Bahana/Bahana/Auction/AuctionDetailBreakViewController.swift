@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class AuctionDetailBreakViewController: UIViewController {
+class AuctionDetailBreakViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
@@ -335,7 +335,10 @@ class AuctionDetailBreakViewController: UIViewController {
         confirmButton.layer.cornerRadius = 3
         
         presenter = AuctionDetailBreakPresenter(delegate: self)
-        
+        rateBreakFieldText.delegate = self
+        rateBreakFieldText.keyboardType = .decimalPad
+        breakRateTextField.delegate = self
+        breakRateTextField.keyboardType = .decimalPad
         refresh()
         // Refresh page
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .refreshAuctionDetail, object: nil)

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AuctionCashMovementViewController: UIViewController {
+class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var statusViewWidth: NSLayoutConstraint!
@@ -297,6 +297,8 @@ class AuctionCashMovementViewController: UIViewController {
         viewCustompanelView7.statusTenorChanged.isHidden = true // sembunyikan status changed pada tenor
         
         presenter = AuctionDetailNoCashMovementPresenter(delegate:self)
+        fieldRateBreakpanelView6.delegate = self
+        fieldRateBreakpanelView6.keyboardType = .decimalPad
         refresh()
         
         // Refresh page

@@ -30,8 +30,8 @@
             filePath = "Bahana/Auction/AuctionDetailRolloverViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "646"
-            endingLineNumber = "646"
+            startingLineNumber = "652"
+            endingLineNumber = "652"
             landmarkName = "actionChangeMatureDateAndInterestRatePressed(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,10 +46,10 @@
             filePath = "Bahana/Auction/AuctionDetailRolloverViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "701"
-            endingLineNumber = "701"
-            landmarkName = "actionChangeMatureDateAndInterestRatePressed(_:)"
-            landmarkType = "7">
+            startingLineNumber = "707"
+            endingLineNumber = "707"
+            landmarkName = "AuctionDetailRolloverViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -62,8 +62,8 @@
             filePath = "Bahana/Auction/AuctionDetailRolloverViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "812"
-            endingLineNumber = "812"
+            startingLineNumber = "818"
+            endingLineNumber = "818"
             landmarkName = "setRateAndUpdateWinnerDetail(approved:)"
             landmarkType = "7">
          </BreakpointContent>

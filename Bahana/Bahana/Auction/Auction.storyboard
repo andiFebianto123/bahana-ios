@@ -3326,7 +3326,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rFe-Br-cij" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2245" y="-740"/>
+            <point key="canvasLocation" x="2204" y="-798"/>
         </scene>
         <!--Auction Detail Confirmation View Controller-->
         <scene sceneID="qWO-lx-bLk">
@@ -5593,7 +5593,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="yrJ-fd-iSI"/>
+        <segue reference="ZQQ-yz-vJ9"/>
         <segue reference="ZZ7-5h-RVd"/>
     </inferredMetricsTieBreakers>
     <resources>

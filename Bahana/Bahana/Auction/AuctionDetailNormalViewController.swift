@@ -19,7 +19,7 @@ struct InterestRate {
     var isHidden: Bool
 }
 
-class AuctionDetailNormalViewController: UIViewController {
+class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
@@ -1069,6 +1069,9 @@ class AuctionDetailNormalViewController: UIViewController {
             idrInterestRate!.borderStyle = .roundedRect
             idrInterestRate!.keyboardType = .numbersAndPunctuation
             idrInterestRate!.font = contentFont
+            // [REVISI]
+            idrInterestRate!.delegate = self
+            idrInterestRate!.keyboardType = .decimalPad
             let idrInterestRateHeight = fieldHeight
             idrInterestRate!.translatesAutoresizingMaskIntoConstraints = false
             idrRateView.addSubview(idrInterestRate!)
@@ -1129,6 +1132,9 @@ class AuctionDetailNormalViewController: UIViewController {
             usdInterestRate!.borderStyle = .roundedRect
             usdInterestRate!.keyboardType = .numbersAndPunctuation
             usdInterestRate!.font = contentFont
+            // [REVISI]
+            usdInterestRate!.delegate = self
+            usdInterestRate!.keyboardType = .decimalPad
             let usdInterestRateHeight = fieldHeight
             usdInterestRate!.translatesAutoresizingMaskIntoConstraints = false
             usdRateView.addSubview(usdInterestRate!)
@@ -1186,9 +1192,13 @@ class AuctionDetailNormalViewController: UIViewController {
             
             // Field content
             shariaInterestRate = UITextField()
+            
             shariaInterestRate!.borderStyle = .roundedRect
             shariaInterestRate!.keyboardType = .numbersAndPunctuation
             shariaInterestRate!.font = contentFont
+            // [REVISI]
+            shariaInterestRate!.delegate = self
+            shariaInterestRate!.keyboardType = .decimalPad
             let shariaInterestRateHeight = fieldHeight
             shariaInterestRate!.translatesAutoresizingMaskIntoConstraints = false
             shariaRateView.addSubview(shariaInterestRate!)
@@ -1355,6 +1365,7 @@ class AuctionDetailNormalViewController: UIViewController {
         alert.addAction(UIAlertAction(title: localize("ok"), style: .default, handler: { action in
             if isBackToList {
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RefreshTableListAuction"), object: nil, userInfo: nil)
+                self.dismiss(animated: true, completion: nil)
             }
         }))
         self.present(alert, animated: true, completion: nil)
@@ -1415,35 +1426,36 @@ extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
     
 }
 
-extension AuctionDetailNormalViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
-
-        let components = string.components(separatedBy: inverseSet)
-
-        let filtered = components.joined(separator: "")
-
-        if filtered == string {
-            return true
-        } else {
-            if string == Locale.current.decimalSeparator {
-                let countdots = textField.text!.components(separatedBy: ".").count - 1
-                if countdots == 0 {
-                    return true
-                }else{
-                    if countdots > 0 && string == Locale.current.decimalSeparator {
-                        return false
-                    } else {
-                        return true
-                    }
-                }
-            }else{
-                return false
-            }
-        }
-    }
-    
-}
+// [REVISI]
+//extension AuctionDetailNormalViewController: UITextFieldDelegate {
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
+//
+//        let components = string.components(separatedBy: inverseSet)
+//
+//        let filtered = components.joined(separator: "")
+//
+//        if filtered == string {
+//            return true
+//        } else {
+//            if string == Locale.current.decimalSeparator {
+//                let countdots = textField.text!.components(separatedBy: ".").count - 1
+//                if countdots == 0 {
+//                    return true
+//                }else{
+//                    if countdots > 0 && string == Locale.current.decimalSeparator {
+//                        return false
+//                    } else {
+//                        return true
+//                    }
+//                }
+//            }else{
+//                return false
+//            }
+//        }
+//    }
+//
+//}
 
 extension AuctionDetailNormalViewController: AuctionBidStackDelegate {
     

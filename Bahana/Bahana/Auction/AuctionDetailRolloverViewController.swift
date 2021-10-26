@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AuctionDetailRolloverViewController: UIViewController {
+class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
@@ -449,6 +449,12 @@ class AuctionDetailRolloverViewController: UIViewController {
         
         presenter = AuctionDetailRolloverPresenter(delegate: self)
         
+        fieldApprovedInterestRateNewDetail.delegate = self
+        fieldApprovedInterestRateNewDetail.keyboardType = .decimalPad
+        fieldPrincipalInterestNewDetail.delegate = self
+        fieldPrincipalInterestNewDetail.keyboardType = .decimalPad
+        interestRateTextField.delegate = self
+        interestRateTextField.keyboardType = .decimalPad
         refresh()
         
         // Refresh page
