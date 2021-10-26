@@ -230,7 +230,8 @@ class AuctionDetailConfirmationViewController: UIViewController {
             }else{
                 // [REVISI]
                 // self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate, self.id)
-                self.presenter.reviseAuction(self.auctionID, self.revisionRate, maturityDate)
+                // self.presenter.reviseAuction(self.auctionID, self.revisionRate, maturityDate)
+                self.presenter.reviseAuction(self.auctionID, nil, maturityDate)
             }
             
         }))

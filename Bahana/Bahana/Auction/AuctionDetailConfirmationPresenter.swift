@@ -86,10 +86,19 @@ class AuctionDetailConfirmationPresenter {
 //            "revision_rate": revisionRate != nil ? revisionRate! : ""
 //        ]
         
-        let parameters: Parameters = [
-            "revision_rate": rate != nil ? rate! : "",
-            "request_maturity_date": maturityDate != nil ? maturityDate! : ""
-        ]
+        var parameters : Parameters = [:]
+        
+        if rate != nil {
+            parameters = [
+                "revision_rate": rate != nil ? rate! : "",
+                "request_maturity_date": maturityDate != nil ? maturityDate! : ""
+            ]
+        }else{
+            parameters = [
+                "request_maturity_date": maturityDate != nil ? maturityDate! : ""
+            ]
+        }
+        
         
         Alamofire.request(WEB_API_URL + "api/v1/direct-auction/\(id)/revision", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
             if response.response?.mimeType == "application/json" {
