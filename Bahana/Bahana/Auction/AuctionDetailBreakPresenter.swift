@@ -104,10 +104,10 @@ class AuctionDetailBreakPresenter {
                     self.delegate?.isPosted(true, res["message"].stringValue)
                 } else {
                     self.delegate?.isPosted(false, res["message"].stringValue)
-                    print("kembalian tidak valid")
+//                    print("kembalian tidak valid")
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.getDataFail(nil)
             }
         }

@@ -48,7 +48,7 @@ class LoginPresenter {
                     self.delegate?.isLoginSuccess(false, result["message"].stringValue)
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.isLoginSuccess(false, localize("information"))
             }
         }

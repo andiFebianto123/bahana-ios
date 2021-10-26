@@ -159,7 +159,7 @@ class AuctionDetailNormalPresenter {
                     self.delegate?.isPosted(false, res["message"].stringValue)
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.getDataFail(nil)
             }
         }
@@ -177,7 +177,7 @@ class AuctionDetailNormalPresenter {
                     self.delegate?.isPosted(false, res["message"].stringValue)
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.getDataFail(nil)
             }
         }

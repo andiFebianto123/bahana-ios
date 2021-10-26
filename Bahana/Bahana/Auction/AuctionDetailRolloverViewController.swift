@@ -625,12 +625,12 @@ class AuctionDetailRolloverViewController: UIViewController {
                 self.showAlert("Please re-check new principal + interest, our calculation show \(pembulatanSelisihNilaiPokok)%", false)
                 checkCaseRollover = true
             }else{
-                print("Langsung approve setelah warning")
+//                print("Langsung approve setelah warning")
                 return true
             }
             
         }else{
-            print("Langsung approve")
+//            print("Langsung approve")
             return true
         }
        return false
@@ -664,7 +664,7 @@ class AuctionDetailRolloverViewController: UIViewController {
                         let principalInterest = Double(fieldPrincipalInterestNewDetail.text!)!
                         if date == newDate {
                             // jika tidak ada perubahan tanggal
-                            print("Mulai simpan")
+//                            print("Mulai simpan")
                             presenter.saveAuctionForUSD(id, rate: rate, tgl: nil, new_nominal: principalInterest)
                         }else{
                             // jika ada perubahan tanggal
@@ -741,7 +741,7 @@ class AuctionDetailRolloverViewController: UIViewController {
         noteLabel.text = data.notes
         
         // Action
-        print("aku ada di \(data.view)")
+//        print("aku ada di \(data.view)")
         if data.view == 0 {
             // layout akan menampilkan informasi detail
             self.setContentPreviousDetailAndNewDetail()
@@ -1017,7 +1017,7 @@ class AuctionDetailRolloverViewController: UIViewController {
     // [REVISI WARNING]
     func validateForm() -> Bool {
         if checkUSDorIDR() == 1 {
-            print("cek field USD")
+//            print("cek field USD")
             // jika layout tampil untuk tipe pembayaran USD
             if multifundAuction {
                 if fieldApprovedInterestRateNewDetail.text == nil ||
@@ -1042,7 +1042,7 @@ class AuctionDetailRolloverViewController: UIViewController {
                 }
             }
         }else{
-            print("cek field IDR")
+//            print("cek field IDR")
             // jika layout tampil untuk tipe pembayaran IDR
             if fieldApprovedInterestRateNewDetail.text == nil ||
                 fieldApprovedInterestRateNewDetail.text != nil && Double(fieldApprovedInterestRateNewDetail.text!) == nil ||
@@ -1102,7 +1102,7 @@ extension AuctionDetailRolloverViewController: AuctionDetailRolloverDelegate {
     }
     
     func setDataWithMultifund(_ data: AuctionDetailRolloverMultifund){
-        print("ID : \(self.id)")
+//        print("ID : \(self.id)")
         self.dataMultifund = data
         auctionWinnerDetail.details = data.details
         self.setContentMultifund()

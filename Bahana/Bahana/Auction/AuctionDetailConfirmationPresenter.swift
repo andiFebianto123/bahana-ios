@@ -59,14 +59,14 @@ class AuctionDetailConfirmationPresenter {
         Alamofire.request(WEB_API_URL + url, method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
             if response.response?.mimeType == "application/json" {
                 let result = JSON.init(parseJSON: response.result.value!)
-                print(result)
+//                print(result)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isConfirmed(true, result["message"].stringValue)
                 } else {
                     self.delegate?.isConfirmed(false, result["message"].stringValue)
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.setDataFail()
             }
         }
@@ -94,7 +94,7 @@ class AuctionDetailConfirmationPresenter {
         Alamofire.request(WEB_API_URL + "api/v1/direct-auction/\(id)/revision", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
             if response.response?.mimeType == "application/json" {
                 let res = JSON.init(parseJSON: response.result.value!)
-                print(res)
+//                print(res)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isConfirmed(true, res["message"].stringValue)
                 } else {
@@ -102,7 +102,7 @@ class AuctionDetailConfirmationPresenter {
                     self.delegate?.isConfirmed(false, errorMessage)
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.setDataFail()
             }
         }
@@ -123,18 +123,18 @@ class AuctionDetailConfirmationPresenter {
         Alamofire.request(WEB_API_URL + "api/v1/no-cash-movement/\(id)/revision", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
                 if response.response?.mimeType == "application/json" {
                     let res = JSON.init(parseJSON: response.result.value!)
-                    print(res)
+//                    print(res)
                     if response.response?.statusCode == 200 {
                         self.delegate?.isConfirmed(true, res["message"].stringValue)
                     } else {
                         self.delegate?.isConfirmed(false, res["message"].stringValue)
                     }
                 } else {
-                    print(response)
+//                    print(response)
                     self.delegate?.setDataFail()
                 }
             }
-            print("\(parameters)")
+//            print("\(parameters)")
         //
     }
 }

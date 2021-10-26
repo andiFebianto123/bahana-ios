@@ -83,14 +83,14 @@ class RegisterPresenter {
         Alamofire.request(WEB_API_URL + "api/v1/\(url)", method: .post, parameters: parameters, headers: getHeaders()).responseString { response in
             if response.response?.mimeType == "application/json" {
                 let result = JSON.init(parseJSON: response.result.value!)
-                print(result)
+//                print(result)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isRegisterSuccess(true, result["message"].stringValue)
                 } else {
                     self.delegate?.isRegisterSuccess(false, result["message"].stringValue)
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.isRegisterSuccess(false, "")
             }
         }

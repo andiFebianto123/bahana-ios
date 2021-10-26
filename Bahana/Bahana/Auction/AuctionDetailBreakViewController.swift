@@ -427,9 +427,9 @@ class AuctionDetailBreakViewController: UIViewController {
         
         notesLabel.text = data.notes != "" ? data.notes : "-"
         
-        print("===EDIT===")
-        print("saya di : \(data.view)")
-        print("===EDIT===")
+//        print("===EDIT===")
+//        print("saya di : \(data.view)")
+//        print("===EDIT===")
         
         // Action
         if data.view == 0 {
@@ -686,7 +686,7 @@ struct Kirim {
             break
         }
         url += "?lang=\(lang)"
-        print(url)
+//        print(url)
         
         Alamofire.request(WEB_API_URL + url, method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
             if response.response?.mimeType == "application/json" {
@@ -702,7 +702,7 @@ struct Kirim {
                     self.action.confirmButton.setTitle(localize("confirm"), for: .normal)
                 }
             } else {
-                print(response)
+//                print(response)
                 self.action.setDataFail()
             }
         } // end alamofire
