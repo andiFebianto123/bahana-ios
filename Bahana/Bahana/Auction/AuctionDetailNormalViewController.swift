@@ -985,6 +985,8 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
             tenorField!.borderStyle = .roundedRect
             tenorField!.keyboardType = .numbersAndPunctuation
             tenorField!.font = contentFont
+            tenorField!.delegate = self
+            tenorField!.keyboardType = .decimalPad
             let tenorFieldHeight = fieldHeight
             tenorField!.translatesAutoresizingMaskIntoConstraints = false
             tenorView.addSubview(tenorField!)
