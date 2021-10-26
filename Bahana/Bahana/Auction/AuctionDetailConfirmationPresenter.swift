@@ -89,14 +89,11 @@ class AuctionDetailConfirmationPresenter {
         var parameters : Parameters = [:]
         
         if rate != nil {
-            parameters = [
-                "revision_rate": rate != nil ? rate! : "",
-                "request_maturity_date": maturityDate != nil ? maturityDate! : ""
-            ]
-        }else{
-            parameters = [
-                "request_maturity_date": maturityDate != nil ? maturityDate! : ""
-            ]
+            parameters["revision_rate"] = rate != nil ? rate! : ""
+        }
+        
+        if maturityDate != nil {
+            parameters["request_maturity_date"] = maturityDate != nil ? maturityDate! : ""
         }
         
         
