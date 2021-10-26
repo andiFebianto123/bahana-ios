@@ -42,7 +42,7 @@ class ForgotPasswordPresenter {
                     self.delegate?.isSubmitSuccess(false, result["message"].stringValue)
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.isSubmitSuccess(false, localize("information"))
             }
         }

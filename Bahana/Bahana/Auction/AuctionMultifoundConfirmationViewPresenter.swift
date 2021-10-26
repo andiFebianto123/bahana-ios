@@ -73,7 +73,7 @@ class AuctionMultifoundConfirmationViewPresenter {
                 idx += 1
             }
         }
-        print(parameters)
+//        print(parameters)
         // Lang
         var lang = String()
         switch getLocalData(key: "language") {
@@ -96,7 +96,7 @@ class AuctionMultifoundConfirmationViewPresenter {
                     self.delegate?.isConfirmed(false, result["message"].stringValue)
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.getDataFail(nil)
             }
         }

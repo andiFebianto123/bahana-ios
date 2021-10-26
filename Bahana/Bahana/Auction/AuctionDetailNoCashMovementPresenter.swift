@@ -125,7 +125,7 @@ class AuctionDetailNoCashMovementPresenter{
                         self.delegate?.isConfirmed(false, res["message"].stringValue)
                     }
                 } else {
-                    print(response)
+//                    print(response)
                     self.delegate?.setDataFail()
                 }
             }

@@ -296,7 +296,7 @@ class AuctionListViewController: UIViewController {
     }
     
     @objc func getOpenRefresh(){
-        print("Refreshing : true")
+//        print("Refreshing : true")
         loadFinished = false
         loadFailed = false
         showLoading(true)
@@ -476,7 +476,7 @@ extension AuctionListViewController: AuctionListDelegate {
     }
     
     func setData(_ data: [Auction], _ page: Int) {
-        print(data)
+//        print(data)
         loadFailed = false
         tableView.backgroundView = UIView()
         if data.count > 0 && self.page == page {

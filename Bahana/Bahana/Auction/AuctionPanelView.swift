@@ -81,7 +81,7 @@ class AuctionPanelView: UIView, UITextFieldDelegate {
     }
     @IBAction func periodAction(_ sender: Any) {
         if self.type == "rollover"{
-            print(fieldApprovedInterestRate.text!)
+//            print(fieldApprovedInterestRate.text!)
             if Rollover.matureDateAktif == false {
                 Rollover.matureDateAktif = true
             } else {

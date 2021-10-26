@@ -39,7 +39,7 @@ class AuctionDetailRolloverPresenter {
         }
         
         // Get auction
-        print("URL : \(WEB_API_URL)api/v1/rollover/\(id)?lang=\(lang)")
+//        print("URL : \(WEB_API_URL)api/v1/rollover/\(id)?lang=\(lang)")
         Alamofire.request(WEB_API_URL + "api/v1/rollover/\(id)?lang=\(lang)", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
@@ -243,7 +243,7 @@ class AuctionDetailRolloverPresenter {
                     self.delegate?.isPosted(false, res["message"].stringValue)
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.getDataFail(nil)
             }
         } // end Alamofire
@@ -265,7 +265,7 @@ class AuctionDetailRolloverPresenter {
                     self.delegate?.isPosted(false, res["message"].stringValue)
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.getDataFail(nil)
             }
         } // end Alamofire
@@ -301,7 +301,7 @@ class AuctionDetailRolloverPresenter {
                     self.delegate?.hideLoading()
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.getDataFail(nil)
             }
         } // end Alamofire
@@ -361,7 +361,7 @@ class AuctionDetailRolloverPresenter {
                     self.delegate?.hideLoading()
                 }
             } else {
-                print(response)
+//                print(response)
                 self.delegate?.getDataFail(nil)
             }
         } // end Alamofire

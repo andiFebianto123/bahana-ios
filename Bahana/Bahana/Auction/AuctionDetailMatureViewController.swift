@@ -244,7 +244,7 @@ class AuctionDetailMatureViewController: UIViewController {
         
         // Notes
         noteLabel.text = data.notes
-        print("Isi notes : \(data.notes)")
+//        print("Isi notes : \(data.notes)")
         
         // Footer
         let mutableAttributedString = NSMutableAttributedString()
