@@ -168,6 +168,7 @@ class AuctionDetailConfirmationViewController: UIViewController {
             presenter.confirm(auctionID, auctionType, false, nil, id)
         }
     }
+
     
     @IBAction func yesButtonPressed(_ sender: Any) {
         showLoading(true)
@@ -227,11 +228,22 @@ class AuctionDetailConfirmationViewController: UIViewController {
                 }else{
                     self.presenter.reviseAuctionNcm(self.auctionID, self.revisionRate, ncmType: self.ncmType, rateBreak: self.revisionRateBreak, date: maturityDate)
                 }
+            } else if self.auctionType == "auction" {
+                // jika tipe auction
+                self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate, self.id)
+
+            } else if self.auctionType == "direct-auction" {
+                // jika tipe direct-auction
+                if self.confirmationType == "revise_rate" {
+                        self.presenter.reviseAuction(self.auctionID, self.revisionRate, maturityDate)
+                    }else{
+                        self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate, self.id)
+                    }
             }else{
+                // rollover, break, ncm-auction
                 // [REVISI]
-                // self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate, self.id)
+                self.presenter.confirm(self.auctionID, self.auctionType, true, maturityDate, self.id)
                 // self.presenter.reviseAuction(self.auctionID, self.revisionRate, maturityDate)
-                self.presenter.reviseAuction(self.auctionID, nil, maturityDate)
             }
             
         }))

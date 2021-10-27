@@ -74,23 +74,17 @@ class AuctionDetailConfirmationPresenter {
     
     
     func reviseAuction(_ id: Int, _ rate: String?, _ maturityDate: String?) {
-        // [REVISI]
-//        var revisionRate: Double?
-//        if rate != nil {
-//            let dbl = Double(rate!)
-//            let dbl_ = dbl!
-//            revisionRate = dbl_
-//        }
-        // [REVISI]
-//        let parameters: Parameters = [
-//            "revision_rate": revisionRate != nil ? revisionRate! : ""
-//        ]
-        
-        var parameters : Parameters = [:]
-        
-        if rate != nil {
-            parameters["revision_rate"] = rate != nil ? rate! : ""
-        }
+
+       var revisionRate: Double?
+       if rate != nil {
+           let dbl = Double(rate!)
+           let dbl_ = dbl!
+           revisionRate = dbl_
+       }
+       
+       var parameters: Parameters = [
+           "revision_rate": revisionRate != nil ? revisionRate! : ""
+       ]
         
         if maturityDate != nil {
             parameters["request_maturity_date"] = maturityDate != nil ? maturityDate! : ""
