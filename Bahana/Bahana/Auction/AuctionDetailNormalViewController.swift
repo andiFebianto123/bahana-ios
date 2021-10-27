@@ -1274,6 +1274,7 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    
     @IBAction func submitButtonPressed(_ sender: Any) {
         var bids = [Bid]()
         //var isValid = true
@@ -1283,6 +1284,7 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
                 var tenor: Int!
                 if interestRates[idx].tenor != nil {
                     isTenorValid = true
+                    // isTenorValid = isInputValid(interestRates[idx].tenorField!.text, "int")
                     tenor = interestRates[idx].tenor!
                 } else {
                     isTenorValid = isInputValid(interestRates[idx].tenorField!.text, "int")
@@ -1306,7 +1308,7 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
                     isShariaValid = isInputValid(interestRates[idx].shariaField!.text, "double")
                 }
                 
-                if isTenorValid && isIdrValid || isUsdValid || isShariaValid {
+                if isTenorValid && (isIdrValid || isUsdValid || isShariaValid) {
                     let idr = isIdrValid ? Double(interestRates[idx].idrField!.text!) : nil
                     let usd = isUsdValid ? Double(interestRates[idx].usdField!.text!) : nil
                     let sharia = isShariaValid ? Double(interestRates[idx].shariaField!.text!) : nil
@@ -1318,8 +1320,8 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
                 }
             }
         }
-        showLoading(true)
-        presenter.saveAuction(id, bids, maxPlacementTextField != nil ? maxPlacementTextField.text! : "", isMultifound: multifoundAuction)
+         showLoading(true)
+         presenter.saveAuction(id, bids, maxPlacementTextField != nil ? maxPlacementTextField.text! : "", isMultifound: multifoundAuction)
     }
     
     @objc func confirmationButtonPressed(sender: UIButton) {

@@ -148,11 +148,12 @@ class AuctionDetailNormalPresenter {
             api = WEB_API_URL + "api/v1/multi-fund-placement/\(id)/post"
         }
         
-        //print(parameters)
+        print(parameters)
         
         Alamofire.request(api, method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
             if response.response?.mimeType == "application/json" {
                 let res = JSON.init(parseJSON: response.result.value!)
+                print(res)
                 if response.response?.statusCode == 200 {
                     self.delegate?.isPosted(true, res["message"].stringValue)
                 } else {
