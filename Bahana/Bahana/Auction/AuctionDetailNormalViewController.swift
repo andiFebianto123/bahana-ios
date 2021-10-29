@@ -297,6 +297,7 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
             stackBidder.globalView = self.view
             stackBidder.setContent()
             stackBidder.createDatePicker(datePicker: datePicker)
+            // print(dt)
             bidStackView2.addArrangedSubview(stackBidder)
         }
     }
@@ -364,6 +365,8 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
             addStackInBidStackView2(data.bids)
             bidStackView.isHidden = true
             //setBids(data.bids)
+            print(data)
+
         }else{
             setBids(data.bids)
         }
@@ -1463,19 +1466,26 @@ extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
 
 extension AuctionDetailNormalViewController: AuctionBidStackDelegate {
     
-    
     func getConfirm(bidID: Int) {
         confirmationType = "chosen_winner"
         confirmationID = bidID
         self.performSegue(withIdentifier: "showConfirmationMultifound", sender: self)
     }
     
-    func donePressed22(text: UITextField){
+    func donePressed22(text: UITextField, date: UIDatePicker?){
         // let Formatter = DateFormatter()
-        Formatter.dateStyle = DateFormatter.Style.medium
-        Formatter.timeStyle = DateFormatter.Style.none
-        Formatter.dateFormat = "Y-M-dd"
-        text.text = Formatter.string(from: datePicker.date)
+        if date != nil {
+            Formatter.dateStyle = DateFormatter.Style.medium
+            Formatter.timeStyle = DateFormatter.Style.none
+            Formatter.dateFormat = "Y-M-dd"
+            text.text = Formatter.string(from: date!.date)
+        }else{
+            Formatter.dateStyle = DateFormatter.Style.medium
+            Formatter.timeStyle = DateFormatter.Style.none
+            Formatter.dateFormat = "Y-M-dd"
+            text.text = Formatter.string(from: datePicker.date)
+        }
+        
         self.view.endEditing(true)
     }
     

@@ -11,7 +11,7 @@ import UIKit
 protocol AuctionBidStackDelegate {
     func getConfirm(bidID:Int)
     func cancelPressed22(text: UITextField)
-    func donePressed22(text: UITextField)
+    func donePressed22(text: UITextField, date: UIDatePicker?)
     func changeMatureDatePressed(_ bidID: Int, textDate:UITextField)
 }
 
@@ -51,6 +51,8 @@ class AuctionBidStack: UIView {
     var view = Int()
     
     var globalView = UIView()
+
+    var datePickerCustom = UIDatePicker()
     
     @IBOutlet weak var stackBilyet: UIStackView!
     override init(frame: CGRect){
@@ -82,6 +84,7 @@ class AuctionBidStack: UIView {
             confirmView.isHidden = true
         }
         changeMatureDateView.isHidden = true
+        confirmBtn.setTitle(localize("details").uppercased(), for: .normal)
         getStatus()
         getTenor()
         getInterestRate()
@@ -250,7 +253,15 @@ class AuctionBidStack: UIView {
     }
     
     func createDatePicker(datePicker: UIDatePicker) {
+        // [REVISI]
+        datePickerCustom.datePickerMode = UIDatePicker.Mode.date
         datePicker.datePickerMode = UIDatePicker.Mode.date
+
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let tgl = dateFormat.date(from: "2021-11-29 00:00:00") ?? Date()
+
+        datePicker.setDate(tgl, animated:true)
         
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
@@ -260,11 +271,11 @@ class AuctionBidStack: UIView {
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         toolbar.setItems([done, spaceButton, cancel], animated: true)
         textDatePicker.inputAccessoryView = toolbar
-        textDatePicker.inputView = datePicker
+        textDatePicker.inputView = datePickerCustom // datePicker
     }
     
     @objc func donePressed(){
-        presenter?.donePressed22(text: textDatePicker)
+        presenter?.donePressed22(text: textDatePicker, date: datePickerCustom)
     }
     
     @objc func cancelPressed(){
