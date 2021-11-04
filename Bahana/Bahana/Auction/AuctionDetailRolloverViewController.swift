@@ -476,7 +476,6 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
             dateString = data.maturity_date != nil ? formatDateNew(data.maturity_date!) : ""
         }
         
-
         let datePicker = UIDatePicker()
         let formatter = DateFormatter()
         
@@ -507,11 +506,7 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
     func createDatePicker(){
         let dateString = self.getDateToChangeMatureField()
         changeMatureDateField.text = dateString
-        
         // var dateFormater = DateFormatter()
-        Formatter.dateFormat = "dd MMMM yyyy"
-        let tanggal = Formatter.date(from: dateString) ?? Date()
-        
         var locale: Locale!
         switch getLocalData(key: "language") {
             case "language_id":
@@ -521,6 +516,11 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
             default:
                 break
         }
+        // Formatter.dateFormat = "dd MMMM yyyy"
+        // let tanggal = Formatter.date(from: dateString) ?? Date()
+        Formatter.dateFormat = "dd MMM yy"
+        let tanggal = Formatter.date(from:dateString) ?? Date()
+        Formatter.locale = locale
         datePicker.locale = locale
         datePicker.datePickerMode = UIDatePicker.Mode.date
         datePicker.setDate(tanggal, animated: false)
@@ -531,8 +531,8 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let done = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
         toolbar.setItems([done, spaceButton, cancel], animated: true)
-        changeMatureDateField.inputAccessoryView = toolbar
         changeMatureDateField.inputView = datePicker
+        changeMatureDateField.inputAccessoryView = toolbar
     }
     @objc func donePressed(){
         // let Formatter = DateFormatter()
@@ -773,7 +773,7 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
             submitButton.isHidden = false
             confirmButton.isHidden = false
             // changeMatureDateField.isHidden = true
-            changeMatureDateStack.isHidden = true
+            changeMatureDateStack.isHidden = false // sementara
             //
             view3.isHidden = true
             viewUSD.isHidden = true
