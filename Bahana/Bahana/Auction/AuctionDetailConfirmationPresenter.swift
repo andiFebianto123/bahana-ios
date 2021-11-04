@@ -74,12 +74,15 @@ class AuctionDetailConfirmationPresenter {
     
     
     func reviseAuction(_ id: Int, _ rate: String?, _ maturityDate: String?) {
-
-       var revisionRate: Double?
-       if rate != nil {
-           let dbl = Double(rate!)
-           let dbl_ = dbl!
-           revisionRate = dbl_
+        var revisionRate: Double?
+        if rate != nil {
+            if ((rate?.contains(",")) != nil) {
+                let dbl = Double(rate!.replacingOccurrences(of: ",", with: "."))!
+                revisionRate = dbl
+            } else {
+                let dbl = Double(rate!)
+                revisionRate = dbl!
+            }
        }
        
        var parameters: Parameters = [
@@ -134,7 +137,5 @@ class AuctionDetailConfirmationPresenter {
                     self.delegate?.setDataFail()
                 }
             }
-//            print("\(parameters)")
-        //
     }
 }
