@@ -565,7 +565,8 @@ class AuctionDetailBreakViewController: UIViewController, UITextFieldDelegate {
     @IBAction func submitButtonPressed(_ sender: Any) {
         if validateForm() {
             showLoading(true)
-            let rate = Double(rateBreakFieldText.text!)!
+            let rateText = stringReplaceComma(rateBreakFieldText.text!)
+            let rate = Double(rateText)!
             presenter.saveAuction(id, rate)
         }
     }

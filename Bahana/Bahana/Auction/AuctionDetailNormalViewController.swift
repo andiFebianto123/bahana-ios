@@ -1312,8 +1312,11 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
                 }
                 
                 if isTenorValid && (isIdrValid || isUsdValid || isShariaValid) {
-                    let idr = isIdrValid ? Double(interestRates[idx].idrField!.text!) : nil
-                    let usd = isUsdValid ? Double(interestRates[idx].usdField!.text!) : nil
+                    let rateIdr = stringReplaceComma(interestRates[idx].idrField!.text!)
+                    let rateUsd = stringReplaceComma(interestRates[idx].usdField!.text!)
+                    
+                    let idr = isIdrValid ? Double(rateIdr) : nil
+                    let usd = isUsdValid ? Double(rateUsd) : nil
                     let sharia = isShariaValid ? Double(interestRates[idx].shariaField!.text!) : nil
                     let bid = Bid(id: tenor, auction_header_id: 0, is_accepted: "", is_winner: "", interest_rate_idr: idr, interest_rate_usd: usd, interest_rate_sharia: sharia, used_investment_value: 0, bilyet: [], chosen_rate: nil, period: interestRates[idx].tenorType)
                     bids.append(bid)

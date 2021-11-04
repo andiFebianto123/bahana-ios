@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-let WEB_API_URL = "http://192.168.1.106/dams2/public/"
+let WEB_API_URL = "http://192.168.1.117/dams2/public/"
 // let WEB_API_URL = "http://34.101.73.8/dams2/public/"
 
 let APP_STORE_URL = "https://apps.apple.com/id/app/dams-by-bahana-tcw/id1502223807"
@@ -382,6 +382,11 @@ func isEmailValid(_ email: String) -> Bool {
 
     let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
     return emailPred.evaluate(with: email)
+}
+
+func stringReplaceComma(_ str: String) -> String {
+    let replaced = str.replacingOccurrences(of: ",", with: ".");
+    return replaced;
 }
 
 extension String {

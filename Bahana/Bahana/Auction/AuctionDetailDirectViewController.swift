@@ -427,7 +427,7 @@ class AuctionDetailDirectViewController: UIViewController, UITextFieldDelegate {
 //            self.performSegue(withIdentifier: "showConfirmation", sender: self)
 //        }
         // let rate = revisionRateTextField.text != nil ? Double(revisionRateTextField.text!)! : nil
-        let rate = revisionRateTextField.text != nil ? revisionRateTextField.text! : nil
+        let rate = revisionRateTextField.text != nil ? stringReplaceComma(revisionRateTextField.text!) : nil
         
         confirmationType = "revise_rate"
         revisionRate = rate != nil ? "\(rate!)" : ""

@@ -512,6 +512,16 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
         Formatter.dateFormat = "dd MMMM yyyy"
         let tanggal = Formatter.date(from: dateString) ?? Date()
         
+        var locale: Locale!
+        switch getLocalData(key: "language") {
+            case "language_id":
+                locale = Locale(identifier: "id")
+            case "language_en":
+                locale = Locale(identifier: "en")
+            default:
+                break
+        }
+        datePicker.locale = locale
         datePicker.datePickerMode = UIDatePicker.Mode.date
         datePicker.setDate(tanggal, animated: false)
         
@@ -649,7 +659,8 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
                         
         if validateForm() {
             if self.multifundAuction {
-                let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
+                let rateStr = stringReplaceComma(fieldApprovedInterestRateNewDetail.text!)
+                let rate = Double(rateStr)!
                 var auctionWinnerDetailData = [AuctionStackPlacement]()
                 for stackAuctionWinner in auctionWinnerDetail.checkPlacements {
                     if stackAuctionWinner.checkBox {
@@ -666,7 +677,8 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
                 showLoading(true)
                     if checkUSDorIDR() == 1{
                         // jika tipe pembayaran USD
-                        let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
+                        let rateStr = stringReplaceComma(fieldApprovedInterestRateNewDetail.text!)
+                        let rate = Double(rateStr)!
                         let principalInterest = Double(fieldPrincipalInterestNewDetail.text!)!
                         if date == newDate {
                             // jika tidak ada perubahan tanggal
@@ -685,7 +697,8 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
                         }
                     } else {
                         // jika tipe pembayaran IDR
-                        let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
+                        let rateStr = stringReplaceComma(fieldApprovedInterestRateNewDetail.text!)
+                        let rate = Double(rateStr)!
                         if date == newDate {
                             // jika tidak ada perubahan tanggal
                             presenter.saveAuction(id, rate)
@@ -1085,7 +1098,8 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
     
     @IBAction func submitButtonPressed(_ sender: Any) {
         if validateForm() {
-            let rate = Double(interestRateTextField.text!)!
+            let rateStr = stringReplaceComma(interestRateTextField.text!)
+            let rate = Double(rateStr)!
             showLoading(true)
             presenter.saveAuction(id, rate)
         }
