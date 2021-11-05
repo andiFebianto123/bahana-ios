@@ -23,22 +23,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6AB9C9F3-7684-4CD2-9E07-3EE1420F8F48"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Bahana/Auction/AuctionDetailRolloverViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "663"
-            endingLineNumber = "663"
-            landmarkName = "actionChangeMatureDateAndInterestRatePressed(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "CCF95D19-0FE2-48DF-B2FA-B6E45D8752CD"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -46,25 +30,9 @@
             filePath = "Bahana/Auction/AuctionDetailRolloverViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "720"
-            endingLineNumber = "720"
+            startingLineNumber = "718"
+            endingLineNumber = "718"
             landmarkName = "actionChangeMatureDateAndInterestRatePressed(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A6BAC366-AB00-4003-B86C-7724FE028C35"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Bahana/Auction/AuctionDetailRolloverViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "831"
-            endingLineNumber = "831"
-            landmarkName = "setRateAndUpdateWinnerDetail(approved:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -71,6 +71,9 @@ class AuctionBidStack: UIView {
            contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         confirmBtn.setTitle(localize("confirm").uppercased(), for: .normal)
         changeMatureDateBtn.setTitle(localize("change_mature_date_btn").uppercased(), for: .normal)
+        
+        textDatePicker.attributedPlaceholder = NSAttributedString(string: localize("select_new_maturity_date"),attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        
         changeMatureDateTitleLabel.text = localize("change_mature_date_")
     }
     
@@ -92,6 +95,11 @@ class AuctionBidStack: UIView {
     }
     
     private func getStatus(){
+        print("Status winner : \(data.is_winner)")
+        print("Status accept : \(data.is_accepted)")
+        print("request accepted : \(String(describing: data.is_request_accepted))")
+        print("maturity date : \(String(describing: data.request_maturity_date))")
+        print("View : \(view)")
         if data.is_winner == "yes" {
             if(data.is_accepted == "yes(with decline)"){
                 statusLabel.text = "\(localize("win")) (\(localize("accepted_with_decline")))"
@@ -102,7 +110,9 @@ class AuctionBidStack: UIView {
             else if(data.is_accepted == "no(with pending)"){
                 statusLabel.text = "\(localize("win")) (\(localize("rejected_with_pending")))"
             } else if (data.is_accepted == "yes") {
-                statusLabel.text = "\(localize("win")) (\(localize("accepted")))"
+                // statusLabel.text = "\(localize("win")) (\(localize("accepted")))"
+                statusLabel.text = "\(localize("win")) (\(localize("pending_admin")))"
+                
             } else if (data.is_accepted == "no") {
                 statusLabel.text = "\(localize("win")) (\(localize("rejected")))"
             }else{
@@ -126,7 +136,9 @@ class AuctionBidStack: UIView {
         if data.interest_rate_idr != nil {
             interestRateContent += "(IDR) \(checkPercentage(data.interest_rate_idr!)) %"
             if data.chosen_rate != nil && data.chosen_rate == "IDR" {
-                interestRateContent += " [\(localize("chosen_rate"))]"
+                // interestRateContent += " [\(localize("chosen_rate"))]"
+                interestRateContent += " "
+
             }
             newLine = true
         }
@@ -136,7 +148,8 @@ class AuctionBidStack: UIView {
             }
             interestRateContent += "(USD) \(checkPercentage(data.interest_rate_usd!)) %"
             if data.chosen_rate != nil && data.chosen_rate == "USD" {
-                interestRateContent += " [\(localize("chosen_rate"))]"
+                // interestRateContent += " [\(localize("chosen_rate"))]"
+                interestRateContent += " "
             }
             newLine = true
         }
@@ -258,10 +271,12 @@ class AuctionBidStack: UIView {
         datePicker.datePickerMode = UIDatePicker.Mode.date
 
         let dateFormat = DateFormatter()
-        dateFormat.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let tgl = dateFormat.date(from: "2021-11-29 00:00:00") ?? Date()
-
-        datePicker.setDate(tgl, animated:true)
+        if(data.bilyet.count > 0){
+            dateFormat.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let tgl = dateFormat.date(from: data.bilyet[0].maturity_date) ?? Date()
+            // datePicker.setDate(tgl, animated:true) // --> jika pake controller
+            datePickerCustom.setDate(tgl, animated:true) // --> jika pake bawaan
+        }
         
         let toolbar = UIToolbar()
         toolbar.sizeToFit()

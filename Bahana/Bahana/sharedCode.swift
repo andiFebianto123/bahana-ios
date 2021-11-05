@@ -385,8 +385,11 @@ func isEmailValid(_ email: String) -> Bool {
 }
 
 func stringReplaceComma(_ str: String) -> String {
-    let replaced = str.replacingOccurrences(of: ",", with: ".");
-    return replaced;
+    if(str != ""){
+        let replaced = str.replacingOccurrences(of: ",", with: ".");
+        return replaced
+    }
+    return str
 }
 
 extension String {

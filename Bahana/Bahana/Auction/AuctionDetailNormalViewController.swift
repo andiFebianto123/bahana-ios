@@ -297,7 +297,7 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
             stackBidder.globalView = self.view
             stackBidder.setContent()
             stackBidder.createDatePicker(datePicker: datePicker)
-            // print(dt)
+//            print(dt)
             bidStackView2.addArrangedSubview(stackBidder)
         }
     }
@@ -365,7 +365,7 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
             addStackInBidStackView2(data.bids)
             bidStackView.isHidden = true
             //setBids(data.bids)
-            print(data)
+//            print(data)
 
         }else{
             setBids(data.bids)
@@ -1312,11 +1312,10 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
                 }
                 
                 if isTenorValid && (isIdrValid || isUsdValid || isShariaValid) {
-                    let rateIdr = stringReplaceComma(interestRates[idx].idrField!.text!)
-                    let rateUsd = stringReplaceComma(interestRates[idx].usdField!.text!)
-                    
-                    let idr = isIdrValid ? Double(rateIdr) : nil
-                    let usd = isUsdValid ? Double(rateUsd) : nil
+                    // let rateIdr = stringReplaceComma(interestRates[idx].idrField!.text!)
+                    // let rateUsd = stringReplaceComma(interestRates[idx].usdField!.text!)
+                    let idr = isIdrValid ? Double(stringReplaceComma(interestRates[idx].idrField!.text!)) : nil
+                    let usd = isUsdValid ? Double(stringReplaceComma(interestRates[idx].usdField!.text!)) : nil
                     let sharia = isShariaValid ? Double(interestRates[idx].shariaField!.text!) : nil
                     let bid = Bid(id: tenor, auction_header_id: 0, is_accepted: "", is_winner: "", interest_rate_idr: idr, interest_rate_usd: usd, interest_rate_sharia: sharia, used_investment_value: 0, bilyet: [], chosen_rate: nil, period: interestRates[idx].tenorType)
                     bids.append(bid)
@@ -1326,8 +1325,8 @@ class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
                 }
             }
         }
-         showLoading(true)
-         presenter.saveAuction(id, bids, maxPlacementTextField != nil ? maxPlacementTextField.text! : "", isMultifound: multifoundAuction)
+          showLoading(true)
+          presenter.saveAuction(id, bids, maxPlacementTextField != nil ? maxPlacementTextField.text! : "", isMultifound: multifoundAuction)
     }
     
     @objc func confirmationButtonPressed(sender: UIButton) {

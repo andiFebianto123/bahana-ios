@@ -244,6 +244,8 @@
 "maturity_date_ro_placeholder" = "Only fill when maturity date do not match";
 "principal_interest" = "Principal + Interest (USD)";
 "revision_rate_placeholder" = "Revision Rate";
+"select_new_maturity_date" = "Select New Maturity Date";
+"pending_admin" = "Pending - Admin";
 /*Penambahan baru*/
 
 

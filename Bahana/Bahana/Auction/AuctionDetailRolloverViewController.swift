@@ -505,25 +505,18 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
     
     func createDatePicker(){
         let dateString = self.getDateToChangeMatureField()
-        changeMatureDateField.text = dateString
-        // var dateFormater = DateFormatter()
-        var locale: Locale!
-        switch getLocalData(key: "language") {
-            case "language_id":
-                locale = Locale(identifier: "id")
-            case "language_en":
-                locale = Locale(identifier: "en")
-            default:
-                break
+        if(!multifundAuction){
+            changeMatureDateField.text = dateString
+        }else{
+            changeMatureDateField.attributedPlaceholder = NSAttributedString(string: "\(dateString)", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         }
         // Formatter.dateFormat = "dd MMMM yyyy"
         // let tanggal = Formatter.date(from: dateString) ?? Date()
         Formatter.dateFormat = "dd MMM yy"
         let tanggal = Formatter.date(from:dateString) ?? Date()
-        Formatter.locale = locale
-        datePicker.locale = locale
+//        datePicker.locale = locale
         datePicker.datePickerMode = UIDatePicker.Mode.date
-        datePicker.setDate(tanggal, animated: false)
+        datePicker.setDate(tanggal, animated: true)
         
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
@@ -531,8 +524,8 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         let done = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
         toolbar.setItems([done, spaceButton, cancel], animated: true)
-        changeMatureDateField.inputView = datePicker
         changeMatureDateField.inputAccessoryView = toolbar
+        changeMatureDateField.inputView = datePicker
     }
     @objc func donePressed(){
         // let Formatter = DateFormatter()
@@ -656,23 +649,28 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
         // ini adalah tombol submit yang atas
         let date = getDateToChangeMatureField()
         let newDate = changeMatureDateField.text!
+        var tanggal = ""
                         
         if validateForm() {
             if self.multifundAuction {
                 let rateStr = stringReplaceComma(fieldApprovedInterestRateNewDetail.text!)
-                let rate = Double(rateStr)!
+                // let rate = Double(rateStr)!
+                let rate = fieldApprovedInterestRateNewDetail.text! != "" ? Double(rateStr)! : nil
                 var auctionWinnerDetailData = [AuctionStackPlacement]()
+                
                 for stackAuctionWinner in auctionWinnerDetail.checkPlacements {
                     if stackAuctionWinner.checkBox {
                         auctionWinnerDetailData.append(stackAuctionWinner)
                     }
                 }
                 showLoading(true)
-                let tanggal = formatDate(newDate, formatStart:"dd MMM yy", formatEnd: "yyyy-MM-dd")
+                if newDate != "" {
+                    tanggal = formatDate(newDate, formatStart:"dd MMM yy", formatEnd: "yyyy-MM-dd")
+                }
                 // simpan ke API:api/v1/multi-fund-rollover/{id}/post
                 presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: tanggal, detailsWinner: auctionWinnerDetailData, approved: "yes", fund_type: checkUSDorIDR())
-                // print(auctionWinnerDetailData)
-                //
+                 print(auctionWinnerDetailData)
+              // end if for multifund
             }else{
                 showLoading(true)
                     if checkUSDorIDR() == 1{
@@ -773,7 +771,7 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
             submitButton.isHidden = false
             confirmButton.isHidden = false
             // changeMatureDateField.isHidden = true
-            changeMatureDateStack.isHidden = false // sementara
+            changeMatureDateStack.isHidden = true
             //
             view3.isHidden = true
             viewUSD.isHidden = true
@@ -821,24 +819,28 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
     
     func setRateAndUpdateWinnerDetail(approved: String){
         let newDate = changeMatureDateField.text!
+        var tanggal = ""
         let checkUSDorIDR = self.checkUSDorIDR()
-        if validateForm() {
+//        if validateForm() {
             if self.multifundAuction {
-                let rate = Double(fieldApprovedInterestRateNewDetail.text!)!
+                let rate = fieldApprovedInterestRateNewDetail.text! != "" ? Double(fieldApprovedInterestRateNewDetail.text!)! : nil
                 var auctionWinnerDetailData = [AuctionStackPlacement]()
                 for stackAuctionWinner in auctionWinnerDetail.checkPlacements {
                     if stackAuctionWinner.checkBox {
                         auctionWinnerDetailData.append(stackAuctionWinner)
                     }
                 }
-                showLoading(true)
-                let tanggal = formatDate(newDate, formatStart:"dd MMM yy", formatEnd: "yyyy-MM-dd")
+                 showLoading(true)
                 
+                if(newDate != ""){
+                    tanggal = formatDate(newDate, formatStart:"dd MMM yy", formatEnd: "yyyy-MM-dd")
+                }
+
                 presenter.saveAuctionforMultifund(id: self.id, rate: rate, tgl: tanggal, detailsWinner: auctionWinnerDetailData, approved: approved, fund_type: checkUSDorIDR)
-                // print(auctionWinnerDetailData)
-                //
+                //  print(auctionWinnerDetailData)
+
             }
-        }
+//        } // end if validateForm
     }
     
     @objc func approvedWinnerDetailPressed(_ sender: UIButton){
@@ -1035,6 +1037,11 @@ class AuctionDetailRolloverViewController: UIViewController, UITextFieldDelegate
     
     // [REVISI WARNING]
     func validateForm() -> Bool {
+        
+        if self.multifundAuction {
+            return true
+        }
+        
         if checkUSDorIDR() == 1 {
 //            print("cek field USD")
             // jika layout tampil untuk tipe pembayaran USD

@@ -307,7 +307,7 @@ class AuctionDetailRolloverPresenter {
         } // end Alamofire
     }
     
-    func saveAuctionforMultifund(id: Int, rate: Double, tgl:String?, detailsWinner:[AuctionStackPlacement], approved:String, fund_type:Int){
+    func saveAuctionforMultifund(id: Int, rate: Double?, tgl:String?, detailsWinner:[AuctionStackPlacement], approved:String, fund_type:Int){
         var lang = String()
         switch getLocalData(key: "language") {
         case "language_id":
@@ -318,12 +318,15 @@ class AuctionDetailRolloverPresenter {
             break
         }
         var parameters = Parameters()
-        parameters.updateValue(rate, forKey: "rate")
-        parameters.updateValue("", forKey: "request_maturity_date")
+        // parameters.updateValue(rate, forKey: "rate")
+        // parameters.updateValue("", forKey: "request_maturity_date")
         // [REVISI WARNING]
 //        if tgl! != nil || tgl! != "" {
 //            parameters.updateValue(tgl!, forKey: "request_maturity_date")
 //        }
+        if rate != nil {
+            parameters.updateValue(rate!, forKey:"rate")
+        }
         if tgl != nil && tgl! != "" {
             parameters.updateValue(tgl!, forKey: "request_maturity_date")
         }
@@ -342,7 +345,7 @@ class AuctionDetailRolloverPresenter {
             }
         }
         parameters.updateValue(approved, forKey: "is_approved")
-//        print(parameters)
+       print(parameters)
                 
         Alamofire.request(WEB_API_URL + "api/v1/multi-fund-rollover/\(id)/post?lang=\(lang)", method: .post, parameters: parameters, headers: getHeaders(auth: true)).responseString { response in
             if response.response?.mimeType == "application/json" {

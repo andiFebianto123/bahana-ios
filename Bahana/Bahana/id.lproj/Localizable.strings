@@ -244,6 +244,8 @@
 "maturity_date_ro_placeholder" = "Hanya diisi apabila tanggal jatuh tempo tidak sesuai";
 "principal_interest" = "Pokok + Suku Bunga (USD)";
 "revision_rate_placeholder" = "Rate Revisi";
+"select_new_maturity_date" = "Pilih Tanggal Jatuh Tempo Baru";
+"pending_admin" = "Menunggu - Admin";
 /*Penambahan baru*/
 
 "january" = "Jan";
