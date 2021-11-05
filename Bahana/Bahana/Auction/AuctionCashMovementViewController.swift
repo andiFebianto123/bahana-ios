@@ -453,6 +453,8 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
     func setContent(){
         // print("Tipe konten : \(data.ncm_type)")
         // print("ID : \(data.id)")
+        viewCustompanelView7.fieldApprovedInterestRate.delegate = self
+        viewCustompanelView7.fieldApprovedInterestRate.keyboardType = .decimalPad
         
         // mengatur nilai status
         createDatePicker()
@@ -482,7 +484,7 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
         
         tenorLabelpanelView5.text = "\(data.previous_transaction.period)"
         interestRateLabelpanelView5.text = "\(checkPercentage(data.previous_transaction.coupon_rate)) %"
-        principalBioLabelpanelView5.text = (checkUSDorIDR() == 1) ? "USD \(data.previous_transaction.quantity)": "IDR \(toIdrBio(data.previous_transaction.quantity))"
+        principalBioLabelpanelView5.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.previous_transaction.quantity))": "IDR \(toIdrBio(data.previous_transaction.quantity))"
         periodLabelpanelView5.text = "\(convertDateToString(convertStringToDatetime(data.previous_transaction.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.previous_transaction.maturity_date)!)!)"
         
          setStylePanelViewToNCMAUCTION() // get ready setting style
@@ -494,7 +496,7 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
             
             tenorLabelpanelView2.text = "\(data.previous_transaction.period)"
             interestRateLabelpanelView2.text = "\(checkPercentage(data.previous_transaction.coupon_rate)) %"
-            principalBioLabelpanelView2.text = (checkUSDorIDR() == 1) ? "USD \(data.previous_transaction.quantity)": "IDR \(toIdrBio(data.previous_transaction.quantity))"
+            principalBioLabelpanelView2.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.previous_transaction.quantity))": "IDR \(toIdrBio(data.previous_transaction.quantity))"
             
             periodLabelpanelView2.text = "\(convertDateToString(convertStringToDatetime(data.previous_transaction.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.previous_transaction.maturity_date)!)!)"
             
@@ -508,7 +510,7 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
             viewCustompanelView7.periodLabel.text = "\(convertDateToString(convertStringToDatetime(data.bilyet.issue_date)!)!) - \(convertDateToString(convertStringToDatetime(data.bilyet.maturity_date)!)!)"
             
             
-            
+            // close type mature
         }else{
             // jika ncm-auction break
             panelView2.isHidden = true
@@ -531,19 +533,19 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
             viewCustompanelView7.listPrincipalBio.isHidden = false
             viewCustompanelView7.statusTenorChanged.isHidden = true
             viewCustompanelView7.principalLabel.isHidden = true
-            viewCustompanelView7.transferLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.previous_transaction.transfer_ammount)": "IDR \(toIdrBio(data.previous_transaction.transfer_ammount))"
-            viewCustompanelView7.newPlacementLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
+            viewCustompanelView7.transferLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.previous_transaction.transfer_ammount))": "IDR \(toIdrBio(data.previous_transaction.transfer_ammount))"
+            viewCustompanelView7.newPlacementLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.investment_range_start))": "IDR \(toIdrBio(data.investment_range_start))"
         }else if data.ncm_change_status == "change placement and tenor change" {
             viewCustompanelView7.listPrincipalBio.isHidden = false
             viewCustompanelView7.statusTenorChanged.isHidden = false
             viewCustompanelView7.principalLabel.isHidden = true
-            viewCustompanelView7.transferLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.previous_transaction.transfer_ammount)": "IDR \(toIdrBio(data.previous_transaction.transfer_ammount))"
-            viewCustompanelView7.newPlacementLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
+            viewCustompanelView7.transferLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.previous_transaction.transfer_ammount))": "IDR \(toIdrBio(data.previous_transaction.transfer_ammount))"
+            viewCustompanelView7.newPlacementLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.investment_range_start))": "IDR \(toIdrBio(data.investment_range_start))"
         }else{
             // kemungkinan change tenor
             viewCustompanelView7.panelTItle2.text = " \(localize("no_cash_movement").uppercased())"
             viewCustompanelView7.statusTenorChanged.isHidden = false
-            viewCustompanelView7.principalLabel.text = (checkUSDorIDR() == 1) ? "USD \(data.investment_range_start)": "IDR \(toIdrBio(data.investment_range_start))"
+            viewCustompanelView7.principalLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.investment_range_start))": "IDR \(toIdrBio(data.investment_range_start))"
         }
         
         // set content with status view
@@ -654,7 +656,9 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
          */
         if validateForm() {
             showLoading(true)
-            self.presenter.reviseAuctionNcm(data.id, viewCustompanelView7.fieldApprovedInterestRate.text, ncmType:data.ncm_type, rateBreak:fieldRateBreakpanelView6.text! ,date:matureDateField.text!)
+            let rateBreak = stringReplaceComma(fieldRateBreakpanelView6.text!)
+            let rate = stringReplaceComma(viewCustompanelView7.fieldApprovedInterestRate.text!)
+            self.presenter.reviseAuctionNcm(data.id, rate, ncmType:data.ncm_type, rateBreak:rateBreak ,date:matureDateField.text!)
         }
         
     }

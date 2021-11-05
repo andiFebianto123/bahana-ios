@@ -38,6 +38,8 @@ class AuctionDetailNoCashMovementPresenter{
             break
         }
         // Get auction
+        print("\(WEB_API_URL)api/v1/no-cash-movement/\(id)?lang=\(lang)")
+        
         Alamofire.request(WEB_API_URL + "api/v1/no-cash-movement/\(id)?lang=\(lang)", method: .get, headers: getHeaders(auth: true)).responseJSON { response in
             switch response.result {
             case .success:
