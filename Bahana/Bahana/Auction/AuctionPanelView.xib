@@ -320,7 +320,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IDR 1000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yol-WM-5rn">
-                                                                    <rect key="frame" x="157.5" y="5" width="189.5" height="12"/>
+                                                                    <rect key="frame" x="157.5" y="5" width="54" height="12"/>
                                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -328,7 +328,6 @@
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="Yol-WM-5rn" firstAttribute="top" secondItem="Lam-Dd-3Ot" secondAttribute="top" constant="5" id="4Do-ZI-iQ5"/>
-                                                                <constraint firstAttribute="trailing" secondItem="Yol-WM-5rn" secondAttribute="trailing" id="6Hu-Td-59h"/>
                                                                 <constraint firstAttribute="bottom" secondItem="Ird-VW-l7j" secondAttribute="bottom" constant="2.5" id="7zk-xO-j2b"/>
                                                                 <constraint firstItem="IhG-iZ-g9o" firstAttribute="leading" secondItem="Lam-Dd-3Ot" secondAttribute="leading" constant="9" id="8k7-oo-a4J"/>
                                                                 <constraint firstAttribute="bottom" secondItem="Y8y-HT-SYT" secondAttribute="bottom" constant="3" id="GTE-bf-dJW"/>

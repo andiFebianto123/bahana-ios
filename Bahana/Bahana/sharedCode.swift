@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-let WEB_API_URL = "http://192.168.1.117/dams2/public/"
+let WEB_API_URL = "http://192.168.1.129/dams2/public/"
 // let WEB_API_URL = "http://34.101.73.8/dams2/public/"
 
 let APP_STORE_URL = "https://apps.apple.com/id/app/dams-by-bahana-tcw/id1502223807"
@@ -264,16 +264,22 @@ func toRp(_ number: Double) -> String{
     
 }
 
-func toIdrBio(_ number: Double) -> String {
-    let newNumber = number / 1000000000
-    //return toRp(newNumber)
-//    let numToStr = newNumber.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", newNumber) : String(newNumber)
-    // return numToStr
-    return toRp(newNumber)
+func toIdrBio(_ number: Double?) -> String {
+    if number != nil {
+        let newNumber = number! / 1000000000
+        //return toRp(newNumber)
+    //    let numToStr = newNumber.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", newNumber) : String(newNumber)
+        // return numToStr
+        return toRp(newNumber)
+    }
+    return "-"
 }
 
-func toUsdBio(_ number: Double) -> String {
-    return toRp(number)
+func toUsdBio(_ number: Double?) -> String {
+    if number != nil {
+        return toRp(number!)
+    }
+    return "-"
 }
 
 func checkPercentage(_ number: Double) -> String {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
+class AuctionCashMovementViewController: UIViewController {
     
     @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
     @IBOutlet weak var statusViewWidth: NSLayoutConstraint!
@@ -106,7 +106,8 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
     
     // Footer
     @IBOutlet weak var footerLabel: UILabel!
-    
+    @IBOutlet weak var messageTitleLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
     
     
     var loadingView = UIView()
@@ -173,6 +174,7 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
         principalBioTitlepanelView5.text = localize("principal_bio")
         periodTitlepanelView5.font = titleFont
         periodTitlepanelView5.text = localize("period")
+        
         
         if data.ncm_type == "break"{
             // set style break detail
@@ -276,6 +278,10 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
         titleLabel.text = localize("no_cash_movement").uppercased()
         titleLabel.textColor = primaryColor
         
+        
+        messageTitleLabel.textColor = primaryColor
+
+        
         auctionEndLabel.font = UIFont.boldSystemFont(ofSize: 14)
         
         fundNameTitleLabelpanelView1.font = titleFont
@@ -295,11 +301,15 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
         
         viewCustompanelView7.listPrincipalBio.isHidden = true // sembunyikan list mature dan transfer pada principal (bio)
         viewCustompanelView7.statusTenorChanged.isHidden = true // sembunyikan status changed pada tenor
+        revisedButtonpanelView10.setTitle(localize("submit"), for: .normal)
+        confirmButtonpanelView10.isHidden = true
         
         presenter = AuctionDetailNoCashMovementPresenter(delegate:self)
         fieldRateBreakpanelView6.delegate = self
         fieldRateBreakpanelView6.keyboardType = .decimalPad
         refresh()
+        
+
         
         // Refresh page
         NotificationCenter.default.addObserver(self, selector: #selector(refresh), name: .refreshAuctionDetail, object: nil)
@@ -356,7 +366,8 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
     }
     let Formatter = DateFormatter()
     func getDateToChangeMatureField() -> String{
-        let dateString = "\(convertDateToString(convertStringToDatetime(data.break_maturity_date)!)!)"
+//        let dateString = "\(convertDateToString(convertStringToDatetime(data.break_maturity_date)!)!)"
+        let dateString = "\(convertDateToString(convertStringToDatetime(data.bilyet.maturity_date)!)!)"
         let datePicker = UIDatePicker()
         let formatter = DateFormatter()
         
@@ -453,6 +464,12 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
     func setContent(){
         // print("Tipe konten : \(data.ncm_type)")
         // print("ID : \(data.id)")
+        if data.message != nil {
+            messageLabel.text = "\(data.message!)"
+        }else{
+            messageTitleLabel.isHidden = true
+            messageLabel.isHidden = true
+        }
         viewCustompanelView7.fieldApprovedInterestRate.delegate = self
         viewCustompanelView7.fieldApprovedInterestRate.keyboardType = .decimalPad
         
@@ -515,6 +532,7 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
             // jika ncm-auction break
             panelView2.isHidden = true
             titleLabel.text = localize("break").uppercased()
+            viewCustompanelView7.matureTitle.text = localize("break")
             breakDateLabelpanelView6.text = "\(convertDateToString(convertStringToDatetime(data.break_maturity_date)!)!)"
             requestRateBreakLabelpanelView6.text = "\(checkPercentage(data.break_target_rate!)) %"
             viewCustompanelView7.tenorLabel.text = "\(data.period)"
@@ -533,7 +551,9 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
             viewCustompanelView7.listPrincipalBio.isHidden = false
             viewCustompanelView7.statusTenorChanged.isHidden = true
             viewCustompanelView7.principalLabel.isHidden = true
+            viewCustompanelView7.transferLabel.backgroundColor = UIColor.yellow
             viewCustompanelView7.transferLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.previous_transaction.transfer_ammount))": "IDR \(toIdrBio(data.previous_transaction.transfer_ammount))"
+            viewCustompanelView7.newPlacementLabel.backgroundColor = UIColor.yellow
             viewCustompanelView7.newPlacementLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.investment_range_start))": "IDR \(toIdrBio(data.investment_range_start))"
         }else if data.ncm_change_status == "change placement and tenor change" {
             viewCustompanelView7.listPrincipalBio.isHidden = false
@@ -545,6 +565,7 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
             // kemungkinan change tenor
             viewCustompanelView7.panelTItle2.text = " \(localize("no_cash_movement").uppercased())"
             viewCustompanelView7.statusTenorChanged.isHidden = false
+            viewCustompanelView7.statusTenorChanged.backgroundColor = UIColor.yellow
             viewCustompanelView7.principalLabel.text = (checkUSDorIDR() == 1) ? "USD \(toUsdBio(data.investment_range_start))": "IDR \(toIdrBio(data.investment_range_start))"
         }
         
@@ -577,6 +598,7 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
         
         footerLabel.attributedText = mutableAttributedString
         
+        // END setContent
     }
     
     func validateForm() -> Bool {
@@ -614,7 +636,7 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
                 return true
             }
         }
-        return false
+        return true
     }
     
     @IBAction func confirmPressed(_ sender: Any) {
@@ -664,6 +686,39 @@ class AuctionCashMovementViewController: UIViewController, UITextFieldDelegate {
     }
     
     
+}
+
+extension AuctionCashMovementViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
+
+        let components = string.components(separatedBy: inverseSet)
+
+        let filtered = components.joined(separator: "")
+
+        if filtered == string {
+            return true
+        } else {
+            if string == Locale.current.decimalSeparator {
+                let countdots = textField.text!.components(separatedBy: ".").count - 1
+                if(textField.text! == ""){
+                    return false
+                }
+                if countdots == 0 {
+                    return true
+                }else{
+                    if countdots > 0 && string == Locale.current.decimalSeparator {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+                // end string symbol
+            }else{
+                return false
+            }
+        }
+    }
 }
 
 extension AuctionCashMovementViewController: AuctionDetailNoCashMovementDelegate{

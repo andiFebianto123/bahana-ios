@@ -19,7 +19,7 @@ struct InterestRate {
     var isHidden: Bool
 }
 
-class AuctionDetailNormalViewController: UIViewController, UITextFieldDelegate {
+class AuctionDetailNormalViewController: UIViewController {
 
     @IBOutlet weak var navigationView: UIView!
     @IBOutlet weak var navigationViewHeight: NSLayoutConstraint!
@@ -1465,6 +1465,39 @@ extension AuctionDetailNormalViewController: AuctionDetailNormalDelegate {
 //    }
 //
 //}
+
+extension AuctionDetailNormalViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let inverseSet = NSCharacterSet(charactersIn:"0123456789").inverted
+
+        let components = string.components(separatedBy: inverseSet)
+
+        let filtered = components.joined(separator: "")
+
+        if filtered == string {
+            return true
+        } else {
+            if string == Locale.current.decimalSeparator {
+                let countdots = textField.text!.components(separatedBy: ".").count - 1
+                if(textField.text! == ""){
+                    return false
+                }
+                if countdots == 0 {
+                    return true
+                }else{
+                    if countdots > 0 && string == Locale.current.decimalSeparator {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+                // end string symbol
+            }else{
+                return false
+            }
+        }
+    }
+}
 
 extension AuctionDetailNormalViewController: AuctionBidStackDelegate {
     
