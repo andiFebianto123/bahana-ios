@@ -10,8 +10,14 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-let WEB_API_URL = "https://dams.bahanatcw.com/"
+// Local ANDI
+//let WEB_API_URL = "http://192.168.1.129/dams2/public/"
+
+// SERVER DEV
 //let WEB_API_URL = "http://34.101.73.8/dams2/public/"
+
+// SERVER PRODUCTION
+let WEB_API_URL = "https://dams.bahanatcw.com/"
 
 let APP_STORE_URL = "https://apps.apple.com/id/app/dams-by-bahana-tcw/id1502223807"
 
